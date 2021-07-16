@@ -85,13 +85,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_30->lineEdit()->setReadOnly(true);
     ui->comboBox_30->lineEdit()->setAlignment(Qt::AlignCenter);
 
-    ui->comboBox_31->setEditable(true);
-    ui->comboBox_31->lineEdit()->setReadOnly(true);
-    ui->comboBox_31->lineEdit()->setAlignment(Qt::AlignLeft);
+//    ui->comboBox_31->setEditable(true);
+//    ui->comboBox_31->lineEdit()->setReadOnly(true);
+//    ui->comboBox_31->lineEdit()->setAlignment(Qt::AlignLeft);
 
-    ui->comboBox_32->setEditable(true);
-    ui->comboBox_32->lineEdit()->setReadOnly(true);
-    ui->comboBox_32->lineEdit()->setAlignment(Qt::AlignLeft);
+//    ui->comboBox_32->setEditable(true);
+//    ui->comboBox_32->lineEdit()->setReadOnly(true);
+//    ui->comboBox_32->lineEdit()->setAlignment(Qt::AlignLeft);
 
     //Close button on Tab bar
 //    QToolButton *tb = new QToolButton();

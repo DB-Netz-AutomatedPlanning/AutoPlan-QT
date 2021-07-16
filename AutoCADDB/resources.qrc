@@ -113,5 +113,7 @@
         <file>assets/symbols/20.png</file>
         <file>assets/symbols/21.png</file>
         <file>assets/symbols/22.png</file>
+        <file>assets/Plan/icons8-floor-plan-80.png</file>
+        <file>assets/Plan/icons8-import-48.png</file>
     </qresource>
 </RCC>
