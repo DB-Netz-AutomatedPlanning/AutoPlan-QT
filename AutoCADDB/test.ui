@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Test</class>
+ <widget class="QMainWindow" name="Test">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>828</width>
+    <height>442</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::RightToLeft</enum>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideMiddle</enum>
+      </property>
+      <widget class="QWidget" name="tab">
+       <property name="focusPolicy">
+        <enum>Qt::TabFocus</enum>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <attribute name="title">
+        <string/>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Page</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3"/>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string/>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4"/>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Page</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>11</number>
+        </property>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>828</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuH">
+    <property name="title">
+     <string>H</string>
+    </property>
+    <addaction name="actionhori"/>
+    <addaction name="actionver"/>
+   </widget>
+   <widget class="QMenu" name="menuv">
+    <property name="title">
+     <string>v</string>
+    </property>
+   </widget>
+   <addaction name="menuH"/>
+   <addaction name="menuv"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionhori">
+   <property name="text">
+    <string>hori</string>
+   </property>
+  </action>
+  <action name="actionver">
+   <property name="text">
+    <string>ver</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+ <slots>
+  <signal>clicked()</signal>
+ </slots>
+</ui>
