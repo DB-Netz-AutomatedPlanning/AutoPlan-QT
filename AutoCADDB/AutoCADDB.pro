@@ -17,6 +17,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     openglclass.cpp \
+    planningtable.cpp \
     test.cpp
 
 HEADERS += \
@@ -24,10 +25,12 @@ HEADERS += \
     calculator.h \
     mainwindow.h \
     openglclass.h \
+    planningtable.h \
     test.h
 
 FORMS += \
     mainwindow.ui \
+    planningtable.ui \
     test.ui
 
 # Default rules for deployment.

@@ -12,6 +12,10 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 class OpenGLClass;
 class Calculator;
+class PlanningTable;
+class QString;
+class QGraphicsView;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -39,6 +43,14 @@ private slots:
     void save();
     void open();
 
+    //ppview
+    void exportToPicture();
+   // void exportToPdf();
+
+    //Rayhan
+    void importShapeFiles();
+    void planningFnt();
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;
@@ -53,6 +65,9 @@ private:
     bool saveFile(const QByteArray &fileFormat);
     bool maybeSave();
 
+    //ppview
+    QGraphicsView* view;
+    QString fileName;
 
 protected:
     void keyPressEvent(QKeyEvent *event);

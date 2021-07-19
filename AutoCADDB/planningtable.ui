@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlanningTable</class>
+ <widget class="QMainWindow" name="PlanningTable">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>439</width>
+    <height>359</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Planning</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTableWidget" name="tableWidget">
+      <row>
+       <property name="text">
+        <string>Row 1</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>Row 2</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>Row 3</string>
+       </property>
+      </row>
+      <column>
+       <property name="text">
+        <string>1</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>2</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>3</string>
+       </property>
+      </column>
+      <item row="0" column="0">
+       <property name="text">
+        <string>Hello</string>
+       </property>
+      </item>
+      <item row="0" column="1">
+       <property name="text">
+        <string>this</string>
+       </property>
+      </item>
+      <item row="0" column="2">
+       <property name="text">
+        <string>is</string>
+       </property>
+      </item>
+      <item row="1" column="0">
+       <property name="text">
+        <string>Testing</string>
+       </property>
+      </item>
+      <item row="1" column="1">
+       <property name="text">
+        <string>of</string>
+       </property>
+      </item>
+      <item row="1" column="2">
+       <property name="text">
+        <string>A</string>
+       </property>
+      </item>
+      <item row="2" column="0">
+       <property name="text">
+        <string>Plan</string>
+       </property>
+      </item>
+      <item row="2" column="1">
+       <property name="text">
+        <string>Software</string>
+       </property>
+      </item>
+      <item row="2" column="2">
+       <property name="text">
+        <string>.</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>439</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

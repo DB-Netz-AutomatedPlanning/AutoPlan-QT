@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "calculator.h"
+#include "planningtable.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -27,6 +28,12 @@
 #include <QPainter>
 #include <QPrinter>
 
+#include <QtGui>
+#include <QtWidgets>
+#include <QtPrintSupport>
+
+#include <iostream>
+
 #if defined(QT_PRINTSUPPORT_LIB)
 #include <QtPrintSupport/qtprintsupportglobal.h>
 #if QT_CONFIG(printer)
@@ -41,6 +48,9 @@
 #include <QtGui/qpaintdevice.h>
 #include <QtGui/qpagelayout.h>
 #include <QtGui/qpageranges.h>
+
+#include <QTableView>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -133,6 +143,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
     connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
+    //Output
+     connect(ui->exportBtn, SIGNAL(clicked()), this, SLOT(exportToPicture()));
+
 // OpenGLClass scribbleArea;
     //MENU actionOpen
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
@@ -145,8 +158,10 @@ MainWindow::MainWindow(QWidget *parent)
 //    QPushButton *button = new QPushButton;
 //    button->setIcon(QIcon(":/icons/assets/line.png"));
 //    button->setIconSize(QSize(20, 20));
+    connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
 
 
+   view = new QGraphicsView(scribbleArea);
 
 }
 
@@ -393,3 +408,93 @@ void MainWindow::exit()
 {
     QCoreApplication::quit();
 }
+
+
+//Rayhan's code
+
+void MainWindow::importShapeFiles()
+{
+//    FileChooser fileChooser = new FileChooser();
+//            fileChooser.setTitle("Import Multiple Files");
+//            fileChooser.getExtensionFilters().addAll(
+//                    new FileChooser.ExtensionFilter("All Shapefiles", "*.*"),
+//                    new FileChooser.ExtensionFilter("DBF", "*.dbf"),
+//                    new FileChooser.ExtensionFilter("CPG", "*.cpg"),
+//                    new FileChooser.ExtensionFilter("SHX", "*.shx"),
+//                    new FileChooser.ExtensionFilter("PRJ", "*.prj"),
+//                    new FileChooser.ExtensionFilter("QPJ", "*.qpj"),
+//                    new FileChooser.ExtensionFilter("SHP", "*.shp")
+//            );
+//            Stage stage = (Stage) gridPane.getScene().getWindow();
+
+//            files = fileChooser.showOpenMultipleDialog(stage);
+//            db.setFiles(files);
+//            db.copyData();
+
+            QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
+                QFile file(fileName);
+                readFile = fileName;
+                if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
+                    QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+                    return;
+                }
+                setWindowTitle(fileName);
+                QTextStream in(&file);
+                QString text = in.readAll();
+                ui->textEdit->setText(text);
+                file.close();
+}
+
+void MainWindow::exportToPicture()
+{
+    QString defaultFileName = fileName;
+    int index = defaultFileName.lastIndexOf(".");
+    defaultFileName = defaultFileName.left(index);
+    defaultFileName += ".png";
+    QString s = QFileDialog::getSaveFileName(
+        this, tr("Export to PNG"), defaultFileName,
+        tr("Portable Network Graphics (*.png)"));
+
+    if (!s.isEmpty())
+    {
+      QImage image(view->width(), view->height(), QImage::Format_RGB32);
+      image.fill(QColor(Qt::white));
+      QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+      QPainter painter(&image);
+      view->render(&painter);
+      image.save(s, "PNG");
+      QApplication::restoreOverrideCursor();
+    }
+}
+
+void MainWindow::planningFnt()
+{
+    PlanningTable *plan;
+    plan = new PlanningTable();
+    plan->show();
+}
+
+
+
+//void MainWindow::exportToPdf()
+//{
+//    QString defaultPdfFileName = fileName;
+//    int index = defaultPdfFileName.lastIndexOf(".");
+//    defaultPdfFileName = defaultPdfFileName.left(index);
+//    defaultPdfFileName += ".pdf";
+//    QString s = QFileDialog::getSaveFileName(
+//        this, tr("Export to PDF"), defaultPdfFileName,
+//        tr("PDF files (*.pdf)"));
+
+//    if (!s.isEmpty())
+//    {
+//      QPrinter printer;
+//      printer.setOutputFormat(QPrinter::PdfFormat);
+//      printer.setOutputFileName(s);
+//      printer.setDocName(fileName);
+//      QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+//      QPainter painter(&printer);
+//      view->render(&painter);
+//      QApplication::restoreOverrideCursor();
+//    }
+//}
