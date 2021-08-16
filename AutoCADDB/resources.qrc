@@ -115,5 +115,18 @@
         <file>assets/symbols/22.png</file>
         <file>assets/Plan/icons8-floor-plan-80.png</file>
         <file>assets/Plan/icons8-import-48.png</file>
+        <file>assets/svg/five.svg</file>
+        <file>assets/svg/four.svg</file>
+        <file>assets/svg/one.svg</file>
+        <file>assets/svg/three.svg</file>
+        <file>assets/svg/two.svg</file>
+        <file>assets/svg/Gegengleisanzeiger.svg</file>
+        <file>assets/svg/square.svg</file>
+        <file>assets/svg/arrow.svg</file>
+        <file>assets/svg/halfrect.svg</file>
+        <file>assets/svg/rectangle.svg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>assets/svg/square.svg</file>
     </qresource>
 </RCC>

@@ -2007,7 +2007,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -13352,6 +13352,7 @@ Tabs</string>
     <property name="title">
      <string>Insert</string>
     </property>
+    <addaction name="actionAdd_symbol"/>
    </widget>
    <widget class="QMenu" name="menuFormat">
     <property name="title">
@@ -13528,12 +13529,17 @@ Tabs</string>
     <string>Exit</string>
    </property>
   </action>
+  <action name="actionAdd_symbol">
+   <property name="text">
+    <string>Add symbol</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
    <class>OpenGLClass</class>
    <extends>QWidget</extends>
-   <header location="global">openglclass.h</header>
+   <header>openglclass.h</header>
    <container>1</container>
    <slots>
     <slot>setXRotation(int)</slot>
