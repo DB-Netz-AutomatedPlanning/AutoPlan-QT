@@ -1,4 +1,4 @@
-QT       += core gui openglwidgets sql printsupport
+QT       += core gui openglwidgets sql printsupport widgets svg svgwidgets
 requires(qtConfig(tableview))
 requires(qtConfig(fontdialog))
 LIBS +=   -lopengl32 -lglu32 -lgdi32
@@ -14,21 +14,26 @@ CONFIG += c++11
 SOURCES += \
     calcbutton.cpp \
     calculator.cpp \
+    constructsvgdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     openglclass.cpp \
     planningtable.cpp \
+    svgdialogview.cpp \
     test.cpp
 
 HEADERS += \
     calcbutton.h \
     calculator.h \
+    constructsvgdialog.h \
     mainwindow.h \
     openglclass.h \
     planningtable.h \
+    svgdialogview.h \
     test.h
 
 FORMS += \
+    constructsvgdialog.ui \
     mainwindow.ui \
     planningtable.ui \
     test.ui

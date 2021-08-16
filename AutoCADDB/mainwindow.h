@@ -36,6 +36,7 @@ private slots:
     void hideTab();
     void print();
     void exit();
+    void openSvgDialog();
 
     void on_actionOpen_triggered();
 

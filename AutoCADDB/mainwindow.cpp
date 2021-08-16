@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include "calculator.h"
 #include "planningtable.h"
+#include "constructsvgdialog.h"
+
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -153,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
    // connect(ui->actionPrint, SIGNAL(triggered()), scribbleArea, SLOT(&OpenGLClass::print()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
+    connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
 
     //connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(open()));
 //    QPushButton *button = new QPushButton;
@@ -288,6 +291,16 @@ void MainWindow::openCalculator(){
     //calc->show();
 
 }
+
+
+//Open dialog box of SVG
+void MainWindow::openSvgDialog(){
+    disconnect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
+    ConstructSvgDialog *svgDialog;
+    svgDialog = new ConstructSvgDialog();
+    svgDialog->show();
+}
+
 
 //MENU
 //! [3]
