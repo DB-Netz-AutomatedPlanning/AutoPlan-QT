@@ -125,6 +125,20 @@
         <file>assets/svg/arrow.svg</file>
         <file>assets/svg/halfrect.svg</file>
         <file>assets/svg/rectangle.svg</file>
+        <file>assets/fifteenSvgs/Ersatzsignal.svg</file>
+        <file>assets/fifteenSvgs/Haltetafel.svg</file>
+        <file>assets/fifteenSvgs/Hauptsignal.svg</file>
+        <file>assets/fifteenSvgs/HauptsignalAus.svg</file>
+        <file>assets/fifteenSvgs/HauptsignalEin.svg</file>
+        <file>assets/fifteenSvgs/Hauptsignalschirm.svg</file>
+        <file>assets/fifteenSvgs/KsMehrabschnitts.svg</file>
+        <file>assets/fifteenSvgs/Mehrabschnittssignal.svg</file>
+        <file>assets/fifteenSvgs/Radsensor.svg</file>
+        <file>assets/fifteenSvgs/Rangierhalttafel.svg</file>
+        <file>assets/fifteenSvgs/Schutzhalt.svg</file>
+        <file>assets/fifteenSvgs/StumpfgleisFruhhaltanzeiger.svg</file>
+        <file>assets/fifteenSvgs/Vorsichtsignal.svg</file>
+        <file>assets/fifteenSvgs/vorsignal.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>

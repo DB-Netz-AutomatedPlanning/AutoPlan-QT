@@ -21,7 +21,7 @@
 #include <QColor>
 #include <QOpenGLFunctions>
 
-class OpenGLClass : public QOpenGLWidget
+class OpenGLClass : public QOpenGLWidget, public QOpenGLFunctions
 {
     Q_OBJECT
 public:

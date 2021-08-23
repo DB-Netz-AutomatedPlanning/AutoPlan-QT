@@ -1,0 +1,9 @@
+<svg width="196" height="33" viewBox="0 0 196 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+<line x1="73.9997" y1="16.5" x2="0.536681" y2="16.4626" stroke="#FF3434"/>
+<line x1="0.5" y1="8" x2="0.5" y2="26" stroke="#FF3434"/>
+<rect x="74.5" y="2.5" width="76" height="28" rx="14" stroke="#FF3434"/>
+<path d="M150 16.5H74.5L76 22.5L79.5 27L85.5 30H140L145.5 27L149 22.5L150 16.5Z" fill="#FF3434" stroke="#FF3434"/>
+<path d="M179 16.5L157.25 30.7894V2.21058L179 16.5Z" fill="#FF3434"/>
+<path d="M173.379 3L195.093 16.7672" stroke="#FF3434"/>
+<line y1="-0.5" x2="25.8478" y2="-0.5" transform="matrix(-0.8649 0.501944 -0.586409 -0.810015 195.356 16)" stroke="#FF3434"/>
+</svg>
