@@ -1,7 +1,15 @@
+INCLUDEPATH += E:\QT\AutoPlan-QT\AutoPlan-QT\AutoCADDB\glew-2.1.0\include
+INCLUDEPATH += E:\QT\AutoPlan-QT\AutoPlan-QT\AutoCADDB\glm\glm
+
+
 QT       += core gui openglwidgets sql printsupport widgets svg svgwidgets
 requires(qtConfig(tableview))
 requires(qtConfig(fontdialog))
-LIBS +=   -lopengl32 -lglu32 -lgdi32
+
+LIBS +=  -LE:\QT\AutoPlan-QT\AutoPlan-QT\AutoCADDB\glew-2.1.0\lib\Release\x64 -lglew32 -lopengl32 -lglu32 -lgdi32
+
+
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,6 +23,8 @@ SOURCES += \
     calcbutton.cpp \
     calculator.cpp \
     constructsvgdialog.cpp \
+    dragwidget.cpp \
+    dropwidget.cpp \
     main.cpp \
     mainwindow.cpp \
     openglclass.cpp \
@@ -26,6 +36,8 @@ HEADERS += \
     calcbutton.h \
     calculator.h \
     constructsvgdialog.h \
+    dragwidget.h \
+    dropwidget.h \
     mainwindow.h \
     openglclass.h \
     planningtable.h \
