@@ -1,12 +1,12 @@
-INCLUDEPATH += E:\QT\AutoPlan-QT\AutoPlan-QT\AutoCADDB\glew-2.1.0\include
-INCLUDEPATH += E:\QT\AutoPlan-QT\AutoPlan-QT\AutoCADDB\glm\glm
+INCLUDEPATH += D:\Users\BKU\SayliArjunPednekar\Documents\GitHub\AutoPlan-QT\AutoCADDB\glew-2.1.0\include
+INCLUDEPATH += D:\Users\BKU\SayliArjunPednekar\Documents\GitHub\AutoPlan-QT\AutoCADDB\glm\glm
 
 
 QT       += core gui openglwidgets sql printsupport widgets svg svgwidgets
 requires(qtConfig(tableview))
 requires(qtConfig(fontdialog))
 
-LIBS +=  -LE:\QT\AutoPlan-QT\AutoPlan-QT\AutoCADDB\glew-2.1.0\lib\Release\x64 -lglew32 -lopengl32 -lglu32 -lgdi32
+LIBS +=  -LD:\Users\BKU\SayliArjunPednekar\Documents\GitHub\AutoPlan-QT\AutoCADDB\glew-2.1.0\lib\Release\x64 -lglew32 -lopengl32 -lglu32 -lgdi32
 
 
 

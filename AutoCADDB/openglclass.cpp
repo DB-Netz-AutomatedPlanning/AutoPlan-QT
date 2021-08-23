@@ -114,9 +114,9 @@ if(error!= GLEW_OK){
     static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
-    //GLuint VertexArrayID;
-//    glGenVertexArrays(1,&VertexArrayID);
-//    glBindVertexArray(VertexArrayID);
+ //   GLuint VertexArrayID;
+ // glGenVertexArrays(1,&VertexArrayID);
+ //glBindVertexArray(VertexArrayID);
 
 }
 
