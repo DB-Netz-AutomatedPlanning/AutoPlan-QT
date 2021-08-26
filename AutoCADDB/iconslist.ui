@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>IconsList</class>
+ <widget class="QMainWindow" name="IconsList">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>240</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>240</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>500</width>
+    <height>1000</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QListWidget" name="listWidget">
+      <property name="font">
+       <font>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <item>
+       <property name="text">
+        <string>Schutzhalt</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/icons/assets/fifteenSvgs/Schutzhalt.svg</normalon>
+        </iconset>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Haltetafel</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/icons/assets/fifteenSvgs/Haltetafel.svg</normalon>
+        </iconset>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Mehrabschnittssignal</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/icons/assets/fifteenSvgs/hauptsignalmain.svg</normalon>
+        </iconset>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Vorsignal</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/icons/assets/fifteenSvgs/vorsignal.svg</normalon>
+        </iconset>
+       </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Rangierhalttafel</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/icons/assets/fifteenSvgs/Rangierhalttafel.svg</normalon>
+        </iconset>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Radsensor</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/icons/assets/fifteenSvgs/Radsensor.svg</normalon>
+        </iconset>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Hauptsignal</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normalon>:/icons/assets/fifteenSvgs/Hauptsignal.svg</normalon>
+        </iconset>
+       </property>
+       <property name="flags">
+        <set>ItemIsSelectable|ItemIsEditable|ItemIsDragEnabled|ItemIsDropEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>240</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

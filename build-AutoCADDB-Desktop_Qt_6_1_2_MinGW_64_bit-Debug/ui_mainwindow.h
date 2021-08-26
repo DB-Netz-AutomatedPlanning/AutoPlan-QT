@@ -5742,7 +5742,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 2187, 25));
+        menubar->setGeometry(QRect(0, 0, 2187, 21));
         menuNew = new QMenu(menubar);
         menuNew->setObjectName(QString::fromUtf8("menuNew"));
         menuEdit = new QMenu(menubar);
@@ -5822,7 +5822,7 @@ public:
         QObject::connect(rotZSlider, SIGNAL(valueChanged(int)), widget_153, SLOT(setZRotation(int)));
 
         tabWidget_2->setCurrentIndex(1);
-        tabWidget->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

@@ -139,6 +139,9 @@
         <file>assets/fifteenSvgs/StumpfgleisFruhhaltanzeiger.svg</file>
         <file>assets/fifteenSvgs/Vorsichtsignal.svg</file>
         <file>assets/fifteenSvgs/vorsignal.svg</file>
+        <file>assets/fifteenSvgs/hauptsignalmain.svg</file>
+        <file>assets/fifteenSvgs/MehrgeschersatzErsatz.svg</file>
+        <file>assets/fifteenSvgs/MehrgeschersatzGesch.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>

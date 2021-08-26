@@ -25,11 +25,13 @@ SOURCES += \
     constructsvgdialog.cpp \
     dragwidget.cpp \
     dropwidget.cpp \
+    iconslist.cpp \
     main.cpp \
     mainwindow.cpp \
     openglclass.cpp \
     planningtable.cpp \
     svgdialogview.cpp \
+    symboloptions.cpp \
     test.cpp
 
 HEADERS += \
@@ -38,16 +40,20 @@ HEADERS += \
     constructsvgdialog.h \
     dragwidget.h \
     dropwidget.h \
+    iconslist.h \
     mainwindow.h \
     openglclass.h \
     planningtable.h \
     svgdialogview.h \
+    symboloptions.h \
     test.h
 
 FORMS += \
     constructsvgdialog.ui \
+    iconslist.ui \
     mainwindow.ui \
     planningtable.ui \
+    symboloptions.ui \
     test.ui
 
 # Default rules for deployment.

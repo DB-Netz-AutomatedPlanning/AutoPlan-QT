@@ -3,6 +3,7 @@
 #include "calculator.h"
 #include "planningtable.h"
 #include "constructsvgdialog.h"
+#include "iconslist.h"
 
 #include <QComboBox>
 #include<QDebug>
@@ -296,8 +297,8 @@ void MainWindow::openCalculator(){
 //Open dialog box of SVG
 void MainWindow::openSvgDialog(){
     disconnect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
-    ConstructSvgDialog *svgDialog;
-    svgDialog = new ConstructSvgDialog();
+    IconsList *svgDialog;
+    svgDialog = new IconsList();
     svgDialog->show();
 }
 
