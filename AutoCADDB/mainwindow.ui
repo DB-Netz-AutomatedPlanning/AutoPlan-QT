@@ -66,136 +66,6 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QFrame" name="f_symbols">
-         <property name="minimumSize">
-          <size>
-           <width>200</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_127">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QWidget" name="widget_150" native="true">
-            <property name="minimumSize">
-             <size>
-              <width>200</width>
-              <height>0</height>
-             </size>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_58">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QScrollArea" name="scrollArea">
-               <property name="widgetResizable">
-                <bool>true</bool>
-               </property>
-               <widget class="QWidget" name="scrollAreaWidgetContents">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>600</width>
-                  <height>1000</height>
-                 </rect>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_59">
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item row="0" column="0">
-                  <widget class="QWidget" name="widget_154" native="true">
-                   <property name="minimumSize">
-                    <size>
-                     <width>600</width>
-                     <height>1000</height>
-                    </size>
-                   </property>
-                   <layout class="QGridLayout" name="gridLayout_69">
-                    <property name="leftMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <item row="0" column="0">
-                     <widget class="DragWidget" name="openGLWidget_2"/>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
         <widget class="QWidget" name="widget_30" native="true">
          <layout class="QGridLayout" name="gridLayout_14">
           <property name="leftMargin">
@@ -222,7 +92,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -312,192 +182,6 @@
                     </property>
                     <item row="0" column="0">
                      <widget class="OpenGLClass" name="widget_153" native="true"/>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item row="1" column="0">
-                  <widget class="QFrame" name="frame_10">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777215</width>
-                     <height>150</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_126">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <property name="leftMargin">
-                     <number>10</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QWidget" name="widget_151" native="true">
-                      <layout class="QHBoxLayout" name="horizontalLayout_51">
-                       <property name="spacing">
-                        <number>10</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="label_43">
-                         <property name="text">
-                          <string>X</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QSlider" name="rotXSlider">
-                         <property name="maximum">
-                          <number>360</number>
-                         </property>
-                         <property name="singleStep">
-                          <number>16</number>
-                         </property>
-                         <property name="pageStep">
-                          <number>15</number>
-                         </property>
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="tickPosition">
-                          <enum>QSlider::TicksAbove</enum>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QWidget" name="widget_142" native="true">
-                      <layout class="QHBoxLayout" name="horizontalLayout_52">
-                       <property name="spacing">
-                        <number>10</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="label_44">
-                         <property name="text">
-                          <string>Y</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QSlider" name="rotYSlider">
-                         <property name="maximum">
-                          <number>360</number>
-                         </property>
-                         <property name="singleStep">
-                          <number>16</number>
-                         </property>
-                         <property name="pageStep">
-                          <number>15</number>
-                         </property>
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="tickPosition">
-                          <enum>QSlider::TicksAbove</enum>
-                         </property>
-                         <property name="tickInterval">
-                          <number>15</number>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QWidget" name="widget_152" native="true">
-                      <layout class="QHBoxLayout" name="horizontalLayout_53">
-                       <property name="spacing">
-                        <number>10</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QLabel" name="label_45">
-                         <property name="text">
-                          <string>Z</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QSlider" name="rotZSlider">
-                         <property name="maximum">
-                          <number>360</number>
-                         </property>
-                         <property name="singleStep">
-                          <number>16</number>
-                         </property>
-                         <property name="pageStep">
-                          <number>15</number>
-                         </property>
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="tickPosition">
-                          <enum>QSlider::TicksAbove</enum>
-                         </property>
-                         <property name="tickInterval">
-                          <number>15</number>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
                     </item>
                    </layout>
                   </widget>
@@ -781,7 +465,7 @@
              </size>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="f_homeTab">
              <attribute name="title">
@@ -11568,6 +11252,7 @@ Tabs</string>
      <string>Insert</string>
     </property>
     <addaction name="actionAdd_symbol"/>
+    <addaction name="actionAdd_symbol_options"/>
    </widget>
    <widget class="QMenu" name="menuFormat">
     <property name="title">
@@ -11749,13 +11434,13 @@ Tabs</string>
     <string>Add symbol</string>
    </property>
   </action>
+  <action name="actionAdd_symbol_options">
+   <property name="text">
+    <string>Add symbol options</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>DragWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header>dragwidget.h</header>
-  </customwidget>
   <customwidget>
    <class>OpenGLClass</class>
    <extends>QWidget</extends>
@@ -11776,54 +11461,5 @@ Tabs</string>
  <resources>
   <include location="resources.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>rotXSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>widget_153</receiver>
-   <slot>setXRotation(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>46</x>
-     <y>546</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>55</x>
-     <y>462</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rotYSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>widget_153</receiver>
-   <slot>setYRotation(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>135</x>
-     <y>596</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>479</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rotZSlider</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>widget_153</receiver>
-   <slot>setZRotation(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>300</x>
-     <y>640</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>309</x>
-     <y>472</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -23,8 +23,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QScrollArea>
-#include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
@@ -34,7 +32,6 @@
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include <dropwidget.h>
-#include "dragwidget.h"
 #include "openglclass.h"
 
 QT_BEGIN_NAMESPACE
@@ -52,20 +49,11 @@ public:
     QAction *actionRedo;
     QAction *actionExit;
     QAction *actionAdd_symbol;
+    QAction *actionAdd_symbol_options;
     QWidget *centralwidget;
     QGridLayout *gridLayout_2;
     QFrame *f_openGl;
     QHBoxLayout *horizontalLayout_31;
-    QFrame *f_symbols;
-    QVBoxLayout *verticalLayout_127;
-    QWidget *widget_150;
-    QGridLayout *gridLayout_58;
-    QScrollArea *scrollArea;
-    QWidget *scrollAreaWidgetContents;
-    QGridLayout *gridLayout_59;
-    QWidget *widget_154;
-    QGridLayout *gridLayout_69;
-    DragWidget *openGLWidget_2;
     QWidget *widget_30;
     QGridLayout *gridLayout_14;
     QTabWidget *tabWidget_2;
@@ -76,20 +64,6 @@ public:
     QFrame *frame_7;
     QGridLayout *gridLayout_19;
     OpenGLClass *widget_153;
-    QFrame *frame_10;
-    QVBoxLayout *verticalLayout_126;
-    QWidget *widget_151;
-    QHBoxLayout *horizontalLayout_51;
-    QLabel *label_43;
-    QSlider *rotXSlider;
-    QWidget *widget_142;
-    QHBoxLayout *horizontalLayout_52;
-    QLabel *label_44;
-    QSlider *rotYSlider;
-    QWidget *widget_152;
-    QHBoxLayout *horizontalLayout_53;
-    QLabel *label_45;
-    QSlider *rotZSlider;
     QWidget *tab_5;
     QGridLayout *gridLayout_20;
     DropWidget *openGLWidget;
@@ -941,6 +915,8 @@ public:
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
         actionAdd_symbol = new QAction(MainWindow);
         actionAdd_symbol->setObjectName(QString::fromUtf8("actionAdd_symbol"));
+        actionAdd_symbol_options = new QAction(MainWindow);
+        actionAdd_symbol_options->setObjectName(QString::fromUtf8("actionAdd_symbol_options"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout_2 = new QGridLayout(centralwidget);
@@ -956,58 +932,6 @@ public:
         horizontalLayout_31->setSpacing(0);
         horizontalLayout_31->setObjectName(QString::fromUtf8("horizontalLayout_31"));
         horizontalLayout_31->setContentsMargins(0, 0, 0, 0);
-        f_symbols = new QFrame(f_openGl);
-        f_symbols->setObjectName(QString::fromUtf8("f_symbols"));
-        f_symbols->setMinimumSize(QSize(200, 0));
-        f_symbols->setMaximumSize(QSize(200, 16777215));
-        f_symbols->setFrameShape(QFrame::StyledPanel);
-        f_symbols->setFrameShadow(QFrame::Raised);
-        verticalLayout_127 = new QVBoxLayout(f_symbols);
-        verticalLayout_127->setSpacing(0);
-        verticalLayout_127->setObjectName(QString::fromUtf8("verticalLayout_127"));
-        verticalLayout_127->setContentsMargins(0, 0, 0, 0);
-        widget_150 = new QWidget(f_symbols);
-        widget_150->setObjectName(QString::fromUtf8("widget_150"));
-        widget_150->setMinimumSize(QSize(200, 0));
-        gridLayout_58 = new QGridLayout(widget_150);
-        gridLayout_58->setSpacing(0);
-        gridLayout_58->setObjectName(QString::fromUtf8("gridLayout_58"));
-        gridLayout_58->setContentsMargins(0, 0, 0, 0);
-        scrollArea = new QScrollArea(widget_150);
-        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
-        scrollArea->setWidgetResizable(true);
-        scrollAreaWidgetContents = new QWidget();
-        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 600, 1000));
-        gridLayout_59 = new QGridLayout(scrollAreaWidgetContents);
-        gridLayout_59->setSpacing(0);
-        gridLayout_59->setObjectName(QString::fromUtf8("gridLayout_59"));
-        gridLayout_59->setContentsMargins(0, 0, 0, 0);
-        widget_154 = new QWidget(scrollAreaWidgetContents);
-        widget_154->setObjectName(QString::fromUtf8("widget_154"));
-        widget_154->setMinimumSize(QSize(600, 1000));
-        gridLayout_69 = new QGridLayout(widget_154);
-        gridLayout_69->setSpacing(0);
-        gridLayout_69->setObjectName(QString::fromUtf8("gridLayout_69"));
-        gridLayout_69->setContentsMargins(0, 0, 0, 0);
-        openGLWidget_2 = new DragWidget(widget_154);
-        openGLWidget_2->setObjectName(QString::fromUtf8("openGLWidget_2"));
-
-        gridLayout_69->addWidget(openGLWidget_2, 0, 0, 1, 1);
-
-
-        gridLayout_59->addWidget(widget_154, 0, 0, 1, 1);
-
-        scrollArea->setWidget(scrollAreaWidgetContents);
-
-        gridLayout_58->addWidget(scrollArea, 0, 0, 1, 1);
-
-
-        verticalLayout_127->addWidget(widget_150);
-
-
-        horizontalLayout_31->addWidget(f_symbols);
-
         widget_30 = new QWidget(f_openGl);
         widget_30->setObjectName(QString::fromUtf8("widget_30"));
         gridLayout_14 = new QGridLayout(widget_30);
@@ -1051,93 +975,6 @@ public:
 
 
         gridLayout_18->addWidget(frame_7, 0, 0, 1, 1);
-
-        frame_10 = new QFrame(frame_4);
-        frame_10->setObjectName(QString::fromUtf8("frame_10"));
-        frame_10->setMinimumSize(QSize(0, 0));
-        frame_10->setMaximumSize(QSize(16777215, 150));
-        frame_10->setFrameShape(QFrame::StyledPanel);
-        frame_10->setFrameShadow(QFrame::Raised);
-        verticalLayout_126 = new QVBoxLayout(frame_10);
-        verticalLayout_126->setSpacing(0);
-        verticalLayout_126->setObjectName(QString::fromUtf8("verticalLayout_126"));
-        verticalLayout_126->setContentsMargins(10, 0, 0, 0);
-        widget_151 = new QWidget(frame_10);
-        widget_151->setObjectName(QString::fromUtf8("widget_151"));
-        horizontalLayout_51 = new QHBoxLayout(widget_151);
-        horizontalLayout_51->setSpacing(10);
-        horizontalLayout_51->setObjectName(QString::fromUtf8("horizontalLayout_51"));
-        horizontalLayout_51->setContentsMargins(0, 0, 0, 0);
-        label_43 = new QLabel(widget_151);
-        label_43->setObjectName(QString::fromUtf8("label_43"));
-
-        horizontalLayout_51->addWidget(label_43);
-
-        rotXSlider = new QSlider(widget_151);
-        rotXSlider->setObjectName(QString::fromUtf8("rotXSlider"));
-        rotXSlider->setMaximum(360);
-        rotXSlider->setSingleStep(16);
-        rotXSlider->setPageStep(15);
-        rotXSlider->setOrientation(Qt::Horizontal);
-        rotXSlider->setTickPosition(QSlider::TicksAbove);
-
-        horizontalLayout_51->addWidget(rotXSlider);
-
-
-        verticalLayout_126->addWidget(widget_151);
-
-        widget_142 = new QWidget(frame_10);
-        widget_142->setObjectName(QString::fromUtf8("widget_142"));
-        horizontalLayout_52 = new QHBoxLayout(widget_142);
-        horizontalLayout_52->setSpacing(10);
-        horizontalLayout_52->setObjectName(QString::fromUtf8("horizontalLayout_52"));
-        horizontalLayout_52->setContentsMargins(0, 0, 0, 0);
-        label_44 = new QLabel(widget_142);
-        label_44->setObjectName(QString::fromUtf8("label_44"));
-
-        horizontalLayout_52->addWidget(label_44);
-
-        rotYSlider = new QSlider(widget_142);
-        rotYSlider->setObjectName(QString::fromUtf8("rotYSlider"));
-        rotYSlider->setMaximum(360);
-        rotYSlider->setSingleStep(16);
-        rotYSlider->setPageStep(15);
-        rotYSlider->setOrientation(Qt::Horizontal);
-        rotYSlider->setTickPosition(QSlider::TicksAbove);
-        rotYSlider->setTickInterval(15);
-
-        horizontalLayout_52->addWidget(rotYSlider);
-
-
-        verticalLayout_126->addWidget(widget_142);
-
-        widget_152 = new QWidget(frame_10);
-        widget_152->setObjectName(QString::fromUtf8("widget_152"));
-        horizontalLayout_53 = new QHBoxLayout(widget_152);
-        horizontalLayout_53->setSpacing(10);
-        horizontalLayout_53->setObjectName(QString::fromUtf8("horizontalLayout_53"));
-        horizontalLayout_53->setContentsMargins(0, 0, 0, 0);
-        label_45 = new QLabel(widget_152);
-        label_45->setObjectName(QString::fromUtf8("label_45"));
-
-        horizontalLayout_53->addWidget(label_45);
-
-        rotZSlider = new QSlider(widget_152);
-        rotZSlider->setObjectName(QString::fromUtf8("rotZSlider"));
-        rotZSlider->setMaximum(360);
-        rotZSlider->setSingleStep(16);
-        rotZSlider->setPageStep(15);
-        rotZSlider->setOrientation(Qt::Horizontal);
-        rotZSlider->setTickPosition(QSlider::TicksAbove);
-        rotZSlider->setTickInterval(15);
-
-        horizontalLayout_53->addWidget(rotZSlider);
-
-
-        verticalLayout_126->addWidget(widget_152);
-
-
-        gridLayout_18->addWidget(frame_10, 1, 0, 1, 1);
 
 
         gridLayout_17->addWidget(frame_4, 0, 0, 1, 1);
@@ -5802,6 +5639,7 @@ public:
         menuNew->addAction(actionRedo);
         menuNew->addAction(actionExit);
         menuInsert->addAction(actionAdd_symbol);
+        menuInsert->addAction(actionAdd_symbol_options);
         toolBar->addAction(actionNew_2);
         toolBar->addSeparator();
         toolBar->addAction(actionNew);
@@ -5817,12 +5655,9 @@ public:
         toolBar->addSeparator();
 
         retranslateUi(MainWindow);
-        QObject::connect(rotXSlider, SIGNAL(valueChanged(int)), widget_153, SLOT(setXRotation(int)));
-        QObject::connect(rotYSlider, SIGNAL(valueChanged(int)), widget_153, SLOT(setYRotation(int)));
-        QObject::connect(rotZSlider, SIGNAL(valueChanged(int)), widget_153, SLOT(setZRotation(int)));
 
-        tabWidget_2->setCurrentIndex(1);
-        tabWidget->setCurrentIndex(2);
+        tabWidget_2->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -5841,9 +5676,7 @@ public:
         actionRedo->setText(QCoreApplication::translate("MainWindow", "Redo", nullptr));
         actionExit->setText(QCoreApplication::translate("MainWindow", "Exit", nullptr));
         actionAdd_symbol->setText(QCoreApplication::translate("MainWindow", "Add symbol", nullptr));
-        label_43->setText(QCoreApplication::translate("MainWindow", "X", nullptr));
-        label_44->setText(QCoreApplication::translate("MainWindow", "Y", nullptr));
-        label_45->setText(QCoreApplication::translate("MainWindow", "Z", nullptr));
+        actionAdd_symbol_options->setText(QCoreApplication::translate("MainWindow", "Add symbol options", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QCoreApplication::translate("MainWindow", "Start", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Drawing", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Test Json", nullptr));

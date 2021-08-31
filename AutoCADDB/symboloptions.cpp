@@ -6,6 +6,7 @@ SymbolOptions::SymbolOptions(QWidget *parent) :
     ui(new Ui::SymbolOptions)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Options");
 }
 
 SymbolOptions::~SymbolOptions()

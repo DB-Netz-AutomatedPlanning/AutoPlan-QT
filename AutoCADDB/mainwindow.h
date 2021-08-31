@@ -37,6 +37,7 @@ private slots:
     void print();
     void exit();
     void openSvgDialog();
+    void openSvgOptions();
 
     void on_actionOpen_triggered();
 
@@ -59,10 +60,7 @@ private:
     bool hideTabView;
     QString readFile;
     OpenGLClass *scribbleArea;
-  //  QPainter painter;
-   // QPrinter printer(QPrinter);
-    //MENU
-    //bool maybeSave();
+
     bool saveFile(const QByteArray &fileFormat);
     bool maybeSave();
 

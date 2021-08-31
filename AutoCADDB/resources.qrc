@@ -142,6 +142,36 @@
         <file>assets/fifteenSvgs/hauptsignalmain.svg</file>
         <file>assets/fifteenSvgs/MehrgeschersatzErsatz.svg</file>
         <file>assets/fifteenSvgs/MehrgeschersatzGesch.svg</file>
+        <file>assets/fifteenSvgs/ersatz.svg</file>
+        <file>assets/fifteenSvgs/gesch.svg</file>
+        <file>assets/fifteenSvgs/gegen.svg</file>
+        <file>assets/fifteenSvgs/licht.svg</file>
+        <file>assets/fifteenSvgs/sh1.svg</file>
+        <file>assets/fifteenSvgs/brem.svg</file>
+        <file>assets/fifteenSvgs/OnlyMehr.svg</file>
+        <file>assets/fifteenSvgs/sleger.svg</file>
+        <file>assets/smallSvgs/Haltetafel.svg</file>
+        <file>assets/smallSvgs/mehra.svg</file>
+        <file>assets/smallSvgs/Mehrabschnittsignal.svg</file>
+        <file>assets/smallSvgs/Radsensor.svg</file>
+        <file>assets/smallSvgs/Ragierhalttafel.svg</file>
+        <file>assets/smallSvgs/Schutzhalt.svg</file>
+        <file>assets/smallSvgs/Uberwachung.svg</file>
+        <file>assets/smallSvgs/vorsignal.svg</file>
+        <file>assets/smallSvgs/Hauptsignal.svg</file>
+        <file>assets/smallSvgs/haputArrow.svg</file>
+        <file>assets/smallSvgs/hauptBox.svg</file>
+        <file>assets/smallSvgs/mehraBox.svg</file>
+        <file>assets/smallSvgs/schrimArrow.svg</file>
+        <file>assets/smallSvgs/shrimBox.svg</file>
+        <file>assets/smallSvgs/shrimGegen.svg</file>
+        <file>assets/smallSvgs/expandedSignal.svg</file>
+        <file>assets/smallSvgs/schnittBox.svg</file>
+        <file>assets/smallSvgs/stumpArrow.svg</file>
+        <file>assets/smallSvgs/stumpT.svg</file>
+        <file>assets/smallSvgs/rightArrow.svg</file>
+        <file>assets/smallSvgs/rightArrowersatz.svg</file>
+        <file>assets/smallSvgs/vorArrow.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>

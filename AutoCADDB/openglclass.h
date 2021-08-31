@@ -20,7 +20,7 @@
 #include <QMouseEvent>
 #include <QColor>
 #include <QOpenGLFunctions>
-
+#include<QOpenGLFunctions_3_3_Compatibility>
 class OpenGLClass : public QOpenGLWidget, public QOpenGLFunctions
 {
     Q_OBJECT
@@ -46,9 +46,15 @@ protected:
 
     QSize minimumSizeHint() const;
     QSize sizeHint() const;
-    void mousePressEvent(QMouseEvent *event);
-    void mouseMoveEvent(QMouseEvent *event);
+  //  void mousePressEvent(QMouseEvent *event);
+   void mouseMoveEvent(QMouseEvent *event);
       void resizeEvent(QResizeEvent *event) override;
+
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void iconClicked();
 
 public slots:
     // slots for xyz-rotation slider

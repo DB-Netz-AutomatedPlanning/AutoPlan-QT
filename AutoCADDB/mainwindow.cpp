@@ -4,7 +4,7 @@
 #include "planningtable.h"
 #include "constructsvgdialog.h"
 #include "iconslist.h"
-
+#include "symboloptions.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -132,9 +132,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
     //OPENGL
-    connect(ui->widget_153, SIGNAL(xRotationChanged(int)), ui->rotXSlider, SLOT(setValue(int)));
-    connect(ui->widget_153, SIGNAL(yRotationChanged(int)), ui->rotYSlider, SLOT(setValue(int)));
-    connect(ui->widget_153, SIGNAL(zRotationChanged(int)), ui->rotZSlider, SLOT(setValue(int)));
+  //  connect(ui->widget_153, SIGNAL(xRotationChanged(int)), ui->rotXSlider, SLOT(setValue(int)));
+
+    //connect(ui->widget_153, SIGNAL(yRotationChanged(int)), ui->rotYSlider, SLOT(setValue(int)));
+    //connect(ui->widget_153, SIGNAL(zRotationChanged(int)), ui->rotZSlider, SLOT(setValue(int)));
 
 
     //Home->Properties
@@ -157,6 +158,7 @@ MainWindow::MainWindow(QWidget *parent)
    // connect(ui->actionPrint, SIGNAL(triggered()), scribbleArea, SLOT(&OpenGLClass::print()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
     connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
+    connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
 
     //connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(open()));
 //    QPushButton *button = new QPushButton;
@@ -297,11 +299,18 @@ void MainWindow::openCalculator(){
 //Open dialog box of SVG
 void MainWindow::openSvgDialog(){
     disconnect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
+
     IconsList *svgDialog;
     svgDialog = new IconsList();
     svgDialog->show();
 }
 
+void MainWindow::openSvgOptions(){
+    disconnect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
+    SymbolOptions *svgOptions;
+    svgOptions = new SymbolOptions();
+    svgOptions->show();
+}
 
 //MENU
 //! [3]

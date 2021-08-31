@@ -34,6 +34,7 @@ private slots:
     void tileSubWindowsVertically();
     void tileSubWindowsHorizontally();
 
+
 private:
     Ui::Test *ui;
     int tabCount;

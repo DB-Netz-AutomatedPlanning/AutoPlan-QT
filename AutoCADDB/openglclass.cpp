@@ -1,5 +1,6 @@
 #include <GL/glew.h>
-
+#include <GL/glu.h>
+#include <QOpenGLVertexArrayObject>
 #include "openglclass.h"
 #include <QOpenGLWidget>
 #include <QtWidgets>
@@ -17,6 +18,9 @@
 #include <QtOpenGL>
 //SAVE
 #include <QPainter>
+#include <QFrame>
+#include <QWidget>
+#include <QHBoxLayout>
 
 #include<QOpenGLFunctions_3_3_Compatibility>
 
@@ -33,6 +37,7 @@
 
 OpenGLClass::OpenGLClass(QWidget *parent):QOpenGLWidget(parent)
 {
+    setAcceptDrops(true);
     xRot = 0;
     yRot = 0;
     zRot = 0;
@@ -114,13 +119,11 @@ if(error!= GLEW_OK){
     static GLfloat lightPosition[4] = { 0, 0, 10, 1.0 };
     glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
- //   GLuint VertexArrayID;
- // glGenVertexArrays(1,&VertexArrayID);
- //glBindVertexArray(VertexArrayID);
+   //GLuint VertexArrayID;
+  //qOpenGlVertexArrayObject(1,&VertexArrayID);
+// glBindVertexArray(VertexArrayID);
 
 }
-
-
 
 void OpenGLClass::paintGL()
 {
@@ -148,10 +151,10 @@ void OpenGLClass::resizeGL(int width, int height)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void OpenGLClass::mousePressEvent(QMouseEvent *event)
-{
-    lastPos = event->pos();
-}
+//void OpenGLClass::mousePressEvent(QMouseEvent *event)
+//{
+  //  lastPos = event->pos();
+//}
 
 void OpenGLClass::mouseMoveEvent(QMouseEvent *event)
 {
@@ -292,62 +295,6 @@ void OpenGLClass::clearImage()
 void OpenGLClass::print()
 {
      qInfo() << "yay";
-//#if defined(QT_PRINTSUPPORT_LIB) && QT_CONFIG(printdialog)
-//    QPrinter printer(QPrinter::HighResolution);
-
-//    QPrintDialog printDialog(&printer, this);
-////! [21] //! [22]
-//    if (printDialog.exec() == QDialog::Accepted) {
-//        QPainter painter(&printer);
-//        QRect rect = painter.viewport();
-//        QSize size = image.size();
-//        size.scale(rect.size(), Qt::KeepAspectRatio);
-//        painter.setViewport(rect.x(), rect.y(), size.width(), size.height());
-//        painter.setWindow(image.rect());
-//        painter.drawImage(0, 0, image);
-//    }
-//#endif // QT_CONFIG(printdialog)
-
-     #if defined(QT_PRINTSUPPORT_LIB) && QT_CONFIG(printdialog)
-         QPrinter printer(QPrinter::HighResolution);
-
-         QPrintDialog printDialog(&printer, this);
-     //! [21] //! [22]
-         if (printDialog.exec() == QDialog::Accepted) {
-             QPainter painter(&printer);
-             QRect rect = painter.viewport();
-             QSize size = image.size();
-             size.scale(rect.size(), Qt::KeepAspectRatio);
-             painter.setViewport(rect.x(), rect.y(), size.width(), size.height());
-             painter.setWindow(image.rect());
-             painter.drawImage(0, 0, image);
-         }
-     #endif // QT_CONFIG(printdialog)
-
-
-//        QPrinter printer(QPrinter::HighResolution);
-//               printer.setOutputFormat(QPrinter::PdfFormat);
-//               printer.setOutputFileName("output.pdf");
-//               printer.setFullPage(true);
-//               printer.setPageMargins(QMarginsF(0,0,0,0));
-
-
-//               QSize minSize = image.minimumSizeHint();
-//               int minWidth = minSize.width();
-//               int minHeight = minSize.height();
-
-//               QPainter painter(&printer);
-//               painter.begin(&printer);
-//               QRect rect = painter.viewport();
-//                double xscale = rect.width()/double(minWidth);
-//                double yscale = rect.height()/double(minHeight);
-//                double scale = qMin(xscale, yscale);
-//                painter.translate(rect.x() + rect.width()/2,
-//                  rect.y() + rect.height()/2);
-//                  painter.scale(scale, scale);
-//               painter.translate(-width()/2, -height()/2);
-
-//                      image.render(&painter);
 }
 
 
@@ -520,3 +467,118 @@ void OpenGLClass::print()
 //}
 //! [22]
 
+
+void OpenGLClass::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+          qInfo() <<  event->mimeData()->children();
+        } else {
+            event->acceptProposedAction();
+        }
+    } else {
+        event->ignore();
+    }
+
+
+
+
+
+
+}
+
+void OpenGLClass::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            event->acceptProposedAction();
+        }
+    } else {
+        event->ignore();
+    }
+
+}
+
+void OpenGLClass::dropEvent(QDropEvent *event)
+{
+    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+        QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
+        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+
+        QPixmap pixmap;
+        QPoint offset;
+        dataStream >> pixmap >> offset;
+
+        QLabel *newIcon = new QLabel(this);
+        newIcon->setPixmap(pixmap);
+        newIcon->move(event->position().toPoint() - offset);
+        newIcon->show();
+        newIcon->setAttribute(Qt::WA_DeleteOnClose);
+       // connect(newIcon, SIGNAL(triggered()), this, SLOT (iconClicked()));
+
+        if (event->source() == this) {
+            event->setDropAction(Qt::MoveAction);
+            event->accept();
+        } else {
+            event->acceptProposedAction();
+        }
+    } else {
+        event->ignore();
+    }
+
+
+}
+
+void OpenGLClass::mousePressEvent(QMouseEvent *event)
+{
+    QLabel *child = static_cast<QLabel*>(childAt(event->position().toPoint()));
+    if (!child)
+        return;
+
+    QPixmap pixmap = child->pixmap(Qt::ReturnByValue);
+
+    QByteArray itemData;
+    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    dataStream << pixmap << QPoint(event->position().toPoint() - child->pos());
+//! [1]
+
+//! [2]
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setData("application/x-dnditemdata", itemData);
+    qInfo() << itemData;
+//! [2]
+
+//! [3]
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+    drag->setPixmap(pixmap);
+    drag->setHotSpot(event->position().toPoint() - child->pos());
+//! [3]
+
+    QPixmap tempPixmap = pixmap;
+    QPainter painter;
+    painter.begin(&tempPixmap);
+    painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
+    painter.end();
+
+    child->setPixmap(tempPixmap);
+
+    if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction) {
+        child->close();
+    } else {
+        child->show();
+        child->setPixmap(pixmap);
+    }
+
+
+
+}
+
+void OpenGLClass::iconClicked(){
+     qInfo() << "icon clicked";
+}

@@ -49,21 +49,43 @@ public:
         verticalLayout->addWidget(label);
 
         treeWidget = new QTreeWidget(frame);
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/assets/fifteenSvgs/ersatz.svg"), QSize(), QIcon::Normal, QIcon::On);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/icons/assets/fifteenSvgs/brem.svg"), QSize(), QIcon::Normal, QIcon::On);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/icons/assets/fifteenSvgs/sh1.svg"), QSize(), QIcon::Normal, QIcon::On);
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/icons/assets/fifteenSvgs/gegen.svg"), QSize(), QIcon::Normal, QIcon::On);
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/icons/assets/fifteenSvgs/gesch.svg"), QSize(), QIcon::Normal, QIcon::On);
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/icons/assets/fifteenSvgs/licht.svg"), QSize(), QIcon::Normal, QIcon::On);
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/icons/assets/fifteenSvgs/sleger.svg"), QSize(), QIcon::Normal, QIcon::On);
         QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem(treeWidget);
         __qtreewidgetitem->setCheckState(1, Qt::Checked);
+        __qtreewidgetitem->setIcon(0, icon);
         QTreeWidgetItem *__qtreewidgetitem1 = new QTreeWidgetItem(treeWidget);
         __qtreewidgetitem1->setCheckState(1, Qt::Checked);
+        __qtreewidgetitem1->setIcon(0, icon1);
         QTreeWidgetItem *__qtreewidgetitem2 = new QTreeWidgetItem(treeWidget);
         __qtreewidgetitem2->setCheckState(1, Qt::Checked);
+        __qtreewidgetitem2->setIcon(0, icon2);
         QTreeWidgetItem *__qtreewidgetitem3 = new QTreeWidgetItem(treeWidget);
         __qtreewidgetitem3->setCheckState(1, Qt::Checked);
+        __qtreewidgetitem3->setIcon(0, icon3);
         QTreeWidgetItem *__qtreewidgetitem4 = new QTreeWidgetItem(treeWidget);
         __qtreewidgetitem4->setCheckState(1, Qt::Checked);
+        __qtreewidgetitem4->setIcon(0, icon4);
         QTreeWidgetItem *__qtreewidgetitem5 = new QTreeWidgetItem(treeWidget);
         __qtreewidgetitem5->setCheckState(1, Qt::Checked);
+        __qtreewidgetitem5->setIcon(0, icon5);
         QTreeWidgetItem *__qtreewidgetitem6 = new QTreeWidgetItem(treeWidget);
         __qtreewidgetitem6->setCheckState(1, Qt::Checked);
+        __qtreewidgetitem6->setIcon(0, icon6);
         treeWidget->setObjectName(QString::fromUtf8("treeWidget"));
+        treeWidget->setIconSize(QSize(10, 10));
 
         verticalLayout->addWidget(treeWidget);
 
