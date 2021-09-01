@@ -1,5 +1,6 @@
 release/calcbutton.o
 release/calculator.o
+release/connecttocsharp.o
 release/constructsvgdialog.o
 release/dragwidget.o
 release/dropwidget.o
@@ -14,6 +15,7 @@ release/test.o
 release/qrc_resources.o
 release/moc_calcbutton.o
 release/moc_calculator.o
+release/moc_connecttocsharp.o
 release/moc_constructsvgdialog.o
 release/moc_dropwidget.o
 release/moc_iconslist.o

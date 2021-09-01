@@ -22,6 +22,7 @@ CONFIG += c++11
 SOURCES += \
     calcbutton.cpp \
     calculator.cpp \
+    connecttocsharp.cpp \
     constructsvgdialog.cpp \
     dragwidget.cpp \
     dropwidget.cpp \
@@ -37,6 +38,7 @@ SOURCES += \
 HEADERS += \
     calcbutton.h \
     calculator.h \
+    connecttocsharp.h \
     constructsvgdialog.h \
     dragwidget.h \
     dropwidget.h \

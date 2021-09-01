@@ -1,5 +1,6 @@
 debug/calcbutton.o
 debug/calculator.o
+debug/connecttocsharp.o
 debug/constructsvgdialog.o
 debug/dragwidget.o
 debug/dropwidget.o
@@ -14,6 +15,7 @@ debug/test.o
 debug/qrc_resources.o
 debug/moc_calcbutton.o
 debug/moc_calculator.o
+debug/moc_connecttocsharp.o
 debug/moc_constructsvgdialog.o
 debug/moc_dropwidget.o
 debug/moc_iconslist.o
