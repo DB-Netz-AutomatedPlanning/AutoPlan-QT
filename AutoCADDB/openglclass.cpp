@@ -1,5 +1,3 @@
-#include <GL/glew.h>
-#include <GL/glu.h>
 #include <QOpenGLVertexArrayObject>
 #include "openglclass.h"
 #include <QOpenGLWidget>
@@ -103,12 +101,7 @@ void OpenGLClass::initializeGL()
 {
   //glClearColor(0,0,0,0);
 initializeOpenGLFunctions();
-glewExperimental = true;
-GLenum error = glewInit();
 
-if(error!= GLEW_OK){
-    fprintf(stderr,"Glew is not ok");
-}
 
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);
