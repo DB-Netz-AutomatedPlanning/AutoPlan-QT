@@ -25,6 +25,7 @@ SOURCES += \
     iconslist.cpp \
     main.cpp \
     mainwindow.cpp \
+    myopenglwidget.cpp \
     openglclass.cpp \
     planningtable.cpp \
     svgdialogview.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     dropwidget.h \
     iconslist.h \
     mainwindow.h \
+    myopenglwidget.h \
     openglclass.h \
     planningtable.h \
     svgdialogview.h \

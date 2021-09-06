@@ -7,6 +7,7 @@ release/dropwidget.o
 release/iconslist.o
 release/main.o
 release/mainwindow.o
+release/myopenglwidget.o
 release/openglclass.o
 release/planningtable.o
 release/svgdialogview.o
@@ -20,6 +21,7 @@ release/moc_constructsvgdialog.o
 release/moc_dropwidget.o
 release/moc_iconslist.o
 release/moc_mainwindow.o
+release/moc_myopenglwidget.o
 release/moc_openglclass.o
 release/moc_planningtable.o
 release/moc_svgdialogview.o

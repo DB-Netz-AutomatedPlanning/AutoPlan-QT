@@ -57,7 +57,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow), scribbleArea(new OpenGLClass(this))
+    , ui(new Ui::MainWindow), scribbleArea(new MyOpenglWidget(this))
 
 {
     setCentralWidget(scribbleArea);
@@ -266,9 +266,9 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 void MainWindow::penColor()
 //! [7] //! [8]
 {   glClearColor(1,0,0,1);
-    QColor newColor = QColorDialog::getColor(scribbleArea->penColor());
+    //QColor newColor = QColorDialog::getColor(scribbleArea->penColor());
 //    if (newColor.isValid())
-//        scribbleArea->setPenColor(newColor);
+      // scribbleArea->setPenColor(newColor);
 }
 
 
@@ -276,12 +276,12 @@ void MainWindow::penWidth()
 //! [9] //! [10]
 {
     bool ok;
-    int newWidth = QInputDialog::getInt(this, tr("Scribble"),
-                                        tr("Select pen width:"),
-                                        scribbleArea->penWidth(),
-                                        1, 50, 1, &ok);
-    if (ok)
-        scribbleArea->setPenWidth(newWidth);
+   // int newWidth = QInputDialog::getInt(this, tr("Scribble"),
+                                        //tr("Select pen width:"),
+                                        //scribbleArea->penWidth(),
+                                        //1, 50, 1, &ok);
+    //if (ok)
+     //   scribbleArea->setPenWidth(newWidth);
 }
 
 void MainWindow::openCalculator(){
@@ -321,7 +321,8 @@ void MainWindow::open()
         QString fileName = QFileDialog::getOpenFileName(this,
                                    tr("Open File"), QDir::currentPath());
         if (!fileName.isEmpty())
-            scribbleArea->openImage(fileName);
+            //scribbleArea->openImage(fileName);
+            qInfo() << "hello";
     }
 }
 
@@ -336,28 +337,18 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
                                tr("%1 Files (*.%2);;All Files (*)")
                                .arg(QString::fromLatin1(fileFormat.toUpper()))
                                .arg(QString::fromLatin1(fileFormat)));
-    if (fileName.isEmpty())
-        return false;
-    return scribbleArea->saveImage(fileName, fileFormat.constData());
+
+    return true;
+    //if (fileName.isEmpty())
+      //  return false;
+    //return scribbleArea->saveImage(fileName, fileFormat.constData());
 }
 
 
 bool MainWindow::maybeSave()
 //! [17] //! [18]
 {
-    if (scribbleArea->isModified()) {
-       QMessageBox::StandardButton ret;
-       ret = QMessageBox::warning(this, tr("DB"),
-                          tr("The image has been modified.\n"
-                             "Do you want to save your changes?"),
-                          QMessageBox::Save | QMessageBox::Discard
-                          | QMessageBox::Cancel);
-        if (ret == QMessageBox::Save)
-            return saveFile("png");
-        else if (ret == QMessageBox::Cancel)
-            return false;
-    }
-    return true;
+       return true;
 }
 //! [18]
 
@@ -380,7 +371,7 @@ void MainWindow::print()
     //! [21] //! [22]
         if (printDialog.exec() == QDialog::Accepted) {
             QPainter painter(&printer);
-            QRect rect = painter.viewport();
+
 //            QSize size = image.size();
 //            size.scale(rect.size(), Qt::KeepAspectRatio);
 //            painter.setViewport(rect.x(), rect.y(), size.width(), size.height());

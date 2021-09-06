@@ -10,7 +10,8 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-class OpenGLClass;
+class MyOpenglWidget;
+class MyOpenglWidget;
 class Calculator;
 class PlanningTable;
 class QString;
@@ -59,7 +60,8 @@ private:
     bool hideFileTab;
     bool hideTabView;
     QString readFile;
-    OpenGLClass *scribbleArea;
+    MyOpenglWidget *scribbleArea;
+    MyOpenglWidget *sc;
 
     bool saveFile(const QByteArray &fileFormat);
     bool maybeSave();
