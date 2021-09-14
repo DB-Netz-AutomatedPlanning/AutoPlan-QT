@@ -31,8 +31,8 @@
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include <dropwidget.h>
-#include "openglclass.h"
+#include "dropwidget.h"
+#include "myopenglwidget.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -59,17 +59,16 @@ public:
     QTabWidget *tabWidget_2;
     QWidget *tab_4;
     QGridLayout *gridLayout_17;
-    QFrame *frame_4;
-    QGridLayout *gridLayout_18;
-    QFrame *frame_7;
-    QGridLayout *gridLayout_19;
-    OpenGLClass *widget_153;
+    MyOpenglWidget *widget_150;
     QWidget *tab_5;
     QGridLayout *gridLayout_20;
     DropWidget *openGLWidget;
     QWidget *tab_2;
     QVBoxLayout *verticalLayout_125;
     QTextEdit *textEdit;
+    QWidget *tab_3;
+    QVBoxLayout *verticalLayout_126;
+    MyOpenglWidget *widget_142;
     QWidget *tab;
     QFrame *f_treeView;
     QGridLayout *gridLayout_8;
@@ -950,34 +949,10 @@ public:
         gridLayout_17->setSpacing(0);
         gridLayout_17->setObjectName(QString::fromUtf8("gridLayout_17"));
         gridLayout_17->setContentsMargins(0, 0, 0, 0);
-        frame_4 = new QFrame(tab_4);
-        frame_4->setObjectName(QString::fromUtf8("frame_4"));
-        frame_4->setFrameShape(QFrame::StyledPanel);
-        frame_4->setFrameShadow(QFrame::Raised);
-        gridLayout_18 = new QGridLayout(frame_4);
-        gridLayout_18->setSpacing(0);
-        gridLayout_18->setObjectName(QString::fromUtf8("gridLayout_18"));
-        gridLayout_18->setContentsMargins(0, 0, 0, 0);
-        frame_7 = new QFrame(frame_4);
-        frame_7->setObjectName(QString::fromUtf8("frame_7"));
-        frame_7->setMinimumSize(QSize(0, 0));
-        frame_7->setMaximumSize(QSize(16777207, 16777215));
-        frame_7->setFrameShape(QFrame::StyledPanel);
-        frame_7->setFrameShadow(QFrame::Raised);
-        gridLayout_19 = new QGridLayout(frame_7);
-        gridLayout_19->setSpacing(0);
-        gridLayout_19->setObjectName(QString::fromUtf8("gridLayout_19"));
-        gridLayout_19->setContentsMargins(0, 0, 0, 0);
-        widget_153 = new OpenGLClass(frame_7);
-        widget_153->setObjectName(QString::fromUtf8("widget_153"));
+        widget_150 = new MyOpenglWidget(tab_4);
+        widget_150->setObjectName(QString::fromUtf8("widget_150"));
 
-        gridLayout_19->addWidget(widget_153, 0, 0, 1, 1);
-
-
-        gridLayout_18->addWidget(frame_7, 0, 0, 1, 1);
-
-
-        gridLayout_17->addWidget(frame_4, 0, 0, 1, 1);
+        gridLayout_17->addWidget(widget_150, 0, 0, 1, 1);
 
         tabWidget_2->addTab(tab_4, QString());
         tab_5 = new QWidget();
@@ -1002,6 +977,16 @@ public:
         verticalLayout_125->addWidget(textEdit);
 
         tabWidget_2->addTab(tab_2, QString());
+        tab_3 = new QWidget();
+        tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        verticalLayout_126 = new QVBoxLayout(tab_3);
+        verticalLayout_126->setObjectName(QString::fromUtf8("verticalLayout_126"));
+        widget_142 = new MyOpenglWidget(tab_3);
+        widget_142->setObjectName(QString::fromUtf8("widget_142"));
+
+        verticalLayout_126->addWidget(widget_142);
+
+        tabWidget_2->addTab(tab_3, QString());
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         tab->setFocusPolicy(Qt::NoFocus);
@@ -5656,8 +5641,8 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_2->setCurrentIndex(0);
-        tabWidget->setCurrentIndex(3);
+        tabWidget_2->setCurrentIndex(3);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -5680,6 +5665,7 @@ public:
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QCoreApplication::translate("MainWindow", "Start", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Drawing", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Test Json", nullptr));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Page", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QString());
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
         ___qtreewidgetitem->setText(1, QCoreApplication::translate("MainWindow", "Properties", nullptr));

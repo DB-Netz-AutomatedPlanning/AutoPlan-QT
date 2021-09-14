@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
+#include <QtOpenGLWidgets/QOpenGLWidget>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QMainWindow>
@@ -20,6 +21,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QWidget>
+#include <myopenglwidget.h>
 
 QT_BEGIN_NAMESPACE
 
@@ -33,7 +35,9 @@ public:
     QTabWidget *tabWidget;
     QWidget *tab;
     QGridLayout *gridLayout_5;
+    QOpenGLWidget *openGLWidget;
     QPushButton *pushButton;
+    MyOpenglWidget *widget;
     QWidget *tab_3;
     QGridLayout *gridLayout_3;
     QWidget *tab_2;
@@ -74,10 +78,20 @@ public:
         tab->setLayoutDirection(Qt::LeftToRight);
         gridLayout_5 = new QGridLayout(tab);
         gridLayout_5->setObjectName(QString::fromUtf8("gridLayout_5"));
+        openGLWidget = new QOpenGLWidget(tab);
+        openGLWidget->setObjectName(QString::fromUtf8("openGLWidget"));
+
+        gridLayout_5->addWidget(openGLWidget, 1, 0, 1, 1);
+
         pushButton = new QPushButton(tab);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
 
-        gridLayout_5->addWidget(pushButton, 0, 0, 1, 1);
+        gridLayout_5->addWidget(pushButton, 2, 0, 1, 1);
+
+        widget = new MyOpenglWidget(tab);
+        widget->setObjectName(QString::fromUtf8("widget"));
+
+        gridLayout_5->addWidget(widget, 0, 0, 1, 1);
 
         tabWidget->addTab(tab, QString());
         tab_3 = new QWidget();

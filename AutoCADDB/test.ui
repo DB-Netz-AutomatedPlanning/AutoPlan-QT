@@ -46,12 +46,18 @@
         <string/>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
+        <item row="1" column="0">
+         <widget class="QOpenGLWidget" name="openGLWidget"/>
+        </item>
+        <item row="2" column="0">
          <widget class="QPushButton" name="pushButton">
           <property name="text">
            <string>PushButton</string>
           </property>
          </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="MyOpenglWidget" name="widget" native="true"/>
         </item>
        </layout>
       </widget>
@@ -117,6 +123,14 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyOpenglWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">myopenglwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
  <slots>

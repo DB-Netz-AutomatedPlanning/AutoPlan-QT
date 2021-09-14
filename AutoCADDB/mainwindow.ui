@@ -92,7 +92,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -121,73 +121,7 @@
                <number>0</number>
               </property>
               <item row="0" column="0">
-               <widget class="QFrame" name="frame_4">
-                <property name="frameShape">
-                 <enum>QFrame::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Raised</enum>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_18">
-                 <property name="leftMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>0</number>
-                 </property>
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item row="0" column="0">
-                  <widget class="QFrame" name="frame_7">
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>16777207</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <layout class="QGridLayout" name="gridLayout_19">
-                    <property name="leftMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <item row="0" column="0">
-                     <widget class="OpenGLClass" name="widget_153" native="true"/>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
+               <widget class="MyOpenglWidget" name="widget_150" native="true"/>
               </item>
              </layout>
             </widget>
@@ -223,6 +157,16 @@
               </property>
               <item>
                <widget class="QTextEdit" name="textEdit"/>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="tab_3">
+             <attribute name="title">
+              <string>Page</string>
+             </attribute>
+             <layout class="QVBoxLayout" name="verticalLayout_126">
+              <item>
+               <widget class="MyOpenglWidget" name="widget_142" native="true"/>
               </item>
              </layout>
             </widget>
@@ -465,7 +409,7 @@
              </size>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>0</number>
             </property>
             <widget class="QWidget" name="f_homeTab">
              <attribute name="title">
@@ -11442,20 +11386,15 @@ Tabs</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>OpenGLClass</class>
-   <extends>QWidget</extends>
-   <header>openglclass.h</header>
-   <container>1</container>
-   <slots>
-    <slot>setXRotation(int)</slot>
-    <slot>setYRotation(int)</slot>
-    <slot>setZRotation(int)</slot>
-   </slots>
-  </customwidget>
-  <customwidget>
    <class>DropWidget</class>
    <extends>QOpenGLWidget</extends>
-   <header location="global">dropwidget.h</header>
+   <header>dropwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MyOpenglWidget</class>
+   <extends>QWidget</extends>
+   <header>myopenglwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>
