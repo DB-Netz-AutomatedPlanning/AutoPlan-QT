@@ -11,6 +11,7 @@ release/myopenglwidget.o
 release/openglclass.o
 release/planningtable.o
 release/svgdialogview.o
+release/symbolcontainer.o
 release/symboloptions.o
 release/test.o
 release/qrc_resources.o
@@ -25,5 +26,6 @@ release/moc_myopenglwidget.o
 release/moc_openglclass.o
 release/moc_planningtable.o
 release/moc_svgdialogview.o
+release/moc_symbolcontainer.o
 release/moc_symboloptions.o
 release/moc_test.o

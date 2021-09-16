@@ -5,6 +5,7 @@
 #include "constructsvgdialog.h"
 #include "iconslist.h"
 #include "symboloptions.h"
+#include "symbolcontainer.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -62,8 +63,35 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setCentralWidget(scribbleArea);
 
+
+
     ui->setupUi(this);
     ui->toolBar->setIconSize(QSize(16, 16));
+
+
+
+
+    QJsonObject recordObject;
+       recordObject.insert("FirstName", QJsonValue::fromVariant("John"));
+       recordObject.insert("LastName", QJsonValue::fromVariant("Doe"));
+       recordObject.insert("Age", QJsonValue::fromVariant(43));
+
+       QJsonObject addressObject;
+       addressObject.insert("Street", "Downing Street 10");
+       addressObject.insert("City", "London");
+       addressObject.insert("Country", "Great Britain");
+       recordObject.insert("Address", addressObject);
+
+       QJsonArray phoneNumbersArray;
+       phoneNumbersArray.push_back("+44 1234567");
+       phoneNumbersArray.push_back("+44 2345678");
+       recordObject.insert("Phone Numbers", phoneNumbersArray);
+
+       QJsonArray recordsArray;
+       recordsArray.push_back(recordObject);
+       QJsonDocument doc(recordsArray);
+
+       qDebug() << recordsArray[1].toObject();
 
 
 
@@ -131,17 +159,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
-    //OPENGL
-  //  connect(ui->widget_153, SIGNAL(xRotationChanged(int)), ui->rotXSlider, SLOT(setValue(int)));
-
-    //connect(ui->widget_153, SIGNAL(yRotationChanged(int)), ui->rotYSlider, SLOT(setValue(int)));
-    //connect(ui->widget_153, SIGNAL(zRotationChanged(int)), ui->rotZSlider, SLOT(setValue(int)));
-
-
     //Home->Properties
     connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
     connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
     connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
+    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
 
     //View - Interface
     connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
@@ -155,25 +177,35 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(addTab()));
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
-   // connect(ui->actionPrint, SIGNAL(triggered()), scribbleArea, SLOT(&OpenGLClass::print()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
     connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
     connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
 
-    //connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(open()));
-//    QPushButton *button = new QPushButton;
-//    button->setIcon(QIcon(":/icons/assets/line.png"));
-//    button->setIconSize(QSize(20, 20));
+
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
 
 
-   view = new QGraphicsView(scribbleArea);
+    view = new QGraphicsView(scribbleArea);
+
+
+
+
 
 }
+
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::setObjNameTW(QString str){
+    defaultObjectName = str;
+
+   // ui->lineEdit->setText(defaultObjectName);
+    //ui->label_43->setText(defaultObjectName);
+   // ui->widget_72->repaint();
 }
 
 
@@ -187,6 +219,9 @@ void MainWindow::hideFile()
         }
 }
 
+
+
+
 void MainWindow::hideTab()
 {
 
@@ -195,12 +230,22 @@ void MainWindow::hideTab()
 
         hideTabView =! hideTabView;
         if(hideTabView){
-            qInfo() << "pressed";
+
             tabBar->hide();
         }else{
             qInfo() << "pressed1";
               tabBar->show();
         }
+}
+
+
+
+
+void MainWindow::fetchObjectProps()
+{
+    btnSender = qobject_cast<QPushButton*>(sender()); // retrieve the button you have clicked
+    QString buttonText = btnSender->objectName(); // retrive the object name from the clicked button
+        qDebug() << buttonText;
 }
 
 //Add new tab
@@ -324,6 +369,8 @@ void MainWindow::open()
             //scribbleArea->openImage(fileName);
             qInfo() << "hello";
     }
+
+
 }
 
 //! [19]
@@ -372,39 +419,10 @@ void MainWindow::print()
         if (printDialog.exec() == QDialog::Accepted) {
             QPainter painter(&printer);
 
-//            QSize size = image.size();
-//            size.scale(rect.size(), Qt::KeepAspectRatio);
-//            painter.setViewport(rect.x(), rect.y(), size.width(), size.height());
-//            painter.setWindow(image.rect());
-//            painter.drawImage(0, 0, image);
         }
     #endif // QT_CONFIG(printdialog)
 
-   // scribbleArea->print();
-//     qInfo() << "pressed";
-//    QPrinter printer(QPrinter::HighResolution);
-//           printer.setOutputFormat(QPrinter::PdfFormat);
-//           printer.setOutputFileName("output.pdf");
-//           printer.setFullPage(true);
-//           printer.setPageMargins(QMarginsF(0,0,0,0));
 
-
-//           QSize minSize = ui->widget_152->minimumSizeHint();
-//           int minWidth = minSize.width();
-//           int minHeight = minSize.height();
-
-//           QPainter painter(&printer);
-//           painter.begin(&printer);
-//           QRect rect = painter.viewport();
-//            double xscale = rect.width()/double(minWidth);
-//            double yscale = rect.height()/double(minHeight);
-//            double scale = qMin(xscale, yscale);
-//            painter.translate(rect.x() + rect.width()/2,
-//              rect.y() + rect.height()/2);
-//              painter.scale(scale, scale);
-//           painter.translate(-width()/2, -height()/2);
-
-//                  ui->widget_152->render(&painter);
 
 
 ////          QPainter painter(&printer);

@@ -1,18 +1,35 @@
 #include "myopenglwidget.h"
+#include "mainwindow.h"
 #include <QtWidgets>
 #include <QOpenGLWidget>
 #include <QWidget>
+#include <QSvgRenderer>
+#include <QDebug>
+QString glb;
+QList<QString> listo ;
+#include "symbolcontainer.h"
 
 MyOpenglWidget::MyOpenglWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
     setFormat(QSurfaceFormat::defaultFormat());
     setAcceptDrops(true);
+
+
+
 }
 
 MyOpenglWidget::~MyOpenglWidget()
 {
 
 }
+struct EventInfo
+{
+int mcstrCMD_ID;
+QString mcstrTYPE;
+QString mcsKEYBOARDEVENT;
+QString mcstrX;
+QString mcstrY;
+}eventInfo;
 
 static const char *vertexShaderSource =
         "#version 430 core  \n"
@@ -202,11 +219,12 @@ void MyOpenglWidget::resizeGL(int w, int h)
 //Drag icons
 void MyOpenglWidget::dragEnterEvent(QDragEnterEvent *event)
 {
+
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
-          qInfo() <<  event->mimeData()->children();
+
         } else {
             event->acceptProposedAction();
         }
@@ -246,12 +264,18 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
         QPoint offset;
         dataStream >> pixmap >> offset;
 
-        QLabel *newIcon = new QLabel(this);
-        newIcon->setPixmap(pixmap);
-        newIcon->move(event->position().toPoint() - offset);
-        newIcon->show();
-        newIcon->setAttribute(Qt::WA_DeleteOnClose);
-       // connect(newIcon, SIGNAL(triggered()), this, SLOT (iconClicked()));
+        assignObjectName(glbObjectName);
+
+
+
+
+
+             newIcon->setPixmap(pixmap);
+             newIcon->move(event->position().toPoint() - offset);
+             newIcon->show();
+             newIcon->setAttribute(Qt::WA_DeleteOnClose);
+
+
 
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
@@ -264,6 +288,8 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
     }
 
 
+
+
 }
 
 void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
@@ -271,6 +297,14 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
     QLabel *child = static_cast<QLabel*>(childAt(event->position().toPoint()));
     if (!child)
         return;
+
+    str = child->objectName() ;
+
+    //initiliaze glb string with object name
+    if(!str.isNull()){
+        glbObjectName=str;
+    }
+    qInfo() << str + " open gl";
 
     QPixmap pixmap = child->pixmap(Qt::ReturnByValue);
 
@@ -282,7 +316,7 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
 //! [2]
     QMimeData *mimeData = new QMimeData;
     mimeData->setData("application/x-dnditemdata", itemData);
-    qInfo() << itemData;
+
 //! [2]
 
 //! [3]
@@ -306,8 +340,68 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
         child->show();
         child->setPixmap(pixmap);
     }
-
-
-
 }
 
+void MyOpenglWidget::sendObjectProperties(QString str){
+    glb = str;
+    listo.append(glb);
+}
+
+void MyOpenglWidget::assignObjectName(QString str){
+    MainWindow *w = new MainWindow();
+    if(str== "radsensor"){
+             newIcon = new QLabel(this);
+             newIcon->setObjectName("radsensor");
+             w->setObjNameTW(str);
+
+    }
+    if(str== "hauptsignal"){
+             newIcon = new QLabel(this);
+              newIcon->setObjectName("hauptsignal");
+    }
+    if(str== "rangier"){
+             newIcon = new QLabel(this);
+             newIcon->setObjectName("rangier");
+    }
+    if(str== "vorsignal"){
+              newIcon = new QLabel(this);
+              newIcon->setObjectName("vorsignal");
+    }
+    if(str== "haltetafel"){
+             newIcon = new QLabel(this);
+             newIcon->setObjectName("haltetafel");
+
+    }
+    if(str== "schutzhalt"){
+              newIcon = new QLabel(this);
+              newIcon->setObjectName("schutzhalt");
+    }
+    if(str== "lbl_rightSignal"){
+             newIcon = new QLabel(this);
+             newIcon->setObjectName("lbl_rightSignal");
+    }
+    if(str== "lbl_vorsignal"){
+             newIcon = new QLabel(this);
+              newIcon->setObjectName("lbl_vorsignal");
+    }
+    if(str== "lbl_expanded"){
+             newIcon = new QLabel(this);
+             newIcon->setObjectName("lbl_expanded");
+    }
+    if(str== "lbl_stump"){
+              newIcon = new QLabel(this);
+              newIcon->setObjectName("lbl_stump");
+    }
+    if(str== "label_21"){
+             newIcon = new QLabel(this);
+             newIcon->setObjectName("label_21");
+    }
+    if(str== "lbl_shrim"){
+              newIcon = new QLabel(this);
+              newIcon->setObjectName("lbl_shrim");
+    }
+    if(str== "lbl_mehra"){
+              newIcon = new QLabel(this);
+              newIcon->setObjectName("lbl_mehra");
+    }
+}

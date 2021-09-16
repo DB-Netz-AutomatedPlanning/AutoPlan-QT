@@ -10,6 +10,7 @@
 #define UI_ICONSLIST_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
@@ -18,6 +19,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
@@ -35,29 +37,32 @@ public:
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
     QVBoxLayout *verticalLayout_2;
+    QFrame *frame_23;
+    QVBoxLayout *verticalLayout_13;
+    QPushButton *testing;
     QFrame *frame_7;
     QHBoxLayout *horizontalLayout_8;
-    QLabel *label_15;
+    QLabel *hauptsignal;
     QLabel *label_16;
     QFrame *frame_6;
     QHBoxLayout *horizontalLayout_7;
-    QLabel *label_13;
+    QLabel *radsensor;
     QLabel *label_14;
     QFrame *frame_5;
     QHBoxLayout *horizontalLayout_6;
-    QLabel *label_11;
+    QLabel *rangier;
     QLabel *label_12;
     QFrame *frame_4;
     QHBoxLayout *horizontalLayout_5;
-    QLabel *label_9;
+    QLabel *vorsignal;
     QLabel *label_10;
     QWidget *widget_2;
     QHBoxLayout *horizontalLayout_2;
-    QLabel *label_3;
+    QLabel *haltetafel;
     QLabel *label_4;
     QWidget *widget;
     QHBoxLayout *horizontalLayout;
-    QLabel *label;
+    QLabel *schutzhalt;
     QLabel *label_2;
     QFrame *line;
     QLabel *label_6;
@@ -137,7 +142,7 @@ public:
     {
         if (IconsList->objectName().isEmpty())
             IconsList->setObjectName(QString::fromUtf8("IconsList"));
-        IconsList->resize(398, 447);
+        IconsList->resize(396, 447);
         QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -163,9 +168,27 @@ public:
         scrollArea_2->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName(QString::fromUtf8("scrollAreaWidgetContents_2"));
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 344, 881));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, -174, 342, 923));
         verticalLayout_2 = new QVBoxLayout(scrollAreaWidgetContents_2);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        frame_23 = new QFrame(scrollAreaWidgetContents_2);
+        frame_23->setObjectName(QString::fromUtf8("frame_23"));
+        frame_23->setFrameShape(QFrame::StyledPanel);
+        frame_23->setFrameShadow(QFrame::Raised);
+        verticalLayout_13 = new QVBoxLayout(frame_23);
+        verticalLayout_13->setObjectName(QString::fromUtf8("verticalLayout_13"));
+        testing = new QPushButton(frame_23);
+        testing->setObjectName(QString::fromUtf8("testing"));
+        testing->setStyleSheet(QString::fromUtf8("border:none;"));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8(":/icons/assets/smallSvgs/Radsensor.svg"), QSize(), QIcon::Normal, QIcon::Off);
+        testing->setIcon(icon);
+
+        verticalLayout_13->addWidget(testing);
+
+
+        verticalLayout_2->addWidget(frame_23);
+
         frame_7 = new QFrame(scrollAreaWidgetContents_2);
         frame_7->setObjectName(QString::fromUtf8("frame_7"));
         frame_7->setMinimumSize(QSize(0, 32));
@@ -175,11 +198,11 @@ public:
         horizontalLayout_8 = new QHBoxLayout(frame_7);
         horizontalLayout_8->setObjectName(QString::fromUtf8("horizontalLayout_8"));
         horizontalLayout_8->setContentsMargins(-1, 2, -1, 2);
-        label_15 = new QLabel(frame_7);
-        label_15->setObjectName(QString::fromUtf8("label_15"));
-        label_15->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Hauptsignal.svg")));
+        hauptsignal = new QLabel(frame_7);
+        hauptsignal->setObjectName(QString::fromUtf8("hauptsignal"));
+        hauptsignal->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Hauptsignal.svg")));
 
-        horizontalLayout_8->addWidget(label_15);
+        horizontalLayout_8->addWidget(hauptsignal);
 
         label_16 = new QLabel(frame_7);
         label_16->setObjectName(QString::fromUtf8("label_16"));
@@ -197,11 +220,11 @@ public:
         horizontalLayout_7 = new QHBoxLayout(frame_6);
         horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
         horizontalLayout_7->setContentsMargins(-1, 2, -1, 2);
-        label_13 = new QLabel(frame_6);
-        label_13->setObjectName(QString::fromUtf8("label_13"));
-        label_13->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Radsensor.svg")));
+        radsensor = new QLabel(frame_6);
+        radsensor->setObjectName(QString::fromUtf8("radsensor"));
+        radsensor->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Radsensor.svg")));
 
-        horizontalLayout_7->addWidget(label_13);
+        horizontalLayout_7->addWidget(radsensor);
 
         label_14 = new QLabel(frame_6);
         label_14->setObjectName(QString::fromUtf8("label_14"));
@@ -219,11 +242,11 @@ public:
         horizontalLayout_6 = new QHBoxLayout(frame_5);
         horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
         horizontalLayout_6->setContentsMargins(-1, 2, -1, 2);
-        label_11 = new QLabel(frame_5);
-        label_11->setObjectName(QString::fromUtf8("label_11"));
-        label_11->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Ragierhalttafel.svg")));
+        rangier = new QLabel(frame_5);
+        rangier->setObjectName(QString::fromUtf8("rangier"));
+        rangier->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Ragierhalttafel.svg")));
 
-        horizontalLayout_6->addWidget(label_11);
+        horizontalLayout_6->addWidget(rangier);
 
         label_12 = new QLabel(frame_5);
         label_12->setObjectName(QString::fromUtf8("label_12"));
@@ -241,11 +264,11 @@ public:
         horizontalLayout_5 = new QHBoxLayout(frame_4);
         horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
         horizontalLayout_5->setContentsMargins(-1, 2, -1, 2);
-        label_9 = new QLabel(frame_4);
-        label_9->setObjectName(QString::fromUtf8("label_9"));
-        label_9->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/vorsignal.svg")));
+        vorsignal = new QLabel(frame_4);
+        vorsignal->setObjectName(QString::fromUtf8("vorsignal"));
+        vorsignal->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/vorsignal.svg")));
 
-        horizontalLayout_5->addWidget(label_9);
+        horizontalLayout_5->addWidget(vorsignal);
 
         label_10 = new QLabel(frame_4);
         label_10->setObjectName(QString::fromUtf8("label_10"));
@@ -260,12 +283,12 @@ public:
         horizontalLayout_2 = new QHBoxLayout(widget_2);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout_2->setContentsMargins(-1, 2, -1, 2);
-        label_3 = new QLabel(widget_2);
-        label_3->setObjectName(QString::fromUtf8("label_3"));
-        label_3->setMinimumSize(QSize(0, 25));
-        label_3->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Haltetafel.svg")));
+        haltetafel = new QLabel(widget_2);
+        haltetafel->setObjectName(QString::fromUtf8("haltetafel"));
+        haltetafel->setMinimumSize(QSize(0, 25));
+        haltetafel->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Haltetafel.svg")));
 
-        horizontalLayout_2->addWidget(label_3);
+        horizontalLayout_2->addWidget(haltetafel);
 
         label_4 = new QLabel(widget_2);
         label_4->setObjectName(QString::fromUtf8("label_4"));
@@ -281,12 +304,12 @@ public:
         horizontalLayout = new QHBoxLayout(widget);
         horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
         horizontalLayout->setContentsMargins(-1, 2, -1, 2);
-        label = new QLabel(widget);
-        label->setObjectName(QString::fromUtf8("label"));
-        label->setMinimumSize(QSize(10, 10));
-        label->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Schutzhalt.svg")));
+        schutzhalt = new QLabel(widget);
+        schutzhalt->setObjectName(QString::fromUtf8("schutzhalt"));
+        schutzhalt->setMinimumSize(QSize(10, 10));
+        schutzhalt->setPixmap(QPixmap(QString::fromUtf8(":/icons/assets/smallSvgs/Schutzhalt.svg")));
 
-        horizontalLayout->addWidget(label);
+        horizontalLayout->addWidget(schutzhalt);
 
         label_2 = new QLabel(widget);
         label_2->setObjectName(QString::fromUtf8("label_2"));
@@ -667,7 +690,7 @@ public:
         IconsList->setCentralWidget(centralwidget);
         menubar = new QMenuBar(IconsList);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 398, 21));
+        menubar->setGeometry(QRect(0, 0, 396, 21));
         IconsList->setMenuBar(menubar);
         statusbar = new QStatusBar(IconsList);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -681,17 +704,21 @@ public:
     void retranslateUi(QMainWindow *IconsList)
     {
         IconsList->setWindowTitle(QCoreApplication::translate("IconsList", "MainWindow", nullptr));
-        label_15->setText(QString());
+        testing->setText(QString());
+#if QT_CONFIG(accessibility)
+        hauptsignal->setAccessibleName(QCoreApplication::translate("IconsList", "haupt", nullptr));
+#endif // QT_CONFIG(accessibility)
+        hauptsignal->setText(QString());
         label_16->setText(QCoreApplication::translate("IconsList", "Hauptsignal", nullptr));
-        label_13->setText(QString());
+        radsensor->setText(QString());
         label_14->setText(QCoreApplication::translate("IconsList", "Radsensor", nullptr));
-        label_11->setText(QString());
+        rangier->setText(QString());
         label_12->setText(QCoreApplication::translate("IconsList", "Rangierhalttafel", nullptr));
-        label_9->setText(QString());
+        vorsignal->setText(QString());
         label_10->setText(QCoreApplication::translate("IconsList", "Vorsignal", nullptr));
-        label_3->setText(QString());
+        haltetafel->setText(QString());
         label_4->setText(QCoreApplication::translate("IconsList", "Haltetafel", nullptr));
-        label->setText(QString());
+        schutzhalt->setText(QString());
         label_2->setText(QCoreApplication::translate("IconsList", "Schutzhalt", nullptr));
         label_6->setText(QCoreApplication::translate("IconsList", "Tick on the checkbox below to generate signals", nullptr));
         label_5->setText(QCoreApplication::translate("IconsList", "Ersatzsignal", nullptr));

@@ -7,6 +7,7 @@
 #include <QList>
 #include <QPainter>
 #include <QPrinter>
+#include <QPushButton>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -24,6 +25,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    //treeview
+    void setObjNameTW(QString);
 
 private slots:
 
@@ -41,6 +44,7 @@ private slots:
     void openSvgOptions();
 
     void on_actionOpen_triggered();
+    void fetchObjectProps();
 
     //MENU
     void save();
@@ -53,6 +57,9 @@ private slots:
     //Rayhan
     void importShapeFiles();
     void planningFnt();
+
+
+
 
 private:
     Ui::MainWindow *ui;
@@ -69,9 +76,12 @@ private:
     //ppview
     QGraphicsView* view;
     QString fileName;
+    QString *clickedBtnName ;
+    QPushButton *btnSender;
 
 protected:
     void keyPressEvent(QKeyEvent *event);
+
 
 };
 #endif // MAINWINDOW_H

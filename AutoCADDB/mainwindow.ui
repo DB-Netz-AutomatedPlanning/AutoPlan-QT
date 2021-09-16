@@ -238,82 +238,48 @@
               <number>0</number>
              </property>
              <item row="0" column="0">
-              <widget class="QTreeWidget" name="treeWidget">
-               <property name="autoFillBackground">
-                <bool>true</bool>
+              <widget class="QFrame" name="frame_4">
+               <property name="minimumSize">
+                <size>
+                 <width>200</width>
+                 <height>0</height>
+                </size>
                </property>
-               <column>
-                <property name="text">
-                 <string>Object</string>
-                </property>
-                <property name="background">
-                 <color>
-                  <red>182</red>
-                  <green>182</green>
-                  <blue>182</blue>
-                 </color>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Properties</string>
-                </property>
-                <property name="background">
-                 <color>
-                  <red>182</red>
-                  <green>182</green>
-                  <blue>182</blue>
-                 </color>
-                </property>
-               </column>
-               <item>
-                <property name="text">
-                 <string>MainWindow</string>
-                </property>
-                <property name="text">
-                 <string>QMainWindow</string>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>centralWidget</string>
-                 </property>
-                 <property name="text">
-                  <string>QWidget</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>frame_1</string>
-                 </property>
-                 <property name="text">
-                  <string>QFrame</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>frame_2</string>
-                 </property>
-                 <property name="text">
-                  <string>QFrame</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>openGL</string>
-                 </property>
-                 <property name="text">
-                  <string>QWidget</string>
-                 </property>
-                 <item>
+               <property name="maximumSize">
+                <size>
+                 <width>200</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_18">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_43">
                   <property name="text">
-                   <string>treeView</string>
+                   <string>TextLabel</string>
                   </property>
-                  <property name="text">
-                   <string>QTreeWidget</string>
-                  </property>
-                 </item>
+                 </widget>
                 </item>
-               </item>
+                <item row="1" column="0">
+                 <widget class="QTreeWidget" name="treeWidget">
+                  <column>
+                   <property name="text">
+                    <string>Object</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Properties</string>
+                   </property>
+                  </column>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>

@@ -11,6 +11,7 @@ debug/myopenglwidget.o
 debug/openglclass.o
 debug/planningtable.o
 debug/svgdialogview.o
+debug/symbolcontainer.o
 debug/symboloptions.o
 debug/test.o
 debug/qrc_resources.o
@@ -25,5 +26,6 @@ debug/moc_myopenglwidget.o
 debug/moc_openglclass.o
 debug/moc_planningtable.o
 debug/moc_svgdialogview.o
+debug/moc_symbolcontainer.o
 debug/moc_symboloptions.o
 debug/moc_test.o

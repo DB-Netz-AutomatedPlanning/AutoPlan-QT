@@ -10,7 +10,8 @@
 #include <QOpenGLVertexArrayObject>
 #include <QMatrix4x4>
 #include <QMouseEvent>
-
+#include <QLabel>
+#include <QPushButton>
 
 using namespace std;
 
@@ -22,9 +23,11 @@ class MyOpenglWidget : public QOpenGLWidget, public QOpenGLFunctions
 public:
     MyOpenglWidget(QWidget *parent = nullptr);
     ~MyOpenglWidget();
+ void sendObjectProperties(QString);
+ void assignObjectName(QString);
 
 
-
+ QString* s;
 
 protected:
     void initializeGL();
@@ -47,6 +50,16 @@ protected:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
+
+    QPushButton *btnSender;
+
+    QObject *object;
+
+    private:
+    QString str;
+    QLabel *newIcon;
+
+
 };
 
 #endif // MYOPENGLWIDGET_H

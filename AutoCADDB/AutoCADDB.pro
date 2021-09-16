@@ -29,6 +29,7 @@ SOURCES += \
     openglclass.cpp \
     planningtable.cpp \
     svgdialogview.cpp \
+    symbolcontainer.cpp \
     symboloptions.cpp \
     test.cpp
 
@@ -45,6 +46,7 @@ HEADERS += \
     openglclass.h \
     planningtable.h \
     svgdialogview.h \
+    symbolcontainer.h \
     symboloptions.h \
     test.h
 
@@ -53,6 +55,7 @@ FORMS += \
     iconslist.ui \
     mainwindow.ui \
     planningtable.ui \
+    symbolcontainer.ui \
     symboloptions.ui \
     test.ui
 

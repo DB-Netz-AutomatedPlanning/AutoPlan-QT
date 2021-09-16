@@ -1,7 +1,10 @@
 #include "iconslist.h"
 #include "ui_iconslist.h"
+#include "myopenglwidget.h"
 #include <QRegularExpression>
 #include <QtWidgets>
+#include "symbolcontainer.h"
+QString str;
 IconsList::IconsList(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::IconsList)
@@ -135,6 +138,9 @@ void IconsList::mousePressEvent(QMouseEvent *event)
     QLabel *child = static_cast<QLabel*>(childAt(event->position().toPoint()));
     if (!child)
         return;
+    str = child->objectName();
+    glbObjectName = str;
+    qInfo() << str;
 
     QPixmap pixmap = child->pixmap(Qt::ReturnByValue);
 
@@ -169,6 +175,12 @@ void IconsList::mousePressEvent(QMouseEvent *event)
         child->show();
         child->setPixmap(pixmap);
     }
+
+
+QString str = child->objectName();
+
+MyOpenglWidget *w = new MyOpenglWidget();
+w->sendObjectProperties(str);
 }
 
 
@@ -176,7 +188,7 @@ void IconsList::mousePressEvent(QMouseEvent *event)
 
 void IconsList::on_checkBox_clicked()
 {
-    qInfo() << "Jhala baba ";
+
      if (ui->sh1->isChecked() && ui->checkBox->isChecked()) {
 
             pixmap=new QPixmap(170, 30);

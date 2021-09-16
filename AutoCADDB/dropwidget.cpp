@@ -10,11 +10,11 @@ DropWidget::DropWidget(QWidget *parent)
     setFrameStyle(QFrame::Sunken | QFrame::StyledPanel);
     setAcceptDrops(true);
 
-//    QLabel *boatIcon = new QLabel(this);
-//    boatIcon->setPixmap(QPixmap(":/icons/assets/svg/four.svg"));
-//    boatIcon->move(10, 10);
-//    boatIcon->show();
-//    boatIcon->setAttribute(Qt::WA_DeleteOnClose);
+   QLabel *boatIcon = new QLabel(this);
+    boatIcon->setPixmap(QPixmap(":/icons/assets/svg/four.svg"));
+    boatIcon->move(10, 10);
+  boatIcon->show();
+   boatIcon->setAttribute(Qt::WA_DeleteOnClose);
 
 
 }

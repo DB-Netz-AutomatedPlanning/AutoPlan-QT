@@ -74,6 +74,9 @@ public:
     QGridLayout *gridLayout_8;
     QWidget *widget_72;
     QGridLayout *gridLayout_13;
+    QFrame *frame_4;
+    QGridLayout *gridLayout_18;
+    QLabel *label_43;
     QTreeWidget *treeWidget;
     QFrame *f_headerTabs;
     QHBoxLayout *horizontalLayout;
@@ -1013,21 +1016,26 @@ public:
         gridLayout_13->setSpacing(0);
         gridLayout_13->setObjectName(QString::fromUtf8("gridLayout_13"));
         gridLayout_13->setContentsMargins(0, 1, 0, 0);
-        treeWidget = new QTreeWidget(widget_72);
-        QTreeWidgetItem *__qtreewidgetitem = new QTreeWidgetItem();
-        __qtreewidgetitem->setBackground(1, QColor(182, 182, 182));
-        __qtreewidgetitem->setBackground(0, QColor(182, 182, 182));
-        treeWidget->setHeaderItem(__qtreewidgetitem);
-        QTreeWidgetItem *__qtreewidgetitem1 = new QTreeWidgetItem(treeWidget);
-        new QTreeWidgetItem(__qtreewidgetitem1);
-        new QTreeWidgetItem(__qtreewidgetitem1);
-        new QTreeWidgetItem(__qtreewidgetitem1);
-        QTreeWidgetItem *__qtreewidgetitem2 = new QTreeWidgetItem(__qtreewidgetitem1);
-        new QTreeWidgetItem(__qtreewidgetitem2);
-        treeWidget->setObjectName(QString::fromUtf8("treeWidget"));
-        treeWidget->setAutoFillBackground(true);
+        frame_4 = new QFrame(widget_72);
+        frame_4->setObjectName(QString::fromUtf8("frame_4"));
+        frame_4->setMinimumSize(QSize(200, 0));
+        frame_4->setMaximumSize(QSize(200, 16777215));
+        frame_4->setFrameShape(QFrame::StyledPanel);
+        frame_4->setFrameShadow(QFrame::Raised);
+        gridLayout_18 = new QGridLayout(frame_4);
+        gridLayout_18->setObjectName(QString::fromUtf8("gridLayout_18"));
+        label_43 = new QLabel(frame_4);
+        label_43->setObjectName(QString::fromUtf8("label_43"));
 
-        gridLayout_13->addWidget(treeWidget, 0, 0, 1, 1);
+        gridLayout_18->addWidget(label_43, 0, 0, 1, 1);
+
+        treeWidget = new QTreeWidget(frame_4);
+        treeWidget->setObjectName(QString::fromUtf8("treeWidget"));
+
+        gridLayout_18->addWidget(treeWidget, 1, 0, 1, 1);
+
+
+        gridLayout_13->addWidget(frame_4, 0, 0, 1, 1);
 
 
         gridLayout_8->addWidget(widget_72, 0, 0, 1, 1);
@@ -5667,32 +5675,10 @@ public:
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Test Json", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Page", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QString());
+        label_43->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
         QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
         ___qtreewidgetitem->setText(1, QCoreApplication::translate("MainWindow", "Properties", nullptr));
         ___qtreewidgetitem->setText(0, QCoreApplication::translate("MainWindow", "Object", nullptr));
-
-        const bool __sortingEnabled = treeWidget->isSortingEnabled();
-        treeWidget->setSortingEnabled(false);
-        QTreeWidgetItem *___qtreewidgetitem1 = treeWidget->topLevelItem(0);
-        ___qtreewidgetitem1->setText(1, QCoreApplication::translate("MainWindow", "QMainWindow", nullptr));
-        ___qtreewidgetitem1->setText(0, QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        QTreeWidgetItem *___qtreewidgetitem2 = ___qtreewidgetitem1->child(0);
-        ___qtreewidgetitem2->setText(1, QCoreApplication::translate("MainWindow", "QWidget", nullptr));
-        ___qtreewidgetitem2->setText(0, QCoreApplication::translate("MainWindow", "centralWidget", nullptr));
-        QTreeWidgetItem *___qtreewidgetitem3 = ___qtreewidgetitem1->child(1);
-        ___qtreewidgetitem3->setText(1, QCoreApplication::translate("MainWindow", "QFrame", nullptr));
-        ___qtreewidgetitem3->setText(0, QCoreApplication::translate("MainWindow", "frame_1", nullptr));
-        QTreeWidgetItem *___qtreewidgetitem4 = ___qtreewidgetitem1->child(2);
-        ___qtreewidgetitem4->setText(1, QCoreApplication::translate("MainWindow", "QFrame", nullptr));
-        ___qtreewidgetitem4->setText(0, QCoreApplication::translate("MainWindow", "frame_2", nullptr));
-        QTreeWidgetItem *___qtreewidgetitem5 = ___qtreewidgetitem1->child(3);
-        ___qtreewidgetitem5->setText(1, QCoreApplication::translate("MainWindow", "QWidget", nullptr));
-        ___qtreewidgetitem5->setText(0, QCoreApplication::translate("MainWindow", "openGL", nullptr));
-        QTreeWidgetItem *___qtreewidgetitem6 = ___qtreewidgetitem5->child(0);
-        ___qtreewidgetitem6->setText(1, QCoreApplication::translate("MainWindow", "QTreeWidget", nullptr));
-        ___qtreewidgetitem6->setText(0, QCoreApplication::translate("MainWindow", "treeView", nullptr));
-        treeWidget->setSortingEnabled(__sortingEnabled);
-
         pushButton->setText(QString());
         label_5->setText(QCoreApplication::translate("MainWindow", "Line", nullptr));
         pushButton_2->setText(QString());
