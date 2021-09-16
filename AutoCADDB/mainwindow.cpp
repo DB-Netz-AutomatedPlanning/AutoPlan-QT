@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "myopenglwidget.h"
 #include "calculator.h"
 #include "planningtable.h"
 #include "constructsvgdialog.h"
@@ -61,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow), scribbleArea(new MyOpenglWidget(this))
 
 {
+    myopen= new MyOpenglWidget(this);
     setCentralWidget(scribbleArea);
 
 
@@ -71,27 +73,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    QJsonObject recordObject;
-       recordObject.insert("FirstName", QJsonValue::fromVariant("John"));
-       recordObject.insert("LastName", QJsonValue::fromVariant("Doe"));
-       recordObject.insert("Age", QJsonValue::fromVariant(43));
 
-       QJsonObject addressObject;
-       addressObject.insert("Street", "Downing Street 10");
-       addressObject.insert("City", "London");
-       addressObject.insert("Country", "Great Britain");
-       recordObject.insert("Address", addressObject);
 
-       QJsonArray phoneNumbersArray;
-       phoneNumbersArray.push_back("+44 1234567");
-       phoneNumbersArray.push_back("+44 2345678");
-       recordObject.insert("Phone Numbers", phoneNumbersArray);
-
-       QJsonArray recordsArray;
-       recordsArray.push_back(recordObject);
-       QJsonDocument doc(recordsArray);
-
-       qDebug() << recordsArray[1].toObject();
 
 
 
@@ -190,7 +173,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-
 }
 
 
@@ -202,10 +184,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::setObjNameTW(QString str){
     defaultObjectName = str;
+   // ui->label_43->setText(defaultObjectName);
 
-   // ui->lineEdit->setText(defaultObjectName);
-    //ui->label_43->setText(defaultObjectName);
-   // ui->widget_72->repaint();
 }
 
 
@@ -296,10 +276,15 @@ void MainWindow::on_actionSave_triggered()
       file.close();
 }
 
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
 
+
+}
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
+
     if (e->key() == Qt::Key_Escape)
         close();
     else
@@ -508,25 +493,5 @@ void MainWindow::planningFnt()
 
 
 
-//void MainWindow::exportToPdf()
-//{
-//    QString defaultPdfFileName = fileName;
-//    int index = defaultPdfFileName.lastIndexOf(".");
-//    defaultPdfFileName = defaultPdfFileName.left(index);
-//    defaultPdfFileName += ".pdf";
-//    QString s = QFileDialog::getSaveFileName(
-//        this, tr("Export to PDF"), defaultPdfFileName,
-//        tr("PDF files (*.pdf)"));
 
-//    if (!s.isEmpty())
-//    {
-//      QPrinter printer;
-//      printer.setOutputFormat(QPrinter::PdfFormat);
-//      printer.setOutputFileName(s);
-//      printer.setDocName(fileName);
-//      QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-//      QPainter painter(&printer);
-//      view->render(&painter);
-//      QApplication::restoreOverrideCursor();
-//    }
-//}
+
