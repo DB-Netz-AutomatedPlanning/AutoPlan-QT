@@ -8,6 +8,7 @@
 #include <QPainter>
 #include <QPrinter>
 #include <QPushButton>
+#include <QMouseEvent>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -27,6 +28,9 @@ public:
     ~MainWindow();
     //treeview
     void setObjNameTW(QString);
+     MyOpenglWidget *myopen;
+
+public slots:
 
 private slots:
 
@@ -61,6 +65,8 @@ private slots:
 
 
 
+
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;
@@ -81,7 +87,7 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
-
+void mousePressEvent(QMouseEvent *event) override;
 
 };
 #endif // MAINWINDOW_H

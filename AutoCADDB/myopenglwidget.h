@@ -60,6 +60,7 @@ protected:
     QLabel *newIcon;
 
 
+
 };
 
 #endif // MYOPENGLWIDGET_H

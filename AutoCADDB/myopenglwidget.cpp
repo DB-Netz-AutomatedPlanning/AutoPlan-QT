@@ -304,7 +304,7 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
     if(!str.isNull()){
         glbObjectName=str;
     }
-    qInfo() << str + " open gl";
+
 
     QPixmap pixmap = child->pixmap(Qt::ReturnByValue);
 
@@ -324,6 +324,14 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
     drag->setMimeData(mimeData);
     drag->setPixmap(pixmap);
     drag->setHotSpot(event->position().toPoint() - child->pos());
+
+    qInfo() << "--------------------------";
+    qInfo() << "Position from top-left corner :";
+    qInfo() << event->position().toPoint() - child->pos();
+   qInfo() << "--------------------------";
+    qInfo() << "Symbol Position :";
+    qInfo() << child->pos();
+     qInfo() << "--------------------------";
 //! [3]
 
     QPixmap tempPixmap = pixmap;
@@ -340,6 +348,10 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
         child->show();
         child->setPixmap(pixmap);
     }
+
+       MainWindow *w = new MainWindow();
+       w->setObjNameTW("radsensor");
+
 }
 
 void MyOpenglWidget::sendObjectProperties(QString str){
@@ -348,12 +360,11 @@ void MyOpenglWidget::sendObjectProperties(QString str){
 }
 
 void MyOpenglWidget::assignObjectName(QString str){
-    MainWindow *w = new MainWindow();
+    qInfo() << "Symbol Name :"+str;
+     qInfo() << "--------------------------";
     if(str== "radsensor"){
              newIcon = new QLabel(this);
              newIcon->setObjectName("radsensor");
-             w->setObjNameTW(str);
-
     }
     if(str== "hauptsignal"){
              newIcon = new QLabel(this);
