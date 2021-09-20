@@ -92,7 +92,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -120,6 +120,9 @@
               <property name="spacing">
                <number>0</number>
               </property>
+              <item row="0" column="0">
+               <widget class="MyOpenglWidget" name="widget_151" native="true"/>
+              </item>
              </layout>
             </widget>
             <widget class="QWidget" name="tab_5">

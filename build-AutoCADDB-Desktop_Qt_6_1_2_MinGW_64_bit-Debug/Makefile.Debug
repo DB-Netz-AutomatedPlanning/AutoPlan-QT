@@ -1276,6 +1276,7 @@ debug/moc_mainwindow.cpp: ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMouseEvent \
 		debug/moc_predefs.h \
 		C:/Qt/6.1.2/mingw81_64/bin/moc.exe
 	C:\Qt\6.1.2\mingw81_64\bin\moc.exe $(DEFINES) --include D:/Users/BKU/SayliArjunPednekar/Documents/GitHub/AutoPlan-QT/build-AutoCADDB-Desktop_Qt_6_1_2_MinGW_64_bit-Debug/debug/moc_predefs.h -IC:/Qt/6.1.2/mingw81_64/mkspecs/win32-g++ -ID:/Users/BKU/SayliArjunPednekar/Documents/GitHub/AutoPlan-QT/AutoCADDB -IC:/Qt/6.1.2/mingw81_64/include -IC:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets -IC:/Qt/6.1.2/mingw81_64/include/QtOpenGL -IC:/Qt/6.1.2/mingw81_64/include/QtPrintSupport -IC:/Qt/6.1.2/mingw81_64/include/QtSvgWidgets -IC:/Qt/6.1.2/mingw81_64/include/QtSvg -IC:/Qt/6.1.2/mingw81_64/include/QtWidgets -IC:/Qt/6.1.2/mingw81_64/include/QtGui -IC:/Qt/6.1.2/mingw81_64/include/QtSql -IC:/Qt/6.1.2/mingw81_64/include/QtCore -I. -IC:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++ -IC:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/backward -IC:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include -IC:/Qt/Tools/mingw810_64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed -IC:/Qt/Tools/mingw810_64/x86_64-w64-mingw32/include ..\AutoCADDB\mainwindow.h -o debug\moc_mainwindow.cpp
@@ -1407,6 +1408,13 @@ debug/moc_myopenglwidget.cpp: ../AutoCADDB/myopenglwidget.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSize \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSizeF \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QTransform \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpen.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/QOpenGLWidget \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qopenglwidget.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qtopenglwidgetsglobal.h \
@@ -1438,7 +1446,6 @@ debug/moc_myopenglwidget.cpp: ../AutoCADDB/myopenglwidget.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMouseEvent \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLabel \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpicture.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QPushButton \
@@ -2700,6 +2707,13 @@ ui_mainwindow.h: ../AutoCADDB/mainwindow.ui \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSize \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSizeF \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QTransform \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpen.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/QOpenGLWidget \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qopenglwidget.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qtopenglwidgetsglobal.h \
@@ -2731,7 +2745,6 @@ ui_mainwindow.h: ../AutoCADDB/mainwindow.ui \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMouseEvent \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLabel \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpicture.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QPushButton \
@@ -2881,6 +2894,13 @@ ui_test.h: ../AutoCADDB/test.ui \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSize \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSizeF \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QTransform \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpen.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/QOpenGLWidget \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qopenglwidget.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qtopenglwidgetsglobal.h \
@@ -2912,7 +2932,6 @@ ui_test.h: ../AutoCADDB/test.ui \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMouseEvent \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLabel \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpicture.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QPushButton \
@@ -4876,6 +4895,13 @@ debug/iconslist.o: ../AutoCADDB/iconslist.cpp ../AutoCADDB/iconslist.h \
 		ui_iconslist.h \
 		../AutoCADDB/myopenglwidget.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QWidget \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpen.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/QOpenGLWidget \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qopenglwidget.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qtopenglwidgetsglobal.h \
@@ -4907,7 +4933,6 @@ debug/iconslist.o: ../AutoCADDB/iconslist.cpp ../AutoCADDB/iconslist.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMouseEvent \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLabel \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpicture.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QPushButton \
@@ -5046,10 +5071,6 @@ debug/iconslist.o: ../AutoCADDB/iconslist.cpp ../AutoCADDB/iconslist.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qglyphrun.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qrawfont.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qfontdatabase.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpen.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessible.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessiblebridge.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessibleobject.h \
@@ -5177,7 +5198,6 @@ debug/iconslist.o: ../AutoCADDB/iconslist.cpp ../AutoCADDB/iconslist.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qgroupbox.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qheaderview.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qinputdialog.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qitemdelegate.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qitemeditorfactory.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qkeysequenceedit.h \
@@ -5388,6 +5408,7 @@ debug/main.o: ../AutoCADDB/main.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMouseEvent \
 		../AutoCADDB/connecttocsharp.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSysInfo \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QProcess \
@@ -5555,7 +5576,46 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QPushButton \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qpushbutton.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qabstractbutton.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMouseEvent \
 		ui_mainwindow.h \
+		../AutoCADDB/myopenglwidget.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/QOpenGLWidget \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qopenglwidget.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qtopenglwidgetsglobal.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/QSurfaceFormat \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qsurfaceformat.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopengl.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtCore/qt_windows.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopengles2ext.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglext.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/QOpenGLFunctions \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglfunctions.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglcontext.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtCore/QScopedPointer \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglcontext_platform.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/QOpenGLContext \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGL/QOpenGLShaderProgram \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGL/qopenglshaderprogram.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGL/qtopenglglobal.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qvector3d.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qvector4d.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qmatrix4x4.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qquaternion.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qgenericmatrix.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGL/QOpenGLBuffer \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGL/qopenglbuffer.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGL/QOpenGLVertexArrayObject \
+		C:/Qt/6.1.2/mingw81_64/include/QtOpenGL/qopenglvertexarrayobject.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMatrix4x4 \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLabel \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlabel.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpicture.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextdocument.h \
 		../AutoCADDB/calculator.h \
 		../AutoCADDB/planningtable.h \
 		../AutoCADDB/constructsvgdialog.h \
@@ -5576,16 +5636,11 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qstyle.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qtabbar.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qrubberband.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qabstractitemmodel.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QDebug \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QTabBar \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QToolButton \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qtoolbutton.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLineEdit \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QFileDialog \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qfiledialog.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qdir.h \
@@ -5612,15 +5667,6 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qabstractitemview.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qabstractscrollarea.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qitemselectionmodel.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/QOpenGLWidget \
-		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qopenglwidget.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qtopenglwidgetsglobal.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/QSurfaceFormat \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qsurfaceformat.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopengl.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtCore/qt_windows.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopengles2ext.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglext.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QColorDialog \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qcolordialog.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QInputDialog \
@@ -5683,7 +5729,6 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qfuturewatcher.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qidentityproxymodel.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qjnienvironment.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtCore/QScopedPointer \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qjniobject.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qlibrary.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/qlibraryinfo.h \
@@ -5747,7 +5792,6 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qglyphrun.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qrawfont.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qfontdatabase.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessible.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessiblebridge.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessibleobject.h \
@@ -5764,7 +5808,6 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qdesktopservices.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qdrag.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qfilesystemmodel.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qgenericmatrix.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qgenericplugin.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qgenericpluginfactory.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qguiapplication.h \
@@ -5772,24 +5815,16 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qiconengine.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qiconengineplugin.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qimagereader.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qmatrix4x4.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qvector3d.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qvector4d.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qquaternion.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qmovie.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qoffscreensurface.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qoffscreensurface_platform.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglcontext.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglcontext_platform.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglextrafunctions.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qopenglfunctions.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpaintdevicewindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QWindow \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QPaintDevice \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpaintengine.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpainterpath.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpdfwriter.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpicture.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpixmapcache.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qrasterwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QPaintDeviceWindow \
@@ -5858,7 +5893,6 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qgraphicssceneevent.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qgraphicstransform.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QVector3D \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMatrix4x4 \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qgraphicsview.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qscrollarea.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qgroupbox.h \
@@ -5866,7 +5900,6 @@ debug/mainwindow.o: ../AutoCADDB/mainwindow.cpp ../AutoCADDB/mainwindow.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qitemdelegate.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qitemeditorfactory.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qkeysequenceedit.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlabel.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlcdnumber.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlistview.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlistwidget.h \
@@ -6058,6 +6091,13 @@ debug/myopenglwidget.o: ../AutoCADDB/myopenglwidget.cpp ../AutoCADDB/myopenglwid
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSize \
 		C:/Qt/6.1.2/mingw81_64/include/QtCore/QSizeF \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QTransform \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLineEdit \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpen.h \
+		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextoption.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/QOpenGLWidget \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qopenglwidget.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtOpenGLWidgets/qtopenglwidgetsglobal.h \
@@ -6089,7 +6129,6 @@ debug/myopenglwidget.o: ../AutoCADDB/myopenglwidget.cpp ../AutoCADDB/myopenglwid
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QMouseEvent \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QLabel \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlabel.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qframe.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpicture.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextdocument.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/QPushButton \
@@ -6105,8 +6144,6 @@ debug/myopenglwidget.o: ../AutoCADDB/myopenglwidget.cpp ../AutoCADDB/myopenglwid
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qabstractslider.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/QPainter \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpainter.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextoption.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qpen.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtPrintSupport/QPrinter \
 		C:/Qt/6.1.2/mingw81_64/include/QtPrintSupport/qprinter.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtPrintSupport/qtprintsupportglobal.h \
@@ -6247,8 +6284,6 @@ debug/myopenglwidget.o: ../AutoCADDB/myopenglwidget.cpp ../AutoCADDB/myopenglwid
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qglyphrun.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qrawfont.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qfontdatabase.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextcursor.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtGui/qtextformat.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessible.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessiblebridge.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtGui/qaccessibleobject.h \
@@ -6369,7 +6404,6 @@ debug/myopenglwidget.o: ../AutoCADDB/myopenglwidget.cpp ../AutoCADDB/myopenglwid
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qgroupbox.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qheaderview.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qinputdialog.h \
-		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qlineedit.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qitemdelegate.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qitemeditorfactory.h \
 		C:/Qt/6.1.2/mingw81_64/include/QtWidgets/qkeysequenceedit.h \

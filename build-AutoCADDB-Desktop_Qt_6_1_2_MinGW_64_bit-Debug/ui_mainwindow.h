@@ -59,6 +59,7 @@ public:
     QTabWidget *tabWidget_2;
     QWidget *tab_4;
     QGridLayout *gridLayout_17;
+    MyOpenglWidget *widget_151;
     QWidget *tab_5;
     QGridLayout *gridLayout_20;
     DropWidget *openGLWidget;
@@ -951,6 +952,11 @@ public:
         gridLayout_17->setSpacing(0);
         gridLayout_17->setObjectName(QString::fromUtf8("gridLayout_17"));
         gridLayout_17->setContentsMargins(0, 0, 0, 0);
+        widget_151 = new MyOpenglWidget(tab_4);
+        widget_151->setObjectName(QString::fromUtf8("widget_151"));
+
+        gridLayout_17->addWidget(widget_151, 0, 0, 1, 1);
+
         tabWidget_2->addTab(tab_4, QString());
         tab_5 = new QWidget();
         tab_5->setObjectName(QString::fromUtf8("tab_5"));
@@ -5643,7 +5649,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_2->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(3);
         tabWidget->setCurrentIndex(0);
 
 

@@ -2,6 +2,7 @@
 #define MYOPENGLWIDGET_H
 
 #include <QWidget>
+#include <QLineEdit>
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLContext>
@@ -58,6 +59,10 @@ protected:
     private:
     QString str;
     QLabel *newIcon;
+    QLabel *lblSmb;
+    QLabel *lblPostn;
+    QLineEdit *leSmbName ;
+    QLineEdit *lePos ;
 
 
 
