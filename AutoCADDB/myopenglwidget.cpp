@@ -7,19 +7,24 @@
 #include <QDebug>
 QString glb;
 QList<QString> listo ;
+
+
 #include "symbolcontainer.h"
 
 MyOpenglWidget::MyOpenglWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
     setFormat(QSurfaceFormat::defaultFormat());
     setAcceptDrops(true);
-
+    lblSmb = new QLabel(this);
+    leSmbName= new QLineEdit(this);
 
 
 }
 
 MyOpenglWidget::~MyOpenglWidget()
 {
+    window()->setStyleSheet("QLineEdit { border: none }");
+
 
 }
 struct EventInfo
@@ -265,15 +270,22 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
         dataStream >> pixmap >> offset;
 
         assignObjectName(glbObjectName);
+        defaultObjectName = glbObjectName;
 
 
 
+        lblSmb->setText("Name");
+        lblSmb->setGeometry(10, 10, 100, 20);
 
-
+        leSmbName->setText(defaultObjectName);
+       // leSmbName->setGeometry(50, 10, 100, 20);
+        leSmbName->show();
              newIcon->setPixmap(pixmap);
              newIcon->move(event->position().toPoint() - offset);
              newIcon->show();
              newIcon->setAttribute(Qt::WA_DeleteOnClose);
+
+            // st->clear();
 
 
 
@@ -303,6 +315,7 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
     //initiliaze glb string with object name
     if(!str.isNull()){
         glbObjectName=str;
+        defaultObjectName = str;
     }
 
 
@@ -352,6 +365,11 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
        MainWindow *w = new MainWindow();
        w->setObjNameTW("radsensor");
 
+
+     //  QLabel *st = new QLabel(this);
+
+
+
 }
 
 void MyOpenglWidget::sendObjectProperties(QString str){
@@ -362,25 +380,41 @@ void MyOpenglWidget::sendObjectProperties(QString str){
 void MyOpenglWidget::assignObjectName(QString str){
     qInfo() << "Symbol Name :"+str;
      qInfo() << "--------------------------";
+
     if(str== "radsensor"){
              newIcon = new QLabel(this);
+
              newIcon->setObjectName("radsensor");
+             leSmbName->clear();
+             leSmbName->setText(defaultObjectName);
+          //   defaultObjectName = str;
+
     }
     if(str== "hauptsignal"){
              newIcon = new QLabel(this);
+          //  st = new QLabel(this);
               newIcon->setObjectName("hauptsignal");
+              leSmbName->clear();
+                leSmbName->setText(defaultObjectName);
+             //  defaultObjectName = str;
     }
     if(str== "rangier"){
              newIcon = new QLabel(this);
              newIcon->setObjectName("rangier");
+
     }
     if(str== "vorsignal"){
               newIcon = new QLabel(this);
+
               newIcon->setObjectName("vorsignal");
+
+                leSmbName->setText(defaultObjectName);
     }
     if(str== "haltetafel"){
              newIcon = new QLabel(this);
              newIcon->setObjectName("haltetafel");
+             leSmbName->clear();
+               leSmbName->setText(defaultObjectName);
 
     }
     if(str== "schutzhalt"){
