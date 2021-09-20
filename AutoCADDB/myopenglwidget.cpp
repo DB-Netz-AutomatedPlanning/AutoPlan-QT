@@ -16,7 +16,9 @@ MyOpenglWidget::MyOpenglWidget(QWidget *parent) : QOpenGLWidget(parent)
     setFormat(QSurfaceFormat::defaultFormat());
     setAcceptDrops(true);
     lblSmb = new QLabel(this);
+    lblPostn = new QLabel(this);
     leSmbName= new QLineEdit(this);
+    lePos = new QLineEdit(this);
 
 
 }
@@ -274,12 +276,34 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
 
 
 
-        lblSmb->setText("Name");
-        lblSmb->setGeometry(10, 10, 100, 20);
+      //  lblSmb->setText("Name");
+        lblSmb->setGeometry(10, 13, 100, 20);
 
-        leSmbName->setText(defaultObjectName);
-       // leSmbName->setGeometry(50, 10, 100, 20);
-        leSmbName->show();
+      //  lblPostn->setText("Position");
+        lblPostn->setGeometry(10, 30, 100, 20);
+
+     //   leSmbName->setText(defaultObjectName);
+        leSmbName->setGeometry(50, 13, 100, 20);
+
+
+
+       // leSmbName->show();
+
+
+
+        QTableWidget *tableWidget = new QTableWidget(this);
+        tableWidget->setRowCount(2);
+        tableWidget->setColumnCount(2);
+        QTableWidgetItem *newItem = new QTableWidgetItem(tr("%0").arg("Name"));
+        tableWidget->setItem(0, 0, newItem);
+        QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
+        tableWidget->setItem(0, 1, newItem1);
+        QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
+        tableWidget->setItem(1, 0, newItem2);
+
+        tableWidget->setFixedSize(217,87);
+        tableWidget->show();
+
              newIcon->setPixmap(pixmap);
              newIcon->move(event->position().toPoint() - offset);
              newIcon->show();
@@ -338,14 +362,23 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
     drag->setPixmap(pixmap);
     drag->setHotSpot(event->position().toPoint() - child->pos());
 
+    QPoint s = event->position().toPoint() - child->pos();
+    QPointF f = s;
+    //int ss =s;
+
+
     qInfo() << "--------------------------";
     qInfo() << "Position from top-left corner :";
     qInfo() << event->position().toPoint() - child->pos();
    qInfo() << "--------------------------";
     qInfo() << "Symbol Position :";
-    qInfo() << child->pos();
+    qInfo() << f;
      qInfo() << "--------------------------";
 //! [3]
+
+     //lePos->setText(child->pos());
+//lePos->setText(s);
+
 
     QPixmap tempPixmap = pixmap;
     QPainter painter;

@@ -17,7 +17,6 @@
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -26,12 +25,9 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "dropwidget.h"
 #include "myopenglwidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -60,24 +56,10 @@ public:
     QWidget *tab_4;
     QGridLayout *gridLayout_17;
     MyOpenglWidget *widget_151;
-    QWidget *tab_5;
-    QGridLayout *gridLayout_20;
-    DropWidget *openGLWidget;
-    QWidget *tab_2;
-    QVBoxLayout *verticalLayout_125;
-    QTextEdit *textEdit;
     QWidget *tab_3;
     QVBoxLayout *verticalLayout_126;
     MyOpenglWidget *widget_142;
     QWidget *tab;
-    QFrame *f_treeView;
-    QGridLayout *gridLayout_8;
-    QWidget *widget_72;
-    QGridLayout *gridLayout_13;
-    QFrame *frame_4;
-    QGridLayout *gridLayout_18;
-    MyOpenglWidget *widget_150;
-    QTreeWidget *treeWidget;
     QFrame *f_headerTabs;
     QHBoxLayout *horizontalLayout;
     QWidget *widget;
@@ -958,28 +940,6 @@ public:
         gridLayout_17->addWidget(widget_151, 0, 0, 1, 1);
 
         tabWidget_2->addTab(tab_4, QString());
-        tab_5 = new QWidget();
-        tab_5->setObjectName(QString::fromUtf8("tab_5"));
-        gridLayout_20 = new QGridLayout(tab_5);
-        gridLayout_20->setObjectName(QString::fromUtf8("gridLayout_20"));
-        openGLWidget = new DropWidget(tab_5);
-        openGLWidget->setObjectName(QString::fromUtf8("openGLWidget"));
-
-        gridLayout_20->addWidget(openGLWidget, 0, 0, 1, 1);
-
-        tabWidget_2->addTab(tab_5, QString());
-        tab_2 = new QWidget();
-        tab_2->setObjectName(QString::fromUtf8("tab_2"));
-        verticalLayout_125 = new QVBoxLayout(tab_2);
-        verticalLayout_125->setSpacing(0);
-        verticalLayout_125->setObjectName(QString::fromUtf8("verticalLayout_125"));
-        verticalLayout_125->setContentsMargins(20, 20, 20, 20);
-        textEdit = new QTextEdit(tab_2);
-        textEdit->setObjectName(QString::fromUtf8("textEdit"));
-
-        verticalLayout_125->addWidget(textEdit);
-
-        tabWidget_2->addTab(tab_2, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
         verticalLayout_126 = new QVBoxLayout(tab_3);
@@ -999,49 +959,6 @@ public:
 
 
         horizontalLayout_31->addWidget(widget_30);
-
-        f_treeView = new QFrame(f_openGl);
-        f_treeView->setObjectName(QString::fromUtf8("f_treeView"));
-        f_treeView->setMinimumSize(QSize(200, 0));
-        f_treeView->setMaximumSize(QSize(200, 16777215));
-        f_treeView->setFrameShape(QFrame::StyledPanel);
-        f_treeView->setFrameShadow(QFrame::Raised);
-        gridLayout_8 = new QGridLayout(f_treeView);
-        gridLayout_8->setSpacing(0);
-        gridLayout_8->setObjectName(QString::fromUtf8("gridLayout_8"));
-        gridLayout_8->setContentsMargins(0, 0, 0, 0);
-        widget_72 = new QWidget(f_treeView);
-        widget_72->setObjectName(QString::fromUtf8("widget_72"));
-        gridLayout_13 = new QGridLayout(widget_72);
-        gridLayout_13->setSpacing(0);
-        gridLayout_13->setObjectName(QString::fromUtf8("gridLayout_13"));
-        gridLayout_13->setContentsMargins(0, 1, 0, 0);
-        frame_4 = new QFrame(widget_72);
-        frame_4->setObjectName(QString::fromUtf8("frame_4"));
-        frame_4->setMinimumSize(QSize(200, 0));
-        frame_4->setMaximumSize(QSize(200, 16777215));
-        frame_4->setFrameShape(QFrame::StyledPanel);
-        frame_4->setFrameShadow(QFrame::Raised);
-        gridLayout_18 = new QGridLayout(frame_4);
-        gridLayout_18->setObjectName(QString::fromUtf8("gridLayout_18"));
-        widget_150 = new MyOpenglWidget(frame_4);
-        widget_150->setObjectName(QString::fromUtf8("widget_150"));
-
-        gridLayout_18->addWidget(widget_150, 0, 0, 1, 1);
-
-        treeWidget = new QTreeWidget(frame_4);
-        treeWidget->setObjectName(QString::fromUtf8("treeWidget"));
-
-        gridLayout_18->addWidget(treeWidget, 1, 0, 1, 1);
-
-
-        gridLayout_13->addWidget(frame_4, 0, 0, 1, 1);
-
-
-        gridLayout_8->addWidget(widget_72, 0, 0, 1, 1);
-
-
-        horizontalLayout_31->addWidget(f_treeView);
 
 
         gridLayout_2->addWidget(f_openGl, 2, 0, 1, 1);
@@ -5649,7 +5566,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_2->setCurrentIndex(3);
+        tabWidget_2->setCurrentIndex(1);
         tabWidget->setCurrentIndex(0);
 
 
@@ -5671,13 +5588,8 @@ public:
         actionAdd_symbol->setText(QCoreApplication::translate("MainWindow", "Add symbol", nullptr));
         actionAdd_symbol_options->setText(QCoreApplication::translate("MainWindow", "Add symbol options", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QCoreApplication::translate("MainWindow", "Start", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Drawing", nullptr));
-        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Test Json", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QCoreApplication::translate("MainWindow", "Page", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QString());
-        QTreeWidgetItem *___qtreewidgetitem = treeWidget->headerItem();
-        ___qtreewidgetitem->setText(1, QCoreApplication::translate("MainWindow", "Properties", nullptr));
-        ___qtreewidgetitem->setText(0, QCoreApplication::translate("MainWindow", "Object", nullptr));
         pushButton->setText(QString());
         label_5->setText(QCoreApplication::translate("MainWindow", "Line", nullptr));
         pushButton_2->setText(QString());

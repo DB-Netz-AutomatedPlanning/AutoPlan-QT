@@ -137,6 +137,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget_2->setTabsClosable(true);
     ui->tabWidget_2->setMovable(true);
 
+
+
     setStyleSheet("QToolButton { border: none; }");
 
     connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
@@ -253,7 +255,7 @@ void MainWindow::on_actionOpen_triggered()
         setWindowTitle(fileName);
         QTextStream in(&file);
         QString text = in.readAll();
-        ui->textEdit->setText(text);
+        //ui->textEdit->setText(text);
         file.close();
 }
 
@@ -264,15 +266,15 @@ void MainWindow::on_actionSave_triggered()
     QString fileName = QFileDialog::getSaveFileName(this, "Save as");
       QFile file(fileName);
 
-      if (!file.open(QFile::WriteOnly | QFile::Text)) {
-          QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
-          return;
-      }
+     // if (!file.open(QFile::WriteOnly | QFile::Text)) {
+       //   QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
+         // return;
+      //}
       readFile = fileName;
       setWindowTitle(fileName);
       QTextStream out(&file);
-      QString text = ui->textEdit->toPlainText();
-      out << text;
+      //QString text = ui->textEdit->toPlainText();
+     // out << text;
       file.close();
 }
 
@@ -458,7 +460,7 @@ void MainWindow::importShapeFiles()
                 setWindowTitle(fileName);
                 QTextStream in(&file);
                 QString text = in.readAll();
-                ui->textEdit->setText(text);
+                //ui->textEdit->setText(text);
                 file.close();
 }
 
