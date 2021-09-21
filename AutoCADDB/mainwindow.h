@@ -54,6 +54,14 @@ private slots:
     void importShapeFiles();
     void planningFnt();
 
+    void on_actionAbout_Qt_triggered();
+
+    void on_actionPreview_Data_triggered();
+
+    void on_actionRemove_Data_triggered();
+
+    void on_actionAdd_Data_triggered();
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;

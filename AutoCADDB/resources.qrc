@@ -176,4 +176,5 @@
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>
     </qresource>
+    <qresource prefix="/Data"/>
 </RCC>

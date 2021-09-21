@@ -31,7 +31,7 @@
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "dropwidget.h"
+#include <dropwidget.h>
 #include "myopenglwidget.h"
 
 QT_BEGIN_NAMESPACE
@@ -50,6 +50,10 @@ public:
     QAction *actionExit;
     QAction *actionAdd_symbol;
     QAction *actionAdd_symbol_options;
+    QAction *actionAbout_Qt;
+    QAction *actionPreview_Data;
+    QAction *actionRemove_Data;
+    QAction *actionAdd_Data;
     QWidget *centralwidget;
     QGridLayout *gridLayout_2;
     QFrame *f_openGl;
@@ -851,6 +855,7 @@ public:
     QMenu *menuInsert;
     QMenu *menuFormat;
     QMenu *menuTools;
+    QMenu *menuAccess_Data;
     QMenu *menuDraw;
     QMenu *menuDimension;
     QMenu *menuModify;
@@ -916,6 +921,14 @@ public:
         actionAdd_symbol->setObjectName(QString::fromUtf8("actionAdd_symbol"));
         actionAdd_symbol_options = new QAction(MainWindow);
         actionAdd_symbol_options->setObjectName(QString::fromUtf8("actionAdd_symbol_options"));
+        actionAbout_Qt = new QAction(MainWindow);
+        actionAbout_Qt->setObjectName(QString::fromUtf8("actionAbout_Qt"));
+        actionPreview_Data = new QAction(MainWindow);
+        actionPreview_Data->setObjectName(QString::fromUtf8("actionPreview_Data"));
+        actionRemove_Data = new QAction(MainWindow);
+        actionRemove_Data->setObjectName(QString::fromUtf8("actionRemove_Data"));
+        actionAdd_Data = new QAction(MainWindow);
+        actionAdd_Data->setObjectName(QString::fromUtf8("actionAdd_Data"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout_2 = new QGridLayout(centralwidget);
@@ -5527,6 +5540,7 @@ public:
         gridLayout_130->setContentsMargins(0, 0, 0, 0);
         planBtn = new QPushButton(widget_148);
         planBtn->setObjectName(QString::fromUtf8("planBtn"));
+        planBtn->setMouseTracking(true);
         planBtn->setStyleSheet(QString::fromUtf8("border:none;"));
         QIcon icon69;
         icon69.addFile(QString::fromUtf8(":/icons/assets/Plan/icons8-floor-plan-80.png"), QSize(), QIcon::Normal, QIcon::On);
@@ -5564,7 +5578,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 2187, 21));
+        menubar->setGeometry(QRect(0, 0, 2187, 26));
         menuNew = new QMenu(menubar);
         menuNew->setObjectName(QString::fromUtf8("menuNew"));
         menuEdit = new QMenu(menubar);
@@ -5577,6 +5591,8 @@ public:
         menuFormat->setObjectName(QString::fromUtf8("menuFormat"));
         menuTools = new QMenu(menubar);
         menuTools->setObjectName(QString::fromUtf8("menuTools"));
+        menuAccess_Data = new QMenu(menuTools);
+        menuAccess_Data->setObjectName(QString::fromUtf8("menuAccess_Data"));
         menuDraw = new QMenu(menubar);
         menuDraw->setObjectName(QString::fromUtf8("menuDraw"));
         menuDimension = new QMenu(menubar);
@@ -5625,6 +5641,11 @@ public:
         menuNew->addAction(actionExit);
         menuInsert->addAction(actionAdd_symbol);
         menuInsert->addAction(actionAdd_symbol_options);
+        menuTools->addAction(menuAccess_Data->menuAction());
+        menuAccess_Data->addAction(actionPreview_Data);
+        menuAccess_Data->addAction(actionRemove_Data);
+        menuAccess_Data->addAction(actionAdd_Data);
+        menuHelp->addAction(actionAbout_Qt);
         toolBar->addAction(actionNew_2);
         toolBar->addSeparator();
         toolBar->addAction(actionNew);
@@ -5641,8 +5662,8 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget_2->setCurrentIndex(3);
-        tabWidget->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -5662,6 +5683,10 @@ public:
         actionExit->setText(QCoreApplication::translate("MainWindow", "Exit", nullptr));
         actionAdd_symbol->setText(QCoreApplication::translate("MainWindow", "Add symbol", nullptr));
         actionAdd_symbol_options->setText(QCoreApplication::translate("MainWindow", "Add symbol options", nullptr));
+        actionAbout_Qt->setText(QCoreApplication::translate("MainWindow", "About Qt", nullptr));
+        actionPreview_Data->setText(QCoreApplication::translate("MainWindow", "Preview Data", nullptr));
+        actionRemove_Data->setText(QCoreApplication::translate("MainWindow", "Remove Data", nullptr));
+        actionAdd_Data->setText(QCoreApplication::translate("MainWindow", "Add Data", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QCoreApplication::translate("MainWindow", "Start", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QCoreApplication::translate("MainWindow", "Drawing", nullptr));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Test Json", nullptr));
@@ -5911,6 +5936,7 @@ public:
         menuInsert->setTitle(QCoreApplication::translate("MainWindow", "Insert", nullptr));
         menuFormat->setTitle(QCoreApplication::translate("MainWindow", "Format", nullptr));
         menuTools->setTitle(QCoreApplication::translate("MainWindow", "Tools", nullptr));
+        menuAccess_Data->setTitle(QCoreApplication::translate("MainWindow", "Access Data", nullptr));
         menuDraw->setTitle(QCoreApplication::translate("MainWindow", "Draw", nullptr));
         menuDimension->setTitle(QCoreApplication::translate("MainWindow", "Dimension", nullptr));
         menuModify->setTitle(QCoreApplication::translate("MainWindow", "Modify", nullptr));

@@ -5,6 +5,9 @@
 #include "constructsvgdialog.h"
 #include "iconslist.h"
 #include "symboloptions.h"
+#include "uploadnewdata.h"
+#include "nopreviewdelete.h"
+#include "removedata.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -275,7 +278,7 @@ void MainWindow::penColor()
 void MainWindow::penWidth()
 //! [9] //! [10]
 {
-    bool ok;
+    //bool ok;
    // int newWidth = QInputDialog::getInt(this, tr("Scribble"),
                                         //tr("Select pen width:"),
                                         //scribbleArea->penWidth(),
@@ -512,3 +515,35 @@ void MainWindow::planningFnt()
 //      QApplication::restoreOverrideCursor();
 //    }
 //}
+
+
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QMessageBox::aboutQt(this, "About Qt");
+}
+
+
+void MainWindow::on_actionPreview_Data_triggered()
+{
+    RemoveData removeData;
+    removeData.setModal(true);
+    removeData.exec();
+}
+
+
+void MainWindow::on_actionRemove_Data_triggered()
+{
+    NoPreviewDelete noPreviewDelete;
+    noPreviewDelete.setModal(true);
+    noPreviewDelete.exec();
+}
+
+
+void MainWindow::on_actionAdd_Data_triggered()
+{
+    UploadNewData uploadNewData;
+    uploadNewData.setModal(true);
+    uploadNewData.exec();
+}
+

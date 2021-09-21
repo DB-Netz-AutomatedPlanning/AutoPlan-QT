@@ -11,10 +11,14 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
@@ -25,7 +29,16 @@ class Ui_PlanningTable
 {
 public:
     QWidget *centralwidget;
+    QGridLayout *gridLayout_3;
     QGridLayout *gridLayout;
+    QLabel *lblSelectStation;
+    QComboBox *comboBoxStations;
+    QPushButton *btnLoad;
+    QPushButton *btnAutoPLAN;
+    QSpacerItem *horizontalSpacer;
+    QSpacerItem *horizontalSpacer_2;
+    QGridLayout *gridLayout_2;
+    QLabel *lblLocation;
     QTableWidget *tableWidget;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -35,54 +48,94 @@ public:
         if (PlanningTable->objectName().isEmpty())
             PlanningTable->setObjectName(QString::fromUtf8("PlanningTable"));
         PlanningTable->setWindowModality(Qt::NonModal);
-        PlanningTable->resize(439, 359);
+        PlanningTable->resize(623, 365);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(PlanningTable->sizePolicy().hasHeightForWidth());
+        PlanningTable->setSizePolicy(sizePolicy);
+        QFont font;
+        font.setPointSize(8);
+        font.setBold(false);
+        PlanningTable->setFont(font);
+        PlanningTable->setFocusPolicy(Qt::StrongFocus);
+        PlanningTable->setWindowOpacity(3.000000000000000);
         centralwidget = new QWidget(PlanningTable);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
-        gridLayout = new QGridLayout(centralwidget);
+        gridLayout_3 = new QGridLayout(centralwidget);
+        gridLayout_3->setObjectName(QString::fromUtf8("gridLayout_3"));
+        gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        tableWidget = new QTableWidget(centralwidget);
-        if (tableWidget->columnCount() < 3)
-            tableWidget->setColumnCount(3);
-        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
-        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
-        QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
-        if (tableWidget->rowCount() < 3)
-            tableWidget->setRowCount(3);
-        QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
-        tableWidget->setVerticalHeaderItem(0, __qtablewidgetitem3);
-        QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
-        tableWidget->setVerticalHeaderItem(1, __qtablewidgetitem4);
-        QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
-        tableWidget->setVerticalHeaderItem(2, __qtablewidgetitem5);
-        QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
-        tableWidget->setItem(0, 0, __qtablewidgetitem6);
-        QTableWidgetItem *__qtablewidgetitem7 = new QTableWidgetItem();
-        tableWidget->setItem(0, 1, __qtablewidgetitem7);
-        QTableWidgetItem *__qtablewidgetitem8 = new QTableWidgetItem();
-        tableWidget->setItem(0, 2, __qtablewidgetitem8);
-        QTableWidgetItem *__qtablewidgetitem9 = new QTableWidgetItem();
-        tableWidget->setItem(1, 0, __qtablewidgetitem9);
-        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
-        tableWidget->setItem(1, 1, __qtablewidgetitem10);
-        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
-        tableWidget->setItem(1, 2, __qtablewidgetitem11);
-        QTableWidgetItem *__qtablewidgetitem12 = new QTableWidgetItem();
-        tableWidget->setItem(2, 0, __qtablewidgetitem12);
-        QTableWidgetItem *__qtablewidgetitem13 = new QTableWidgetItem();
-        tableWidget->setItem(2, 1, __qtablewidgetitem13);
-        QTableWidgetItem *__qtablewidgetitem14 = new QTableWidgetItem();
-        tableWidget->setItem(2, 2, __qtablewidgetitem14);
-        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
+        lblSelectStation = new QLabel(centralwidget);
+        lblSelectStation->setObjectName(QString::fromUtf8("lblSelectStation"));
+        lblSelectStation->setAlignment(Qt::AlignCenter);
 
-        gridLayout->addWidget(tableWidget, 0, 0, 1, 1);
+        gridLayout->addWidget(lblSelectStation, 0, 0, 1, 1);
+
+        comboBoxStations = new QComboBox(centralwidget);
+        comboBoxStations->setObjectName(QString::fromUtf8("comboBoxStations"));
+
+        gridLayout->addWidget(comboBoxStations, 0, 1, 1, 1);
+
+        btnLoad = new QPushButton(centralwidget);
+        btnLoad->setObjectName(QString::fromUtf8("btnLoad"));
+        btnLoad->setEnabled(true);
+
+        gridLayout->addWidget(btnLoad, 0, 2, 1, 1);
+
+        btnAutoPLAN = new QPushButton(centralwidget);
+        btnAutoPLAN->setObjectName(QString::fromUtf8("btnAutoPLAN"));
+        btnAutoPLAN->setEnabled(false);
+
+        gridLayout->addWidget(btnAutoPLAN, 1, 0, 1, 1);
+
+        horizontalSpacer = new QSpacerItem(214, 17, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout->addItem(horizontalSpacer, 1, 1, 1, 2);
+
+
+        gridLayout_3->addLayout(gridLayout, 0, 0, 1, 1);
+
+        horizontalSpacer_2 = new QSpacerItem(275, 62, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        gridLayout_3->addItem(horizontalSpacer_2, 0, 1, 1, 1);
+
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
+        lblLocation = new QLabel(centralwidget);
+        lblLocation->setObjectName(QString::fromUtf8("lblLocation"));
+        lblLocation->setEnabled(false);
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Segoe Script")});
+        font1.setPointSize(10);
+        font1.setBold(true);
+        lblLocation->setFont(font1);
+        lblLocation->setAutoFillBackground(false);
+        lblLocation->setAlignment(Qt::AlignCenter);
+
+        gridLayout_2->addWidget(lblLocation, 0, 0, 1, 2);
+
+        tableWidget = new QTableWidget(centralwidget);
+        tableWidget->setObjectName(QString::fromUtf8("tableWidget"));
+        tableWidget->setEnabled(false);
+        QFont font2;
+        font2.setPointSize(8);
+        font2.setBold(true);
+        tableWidget->setFont(font2);
+        tableWidget->setFrameShape(QFrame::HLine);
+        tableWidget->setLineWidth(1);
+        tableWidget->setGridStyle(Qt::CustomDashLine);
+        tableWidget->setWordWrap(true);
+
+        gridLayout_2->addWidget(tableWidget, 1, 0, 1, 2);
+
+
+        gridLayout_3->addLayout(gridLayout_2, 1, 0, 1, 2);
 
         PlanningTable->setCentralWidget(centralwidget);
         menubar = new QMenuBar(PlanningTable);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 439, 25));
+        menubar->setGeometry(QRect(0, 0, 623, 23));
         PlanningTable->setMenuBar(menubar);
         statusbar = new QStatusBar(PlanningTable);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -96,41 +149,10 @@ public:
     void retranslateUi(QMainWindow *PlanningTable)
     {
         PlanningTable->setWindowTitle(QCoreApplication::translate("PlanningTable", "Planning", nullptr));
-        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("PlanningTable", "1", nullptr));
-        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QCoreApplication::translate("PlanningTable", "2", nullptr));
-        QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
-        ___qtablewidgetitem2->setText(QCoreApplication::translate("PlanningTable", "3", nullptr));
-        QTableWidgetItem *___qtablewidgetitem3 = tableWidget->verticalHeaderItem(0);
-        ___qtablewidgetitem3->setText(QCoreApplication::translate("PlanningTable", "Row 1", nullptr));
-        QTableWidgetItem *___qtablewidgetitem4 = tableWidget->verticalHeaderItem(1);
-        ___qtablewidgetitem4->setText(QCoreApplication::translate("PlanningTable", "Row 2", nullptr));
-        QTableWidgetItem *___qtablewidgetitem5 = tableWidget->verticalHeaderItem(2);
-        ___qtablewidgetitem5->setText(QCoreApplication::translate("PlanningTable", "Row 3", nullptr));
-
-        const bool __sortingEnabled = tableWidget->isSortingEnabled();
-        tableWidget->setSortingEnabled(false);
-        QTableWidgetItem *___qtablewidgetitem6 = tableWidget->item(0, 0);
-        ___qtablewidgetitem6->setText(QCoreApplication::translate("PlanningTable", "Hello", nullptr));
-        QTableWidgetItem *___qtablewidgetitem7 = tableWidget->item(0, 1);
-        ___qtablewidgetitem7->setText(QCoreApplication::translate("PlanningTable", "this", nullptr));
-        QTableWidgetItem *___qtablewidgetitem8 = tableWidget->item(0, 2);
-        ___qtablewidgetitem8->setText(QCoreApplication::translate("PlanningTable", "is", nullptr));
-        QTableWidgetItem *___qtablewidgetitem9 = tableWidget->item(1, 0);
-        ___qtablewidgetitem9->setText(QCoreApplication::translate("PlanningTable", "Testing", nullptr));
-        QTableWidgetItem *___qtablewidgetitem10 = tableWidget->item(1, 1);
-        ___qtablewidgetitem10->setText(QCoreApplication::translate("PlanningTable", "of", nullptr));
-        QTableWidgetItem *___qtablewidgetitem11 = tableWidget->item(1, 2);
-        ___qtablewidgetitem11->setText(QCoreApplication::translate("PlanningTable", "A", nullptr));
-        QTableWidgetItem *___qtablewidgetitem12 = tableWidget->item(2, 0);
-        ___qtablewidgetitem12->setText(QCoreApplication::translate("PlanningTable", "Plan", nullptr));
-        QTableWidgetItem *___qtablewidgetitem13 = tableWidget->item(2, 1);
-        ___qtablewidgetitem13->setText(QCoreApplication::translate("PlanningTable", "Software", nullptr));
-        QTableWidgetItem *___qtablewidgetitem14 = tableWidget->item(2, 2);
-        ___qtablewidgetitem14->setText(QCoreApplication::translate("PlanningTable", ".", nullptr));
-        tableWidget->setSortingEnabled(__sortingEnabled);
-
+        lblSelectStation->setText(QCoreApplication::translate("PlanningTable", "Select Station", nullptr));
+        btnLoad->setText(QCoreApplication::translate("PlanningTable", "Load", nullptr));
+        btnAutoPLAN->setText(QCoreApplication::translate("PlanningTable", "AutoPLAN", nullptr));
+        lblLocation->setText(QString());
     } // retranslateUi
 
 };
