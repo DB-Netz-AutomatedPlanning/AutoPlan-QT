@@ -32,6 +32,7 @@ SOURCES += \
     planningtable.cpp \
     removedata.cpp \
     svgdialogview.cpp \
+    symbolcontainer.cpp \
     symboloptions.cpp \
     test.cpp \
     uploadnewdata.cpp
@@ -52,6 +53,7 @@ HEADERS += \
     planningtable.h \
     removedata.h \
     svgdialogview.h \
+    symbolcontainer.h \
     symboloptions.h \
     test.h \
     uploadnewdata.h
@@ -60,9 +62,9 @@ FORMS += \
     constructsvgdialog.ui \
     iconslist.ui \
     mainwindow.ui \
-    nopreviewdelete.ui \
     planningtable.ui \
     removedata.ui \
+    symbolcontainer.ui \
     symboloptions.ui \
     test.ui \
     uploadnewdata.ui
