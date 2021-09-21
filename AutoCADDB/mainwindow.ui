@@ -235,7 +235,7 @@
              </size>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>3</number>
             </property>
             <widget class="QWidget" name="f_homeTab">
              <attribute name="title">
@@ -10990,7 +10990,7 @@ Tabs</string>
      <x>0</x>
      <y>0</y>
      <width>2187</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuNew">
@@ -11033,6 +11033,15 @@ Tabs</string>
     <property name="title">
      <string>Tools</string>
     </property>
+    <widget class="QMenu" name="menuAccess_Data">
+     <property name="title">
+      <string>Access Data</string>
+     </property>
+     <addaction name="actionAdd_Data"/>
+     <addaction name="actionPreview_Data"/>
+     <addaction name="actionRemove_Data"/>
+    </widget>
+    <addaction name="menuAccess_Data"/>
    </widget>
    <widget class="QMenu" name="menuDraw">
     <property name="title">
@@ -11207,6 +11216,21 @@ Tabs</string>
   <action name="actionAdd_symbol_options">
    <property name="text">
     <string>Add symbol options</string>
+   </property>
+  </action>
+  <action name="actionAdd_Data">
+   <property name="text">
+    <string>Add Data</string>
+   </property>
+  </action>
+  <action name="actionPreview_Data">
+   <property name="text">
+    <string>Preview Data</string>
+   </property>
+  </action>
+  <action name="actionRemove_Data">
+   <property name="text">
+    <string>Remove Data</string>
    </property>
   </action>
  </widget>

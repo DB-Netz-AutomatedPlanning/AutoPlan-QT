@@ -67,6 +67,14 @@ private slots:
 
 
 
+//    void on_planBtn_clicked();
+
+    void on_actionAdd_Data_triggered();
+
+    void on_actionPreview_Data_triggered();
+
+    void on_actionRemove_Data_triggered();
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;
@@ -87,7 +95,7 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
-void mousePressEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 };
 #endif // MAINWINDOW_H
