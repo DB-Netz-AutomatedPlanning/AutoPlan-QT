@@ -10,7 +10,6 @@
 #define UI_ICONSLIST_H
 
 #include <QtCore/QVariant>
-#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QFrame>
@@ -19,7 +18,6 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
@@ -37,9 +35,6 @@ public:
     QScrollArea *scrollArea_2;
     QWidget *scrollAreaWidgetContents_2;
     QVBoxLayout *verticalLayout_2;
-    QFrame *frame_23;
-    QVBoxLayout *verticalLayout_13;
-    QPushButton *testing;
     QFrame *frame_7;
     QHBoxLayout *horizontalLayout_8;
     QLabel *hauptsignal;
@@ -168,27 +163,9 @@ public:
         scrollArea_2->setWidgetResizable(true);
         scrollAreaWidgetContents_2 = new QWidget();
         scrollAreaWidgetContents_2->setObjectName(QString::fromUtf8("scrollAreaWidgetContents_2"));
-        scrollAreaWidgetContents_2->setGeometry(QRect(0, -174, 342, 923));
+        scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 342, 881));
         verticalLayout_2 = new QVBoxLayout(scrollAreaWidgetContents_2);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        frame_23 = new QFrame(scrollAreaWidgetContents_2);
-        frame_23->setObjectName(QString::fromUtf8("frame_23"));
-        frame_23->setFrameShape(QFrame::StyledPanel);
-        frame_23->setFrameShadow(QFrame::Raised);
-        verticalLayout_13 = new QVBoxLayout(frame_23);
-        verticalLayout_13->setObjectName(QString::fromUtf8("verticalLayout_13"));
-        testing = new QPushButton(frame_23);
-        testing->setObjectName(QString::fromUtf8("testing"));
-        testing->setStyleSheet(QString::fromUtf8("border:none;"));
-        QIcon icon;
-        icon.addFile(QString::fromUtf8(":/icons/assets/smallSvgs/Radsensor.svg"), QSize(), QIcon::Normal, QIcon::Off);
-        testing->setIcon(icon);
-
-        verticalLayout_13->addWidget(testing);
-
-
-        verticalLayout_2->addWidget(frame_23);
-
         frame_7 = new QFrame(scrollAreaWidgetContents_2);
         frame_7->setObjectName(QString::fromUtf8("frame_7"));
         frame_7->setMinimumSize(QSize(0, 32));
@@ -704,7 +681,6 @@ public:
     void retranslateUi(QMainWindow *IconsList)
     {
         IconsList->setWindowTitle(QCoreApplication::translate("IconsList", "MainWindow", nullptr));
-        testing->setText(QString());
 #if QT_CONFIG(accessibility)
         hauptsignal->setAccessibleName(QCoreApplication::translate("IconsList", "haupt", nullptr));
 #endif // QT_CONFIG(accessibility)
