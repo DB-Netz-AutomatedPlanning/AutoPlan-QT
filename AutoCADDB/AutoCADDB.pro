@@ -18,8 +18,8 @@ CONFIG += c++11
 SOURCES += \
     calcbutton.cpp \
     calculator.cpp \
-    connecttocsharp.cpp \
     connect2csharp.cpp \
+    connecttocsharp.cpp \
     constructsvgdialog.cpp \
     dragwidget.cpp \
     dropwidget.cpp \
@@ -40,8 +40,8 @@ SOURCES += \
 HEADERS += \
     calcbutton.h \
     calculator.h \
-    connecttocsharp.h \
     connect2csharp.h \
+    connecttocsharp.h \
     constructsvgdialog.h \
     dragwidget.h \
     dropwidget.h \
@@ -62,6 +62,7 @@ FORMS += \
     constructsvgdialog.ui \
     iconslist.ui \
     mainwindow.ui \
+    nopreviewdelete.ui \
     planningtable.ui \
     removedata.ui \
     symbolcontainer.ui \

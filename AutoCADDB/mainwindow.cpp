@@ -7,6 +7,9 @@
 #include "iconslist.h"
 #include "symboloptions.h"
 #include "symbolcontainer.h"
+#include "uploadnewdata.h"
+#include "removedata.h"
+#include "nopreviewdelete.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -492,7 +495,26 @@ void MainWindow::planningFnt()
     plan->show();
 }
 
+void MainWindow::on_actionAdd_Data_triggered()
+{
+    UploadNewData uploadNewData;
+    uploadNewData.setModal(true);
+    uploadNewData.exec();
+}
 
 
+void MainWindow::on_actionPreview_Data_triggered()
+{
+    RemoveData removeData;
+    removeData.setModal(true);
+    removeData.exec();
+}
 
+
+void MainWindow::on_actionRemove_Data_triggered()
+{
+    NoPreviewDelete noPreviewDelete;
+    noPreviewDelete.setModal(true);
+    noPreviewDelete.exec();
+}
 
