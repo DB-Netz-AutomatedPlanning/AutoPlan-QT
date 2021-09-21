@@ -66,38 +66,12 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-174</y>
+            <y>0</y>
             <width>342</width>
-            <height>923</height>
+            <height>881</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <widget class="QFrame" name="frame_23">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_13">
-              <item>
-               <widget class="QPushButton" name="testing">
-                <property name="styleSheet">
-                 <string notr="true">border:none;</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="icon">
-                 <iconset resource="resources.qrc">
-                  <normaloff>:/icons/assets/smallSvgs/Radsensor.svg</normaloff>:/icons/assets/smallSvgs/Radsensor.svg</iconset>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
            <item>
             <widget class="QFrame" name="frame_7">
              <property name="minimumSize">
