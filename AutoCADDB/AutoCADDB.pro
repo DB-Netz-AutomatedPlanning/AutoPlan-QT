@@ -19,6 +19,7 @@ SOURCES += \
     calcbutton.cpp \
     calculator.cpp \
     connecttocsharp.cpp \
+    connect2csharp.cpp \
     constructsvgdialog.cpp \
     dragwidget.cpp \
     dropwidget.cpp \
@@ -26,38 +27,47 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     myopenglwidget.cpp \
+    nopreviewdelete.cpp \
     openglclass.cpp \
     planningtable.cpp \
+    removedata.cpp \
     svgdialogview.cpp \
     symbolcontainer.cpp \
     symboloptions.cpp \
-    test.cpp
+    test.cpp \
+    uploadnewdata.cpp
 
 HEADERS += \
     calcbutton.h \
     calculator.h \
     connecttocsharp.h \
+    connect2csharp.h \
     constructsvgdialog.h \
     dragwidget.h \
     dropwidget.h \
     iconslist.h \
     mainwindow.h \
     myopenglwidget.h \
+    nopreviewdelete.h \
     openglclass.h \
     planningtable.h \
+    removedata.h \
     svgdialogview.h \
     symbolcontainer.h \
     symboloptions.h \
-    test.h
+    test.h \
+    uploadnewdata.h
 
 FORMS += \
     constructsvgdialog.ui \
     iconslist.ui \
     mainwindow.ui \
     planningtable.ui \
+    removedata.ui \
     symbolcontainer.ui \
     symboloptions.ui \
-    test.ui
+    test.ui \
+    uploadnewdata.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
