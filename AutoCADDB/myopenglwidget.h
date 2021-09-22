@@ -74,10 +74,6 @@ protected:
     private:
     QString str;
     QLabel *newIcon;
-    QLabel *lblSmb;
-    QLabel *lblPostn;
-    QLineEdit *leSmbName ;
-    QLineEdit *lePos ;
 
 
 public slots:

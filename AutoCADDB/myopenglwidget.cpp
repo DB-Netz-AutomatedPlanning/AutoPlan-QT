@@ -15,11 +15,6 @@ MyOpenglWidget::MyOpenglWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
     setFormat(QSurfaceFormat::defaultFormat());
     setAcceptDrops(true);
-    lblSmb = new QLabel(this);
-    lblPostn = new QLabel(this);
-    leSmbName= new QLineEdit(this);
-    lePos = new QLineEdit(this);
-
 
 }
 
@@ -311,9 +306,6 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
      qInfo() << "--------------------------";
 //! [3]
 
-     //lePos->setText(child->pos());
-//lePos->setText(s);
-
 
     QPixmap tempPixmap = pixmap;
     QPainter painter;
@@ -461,23 +453,6 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
         assignObjectName(glbObjectName);
         defaultObjectName = glbObjectName;
 
-
-
-      //  lblSmb->setText("Name");
-        lblSmb->setGeometry(10, 13, 100, 20);
-
-      //  lblPostn->setText("Position");
-        lblPostn->setGeometry(10, 30, 100, 20);
-
-     //   leSmbName->setText(defaultObjectName);
-        leSmbName->setGeometry(50, 13, 100, 20);
-
-
-
-       // leSmbName->show();
-
-
-
         QTableWidget *tableWidget = new QTableWidget(this);
         tableWidget->setRowCount(2);
         tableWidget->setColumnCount(2);
@@ -495,8 +470,6 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
              newIcon->move(event->position().toPoint() - offset);
              newIcon->show();
              newIcon->setAttribute(Qt::WA_DeleteOnClose);
-
-            // st->clear();
 
 
 
@@ -528,18 +501,10 @@ void MyOpenglWidget::assignObjectName(QString str){
              newIcon = new QLabel(this);
 
              newIcon->setObjectName("radsensor");
-             leSmbName->clear();
-             leSmbName->setText(defaultObjectName);
-          //   defaultObjectName = str;
-
     }
     if(str== "hauptsignal"){
              newIcon = new QLabel(this);
-          //  st = new QLabel(this);
               newIcon->setObjectName("hauptsignal");
-              leSmbName->clear();
-                leSmbName->setText(defaultObjectName);
-             //  defaultObjectName = str;
     }
     if(str== "rangier"){
              newIcon = new QLabel(this);
@@ -548,17 +513,11 @@ void MyOpenglWidget::assignObjectName(QString str){
     }
     if(str== "vorsignal"){
               newIcon = new QLabel(this);
-
               newIcon->setObjectName("vorsignal");
-
-                leSmbName->setText(defaultObjectName);
     }
     if(str== "haltetafel"){
              newIcon = new QLabel(this);
              newIcon->setObjectName("haltetafel");
-             leSmbName->clear();
-               leSmbName->setText(defaultObjectName);
-
     }
     if(str== "schutzhalt"){
               newIcon = new QLabel(this);
