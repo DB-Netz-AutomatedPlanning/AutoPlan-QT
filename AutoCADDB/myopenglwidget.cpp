@@ -25,10 +25,21 @@ MyOpenglWidget::MyOpenglWidget(QWidget *parent) : QOpenGLWidget(parent)
 
 MyOpenglWidget::~MyOpenglWidget()
 {
-    window()->setStyleSheet("QLineEdit { border: none }");
+    //cleanup();
+    //window()->setStyleSheet("QLineEdit { border: none }");
 
 
 }
+
+void MyOpenglWidget::cleanup()
+{
+    makeCurrent();
+    delete shaderProg;
+    shaderProg = 0;
+    doneCurrent();
+}
+
+
 struct EventInfo
 {
 int mcstrCMD_ID;
@@ -147,78 +158,254 @@ vector<vector<GLfloat>> vec = {
 
 void MyOpenglWidget::initializeGL()
 {
-    initializeOpenGLFunctions(); // obvious
+    qDebug()<< "initialize start";
+         connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &MyOpenglWidget::cleanup);
 
-        buffer = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-        buffer.setUsagePattern(QOpenGLBuffer::StaticDraw);
-        Q_ASSERT(buffer.create());
-        Q_ASSERT(buffer.bind());
+         initializeOpenGLFunctions(); // obvious
+         glClearColor(1.0, 1.0, 1.0, 1.0);
 
-        shaderProg.addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
-        shaderProg.addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
-        Q_ASSERT(shaderProg.link());
+         shaderProg = new QOpenGLShaderProgram;
 
-        m_MVPMatrixLoc = shaderProg.uniformLocation("MVP");
-        Q_ASSERT(shaderProg.bind());
 
-        const int vPosition = 0;
+         shaderProg->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
+         shaderProg->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
 
-        glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+         Q_ASSERT(shaderProg->link());
 
-        glEnableVertexAttribArray(vPosition);
+         Q_ASSERT(shaderProg->bind());
+         m_MVPMatrixLoc = shaderProg->uniformLocation("MVP");
 
-        glClear(GL_COLOR_BUFFER_BIT);
 
-        glClearColor(1.0, 1.0, 1.0, 1.0);
+         //vertex array object
+         m_vao.create();
+         QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
 
-        viewMatrix.lookAt(
-                    QVector3D(x, y, z), // Camera is at (x,y,z), in World Space
-                    QVector3D(x, y, 0), // and looks at (x,y)
-                    QVector3D(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
-                    );
+         //setup vertex buffer object
+
+         buffer = QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+         buffer.setUsagePattern(QOpenGLBuffer::StaticDraw);
+         Q_ASSERT(buffer.create());
+         Q_ASSERT(buffer.bind());
+
+         // Store the vertex attribute bindings for the program.
+
+         const int vPosition = 0;
+
+         glVertexAttribPointer(vPosition, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+         glEnableVertexAttribArray(vPosition);
+
+ //        viewMatrix.lookAt(
+ //                    QVector3D(x, y, z), // Camera is at (x,y,z), in World Space
+ //                    QVector3D(x, y, 0), // and looks at (x,y)
+ //                    QVector3D(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+ //                    );
+
+         shaderProg->release();
+
+       qDebug()<< "initialize end";
 
 
 }
 
 void MyOpenglWidget::paintGL()
 {
-  QTextStream cout(stdout);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LESS);
+    qDebug()<< "start";
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+
+    shaderProg->enableAttributeArray("vPosition");
+
+    QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
+    shaderProg->bind();
+
+    modelMatrix.setToIdentity();
+
+    mvp = projectionMatrix * viewMatrix * modelMatrix;
+
+    shaderProg->setUniformValue(m_MVPMatrixLoc, mvp);
 
 
-  shaderProg.enableAttributeArray("vPosition");
-
-  modelMatrix.setToIdentity();
-
-  mvp = projectionMatrix * viewMatrix * modelMatrix;
-
-  shaderProg.setUniformValue(m_MVPMatrixLoc, mvp);
-
-
+      for(unsigned int i=0;i<vec.size();i++){
+          for(unsigned int j=0;j<vec[i].size();j++){
+              buffer.allocate( vec[i].size() *sizeof (GLfloat));
+              buffer.write(0, &vec[i][0], vec[i].size() *sizeof (GLfloat));
+              glDrawArrays(GL_LINE_STRIP, 0, vec[i].size()/3);
+          }
+      }
 
 
-    for(unsigned int i=0;i<vec.size();i++){
-        for(unsigned int j=0;j<vec[i].size();j++){
-            buffer.allocate( vec[i].size() *sizeof (GLfloat));
-            buffer.write(0, &vec[i][0], vec[i].size() *sizeof (GLfloat));
-            glDrawArrays(GL_LINE_STRIP, 0, vec[i].size()/3);
-            //cout<<i<<" "<<j<<" "<<vec[i].size()<<" \n";
-        }
+      viewMatrix.setToIdentity();
+      viewMatrix.lookAt(
+                  QVector3D(x, y, z), // Camera is at (x,y,z), in World Space
+                  QVector3D(x, y, 0), // and looks at (x,y)
+                  QVector3D(0, 1, 0)  // Head is up (set to 0,-1,0 to look upside-down)
+                  );
+
+      projectionMatrix.setToIdentity();
+      projectionMatrix.perspective(45.0f, (float)width()/(float)height(), z, z/1000);
+
+      shaderProg->release();
+      qDebug()<< "end";
+
+}
+
+void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton){
+        mouseLeftButtonPressed = true;
+    }else if(event->button() == Qt::RightButton){
+        mouseRightButtonPressed = true;
+        scaleSpeed = scaleSpeed*1.1;
+        qDebug()<< "Scale Speed : " <<scaleSpeed;
+    }else if(event->button() == Qt::MiddleButton){
+        scaleSpeed = scaleSpeed/1.1;
+        qDebug()<< "Scale Speed : " <<scaleSpeed;
+    }
+
+    QLabel *child = static_cast<QLabel*>(childAt(event->position().toPoint()));
+    if (!child)
+        return;
+
+    str = child->objectName() ;
+
+    //initiliaze glb string with object name
+    if(!str.isNull()){
+        glbObjectName=str;
+        defaultObjectName = str;
     }
 
 
+    QPixmap pixmap = child->pixmap(Qt::ReturnByValue);
 
-    glFlush();
+    QByteArray itemData;
+    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    dataStream << pixmap << QPoint(event->position().toPoint() - child->pos());
+//! [1]
 
+//! [2]
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setData("application/x-dnditemdata", itemData);
+
+//! [2]
+
+//! [3]
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+    drag->setPixmap(pixmap);
+    drag->setHotSpot(event->position().toPoint() - child->pos());
+
+    QPoint s = event->position().toPoint() - child->pos();
+    QPointF f = s;
+    //int ss =s;
+
+
+    qInfo() << "--------------------------";
+    qInfo() << "Position from top-left corner :";
+    qInfo() << event->position().toPoint() - child->pos();
+   qInfo() << "--------------------------";
+    qInfo() << "Symbol Position :";
+    qInfo() << f;
+     qInfo() << "--------------------------";
+//! [3]
+
+     //lePos->setText(child->pos());
+//lePos->setText(s);
+
+
+    QPixmap tempPixmap = pixmap;
+    QPainter painter;
+    painter.begin(&tempPixmap);
+    painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
+    painter.end();
+
+    child->setPixmap(tempPixmap);
+
+    if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction) {
+        child->close();
+    } else {
+        child->show();
+        child->setPixmap(pixmap);
+    }
+
+       MainWindow *w = new MainWindow();
+       w->setObjNameTW("radsensor");
+
+
+     //  QLabel *st = new QLabel(this);
+
+
+}
+
+
+void MyOpenglWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event);
+    mouseLeftButtonPressed = false;
+    mouseRightButtonPressed = false;
+}
+
+void MyOpenglWidget::mouseMoveEvent(QMouseEvent *event)
+{
+
+    double currentX = event->position().x();
+    double currentY = event->position().y();
+
+
+
+    if(mouseLeftButtonPressed == true){
+        if(dx < currentX){
+            dx = currentX;
+            x = x - scaleSpeed;
+            qDebug()<< "X increased value: "<< x;
+        }else if(dx == currentX){
+            dx = currentX;
+            qDebug()<< "X equal value: "<< x;
+        }else{
+            dx = currentX;
+            x = x + scaleSpeed;
+            qDebug()<< "X decreased value: "<< x;
+        }
+
+        if(dy <currentY){
+            dy = currentY;
+            y = y + scaleSpeed;
+            qDebug()<< "Y increased value: "<< y;
+        }else if(dy == currentY){
+            dy = currentY;
+            qDebug()<< "Y equal value: "<< y;
+        }else{
+            dy = currentY;
+            y = y - scaleSpeed;
+            qDebug()<< "Y decreased value: "<< y;
+        }
+    }
+    update();
+}
+
+void MyOpenglWidget::wheelEvent(QWheelEvent *event)
+{
+    QPoint numDegrees = event->angleDelta();
+
+    if(numDegrees.y()>0){
+            z = z/1.1;
+    }else if(numDegrees.y()<0){
+        if(z<highestZoomScale){
+            z = z*1.1;
+        }
+    }
+    qDebug()<< "Z value: "<<z;
+
+    update();
 }
 
 void MyOpenglWidget::resizeGL(int w, int h)
 {
       Q_UNUSED(w); Q_UNUSED(h);
-      glViewport(0, 0, (GLint)width(), (GLint)height());
-      projectionMatrix.perspective(45.0f, (float)width()/(float)height(), z, z/1000);
+      //glViewport(0, 0, (GLint)width(), (GLint)height());
+      //projectionMatrix.perspective(45.0f, (float)width()/(float)height(), z, z/1000);
 
 }
 
@@ -323,83 +510,6 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
         event->ignore();
     }
 
-
-
-
-}
-
-void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
-{
-    QLabel *child = static_cast<QLabel*>(childAt(event->position().toPoint()));
-    if (!child)
-        return;
-
-    str = child->objectName() ;
-
-    //initiliaze glb string with object name
-    if(!str.isNull()){
-        glbObjectName=str;
-        defaultObjectName = str;
-    }
-
-
-    QPixmap pixmap = child->pixmap(Qt::ReturnByValue);
-
-    QByteArray itemData;
-    QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-    dataStream << pixmap << QPoint(event->position().toPoint() - child->pos());
-//! [1]
-
-//! [2]
-    QMimeData *mimeData = new QMimeData;
-    mimeData->setData("application/x-dnditemdata", itemData);
-
-//! [2]
-
-//! [3]
-    QDrag *drag = new QDrag(this);
-    drag->setMimeData(mimeData);
-    drag->setPixmap(pixmap);
-    drag->setHotSpot(event->position().toPoint() - child->pos());
-
-    QPoint s = event->position().toPoint() - child->pos();
-    QPointF f = s;
-    //int ss =s;
-
-
-    qInfo() << "--------------------------";
-    qInfo() << "Position from top-left corner :";
-    qInfo() << event->position().toPoint() - child->pos();
-   qInfo() << "--------------------------";
-    qInfo() << "Symbol Position :";
-    qInfo() << f;
-     qInfo() << "--------------------------";
-//! [3]
-
-     //lePos->setText(child->pos());
-//lePos->setText(s);
-
-
-    QPixmap tempPixmap = pixmap;
-    QPainter painter;
-    painter.begin(&tempPixmap);
-    painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
-    painter.end();
-
-    child->setPixmap(tempPixmap);
-
-    if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction) {
-        child->close();
-    } else {
-        child->show();
-        child->setPixmap(pixmap);
-    }
-
-       MainWindow *w = new MainWindow();
-       w->setObjNameTW("radsensor");
-
-
-     //  QLabel *st = new QLabel(this);
 
 
 
