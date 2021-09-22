@@ -31,26 +31,41 @@ public:
  QString* s;
 
 protected:
-    void initializeGL();
-    void resizeGL(int w, int h);
-    void paintGL();
+    void initializeGL() override;
+    void resizeGL(int w, int h) override;
+    void paintGL() override;
+    QOpenGLVertexArrayObject  m_vao;
     QOpenGLBuffer buffer;
     GLuint m_MVPMatrixLoc;
     QMatrix4x4 modelMatrix;
     QMatrix4x4 viewMatrix;
     QMatrix4x4 projectionMatrix;
     QMatrix4x4 mvp;
-    QOpenGLShaderProgram shaderProg;
+    QOpenGLShaderProgram *shaderProg;
+
 
     double x = 3432800;
     double y = 5665700;
     float z = 10000.0f;
+    float highestZoomScale  = 62000.0f;
+    float lowestZoomScale  = 4200.0f;
+
+    bool mouseLeftButtonPressed;
+    bool mouseRightButtonPressed;
+    int temp = 0;
+    double dx = 0;
+    double dy = 0;
+    double scaleSpeed = 556.0;
+
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
 
     QPushButton *btnSender;
 
@@ -63,6 +78,10 @@ protected:
     QLabel *lblPostn;
     QLineEdit *leSmbName ;
     QLineEdit *lePos ;
+
+
+public slots:
+    void cleanup();
 
 
 
