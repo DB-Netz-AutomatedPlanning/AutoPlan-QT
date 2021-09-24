@@ -6,7 +6,9 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLContext>
-#include <QOpenGLShaderProgram>
+#include <QtOpenGLWidgets/QOpenGLWidget>
+#include <QtOpenGL/QOpenGLShaderProgram>
+//#include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
 #include <QMatrix4x4>
@@ -34,7 +36,7 @@ protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
     void paintGL() override;
-    QOpenGLVertexArrayObject  m_vao;
+    QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer buffer;
     GLuint m_MVPMatrixLoc;
     QMatrix4x4 modelMatrix;

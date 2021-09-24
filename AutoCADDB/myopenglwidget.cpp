@@ -1,7 +1,7 @@
 #include "myopenglwidget.h"
 #include "mainwindow.h"
 #include <QtWidgets>
-#include <QOpenGLWidget>
+// #include <QOpenGLWidget>
 #include <QWidget>
 #include <QSvgRenderer>
 #include <QDebug>
