@@ -111,13 +111,6 @@ void Connect2CSharp::mainSolution()
     this->setNumberOfRows(rows);
     this->setNumberofCols(cols);
     this->setMainAntwort(table);
-
-    // cleaning up the memory to avaoid leakage
-//    for (int r=0; r<rows; r++){
-//        delete [] table[r];
-//    }
-//    delete [] table;
-//    table = NULL;
 }
 
 
