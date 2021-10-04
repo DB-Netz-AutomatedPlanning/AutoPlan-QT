@@ -21,6 +21,7 @@ SOURCES += \
     connect2csharp.cpp \
     connecttocsharp.cpp \
     constructsvgdialog.cpp \
+    coordinates.cpp \
     dragwidget.cpp \
     dropwidget.cpp \
     iconslist.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     connect2csharp.h \
     connecttocsharp.h \
     constructsvgdialog.h \
+    coordinates.h \
     dragwidget.h \
     dropwidget.h \
     iconslist.h \
