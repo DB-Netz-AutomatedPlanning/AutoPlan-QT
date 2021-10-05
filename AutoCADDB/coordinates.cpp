@@ -7,7 +7,7 @@ Coordinates::Coordinates(QString station)
 
 void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
 {
-    /* readCoordinates(QString location,QString dataFile, int dataCodeNumber)
+    /* readCoordinates(QString dataFile, int dataCodeNumber)
       dataFile can only be ...
       "Gleisknoten.geojson" corresponding to dataCodeNumber 1
       "Gleiskanten.geojson" corresponding to dataCodeNumber 2
@@ -55,11 +55,6 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
     file.close();
 
     QJsonDocument document = QJsonDocument::fromJson(jsonData.toUtf8());
-//    QJsonObject jObj = document.object();
-//    if(jObj.isEmpty()){
-//        qInfo()<< "Json object is empty";
-//        return;
-//    }
 
     int count =0;
     while(!document["features"][count].isUndefined()){
@@ -81,6 +76,7 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         qInfo()<< "Please enter a valid data name";
         return;
     }
+    qInfo()<< "Count"<<count;
 
     switch (value) {
 
@@ -102,6 +98,9 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
     }
     case 2: {
         std::vector<float> arrayOfCoordinates;
+        std::vector<int> segmentCount;
+        segmentCount.push_back(0);
+        int globalCount =0;
         int counter =0;
         while (counter < count){
             int innerCount =0;
@@ -109,6 +108,8 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
             while(!document["features"][counter]["geometry"]["coordinates"][innerCount].isUndefined()){
                 innerCount++;
             }
+            globalCount+=(innerCount*2);
+            segmentCount.push_back(globalCount);
 
             int innerIndex =0;
             while (innerIndex < innerCount){
@@ -119,6 +120,7 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
             counter++;
         }
         setCoordinateLists(arrayOfCoordinates);
+        setSegment(segmentCount);
         break;
     }
     default: {
@@ -135,4 +137,14 @@ const std::vector<float> &Coordinates::getCoordinateLists() const
 void Coordinates::setCoordinateLists(const std::vector<float> &newCoordinateLists)
 {
     coordinateLists = newCoordinateLists;
+}
+
+const std::vector<int> &Coordinates::getSegment() const
+{
+    return segment;
+}
+
+void Coordinates::setSegment(const std::vector<int> &newSegment)
+{
+    segment = newSegment;
 }
