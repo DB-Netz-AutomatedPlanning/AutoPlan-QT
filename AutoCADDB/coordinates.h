@@ -20,11 +20,15 @@ public:
     const std::vector<float> &getCoordinateLists() const;
     void setCoordinateLists(const std::vector<float> &newCoordinateLists);
 
+    const std::vector<int> &getSegment() const;
+    void setSegment(const std::vector<int> &newSegment);
+
 signals:
 
 private:
     QString station;
     std::vector<float> coordinateLists;
+    std::vector<int> segment;
 
 };
 
