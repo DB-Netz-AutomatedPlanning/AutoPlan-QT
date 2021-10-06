@@ -10,6 +10,7 @@
 #include "uploadnewdata.h"
 #include "removedata.h"
 #include "nopreviewdelete.h"
+#include "exportdialog.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -468,24 +469,28 @@ void MainWindow::importShapeFiles()
 
 void MainWindow::exportToPicture()
 {
-    QString defaultFileName = fileName;
-    int index = defaultFileName.lastIndexOf(".");
-    defaultFileName = defaultFileName.left(index);
-    defaultFileName += ".png";
-    QString s = QFileDialog::getSaveFileName(
-        this, tr("Export to PNG"), defaultFileName,
-        tr("Portable Network Graphics (*.png)"));
+    //QString defaultFileName = fileName;
+    //int index = defaultFileName.lastIndexOf(".");
+    //defaultFileName = defaultFileName.left(index);
+    //defaultFileName += ".png";
+    //QString s = QFileDialog::getSaveFileName(
+      //  this, tr("Export to PNG"), defaultFileName,
+        //tr("Portable Network Graphics (*.png)"));
 
-    if (!s.isEmpty())
-    {
-      QImage image(view->width(), view->height(), QImage::Format_RGB32);
-      image.fill(QColor(Qt::white));
-      QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-      QPainter painter(&image);
-      view->render(&painter);
-      image.save(s, "PNG");
-      QApplication::restoreOverrideCursor();
-    }
+    //if (!s.isEmpty())
+    //{
+      //QImage image(view->width(), view->height(), QImage::Format_RGB32);
+      //image.fill(QColor(Qt::white));
+      //QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+      //QPainter painter(&image);
+      //view->render(&painter);
+      //image.save(s, "PNG");
+      //QApplication::restoreOverrideCursor();
+    //}
+
+    ExportDialog exportDialog;
+    exportDialog.setModal(true);
+    exportDialog.exec();
 }
 
 void MainWindow::planningFnt()
