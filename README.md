@@ -12,3 +12,7 @@
 
 ###### 1. Do not push the build folder. ~~build~~
 ###### 2. Resolve conflicts together.
+
+**Release Version**
+###### 1. To access the last available release (installation) file, Click the link below;
+###### 2. [Here](https://github.com/DB-Netz-AutomatedPlanning/AutoPlan-QT/releases)
