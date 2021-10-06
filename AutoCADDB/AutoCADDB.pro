@@ -36,7 +36,8 @@ SOURCES += \
     symbolcontainer.cpp \
     symboloptions.cpp \
     test.cpp \
-    uploadnewdata.cpp
+    uploadnewdata.cpp \
+    exportdialog.cpp
 
 HEADERS += \
     calcbutton.h \
@@ -58,7 +59,8 @@ HEADERS += \
     symbolcontainer.h \
     symboloptions.h \
     test.h \
-    uploadnewdata.h
+    uploadnewdata.h \
+    exportdialog.h
 
 FORMS += \
     constructsvgdialog.ui \
@@ -70,7 +72,8 @@ FORMS += \
     symbolcontainer.ui \
     symboloptions.ui \
     test.ui \
-    uploadnewdata.ui
+    uploadnewdata.ui \
+    exportdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
