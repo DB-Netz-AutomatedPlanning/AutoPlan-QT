@@ -1,6 +1,7 @@
 #include "removedata.h"
 #include "ui_removedata.h"
 
+// This class allow for prevew of data before deleting
 RemoveData::RemoveData(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::RemoveData)

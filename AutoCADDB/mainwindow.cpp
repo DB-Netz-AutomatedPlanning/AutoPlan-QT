@@ -488,9 +488,21 @@ void MainWindow::exportToPicture()
       //QApplication::restoreOverrideCursor();
     //}
 
-    ExportDialog exportDialog;
-    exportDialog.setModal(true);
-    exportDialog.exec();
+
+    //------------------------------------------------------------
+
+    // Condition needs to be modified as soon as other version is available
+    if (ui->comboBox_30->currentText() != "Eulynx"){
+        QMessageBox::warning(this, "File Format", "Selected format '"+ui->comboBox_30->currentText()+"' is currently not available");
+
+    }
+    else{
+        ExportDialog exportDialog;
+        exportDialog.setModal(true);
+        exportDialog.exec();
+    }
+
+
 }
 
 void MainWindow::planningFnt()
@@ -521,5 +533,22 @@ void MainWindow::on_actionRemove_Data_triggered()
     NoPreviewDelete noPreviewDelete;
     noPreviewDelete.setModal(true);
     noPreviewDelete.exec();
+}
+
+
+//void MainWindow::on_exportBtn_clicked()
+//{
+//    ExportDialog exportDialog;
+//    exportDialog.setModal(true);
+//    exportDialog.exec();
+//}
+
+
+void MainWindow::on_pushButton_77_clicked()
+{
+    UploadNewData uploadNewData;
+    uploadNewData.setModal(true);
+    uploadNewData.exec();
+
 }
 

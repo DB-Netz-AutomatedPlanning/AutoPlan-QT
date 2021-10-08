@@ -9,7 +9,7 @@ UploadNewData::UploadNewData(QWidget *parent) :
     setWindowTitle("Update And Add Data");
 
     QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-    while(iter.hasNext() )
+    while(iter.hasNext())
     {
         QString val = iter.next();
         ui->comboBox->addItem(val.remove("Data/"));
@@ -412,7 +412,7 @@ void UploadNewData::on_btnOK_clicked()
         }
         else{
             if (QFile::copy(fileName, resourcefileName)){
-                msg.append("Entwurfselement_Lage successfully updated");
+                msg.append("Entwurfselement_Lage successfully updated \n");
 //                QMessageBox::information(this, "Information", "Entwurfselement_Lage successfully updated");
             }
             else{
@@ -443,7 +443,7 @@ void UploadNewData::on_btnOK_clicked()
         }
         else{
             if (QFile::copy(fileName, resourcefileName)){
-                msg.append("Entwurfselement_Ueberhoehung successfully updated");
+                msg.append("Entwurfselement_Ueberhoehung successfully updated \n");
 //                QMessageBox::information(this, "Information", "Entwurfselement_Ueberhoehung successfully updated");
             }
             else{
@@ -455,11 +455,6 @@ void UploadNewData::on_btnOK_clicked()
         QMessageBox::information(this, "Saved", msg);
         close();
     }
-
-
-
-
-
 }
 
 
@@ -469,7 +464,6 @@ void UploadNewData::on_radioAddNew_clicked()
     ui->comboBox->setEnabled(false);
     ui->btnClickHere->setEnabled(true);
     lblState(false);
-
 }
 
 

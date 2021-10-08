@@ -110,10 +110,14 @@ void PlanningTable::on_btnLoad_clicked()
         this->setGleiskantenPath(gleiskantenPath);
         this->setGleisknotenPath(gleisknotenPath);
         this->setHoehePath(hoehePath);
-
         Connect2CSharp *csharp = new Connect2CSharp(this->getGleiskantenPath().toLatin1(), this->getGleisknotenPath().toLatin1(), this->getHoehePath().toLatin1());
+        qInfo()<< "2";
         csharp->cSharp();
+        if (!csharp->isAvailable){
 
+            QMessageBox::warning(this, "Warning", "Problem opening APlan_Core App \n ... some linking file(s) are missing. Please contact your administrator");
+            return;
+        }
         csharp->mainSolution();
         this->table = csharp->getMainAntwort();
         this->rows = csharp->getNumberOfRows();
