@@ -1,5 +1,6 @@
 #include "connect2csharp.h"
 
+// this class works only for planning (and not for exporting eulynx)
 Connect2CSharp::Connect2CSharp(QByteArray gleiskantenPath, QByteArray gleisknotenPath, QByteArray hoehePath)
 {
     this->gleiskantenPath = gleiskantenPath;
@@ -14,14 +15,19 @@ void Connect2CSharp::cSharp()
     findOS();   //determine the operating system
 
     // replace this with corresponding filepath
-    QString filePath = "main.exe";
+    QString filePath = "APLAN-CORE.exe";
     csharp.start(filePath);
     if(!csharp.waitForStarted(3000)) {
-        qInfo()<< "Problem with opening of App";
+        this->isAvailable = false;
+        qInfo()<< "Problem with opening of APlan_Core App \n "
+                  "... some linking file(s) are missing. Please contact your administrator";
         return;
     }
 
     // write data(each parameter) to the terminal, followed by Enter key
+    if(!state.endsWith(endl.toLatin1())) state.append(endl.toUtf8());
+    csharp.write(state);
+    csharp.waitForBytesWritten(1000);
 
     if(!gleiskantenPath.endsWith(endl.toLatin1())) gleiskantenPath.append(endl.toUtf8());
     csharp.write(gleiskantenPath);
@@ -42,6 +48,7 @@ void Connect2CSharp::cSharp()
         return;
     }
     QByteArray result = csharp.readAll();
+
     this->setAntwort(result);
 }
 
@@ -107,7 +114,6 @@ void Connect2CSharp::mainSolution()
             count++;
         }
     }
-
     this->setNumberOfRows(rows);
     this->setNumberofCols(cols);
     this->setMainAntwort(table);

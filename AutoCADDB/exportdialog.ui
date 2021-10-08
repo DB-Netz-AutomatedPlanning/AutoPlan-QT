@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
-    <height>151</height>
+    <width>491</width>
+    <height>157</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,15 +62,22 @@
             </size>
            </property>
            <property name="text">
-            <string>Select Folder</string>
+            <string>Output Folder</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="leFolder"/>
+          <widget class="QLineEdit" name="leFolder">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="btnOpenFolder">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="maximumSize">
             <size>
              <width>50</width>
@@ -168,6 +175,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="btnExport">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Export</string>
         </property>

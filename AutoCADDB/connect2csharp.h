@@ -1,18 +1,21 @@
 #ifndef CONNECT2CSHARP_H
 #define CONNECT2CSHARP_H
-#include <type_traits>
 
+#include <type_traits>
 #include <QObject>
 #include<QSysInfo>
 #include<QProcess>
 #include<QDebug>
 #include<QRegularExpression>
+#include <QMessageBox>
 
 class Connect2CSharp : public QObject
 {
     Q_OBJECT
 public:
     //Connect2CSharp();
+    bool isAvailable = true; // to know if the CSharp app exist o the running PC
+    QByteArray state = "plan";
     explicit Connect2CSharp(QByteArray gleiskantenPath = "", QByteArray gleisknotenPath ="", QByteArray hoehePath ="");
 
     const QString &getApp() const;
@@ -48,6 +51,7 @@ private:
     QByteArray hoehePath;
     int NumberOfRows;
     int NumberofCols;
+
 
 
 };
