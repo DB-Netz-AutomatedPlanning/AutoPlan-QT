@@ -172,6 +172,8 @@
         <file>assets/smallSvgs/rightArrow.svg</file>
         <file>assets/smallSvgs/rightArrowersatz.svg</file>
         <file>assets/smallSvgs/vorArrow.svg</file>
+        <file>assets/DBmain.jpg</file>
+        <file>assets/home/DBmain.png</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>
