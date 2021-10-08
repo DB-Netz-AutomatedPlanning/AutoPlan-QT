@@ -15,8 +15,13 @@ public:
     explicit ExportDialog(QWidget *parent = nullptr);
     ~ExportDialog();
 
+private slots:
+    void on_btnExport_clicked();
+
 private:
     Ui::ExportDialog *ui;
+
+
 };
 
 #endif // EXPORTDIALOG_H

@@ -31,6 +31,7 @@ SOURCES += \
     nopreviewdelete.cpp \
     openglclass.cpp \
     planningtable.cpp \
+    previeweulynxxml.cpp \
     removedata.cpp \
     svgdialogview.cpp \
     symbolcontainer.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     nopreviewdelete.h \
     openglclass.h \
     planningtable.h \
+    previeweulynxxml.h \
     removedata.h \
     svgdialogview.h \
     symbolcontainer.h \
@@ -68,6 +70,7 @@ FORMS += \
     mainwindow.ui \
     nopreviewdelete.ui \
     planningtable.ui \
+    previeweulynxxml.ui \
     removedata.ui \
     symbolcontainer.ui \
     symboloptions.ui \
