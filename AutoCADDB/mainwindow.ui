@@ -92,7 +92,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>0</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -100,6 +100,29 @@
             <property name="movable">
              <bool>false</bool>
             </property>
+            <widget class="QWidget" name="tab_2">
+             <attribute name="title">
+              <string>Welcome</string>
+             </attribute>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_43">
+                <property name="maximumSize">
+                 <size>
+                  <width>300</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap resource="resources.qrc">:/icons/assets/home/DBmain.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
             <widget class="QWidget" name="tab_4">
              <attribute name="title">
               <string>Start</string>
