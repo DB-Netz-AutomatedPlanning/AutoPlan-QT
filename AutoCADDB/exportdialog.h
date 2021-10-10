@@ -9,6 +9,7 @@
 #include<QProcess>
 #include<QDebug>
 #include<QRegularExpression>
+#include <previeweulynxxml.h>
 
 namespace Ui {
 class ExportDialog;
@@ -44,6 +45,7 @@ private:
     Ui::ExportDialog *ui;
     QString app;
     QString endl;
+
 };
 
 #endif // EXPORTDIALOG_H

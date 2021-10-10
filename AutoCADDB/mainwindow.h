@@ -29,13 +29,14 @@ public:
     //treeview
     void setObjNameTW(QString);
      MyOpenglWidget *myopen;
+     void addTab();
 
 public slots:
 
 private slots:
 
     void on_actionSave_triggered();
-    void addTab();
+
     void closeTab(int);
     void penColor();
     void penWidth();

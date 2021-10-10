@@ -64,6 +64,7 @@ void RemoveData::on_btnPreview_clicked()
 void RemoveData::on_comboAllFolder_currentTextChanged()
 {
     ui->btnDelete->setEnabled(false);
+    ui->textBrowserPreview->clear();
     ui->textBrowserPreview->setEnabled(false);
     ui->comboFiles->setEnabled(false);
     ui->btnPreview->setEnabled(false);
@@ -73,6 +74,7 @@ void RemoveData::on_comboAllFolder_currentTextChanged()
 void RemoveData::on_comboFiles_currentTextChanged()
 {
     ui->btnDelete->setEnabled(false);
+    ui->textBrowserPreview->clear();
     ui->textBrowserPreview->setEnabled(false);
 
 }

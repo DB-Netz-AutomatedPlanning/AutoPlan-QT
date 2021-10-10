@@ -2,9 +2,12 @@
 #define PREVIEWEULYNXXML_H
 
 #include <QDialog>
+#include <QFile>
+#include <QMessageBox>
 
 namespace Ui {
 class PreviewEulynxXml;
+class ExportDialog;
 }
 
 class PreviewEulynxXml : public QDialog
@@ -20,6 +23,7 @@ private slots:
 
 private:
     Ui::PreviewEulynxXml *ui;
+    Ui::ExportDialog *uiE;
 };
 
 #endif // PREVIEWEULYNXXML_H

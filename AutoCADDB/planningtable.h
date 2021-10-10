@@ -7,13 +7,15 @@
 #include <QFileDialog>
 #include<QDebug>
 #include "connect2csharp.h"
+#include "mainwindow.h"
 #include <QMessageBox>
 #include <QtGui>
 #include <QtCore>
 
-namespace Ui {
-class PlanningTable;
-}
+namespace Ui { class PlanningTable; }
+QT_END_NAMESPACE
+class MainWindow;
+class MyOpenglWidget;
 
 class PlanningTable : public QMainWindow
 {
@@ -36,7 +38,6 @@ public:
 private slots:
 
     void on_btnAutoPLAN_clicked();
-
     void on_btnLoad_clicked();
 
 private:
@@ -48,6 +49,8 @@ private:
     QString ** table;
     int rows;
     int cols;
+
+
 };
 
 #endif // PLANNINGTABLE_H
