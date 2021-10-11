@@ -25,6 +25,7 @@ SOURCES += \
     dragwidget.cpp \
     dropwidget.cpp \
     iconslist.cpp \
+    importfolder.cpp \
     main.cpp \
     mainwindow.cpp \
     myopenglwidget.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     dragwidget.h \
     dropwidget.h \
     iconslist.h \
+    importfolder.h \
     mainwindow.h \
     myopenglwidget.h \
     nopreviewdelete.h \
@@ -67,6 +69,7 @@ HEADERS += \
 FORMS += \
     constructsvgdialog.ui \
     iconslist.ui \
+    importfolder.ui \
     mainwindow.ui \
     nopreviewdelete.ui \
     planningtable.ui \
@@ -86,4 +89,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     resources.qrc
 
-DISTFILES +=
+DISTFILES += \
+    assets/Plan/import.png

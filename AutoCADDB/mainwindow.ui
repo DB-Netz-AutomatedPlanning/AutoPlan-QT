@@ -14,7 +14,7 @@
    <string>DB</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resources.qrc">
+   <iconset>
     <normaloff>:/icons/assets/DB.png</normaloff>
     <normalon>:/icons/assets/DB.png</normalon>:/icons/assets/DB.png</iconset>
   </property>
@@ -92,7 +92,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>0</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -117,7 +117,7 @@
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap resource="resources.qrc">:/icons/assets/home/DBmain.png</pixmap>
+                 <pixmap>:/icons/assets/home/DBmain.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -258,7 +258,7 @@
              </size>
             </property>
             <property name="currentIndex">
-             <number>3</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="f_homeTab">
              <attribute name="title">
@@ -873,7 +873,7 @@ text-alignment:center;
                               <string/>
                              </property>
                              <property name="icon">
-                              <iconset resource="resources.qrc">
+                              <iconset>
                                <normaloff>:/icons/assets/home/editpage.png</normaloff>:/icons/assets/home/editpage.png</iconset>
                              </property>
                             </item>
@@ -913,7 +913,7 @@ text-alignment:center;
                               <string/>
                              </property>
                              <property name="icon">
-                              <iconset resource="resources.qrc">
+                              <iconset>
                                <normaloff>:/icons/assets/home/editpage.png</normaloff>:/icons/assets/home/editpage.png</iconset>
                              </property>
                             </item>
@@ -9568,263 +9568,6 @@ Tabs</string>
                  <property name="spacing">
                   <number>0</number>
                  </property>
-                 <item row="0" column="2">
-                  <widget class="QFrame" name="frame_117">
-                   <property name="minimumSize">
-                    <size>
-                     <width>82</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>186</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_111">
-                    <property name="spacing">
-                     <number>0</number>
-                    </property>
-                    <property name="leftMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QFrame" name="frame_121">
-                      <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
-                      </property>
-                      <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
-                      </property>
-                      <layout class="QHBoxLayout" name="horizontalLayout_44">
-                       <property name="spacing">
-                        <number>0</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>5</number>
-                       </property>
-                       <item>
-                        <widget class="QFrame" name="frame_129">
-                         <property name="frameShape">
-                          <enum>QFrame::StyledPanel</enum>
-                         </property>
-                         <property name="frameShadow">
-                          <enum>QFrame::Raised</enum>
-                         </property>
-                         <layout class="QVBoxLayout" name="verticalLayout_116">
-                          <property name="spacing">
-                           <number>0</number>
-                          </property>
-                          <property name="leftMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="topMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="rightMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="bottomMargin">
-                           <number>0</number>
-                          </property>
-                          <item>
-                           <widget class="QWidget" name="widget_146" native="true">
-                            <layout class="QGridLayout" name="gridLayout_127">
-                             <property name="leftMargin">
-                              <number>0</number>
-                             </property>
-                             <property name="topMargin">
-                              <number>0</number>
-                             </property>
-                             <property name="rightMargin">
-                              <number>0</number>
-                             </property>
-                             <property name="bottomMargin">
-                              <number>0</number>
-                             </property>
-                             <property name="spacing">
-                              <number>0</number>
-                             </property>
-                             <item row="0" column="0">
-                              <widget class="QPushButton" name="exportBtn">
-                               <property name="cursor">
-                                <cursorShape>PointingHandCursor</cursorShape>
-                               </property>
-                               <property name="styleSheet">
-                                <string notr="true">border:none;</string>
-                               </property>
-                               <property name="text">
-                                <string/>
-                               </property>
-                               <property name="icon">
-                                <iconset>
-                                 <normalon>:/icons/assets/output/export.png</normalon>
-                                </iconset>
-                               </property>
-                               <property name="iconSize">
-                                <size>
-                                 <width>30</width>
-                                 <height>30</height>
-                                </size>
-                               </property>
-                              </widget>
-                             </item>
-                            </layout>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QWidget" name="widget_147" native="true">
-                            <property name="maximumSize">
-                             <size>
-                              <width>16777215</width>
-                              <height>20</height>
-                             </size>
-                            </property>
-                            <layout class="QGridLayout" name="gridLayout_128">
-                             <property name="leftMargin">
-                              <number>0</number>
-                             </property>
-                             <property name="topMargin">
-                              <number>0</number>
-                             </property>
-                             <property name="rightMargin">
-                              <number>0</number>
-                             </property>
-                             <property name="bottomMargin">
-                              <number>0</number>
-                             </property>
-                             <property name="spacing">
-                              <number>0</number>
-                             </property>
-                             <item row="0" column="0">
-                              <widget class="QComboBox" name="comboBox_30">
-                               <property name="styleSheet">
-                                <string notr="true">BORDER:NONE;</string>
-                               </property>
-                               <item>
-                                <property name="text">
-                                 <string>Eulynx</string>
-                                </property>
-                               </item>
-                               <item>
-                                <property name="text">
-                                 <string>Plan Pro</string>
-                                </property>
-                               </item>
-                               <item>
-                                <property name="text">
-                                 <string>Dwg</string>
-                                </property>
-                               </item>
-                              </widget>
-                             </item>
-                            </layout>
-                           </widget>
-                          </item>
-                         </layout>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QFrame" name="frame_120">
-                      <property name="minimumSize">
-                       <size>
-                        <width>0</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="maximumSize">
-                       <size>
-                        <width>16777215</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                      <property name="frameShape">
-                       <enum>QFrame::StyledPanel</enum>
-                      </property>
-                      <property name="frameShadow">
-                       <enum>QFrame::Raised</enum>
-                      </property>
-                      <layout class="QGridLayout" name="gridLayout_125">
-                       <property name="leftMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>0</number>
-                       </property>
-                       <property name="spacing">
-                        <number>0</number>
-                       </property>
-                       <item row="0" column="0">
-                        <widget class="QWidget" name="widget_145" native="true">
-                         <layout class="QGridLayout" name="gridLayout_126">
-                          <property name="leftMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="topMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="rightMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="bottomMargin">
-                           <number>0</number>
-                          </property>
-                          <property name="spacing">
-                           <number>0</number>
-                          </property>
-                          <item row="0" column="0">
-                           <widget class="QLabel" name="label_41">
-                            <property name="text">
-                             <string>Export</string>
-                            </property>
-                            <property name="alignment">
-                             <set>Qt::AlignCenter</set>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
                  <item row="0" column="0">
                   <widget class="QFrame" name="frame_116">
                    <property name="maximumSize">
@@ -10592,16 +10335,6 @@ Tabs</string>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="Line" name="line_16">
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="0" column="3">
                   <widget class="Line" name="line_17">
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
@@ -10732,6 +10465,9 @@ Tabs</string>
                          <layout class="QGridLayout" name="gridLayout_148">
                           <item row="0" column="0">
                            <widget class="QPushButton" name="pushButton_77">
+                            <property name="toolTip">
+                             <string>Import files</string>
+                            </property>
                             <property name="styleSheet">
                              <string notr="true">border:none;</string>
                             </property>
@@ -10740,7 +10476,7 @@ Tabs</string>
                             </property>
                             <property name="icon">
                              <iconset>
-                              <normalon>:/icons/assets/Plan/icons8-import-48.png</normalon>
+                              <normalon>:/icons/assets/Plan/import.png</normalon>
                              </iconset>
                             </property>
                             <property name="iconSize">
@@ -10957,6 +10693,9 @@ Tabs</string>
                             <property name="cursor">
                              <cursorShape>PointingHandCursor</cursorShape>
                             </property>
+                            <property name="toolTip">
+                             <string>Plan</string>
+                            </property>
                             <property name="styleSheet">
                              <string notr="true">border:none;</string>
                             </property>
@@ -10965,7 +10704,7 @@ Tabs</string>
                             </property>
                             <property name="icon">
                              <iconset>
-                              <normalon>:/icons/assets/Plan/icons8-floor-plan-80.png</normalon>
+                              <normalon>:/icons/assets/Plan/blueprint.png</normalon>
                              </iconset>
                             </property>
                             <property name="iconSize">
@@ -10973,6 +10712,207 @@ Tabs</string>
                               <width>30</width>
                               <height>30</height>
                              </size>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_19">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="frame_4">
+                   <property name="minimumSize">
+                    <size>
+                     <width>73</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Raised</enum>
+                   </property>
+                   <layout class="QGridLayout" name="gridLayout_13">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="spacing">
+                     <number>0</number>
+                    </property>
+                    <item row="0" column="0">
+                     <widget class="QWidget" name="widget_72" native="true">
+                      <layout class="QGridLayout" name="gridLayout_18">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="rightMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="bottomMargin">
+                        <number>0</number>
+                       </property>
+                       <property name="spacing">
+                        <number>0</number>
+                       </property>
+                       <item row="0" column="0">
+                        <widget class="QWidget" name="widget_150" native="true">
+                         <layout class="QVBoxLayout" name="verticalLayout_125">
+                          <property name="spacing">
+                           <number>0</number>
+                          </property>
+                          <property name="leftMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="topMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="rightMargin">
+                           <number>0</number>
+                          </property>
+                          <property name="bottomMargin">
+                           <number>0</number>
+                          </property>
+                          <item>
+                           <widget class="QWidget" name="widget_152" native="true">
+                            <layout class="QGridLayout" name="gridLayout_20">
+                             <property name="leftMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="topMargin">
+                              <number>29</number>
+                             </property>
+                             <property name="rightMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="bottomMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="spacing">
+                              <number>0</number>
+                             </property>
+                             <item row="0" column="0">
+                              <widget class="QPushButton" name="exportBtnPlan">
+                               <property name="cursor">
+                                <cursorShape>PointingHandCursor</cursorShape>
+                               </property>
+                               <property name="toolTip">
+                                <string>Export to Eulynx</string>
+                               </property>
+                               <property name="styleSheet">
+                                <string notr="true">border:none;</string>
+                               </property>
+                               <property name="text">
+                                <string/>
+                               </property>
+                               <property name="icon">
+                                <iconset>
+                                 <normalon>:/icons/assets/output/export.png</normalon>
+                                </iconset>
+                               </property>
+                               <property name="iconSize">
+                                <size>
+                                 <width>30</width>
+                                 <height>30</height>
+                                </size>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QWidget" name="widget_153" native="true">
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>30</height>
+                             </size>
+                            </property>
+                            <layout class="QGridLayout" name="gridLayout_19">
+                             <property name="leftMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="topMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="rightMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="bottomMargin">
+                              <number>0</number>
+                             </property>
+                             <property name="spacing">
+                              <number>0</number>
+                             </property>
+                             <item row="0" column="0">
+                              <widget class="QComboBox" name="cmbExport">
+                               <property name="styleSheet">
+                                <string notr="true">border:none;</string>
+                               </property>
+                               <item>
+                                <property name="text">
+                                 <string>Eulynx</string>
+                                </property>
+                               </item>
+                               <item>
+                                <property name="text">
+                                 <string>Plan Pro</string>
+                                </property>
+                               </item>
+                               <item>
+                                <property name="text">
+                                 <string>DWG</string>
+                                </property>
+                               </item>
+                              </widget>
+                             </item>
+                            </layout>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="label_44">
+                            <property name="minimumSize">
+                             <size>
+                              <width>0</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>Export</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignCenter</set>
                             </property>
                            </widget>
                           </item>
@@ -11019,7 +10959,7 @@ Tabs</string>
      <x>0</x>
      <y>0</y>
      <width>2187</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuNew">
@@ -11029,6 +10969,7 @@ Tabs</string>
     <addaction name="actionNew"/>
     <addaction name="actionNew_2"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionImport"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_As"/>
     <addaction name="actionPrint"/>
@@ -11162,7 +11103,7 @@ Tabs</string>
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset>
      <normaloff>:/icons/assets/folder.png</normaloff>:/icons/assets/folder.png</iconset>
    </property>
    <property name="text">
@@ -11174,7 +11115,7 @@ Tabs</string>
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="resources.qrc">
+    <iconset>
      <normaloff>:/icons/assets/menubar/save.png</normaloff>
      <normalon>:/icons/assets/menubar/save.png</normalon>:/icons/assets/menubar/save.png</iconset>
    </property>
@@ -11262,6 +11203,16 @@ Tabs</string>
     <string>Remove Data</string>
    </property>
   </action>
+  <action name="actionImport">
+   <property name="icon">
+    <iconset>
+     <normalon>:/icons/assets/Plan/icons8-import-48.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Import</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -11271,8 +11222,6 @@ Tabs</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
