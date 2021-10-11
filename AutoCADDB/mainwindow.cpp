@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "importfolder.h"
 #include "ui_mainwindow.h"
 #include "myopenglwidget.h"
 #include "calculator.h"
@@ -246,7 +247,7 @@ void MainWindow::on_actionOpen_triggered()
         QFile file(fileName);
         readFile = fileName;
         if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-            QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+           // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
             return;
         }
         setWindowTitle(fileName);
@@ -450,7 +451,7 @@ void MainWindow::importShapeFiles()
                 QFile file(fileName);
                 readFile = fileName;
                 if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-                    QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+                   // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
                     return;
                 }
                 setWindowTitle(fileName);
@@ -531,7 +532,7 @@ void MainWindow::on_actionRemove_Data_triggered()
 
 void MainWindow::on_actionImport_triggered()
 {
-    UploadNewData uploadNewData;
+    ImportFolder uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();
 }
