@@ -103,9 +103,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_17->lineEdit()->setReadOnly(true);
     ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
 
-    ui->comboBox_30->setEditable(true);
-    ui->comboBox_30->lineEdit()->setReadOnly(true);
-    ui->comboBox_30->lineEdit()->setAlignment(Qt::AlignCenter);
+   // ui->comboBox_30->setEditable(true);
+    //ui->comboBox_30->lineEdit()->setReadOnly(true);
+    //ui->comboBox_30->lineEdit()->setAlignment(Qt::AlignCenter);
 
 //    ui->comboBox_31->setEditable(true);
 //    ui->comboBox_31->lineEdit()->setReadOnly(true);
@@ -153,7 +153,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
     //Output
-     connect(ui->exportBtn, SIGNAL(clicked()), this, SLOT(exportToPicture()));
+   //  connect(ui->exportBtn, SIGNAL(clicked()), this, SLOT(exportToPicture()));
 
 // OpenGLClass scribbleArea;
     //MENU actionOpen
@@ -486,15 +486,15 @@ void MainWindow::exportToPicture()
     //------------------------------------------------------------
 
     // Condition needs to be modified as soon as other version is available
-    if (ui->comboBox_30->currentText() != "Eulynx"){
-        QMessageBox::warning(this, "File Format", "Selected format '"+ui->comboBox_30->currentText()+"' is currently not available");
+   // if (ui->comboBox_30->currentText() != "Eulynx"){
+     //   QMessageBox::warning(this, "File Format", "Selected format '"+ui->comboBox_30->currentText()+"' is currently not available");
 
-    }
-    else{
-        ExportDialog exportDialog;
-        exportDialog.setModal(true);
-        exportDialog.exec();
-    }
+    //}
+    //else{
+      //  ExportDialog exportDialog;
+        //exportDialog.setModal(true);
+        //exportDialog.exec();
+    //}
 
 
 }
@@ -551,7 +551,7 @@ void MainWindow::on_pushButton_77_clicked()
 void MainWindow::on_exportBtnPlan_clicked()
 {
     if (ui->cmbExport->currentText() != "Eulynx"){
-        QMessageBox::warning(this, "File Format", "Selected format '"+ui->comboBox_30->currentText()+"' is currently not available");
+        QMessageBox::warning(this, "File Format", "Selected format '"+ui->cmbExport->currentText()+"' is currently not available");
 
     }
     else{
