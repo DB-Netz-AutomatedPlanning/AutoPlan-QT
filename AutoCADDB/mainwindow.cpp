@@ -125,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent)
     tb->setText("+");
 
     // Add empty, not enabled tab to tabWidget
-   // ui->tabWidget_2->setTabEnabled(ui->tabWidget_2->tabBar()->count()-1, false);
+    ui->tabWidget_2->setTabEnabled(ui->tabWidget_2->tabBar()->count()-1, false);
 
     // Add tab button to current tab. Button will be enabled, but tab -- not
     ui->tabWidget_2->tabBar()->setTabButton(ui->tabWidget_2->tabBar()->count()-1, QTabBar::RightSide, tb);
@@ -138,7 +138,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setStyleSheet("QToolButton { border: none; }");
 
-//    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
+    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
     //Home->Properties
@@ -169,7 +169,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    view = new QGraphicsView(scribbleArea);
 
-
+ ui->tabWidget_2->setCurrentIndex(0);
 
 
 }
@@ -230,7 +230,7 @@ void MainWindow::fetchObjectProps()
 //Add new tab
 void MainWindow::addTab()
 {
-     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new MyOpenglWidget(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
+     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new QOpenGLWidget(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
      ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->count() - 2);
 }
 
