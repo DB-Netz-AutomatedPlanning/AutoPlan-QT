@@ -16,14 +16,11 @@ bool countOkay = false;
 
 
 
-MyOpenglWidget::MyOpenglWidget(QWidget *parent, QString stationName, QString geoJsonFileName, int geoJsonCodeNo) : QOpenGLWidget(parent)
+
+MyOpenglWidget::MyOpenglWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
     setFormat(QSurfaceFormat::defaultFormat());
     setAcceptDrops(true);
-    this->stationName = stationName;
-    this->geoJsonFileName = geoJsonFileName;
-    this->geoJsonCodeNo = geoJsonCodeNo;
-
 }
 
 MyOpenglWidget::~MyOpenglWidget()
@@ -41,6 +38,15 @@ void MyOpenglWidget::cleanup()
     shaderProg = 0;
     doneCurrent();
 }
+
+//void MyOpenglWidget::delay()
+//{
+//    QTime dieTime= QTime::currentTime().addSecs(2);
+//    while (QTime::currentTime() < dieTime)
+//        qInfo()<< "";
+//        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+//}
+
 
 
 struct EventInfo
@@ -135,19 +141,16 @@ void MyOpenglWidget::initializeGL()
 std::vector<std::vector<GLfloat>> vec;
 void MyOpenglWidget::paintGL()
 {
+    if(isActive){
 
     //-------------------------------------------
 
-
     countLoop +=1;
     if(countLoop <=1){
-       qDebug()<< "Inside the if statement start";
-       Coordinates *coord = new Coordinates(stationName);
-       coord->readCoordinates(geoJsonFileName,geoJsonCodeNo);
-
+        Coordinates *coord = new Coordinates(stationName);
+        coord->readCoordinates(geoJsonFileName,geoJsonCodeNo);
 
        int segmentSize = coord->getSegment().size();
-
 
        for (int i=0; i<segmentSize; i++){
            vec.push_back(std::vector<GLfloat>());
@@ -155,8 +158,6 @@ void MyOpenglWidget::paintGL()
                vec[i].push_back(coord->getCoordinateLists()[j]);
            }
        }
-
-
        qDebug()<< "Inside the if statement end";
 
     }
@@ -209,7 +210,6 @@ void MyOpenglWidget::paintGL()
           }
       }
 
-
       viewMatrix.setToIdentity();
       viewMatrix.lookAt(
                   QVector3D(x, y, z), // Camera is at (x,y,z), in World Space
@@ -222,8 +222,15 @@ void MyOpenglWidget::paintGL()
 
       shaderProg->release();
       qDebug()<< "end";
+    }
 
 }
+
+void MyOpenglWidget::openGLUpdate()
+{
+    update();
+}
+
 
 void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
 {

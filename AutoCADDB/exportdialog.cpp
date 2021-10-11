@@ -1,5 +1,8 @@
 #include "exportdialog.h"
 #include "ui_exportdialog.h"
+#include "ui_previeweulynxxml.h"
+#include "previeweulynxxml.h"
+#include "symbolcontainer.h"
 
 ExportDialog::ExportDialog(QWidget *parent) :
     QDialog(parent),
@@ -140,7 +143,12 @@ void ExportDialog::on_btnExport_clicked()
     if (QFile::exists(outputPath_+"/eulynx"+station_+".euxml")){
         QMessageBox::information(this, "Successful", "EulynxXML Successfully Generated...\n"
                                                      "check ->"+outputPath_);
-        close();
+        folderPath = outputPath_;
+        stationLocation = station_;
+        PreviewEulynxXml preview;
+        preview.setModal(true);
+        preview.exec();
+
     }
     else{
         QMessageBox::warning(this, "Fatal", "Process Failed\n ... "

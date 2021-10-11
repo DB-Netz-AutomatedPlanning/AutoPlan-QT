@@ -63,24 +63,17 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow), scribbleArea(new MyOpenglWidget(this))
+    , ui(new Ui::MainWindow)
 
 {
-    myopen= new MyOpenglWidget(this);
+    scribbleArea= new MyOpenglWidget(this);
     setCentralWidget(scribbleArea);
+
 
 
 
     ui->setupUi(this);
     ui->toolBar->setIconSize(QSize(16, 16));
-
-
-
-
-
-
-
-
 
     hideMenuBar = false;
     hideFileTab = false;
@@ -126,7 +119,7 @@ MainWindow::MainWindow(QWidget *parent)
 //    tb->setText("+");
 //    connect(tb, SIGNAL(clicked()), this, SLOT(addTab()));
 //    ui->tabWidget_2->tabBar()->setTabButton(ui->tabWidget_2->tabBar()->count()-1, QTabBar::LeftSide, tb);
-
+    ui->tabWidget_2->removeTab(2);
     // Create button what must be placed in tabs row
     QToolButton* tb = new QToolButton(this);
     tb->setText("+");
@@ -145,7 +138,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setStyleSheet("QToolButton { border: none; }");
 
-    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
+//    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
     //Home->Properties
@@ -164,7 +157,7 @@ MainWindow::MainWindow(QWidget *parent)
 // OpenGLClass scribbleArea;
     //MENU actionOpen
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
-    connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(addTab()));
+//    connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(addTab()));
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
     connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
@@ -174,7 +167,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
 
 
-    view = new QGraphicsView(scribbleArea);
+//    view = new QGraphicsView(scribbleArea);
 
 
 
@@ -237,7 +230,7 @@ void MainWindow::fetchObjectProps()
 //Add new tab
 void MainWindow::addTab()
 {
-     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new QOpenGLWidget(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
+     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new MyOpenglWidget(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
      ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->count() - 2);
 }
 
@@ -546,6 +539,7 @@ void MainWindow::on_actionRemove_Data_triggered()
 
 void MainWindow::on_pushButton_77_clicked()
 {
+
     UploadNewData uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();

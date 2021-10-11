@@ -1,6 +1,15 @@
 #include "symbolcontainer.h"
 #include "ui_symbolcontainer.h"
 
+// OpenGl variables
+bool isActive = false;
+QString stationName = "Sayli";
+QString geoJsonFileName = "Saif";
+int geoJsonCodeNo = 0;
+
+// Preview Eulynx variables
+QString folderPath = "";
+QString stationLocation = "";
 
 
 QString glbObjectName = "sayli";

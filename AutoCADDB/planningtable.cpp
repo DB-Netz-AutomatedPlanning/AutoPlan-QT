@@ -1,5 +1,9 @@
 #include "planningtable.h"
 #include "ui_planningtable.h"
+#include "ui_mainwindow.h"
+#include "mainwindow.h"
+#include "myopenglwidget.h"
+#include "symbolcontainer.h"
 
 PlanningTable::PlanningTable(QWidget *parent) :
     QMainWindow(parent),
@@ -8,10 +12,24 @@ PlanningTable::PlanningTable(QWidget *parent) :
     ui->setupUi(this);
 
     QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-    while(iter.hasNext() )
+    while(iter.hasNext())
     {
         QString val = iter.next();
         ui->comboBoxStations->addItem(val.remove("Data/"));
+    }
+
+    if (!ui->comboBoxStations->currentText().isEmpty() || !ui->comboBoxStations->currentText().isNull()){
+        QString location = ui->comboBoxStations->currentText();
+        QString path = "Data/"+location;
+        QDir dir (path);
+        QFileInfoList files = dir.entryInfoList(QDir::Files);
+        if  (files.length() ==0) {
+            QMessageBox::information(this, "No Data", "No Existing Data for the selected Station");
+            return;
+        }
+        foreach(QFileInfo fi, files){
+            ui->comboBoxSelectFile->addItem(fi.fileName());
+        }
     }
 }
 
@@ -95,6 +113,17 @@ void PlanningTable::on_btnLoad_clicked()
         return;
     }
     else {
+        // Call OpenGl function to plot
+        isActive=true;
+        stationName = ui->comboBoxStations->currentText();
+        if (ui->comboBoxSelectFile->currentText() == "Gleisknoten.geojson"){
+            QMessageBox::information(this, "Information", "You cannot plot gleisknoten");
+        }
+        if ((!ui->comboBoxSelectFile->currentText().isEmpty() || !ui->comboBoxSelectFile->currentText().isNull()) && (ui->comboBoxSelectFile->currentText() !="Gleisknoten.geojson")){
+            geoJsonFileName = ui->comboBoxSelectFile->currentText();
+//            MyOpenglWidget myOpenGl(nullptr);
+        }
+
         QString location = ui->comboBoxStations->currentText();
         QString gleiskantenPath = "Data/"+location+"/Gleiskanten.geojson";
         QString gleisknotenPath = "Data/"+location+"/Gleisknoten.geojson";
@@ -111,7 +140,6 @@ void PlanningTable::on_btnLoad_clicked()
         this->setGleisknotenPath(gleisknotenPath);
         this->setHoehePath(hoehePath);
         Connect2CSharp *csharp = new Connect2CSharp(this->getGleiskantenPath().toLatin1(), this->getGleisknotenPath().toLatin1(), this->getHoehePath().toLatin1());
-        qInfo()<< "2";
         csharp->cSharp();
         if (!csharp->isAvailable){
 
@@ -127,7 +155,4 @@ void PlanningTable::on_btnLoad_clicked()
         ui->btnAutoPLAN->setEnabled(true);
     }
 }
-
-
-
 

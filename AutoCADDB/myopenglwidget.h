@@ -15,6 +15,8 @@
 #include <QMouseEvent>
 #include <QLabel>
 #include <QPushButton>
+#include <QTime>
+#include <QCoreApplication>
 
 using namespace std;
 
@@ -24,10 +26,13 @@ class MyOpenglWidget : public QOpenGLWidget, public QOpenGLFunctions
 {
     Q_OBJECT
 public:
-    MyOpenglWidget(QWidget *parent = nullptr,  QString stationName="", QString geoJsonFileName="", int geoJsonCodeNo=0);
+    MyOpenglWidget(QWidget *parent = nullptr);
     ~MyOpenglWidget();
  void sendObjectProperties(QString);
  void assignObjectName(QString);
+ void paintGL() override;
+ void openGLUpdate();
+// void delay();
 
 
  QString* s;
@@ -35,7 +40,6 @@ public:
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
-    void paintGL() override;
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer buffer;
     GLuint m_MVPMatrixLoc;
@@ -76,13 +80,13 @@ protected:
     private:
     QString str;
     QLabel *newIcon;
-     QString stationName;
-     QString geoJsonFileName;
-     int geoJsonCodeNo;
+
+
 
 
 public slots:
     void cleanup();
+
 
 
 

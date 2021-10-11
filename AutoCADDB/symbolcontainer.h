@@ -20,4 +20,10 @@ private:
 };
 extern QString glbObjectName;
 extern QString defaultObjectName;
+extern bool isActive;
+extern QString stationName;
+extern QString geoJsonFileName;
+extern int geoJsonCodeNo;
+extern QString folderPath;
+extern QString stationLocation;
 #endif // SYMBOLCONTAINER_H
