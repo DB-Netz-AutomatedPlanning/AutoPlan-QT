@@ -29,7 +29,7 @@ public:
     //treeview
     void setObjNameTW(QString);
      MyOpenglWidget *myopen;
-     void addTab();
+
 
 public slots:
 
@@ -62,7 +62,7 @@ private slots:
     //Rayhan
     void importShapeFiles();
     void planningFnt();
-
+void addTab();
 
 
 
