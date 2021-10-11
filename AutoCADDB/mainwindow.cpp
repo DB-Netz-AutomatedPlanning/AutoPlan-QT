@@ -125,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent)
     tb->setText("+");
 
     // Add empty, not enabled tab to tabWidget
-    ui->tabWidget_2->setTabEnabled(ui->tabWidget_2->tabBar()->count()-1, false);
+   // ui->tabWidget_2->setTabEnabled(ui->tabWidget_2->tabBar()->count()-1, false);
 
     // Add tab button to current tab. Button will be enabled, but tab -- not
     ui->tabWidget_2->tabBar()->setTabButton(ui->tabWidget_2->tabBar()->count()-1, QTabBar::RightSide, tb);
@@ -529,12 +529,12 @@ void MainWindow::on_actionRemove_Data_triggered()
 }
 
 
-//void MainWindow::on_exportBtn_clicked()
-//{
-//    ExportDialog exportDialog;
-//    exportDialog.setModal(true);
-//    exportDialog.exec();
-//}
+void MainWindow::on_actionImport_triggered()
+{
+    UploadNewData uploadNewData;
+    uploadNewData.setModal(true);
+    uploadNewData.exec();
+}
 
 
 void MainWindow::on_pushButton_77_clicked()
@@ -544,5 +544,19 @@ void MainWindow::on_pushButton_77_clicked()
     uploadNewData.setModal(true);
     uploadNewData.exec();
 
+}
+
+
+void MainWindow::on_exportBtnPlan_clicked()
+{
+    if (ui->cmbExport->currentText() != "Eulynx"){
+        QMessageBox::warning(this, "File Format", "Selected format '"+ui->comboBox_30->currentText()+"' is currently not available");
+
+    }
+    else{
+        ExportDialog exportDialog;
+        exportDialog.setModal(true);
+        exportDialog.exec();
+    }
 }
 

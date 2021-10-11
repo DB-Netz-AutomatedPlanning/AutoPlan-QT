@@ -76,9 +76,13 @@ private slots:
 
     void on_actionRemove_Data_triggered();
 
+    void on_actionImport_triggered();
+
 //    void on_exportBtn_clicked();
 
     void on_pushButton_77_clicked();
+
+    void on_exportBtnPlan_clicked();
 
 private:
     Ui::MainWindow *ui;
