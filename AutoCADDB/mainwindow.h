@@ -85,6 +85,9 @@ void addTab();
 
     void on_exportBtnPlan_clicked();
 
+    void on_btnSymbol_clicked();
+    void closeEvent (QCloseEvent *event);
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;

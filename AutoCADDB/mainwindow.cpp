@@ -158,7 +158,7 @@ MainWindow::MainWindow(QWidget *parent)
 // OpenGLClass scribbleArea;
     //MENU actionOpen
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
-//    connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(addTab()));
+    connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(addTab()));
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
     connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
@@ -579,3 +579,16 @@ void MainWindow::on_exportBtnPlan_clicked()
     }
 }
 
+
+void MainWindow::on_btnSymbol_clicked()
+{
+    IconsList *svgDialog;
+    svgDialog = new IconsList();
+    svgDialog->show();
+}
+
+
+void MainWindow::closeEvent (QCloseEvent *event)
+{
+      QCoreApplication::quit();
+}
