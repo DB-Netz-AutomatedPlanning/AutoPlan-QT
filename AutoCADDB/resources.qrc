@@ -176,6 +176,8 @@
         <file>assets/home/DBmain.png</file>
         <file>assets/Plan/import.png</file>
         <file>assets/Plan/blueprint.png</file>
+        <file>assets/home/eulynx.jpg</file>
+        <file>assets/Plan/symbol.png</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>
