@@ -167,7 +167,11 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit"/>
+          <widget class="QLineEdit" name="lineEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -211,8 +215,11 @@
          </item>
          <item>
           <widget class="QPushButton" name="btnEnable">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
-            <string>Enable data</string>
+            <string>Select Folder</string>
            </property>
           </widget>
          </item>
@@ -246,12 +253,16 @@
          <item>
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>Select Folder</string>
+            <string>Folder</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="leFolder"/>
+          <widget class="QLineEdit" name="leFolder">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -302,6 +313,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="btnImport">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Import</string>
            </property>

@@ -225,7 +225,18 @@ void MainWindow::fetchObjectProps()
 {
     btnSender = qobject_cast<QPushButton*>(sender()); // retrieve the button you have clicked
     QString buttonText = btnSender->objectName(); // retrive the object name from the clicked button
-        qDebug() << buttonText;
+    qDebug() << buttonText;
+}
+
+bool MainWindow::writeFooBar()
+{
+    QSaveFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+      return false;
+    if (-1 == file.write("foo bar"))
+      return false;
+    return file.commit();
+
 }
 
 //Add new tab
@@ -535,15 +546,22 @@ void MainWindow::on_actionImport_triggered()
     ImportFolder uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();
+//    UploadNewData uploadNewData;
+//    uploadNewData.setModal(true);
+//    uploadNewData.exec();
 }
 
 
 void MainWindow::on_pushButton_77_clicked()
 {
+//    ImportFolder uploadNewData;
+//    uploadNewData.setModal(true);
+//    uploadNewData.exec();
 
     UploadNewData uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();
+//    writeFooBar();
 
 }
 
