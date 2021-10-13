@@ -223,8 +223,8 @@ void MyOpenglWidget::paintGL()
       shaderProg->release();
       qDebug()<< "end";
     }
-
 }
+
 
 void MyOpenglWidget::openGLUpdate()
 {
@@ -248,7 +248,6 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
     QLabel *child = static_cast<QLabel*>(childAt(event->position().toPoint()));
     if (!child)
         return;
-
     str = child->objectName() ;
 
     //initiliaze glb string with object name

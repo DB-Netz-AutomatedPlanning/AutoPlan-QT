@@ -50,6 +50,7 @@ private slots:
 
     void on_actionOpen_triggered();
     void fetchObjectProps();
+    bool writeFooBar();
 
     //MENU
     void save();
