@@ -72,6 +72,7 @@ void NoPreviewDelete::on_checkBoxEntireStation_toggled(bool checked)
     }
     else{
         on_btnLoad_6_clicked();
+
     }
 }
 
@@ -103,6 +104,7 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Warning", "Delete Selected File(s)? ...\n Are you sure?!!", QMessageBox::Yes |QMessageBox::No);
         if (reply == QMessageBox::No) return;
         if (ui->checkBoxGleiskanten_6->isChecked() && ui->checkBoxGleiskanten_6->isEnabled()){
+            ui->btnDelete_6->setEnabled(true);
             QString fileName = "Gleiskanten.geojson";
             QFile file ("Data/"+location+"/" +fileName);
             if (!file.remove()){
@@ -115,6 +117,7 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
         }
 
         if (ui->checkBoxGleisknoten_6->isChecked() && ui->checkBoxGleisknoten_6->isEnabled()){
+
             QString fileName = "Gleisknoten.geojson";
             QFile file ("Data/"+location+"/" +fileName);
             if (!file.remove()){
@@ -128,6 +131,7 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
 
 
         if (ui->checkBoxHoehe_6->isChecked() && ui->checkBoxHoehe_6->isEnabled()){
+
             QString fileName = "Entwurfselement_Hoehe.geojson";
             QFile file ("Data/"+location+"/" +fileName);
             if (!file.remove()){
@@ -141,6 +145,7 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
 
 
         if (ui->checkBoxKMLine_6->isChecked() && ui->checkBoxKMLine_6->isEnabled()){
+
             QString fileName = "Entwurfselement_KMLinie.geojson";
             QFile file ("Data/"+location+"/" +fileName);
             if (!file.remove()){
@@ -154,6 +159,7 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
 
 
         if (ui->checkBoxLage_6->isChecked() && ui->checkBoxLage_6->isEnabled()){
+
             QString fileName = "Entwurfselement_Lage.geojson";
             QFile file ("Data/"+location+"/" +fileName);
             if (!file.remove()){
@@ -166,6 +172,7 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
         }
 
         if (ui->checkBoxUeberhoehung_6->isChecked() && ui->checkBoxUeberhoehung_6->isEnabled()){
+
             QString fileName = "Entwurfselement_Ueberhoehung.geojson";
             QFile file ("Data/"+location+"/" +fileName);
             if (!file.remove()){
@@ -176,7 +183,12 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
                 all.append("Entwurfselement_Ueberhoehung Successfully Deleted ...\n");
             }
         }
-        QMessageBox::information(this, "Info",all);
+
+        if (all.isEmpty() || all.isNull()){
+            QMessageBox::information(this, "Info","No file selected");
+
+        }
+        else QMessageBox::information(this, "Info",all);
         close();
     }
 }

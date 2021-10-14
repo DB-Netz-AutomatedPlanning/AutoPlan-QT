@@ -92,7 +92,7 @@
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -117,8 +117,7 @@
                  <string/>
                 </property>
                 <property name="pixmap">
-
-                 <pixmap>:/icons/assets/home/eulynx.jpg</pixmap>
+                 <pixmap resource="resources.qrc">:/icons/assets/home/eulynx.jpg</pixmap>
                 </property>
                </widget>
               </item>
@@ -259,7 +258,6 @@
              </size>
             </property>
             <property name="currentIndex">
-
              <number>1</number>
             </property>
             <property name="movable">
