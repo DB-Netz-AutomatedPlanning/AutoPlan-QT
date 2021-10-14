@@ -14,7 +14,7 @@
    <string>DB</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="resources.qrc">
     <normaloff>:/icons/assets/DB.png</normaloff>
     <normalon>:/icons/assets/DB.png</normalon>:/icons/assets/DB.png</iconset>
   </property>
@@ -117,7 +117,7 @@
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>:/icons/assets/home/eulynx.jpg</pixmap>
+                 <pixmap resource="resources.qrc">:/icons/assets/home/eulynx.jpg</pixmap>
                 </property>
                </widget>
               </item>
@@ -876,7 +876,7 @@ text-alignment:center;
                               <string/>
                              </property>
                              <property name="icon">
-                              <iconset>
+                              <iconset resource="resources.qrc">
                                <normaloff>:/icons/assets/home/editpage.png</normaloff>:/icons/assets/home/editpage.png</iconset>
                              </property>
                             </item>
@@ -916,7 +916,7 @@ text-alignment:center;
                               <string/>
                              </property>
                              <property name="icon">
-                              <iconset>
+                              <iconset resource="resources.qrc">
                                <normaloff>:/icons/assets/home/editpage.png</normaloff>:/icons/assets/home/editpage.png</iconset>
                              </property>
                             </item>
@@ -11195,7 +11195,7 @@ Tabs</string>
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/icons/assets/folder.png</normaloff>:/icons/assets/folder.png</iconset>
    </property>
    <property name="text">
@@ -11207,7 +11207,7 @@ Tabs</string>
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
+    <iconset resource="resources.qrc">
      <normaloff>:/icons/assets/menubar/save.png</normaloff>
      <normalon>:/icons/assets/menubar/save.png</normalon>:/icons/assets/menubar/save.png</iconset>
    </property>
@@ -11222,7 +11222,7 @@ Tabs</string>
     </iconset>
    </property>
    <property name="text">
-    <string>New Tab</string>
+    <string>New project</string>
    </property>
   </action>
   <action name="actionSave_As">
@@ -11314,6 +11314,8 @@ Tabs</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
