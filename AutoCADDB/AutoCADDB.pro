@@ -29,6 +29,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     myopenglwidget.cpp \
+    newprojectdialog.cpp \
     nopreviewdelete.cpp \
     openglclass.cpp \
     planningtable.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     importfolder.h \
     mainwindow.h \
     myopenglwidget.h \
+    newprojectdialog.h \
     nopreviewdelete.h \
     openglclass.h \
     planningtable.h \
@@ -71,6 +73,7 @@ FORMS += \
     iconslist.ui \
     importfolder.ui \
     mainwindow.ui \
+    newprojectdialog.ui \
     nopreviewdelete.ui \
     planningtable.ui \
     previeweulynxxml.ui \
