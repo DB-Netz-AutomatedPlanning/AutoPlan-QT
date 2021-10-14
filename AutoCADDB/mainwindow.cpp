@@ -2,6 +2,7 @@
 #include "importfolder.h"
 #include "ui_mainwindow.h"
 #include "myopenglwidget.h"
+#include "newprojectdialog.h"
 #include "calculator.h"
 #include "planningtable.h"
 #include "constructsvgdialog.h"
@@ -158,7 +159,7 @@ MainWindow::MainWindow(QWidget *parent)
 // OpenGLClass scribbleArea;
     //MENU actionOpen
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
-    connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(addTab()));
+    connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(onNewProjectClicked()));
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
     connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
@@ -587,6 +588,13 @@ void MainWindow::on_btnSymbol_clicked()
     svgDialog->show();
 }
 
+void MainWindow::onNewProjectClicked()
+{
+    NewProjectDialog newProjDialog;
+    newProjDialog.setModal(true);
+    newProjDialog.exec();
+
+}
 
 void MainWindow::closeEvent (QCloseEvent *event)
 {
