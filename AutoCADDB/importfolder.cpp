@@ -6,7 +6,7 @@ ImportFolder::ImportFolder(QWidget *parent) :
     ui(new Ui::ImportFolder)
 {
     ui->setupUi(this);
-    setWindowTitle("Import folder");
+    setWindowTitle("Import data folder");
 }
 
 ImportFolder::~ImportFolder()
@@ -20,7 +20,7 @@ void ImportFolder::on_rdAdd_clicked()
     ui->btnImport->setEnabled(false);
     ui->cmbExistingStn->setEnabled(false);
     ui->leFolder->setEnabled(false);
-    ui->lineEdit->setEnabled(true);
+    //ui->lineEdit->setEnabled(true);
     ui->btnEnable->setEnabled(true);
 }
 
