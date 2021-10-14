@@ -63,7 +63,8 @@ private slots:
     //Rayhan
     void importShapeFiles();
     void planningFnt();
-void addTab();
+    void addTab();
+    void onNewProjectClicked();
 
 
 
