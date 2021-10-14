@@ -127,7 +127,7 @@ void PlanningTable::on_btnLoad_clicked()
         QString location = ui->comboBoxStations->currentText();
         QString gleiskantenPath = "Data/"+location+"/Gleiskanten.geojson";
         QString gleisknotenPath = "Data/"+location+"/Gleisknoten.geojson";
-        QString hoehePath = "Data/"+location+"/Entwurfselement_Hoehe.geojson";
+        QString hoehePath = "Data/"+location+"/Entwurfselement_HO.geojson";
         if (!QFile::exists(gleiskantenPath) || !QFile::exists(gleisknotenPath) || !QFile::exists(hoehePath)){
             QMessageBox::information(this, "Missing Data", "One or More Important Data is missing ...\n Please visit Data section");
             ui->tableWidget->setEnabled(false);

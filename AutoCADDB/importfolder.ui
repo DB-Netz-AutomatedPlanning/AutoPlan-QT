@@ -71,6 +71,9 @@
          </item>
          <item>
           <widget class="QRadioButton" name="rdModify">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Modify Existing Data</string>
            </property>
@@ -143,7 +146,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Select Existing Station</string>
+            <string>Select Existing Project</string>
            </property>
           </widget>
          </item>
@@ -204,7 +207,9 @@
             </size>
            </property>
            <property name="text">
+
             <string>Folder Path</string>
+
            </property>
           </widget>
          </item>
@@ -222,6 +227,7 @@
            </property>
            <property name="text">
             <string>Browse</string>
+
            </property>
           </widget>
          </item>
@@ -240,6 +246,7 @@
          </size>
         </property>
        </spacer>
+
       </item>
       <item>
        <widget class="QFrame" name="frame_7">

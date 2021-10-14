@@ -70,10 +70,10 @@ void ExportDialog::on_btnExport_clicked()
     QByteArray state = "export";
     QByteArray gleiskantenPath = "Data/"+ui->cmbStation->currentText().toLatin1()+"/Gleiskanten.geojson";
     QByteArray gleisknotenPath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Gleisknoten.geojson";
-    QByteArray hoehePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_Hoehe.geojson";
-    QByteArray kMliniePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_KMLinie.geojson";
-    QByteArray uberholenPath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_Ueberhoehung.geojson";
-    QByteArray lagePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_Lage.geojson";
+    QByteArray hoehePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_HO.geojson";
+    QByteArray kMliniePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_KM.geojson";
+    QByteArray uberholenPath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_UH.geojson";
+    QByteArray lagePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_LA.geojson";
     QByteArray outputPath = ui->leFolder->text().toLatin1();
     QByteArray station = ui->cmbStation->currentText().toLatin1();
     if (!QFile::exists(gleiskantenPath) || !QFile::exists(gleisknotenPath) || !QFile::exists(hoehePath) || !QFile::exists(kMliniePath)

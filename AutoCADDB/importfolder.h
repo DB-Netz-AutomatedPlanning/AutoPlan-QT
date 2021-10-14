@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QResource>
 #include <QDirIterator>
+#include<QDir>
 
 
 namespace Ui {
@@ -28,8 +29,13 @@ private slots:
 
     void on_rdModify_clicked();
 
+    void on_btnEnable_clicked();
+
+    void on_btnImport_clicked();
+
 private:
     Ui::ImportFolder *ui;
+    QStringList msg;
 };
 
 #endif // IMPORTFOLDER_H

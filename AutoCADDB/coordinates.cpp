@@ -25,13 +25,13 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
             break;
         case 2: dataFile = "Gleiskanten.geojson";
             break;
-        case 3: dataFile = "Entwurfselement_Hoehe.geojson";
+        case 3: dataFile = "Entwurfselement_HO.geojson";
             break;
-        case 4: dataFile = "Entwurfselement_KMLinie.geojson";
+        case 4: dataFile = "Entwurfselement_KM.geojson";
             break;
-        case 5: dataFile = "Entwurfselement_Ueberhoehung.geojson";
+        case 5: dataFile = "Entwurfselement_UH.geojson";
             break;
-        case 6: dataFile = "Entwurfselement_Lage.geojson";
+        case 6: dataFile = "Entwurfselement_LA.geojson";
             break;
         default:
             qInfo()<< "You have entered invalid dataCodeNumber...\n "
