@@ -30,7 +30,8 @@ public:
     void setObjNameTW(QString);
      MyOpenglWidget *myopen;
 
-
+  void mousePressEvent(QMouseEvent *event) override;
+  void paintEvent(QPaintEvent *event) override;
 public slots:
 
 private slots:
@@ -109,7 +110,8 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
-    void mousePressEvent(QMouseEvent *event) override;
+
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 };
 #endif // MAINWINDOW_H

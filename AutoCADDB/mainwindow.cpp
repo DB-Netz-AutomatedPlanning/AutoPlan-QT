@@ -104,24 +104,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_17->lineEdit()->setReadOnly(true);
     ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
 
-   // ui->comboBox_30->setEditable(true);
-    //ui->comboBox_30->lineEdit()->setReadOnly(true);
-    //ui->comboBox_30->lineEdit()->setAlignment(Qt::AlignCenter);
-
-//    ui->comboBox_31->setEditable(true);
-//    ui->comboBox_31->lineEdit()->setReadOnly(true);
-//    ui->comboBox_31->lineEdit()->setAlignment(Qt::AlignLeft);
-
-//    ui->comboBox_32->setEditable(true);
-//    ui->comboBox_32->lineEdit()->setReadOnly(true);
-//    ui->comboBox_32->lineEdit()->setAlignment(Qt::AlignLeft);
 
     //Close button on Tab bar
-//    QToolButton *tb = new QToolButton();
-//    tb->setText("+");
-//    connect(tb, SIGNAL(clicked()), this, SLOT(addTab()));
-//    ui->tabWidget_2->tabBar()->setTabButton(ui->tabWidget_2->tabBar()->count()-1, QTabBar::LeftSide, tb);
     ui->tabWidget_2->removeTab(2);
+
     // Create button what must be placed in tabs row
     QToolButton* tb = new QToolButton(this);
     tb->setText("+");
@@ -153,10 +139,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
     connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
-    //Output
-   //  connect(ui->exportBtn, SIGNAL(clicked()), this, SLOT(exportToPicture()));
 
-// OpenGLClass scribbleArea;
     //MENU actionOpen
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(onNewProjectClicked()));
@@ -169,11 +152,20 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
 
 
-//    view = new QGraphicsView(scribbleArea);
-
- ui->tabWidget_2->setCurrentIndex(0);
 
 
+    ui->tabWidget_2->setCurrentIndex(0);
+
+    //Left area for symbol information
+    ui->tableWidget->setRowCount(2);
+
+
+     QTableWidgetItem *newItem = new QTableWidgetItem(tr("%0").arg("Symbol"));
+     ui->tableWidget->setItem(0, 0, newItem);
+     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
+     ui->tableWidget->setItem(0, 1, newItem1);
+     QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
+     ui->tableWidget->setItem(1, 0, newItem2);
 }
 
 
@@ -184,8 +176,21 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::setObjNameTW(QString str){
-    defaultObjectName = str;
-   // ui->label_43->setText(defaultObjectName);
+
+
+    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(str));
+    ui->tableWidget->setItem(0, 1, newItem1);
+
+    ui->tableWidget->show();
+qInfo() << "in ui"+str;
+ui->tableWidget->item(0, 1)->setText(str);
+
+update();
+
+
+
+   // tableWidget->setFixedSize(217,87);
+  //  ui->tableWidget->show();
 
 }
 
@@ -293,6 +298,15 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
 
 }
+
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+
+
+}
+
+
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
@@ -599,4 +613,10 @@ void MainWindow::onNewProjectClicked()
 void MainWindow::closeEvent (QCloseEvent *event)
 {
       QCoreApplication::quit();
+}
+
+void MainWindow:: paintEvent(QPaintEvent *event) {
+    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
+    ui->tableWidget->setItem(0, 1, newItem1);
+
 }

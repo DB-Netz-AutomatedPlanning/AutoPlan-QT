@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>2187</width>
-    <height>701</height>
+    <height>703</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -125,7 +125,7 @@
              </size>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <property name="movable">
              <bool>false</bool>
@@ -10963,6 +10963,16 @@ Tabs</string>
               <height>16777215</height>
              </size>
             </property>
+            <column>
+             <property name="text">
+              <string>Object</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Properties</string>
+             </property>
+            </column>
            </widget>
           </item>
          </layout>
@@ -11007,7 +11017,7 @@ Tabs</string>
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>3</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -11097,7 +11107,7 @@ Tabs</string>
         </widget>
        </item>
        <item>
-        <widget class="QWidget" name="widget_147" native="true">
+        <widget class="SymbolInformation" name="widget_147" native="true">
          <property name="minimumSize">
           <size>
            <width>200</width>
@@ -11110,11 +11120,7 @@ Tabs</string>
            <height>16777215</height>
           </size>
          </property>
-         <layout class="QGridLayout" name="gridLayout_70">
-          <item row="0" column="0">
-           <widget class="QTableWidget" name="tableWidget_2"/>
-          </item>
-         </layout>
+         <layout class="QGridLayout" name="gridLayout_70"/>
         </widget>
        </item>
       </layout>
@@ -11388,6 +11394,12 @@ Tabs</string>
    <class>MyOpenglWidget</class>
    <extends>QWidget</extends>
    <header>myopenglwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SymbolInformation</class>
+   <extends>QWidget</extends>
+   <header location="global">symbolinformation.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
