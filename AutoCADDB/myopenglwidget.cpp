@@ -5,6 +5,7 @@
 #include <QWidget>
 #include <QSvgRenderer>
 #include <QDebug>
+#include "symbolinformation.h"
 QString glb;
 QList<QString> listo ;
 
@@ -306,8 +307,8 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
         child->setPixmap(pixmap);
     }
 
-       MainWindow *w = new MainWindow();
-       w->setObjNameTW("radsensor");
+      // MainWindow *w = new MainWindow();
+     //  w->setObjNameTW("radsensor");
 
 
      //  QLabel *st = new QLabel(this);
@@ -437,18 +438,25 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
         assignObjectName(glbObjectName);
         defaultObjectName = glbObjectName;
 
-        QTableWidget *tableWidget = new QTableWidget(this);
-        tableWidget->setRowCount(2);
-        tableWidget->setColumnCount(2);
-        QTableWidgetItem *newItem = new QTableWidgetItem(tr("%0").arg("Name"));
-        tableWidget->setItem(0, 0, newItem);
-        QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
-        tableWidget->setItem(0, 1, newItem1);
-        QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
-        tableWidget->setItem(1, 0, newItem2);
+       // QTableWidget *tableWidget = new QTableWidget(this);
+       // tableWidget->setRowCount(2);
+       // tableWidget->setColumnCount(2);
+       // QTableWidgetItem *newItem = new QTableWidgetItem(tr("%0").arg("Name"));
+        //tableWidget->setItem(0, 0, newItem);
+        //QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
+       // tableWidget->setItem(0, 1, newItem1);
+       // QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
+      //  tableWidget->setItem(1, 0, newItem2);
 
-        tableWidget->setFixedSize(217,87);
-        tableWidget->show();
+       // tableWidget->setFixedSize(217,87);
+       // tableWidget->show();
+
+        MainWindow *w = new MainWindow();
+        w->setObjNameTW(defaultObjectName);
+        SymbolInformation *ss = new SymbolInformation();
+        ss->updateLabel();
+
+
 
              newIcon->setPixmap(pixmap);
              newIcon->move(event->position().toPoint() - offset);
