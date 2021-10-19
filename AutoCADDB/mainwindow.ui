@@ -10942,6 +10942,12 @@ Tabs</string>
        </property>
        <item>
         <widget class="QWidget" name="widget_146" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>200</width>
@@ -11001,7 +11007,7 @@ Tabs</string>
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>1</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -11053,7 +11059,17 @@ Tabs</string>
                <number>0</number>
               </property>
               <item row="0" column="0">
-               <widget class="MyOpenglWidget" name="widget_151" native="true"/>
+               <widget class="MyOpenglWidget" name="widget_151" native="true">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>1700</width>
+                  <height>450</height>
+                 </size>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -11082,6 +11098,12 @@ Tabs</string>
        </item>
        <item>
         <widget class="QWidget" name="widget_147" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>200</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>200</width>
