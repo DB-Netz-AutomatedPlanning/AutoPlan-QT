@@ -3,6 +3,8 @@
 
 #include <QWidget>
 class QString;
+class QLabel;
+
 namespace Ui {
 class SymbolContainer;
 }
@@ -26,4 +28,6 @@ extern QString geoJsonFileName;
 extern int geoJsonCodeNo;
 extern QString folderPath;
 extern QString stationLocation;
+extern bool createNewProject;
+
 #endif // SYMBOLCONTAINER_H
