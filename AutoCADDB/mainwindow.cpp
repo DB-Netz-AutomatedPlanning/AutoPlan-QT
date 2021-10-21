@@ -107,6 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Close button on Tab bar
     ui->tabWidget_2->removeTab(2);
+    ui->tabWidget_2->removeTab(1);
 
     // Create button what must be placed in tabs row
     QToolButton* tb = new QToolButton(this);
@@ -248,7 +249,7 @@ bool MainWindow::writeFooBar()
 //Add new tab
 void MainWindow::addTab()
 {
-     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new QOpenGLWidget(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
+     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new MyOpenglWidget(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
      ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->count() - 2);
 }
 

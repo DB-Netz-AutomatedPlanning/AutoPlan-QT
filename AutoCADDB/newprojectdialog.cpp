@@ -132,7 +132,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
     foreach(QString eachMsg, msg){
         allMsg.append(eachMsg);
     }
-    QMessageBox::information(this, "Successfull", allMsg);
+    QMessageBox::information(this, "Successfull", "Project created successfully "+allMsg);
     createNewProject = true;
     close();
 }
