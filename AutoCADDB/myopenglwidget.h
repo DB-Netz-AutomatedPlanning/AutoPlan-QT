@@ -33,6 +33,7 @@ public:
  void paintGL() override;
  void openGLUpdate();
 // void delay();
+ void testingFnt(QLabel *lbl);
 
 
  QString* s;
@@ -86,6 +87,7 @@ protected:
 
 public slots:
     void cleanup();
+    void ctxMenu(const QPoint &pos);
 
 
 

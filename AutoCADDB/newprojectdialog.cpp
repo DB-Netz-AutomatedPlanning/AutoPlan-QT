@@ -1,5 +1,6 @@
 #include "newprojectdialog.h"
 #include "ui_newprojectdialog.h"
+#include "symbolcontainer.h"
 
 NewProjectDialog::NewProjectDialog(QWidget *parent) :
     QDialog(parent),
@@ -132,6 +133,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         allMsg.append(eachMsg);
     }
     QMessageBox::information(this, "Successfull", allMsg);
+    createNewProject = true;
     close();
 }
 

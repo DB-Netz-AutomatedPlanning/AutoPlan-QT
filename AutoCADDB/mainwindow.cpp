@@ -619,4 +619,10 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
     ui->tableWidget->setItem(0, 1, newItem1);
 
+
+    if(createNewProject){
+        createNewProject = false;
+        addTab();
+    }
+
 }
