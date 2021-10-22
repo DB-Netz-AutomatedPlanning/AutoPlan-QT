@@ -626,6 +626,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
 
 }
 
+// this event loads everytime after specific time interval or anything is updated on the screen
 void MainWindow:: paintEvent(QPaintEvent *event) {
     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
     ui->tableWidget->setItem(0, 1, newItem1);
