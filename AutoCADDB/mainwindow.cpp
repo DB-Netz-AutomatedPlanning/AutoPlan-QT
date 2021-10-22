@@ -613,7 +613,17 @@ void MainWindow::onNewProjectClicked()
 
 void MainWindow::closeEvent (QCloseEvent *event)
 {
-      QCoreApplication::quit();
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
+                                                                    tr("Do you want to save the changes?\n"),
+                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+                                                                    QMessageBox::Yes);
+        if (resBtn != QMessageBox::Yes) {
+            event->ignore();
+            QCoreApplication::quit();
+        } else {
+            event->accept();
+        }
+
 }
 
 void MainWindow:: paintEvent(QPaintEvent *event) {
