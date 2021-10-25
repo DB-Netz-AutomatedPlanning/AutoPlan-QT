@@ -555,13 +555,13 @@ void MainWindow::on_actionImport_triggered()
 
 void MainWindow::on_pushButton_77_clicked()
 {
-    ImportFolder uploadNewData;
-    uploadNewData.setModal(true);
-    uploadNewData.exec();
-
-//    UploadNewData uploadNewData;
+//    ImportFolder uploadNewData;
 //    uploadNewData.setModal(true);
 //    uploadNewData.exec();
+
+    UploadNewData uploadNewData;
+    uploadNewData.setModal(true);
+    uploadNewData.exec();
 //    writeFooBar();
 
 }

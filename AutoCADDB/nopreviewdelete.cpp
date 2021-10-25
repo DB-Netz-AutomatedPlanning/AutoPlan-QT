@@ -1,5 +1,6 @@
 #include "nopreviewdelete.h"
 #include "ui_nopreviewdelete.h"
+#include "symbolcontainer.h"
 
 NoPreviewDelete::NoPreviewDelete(QWidget *parent) :
     QDialog(parent),
@@ -7,12 +8,13 @@ NoPreviewDelete::NoPreviewDelete(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Remove Existing Data");
-    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-    while(iter.hasNext() )
-    {
-        QString val = iter.next();
-        ui->comboAllFolder_6->addItem(val.remove("Data/"));
-    }
+//    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
+//    while(iter.hasNext() )
+//    {
+//        QString val = iter.next();
+//        ui->comboAllFolder_6->addItem(val.remove("Data/"));
+//    }
+    ui->comboAllFolder_6->addItem(projectName);
 }
 
 NoPreviewDelete::~NoPreviewDelete()
@@ -33,23 +35,24 @@ void NoPreviewDelete::checkButtonStatus(bool isON)
 void NoPreviewDelete::on_btnLoad_6_clicked()
 {
     QString location = ui->comboAllFolder_6->currentText();
-    QString path = "Data/"+location;
+    QString path = projectPath+"/"+location+"/temp";
     QDir dir (path);
     QFileInfoList files = dir.entryInfoList(QDir::Files);
     if  (files.length() ==0) {
-        QMessageBox::information(this, "No Data", "No Existing Data for the selected Station");
+        QMessageBox::information(this, "No Data", "Project Not found OR No Existing \n Data for the selected Station");
         ui->checkBoxEntireStation->setEnabled(true);
         checkButtonStatus(false);
+        return;
     }
 
     foreach(QFileInfo fi, files){
         QString file = fi.fileName();
-        if (file == "Gleiskanten.geojson") ui->checkBoxGleiskanten_6->setEnabled(true);
-        if (file == "Gleisknoten.geojson") ui->checkBoxGleisknoten_6->setEnabled(true);
-        if (file == "Entwurfselement_Hoehe.geojson") ui->checkBoxHoehe_6->setEnabled(true);
-        if (file == "Entwurfselement_KMLinie.geojson") ui->checkBoxKMLine_6->setEnabled(true);
-        if (file == "Entwurfselement_Lage.geojson") ui->checkBoxLage_6->setEnabled(true);
-        if (file == "Entwurfselement_Ueberhoehung.geojson") ui->checkBoxUeberhoehung_6->setEnabled(true);
+        if (file == "Gleiskanten.dbahn") ui->checkBoxGleiskanten_6->setEnabled(true);
+        if (file == "Gleisknoten.dbahn") ui->checkBoxGleisknoten_6->setEnabled(true);
+        if (file == "Entwurfselement_HO.dbahn") ui->checkBoxHoehe_6->setEnabled(true);
+        if (file == "Entwurfselement_KM.dbahn") ui->checkBoxKMLine_6->setEnabled(true);
+        if (file == "Entwurfselement_LA.dbahn") ui->checkBoxLage_6->setEnabled(true);
+        if (file == "Entwurfselement_UH.dbahn") ui->checkBoxUeberhoehung_6->setEnabled(true);
     }
     ui->checkBoxEntireStation->setEnabled(true);
     ui->btnDelete_6->setEnabled(true);
@@ -66,7 +69,7 @@ void NoPreviewDelete::on_comboAllFolder_6_currentTextChanged()
 
 void NoPreviewDelete::on_checkBoxEntireStation_toggled(bool checked)
 {
-    if (checked){
+    if (checked && !ui->comboAllFolder_6->currentText().isEmpty()){
         checkButtonStatus(false);
         ui->btnDelete_6->setEnabled(true);
     }
@@ -88,9 +91,11 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
     QString all;
     QString location = ui->comboAllFolder_6->currentText();
     if (ui->checkBoxEntireStation->isEnabled() && ui->checkBoxEntireStation->isChecked()){
-        QMessageBox::StandardButton reply = QMessageBox::question(this, "Info", "Are you sure? ...\n Deleted data cannot be retrieved!!", QMessageBox::Yes |QMessageBox::No);
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "Info",
+                                                                  "Are you sure? ...\n Deleted data cannot be retrieved!!",
+                                                                  QMessageBox::Yes |QMessageBox::No);
         if (reply == QMessageBox::No) return;
-        QDir dir ("Data/"+location);
+        QDir dir (projectPath+"/"+location+"/temp");
         if (dir.removeRecursively()) {
             QMessageBox::information(this, "Deleted", "Successfully Deleted !!");
             close();
@@ -105,8 +110,8 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
         if (reply == QMessageBox::No) return;
         if (ui->checkBoxGleiskanten_6->isChecked() && ui->checkBoxGleiskanten_6->isEnabled()){
             ui->btnDelete_6->setEnabled(true);
-            QString fileName = "Gleiskanten.geojson";
-            QFile file ("Data/"+location+"/" +fileName);
+            QString fileName = "Gleiskanten.dbahn";
+            QFile file (projectPath+"/"+location+"/temp/" +fileName);
             if (!file.remove()){
                 QMessageBox::information(this, "Fatal", file.errorString());
             }
@@ -118,8 +123,8 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
 
         if (ui->checkBoxGleisknoten_6->isChecked() && ui->checkBoxGleisknoten_6->isEnabled()){
 
-            QString fileName = "Gleisknoten.geojson";
-            QFile file ("Data/"+location+"/" +fileName);
+            QString fileName = "Gleisknoten.dbahn";
+            QFile file (projectPath+"/"+location+"/temp/" +fileName);
             if (!file.remove()){
                 QMessageBox::information(this, "Fatal", file.errorString());
             }
@@ -132,8 +137,8 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
 
         if (ui->checkBoxHoehe_6->isChecked() && ui->checkBoxHoehe_6->isEnabled()){
 
-            QString fileName = "Entwurfselement_Hoehe.geojson";
-            QFile file ("Data/"+location+"/" +fileName);
+            QString fileName = "Entwurfselement_HO.dbahn";
+            QFile file (projectPath+"/"+location+"/temp/" +fileName);
             if (!file.remove()){
                 QMessageBox::information(this, "Fatal", file.errorString());
             }
@@ -146,8 +151,8 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
 
         if (ui->checkBoxKMLine_6->isChecked() && ui->checkBoxKMLine_6->isEnabled()){
 
-            QString fileName = "Entwurfselement_KMLinie.geojson";
-            QFile file ("Data/"+location+"/" +fileName);
+            QString fileName = "Entwurfselement_KM.dbahn";
+            QFile file (projectPath+"/"+location+"/temp/"+fileName);
             if (!file.remove()){
                 QMessageBox::information(this, "Fatal", file.errorString());
             }
@@ -160,8 +165,8 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
 
         if (ui->checkBoxLage_6->isChecked() && ui->checkBoxLage_6->isEnabled()){
 
-            QString fileName = "Entwurfselement_Lage.geojson";
-            QFile file ("Data/"+location+"/" +fileName);
+            QString fileName = "Entwurfselement_LA.dbahn";
+            QFile file (projectPath+"/"+location+"/temp/"+fileName);
             if (!file.remove()){
                 QMessageBox::information(this, "Fatal", file.errorString());
             }
@@ -173,8 +178,8 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
 
         if (ui->checkBoxUeberhoehung_6->isChecked() && ui->checkBoxUeberhoehung_6->isEnabled()){
 
-            QString fileName = "Entwurfselement_Ueberhoehung.geojson";
-            QFile file ("Data/"+location+"/" +fileName);
+            QString fileName = "Entwurfselement_UH.dbahn";
+            QFile file (projectPath+"/"+location+"/temp/" +fileName);
             if (!file.remove()){
                 QMessageBox::information(this, "Fatal", file.errorString());
             }

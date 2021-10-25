@@ -147,7 +147,7 @@ void MyOpenglWidget::paintGL()
 
     countLoop +=1;
     if(countLoop <=1){
-        Coordinates *coord = new Coordinates(stationName);
+        Coordinates *coord = new Coordinates(projectPath, projectName);
         coord->readCoordinates(geoJsonFileName,geoJsonCodeNo);
 
        int segmentSize = coord->getSegment().size();
@@ -159,7 +159,6 @@ void MyOpenglWidget::paintGL()
            }
        }
        qDebug()<< "Inside the if statement end";
-
     }
 
 
@@ -328,8 +327,6 @@ void MyOpenglWidget::mouseMoveEvent(QMouseEvent *event)
 
     double currentX = event->position().x();
     double currentY = event->position().y();
-
-
 
     if(mouseLeftButtonPressed == true){
         if(dx < currentX){
