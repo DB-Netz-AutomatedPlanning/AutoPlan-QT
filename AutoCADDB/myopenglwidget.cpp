@@ -1,10 +1,14 @@
 #include "myopenglwidget.h"
 #include "mainwindow.h"
 #include <QtWidgets>
-// #include <QOpenGLWidget>
+
 #include <QWidget>
 #include <QSvgRenderer>
 #include <QDebug>
+#include "symbolinformation.h"
+#include <QGraphicsProxyWidget>
+#include <QGraphicsView>
+
 QString glb;
 QList<QString> listo ;
 
@@ -279,14 +283,6 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
     QPointF f = s;
     //int ss =s;
 
-
-    qInfo() << "--------------------------";
-    qInfo() << "Position from top-left corner :";
-    qInfo() << event->position().toPoint() - child->pos();
-   qInfo() << "--------------------------";
-    qInfo() << "Symbol Position :";
-    qInfo() << f;
-     qInfo() << "--------------------------";
 //! [3]
 
 
@@ -294,6 +290,7 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
     QPainter painter;
     painter.begin(&tempPixmap);
     painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
+
     painter.end();
 
     child->setPixmap(tempPixmap);
@@ -305,15 +302,21 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
         child->setPixmap(pixmap);
     }
 
-       MainWindow *w = new MainWindow();
-       w->setObjNameTW("radsensor");
 
 
-     //  QLabel *st = new QLabel(this);
+    testingFnt(child);
 
+}
+void MyOpenglWidget::testingFnt(QLabel *lbl) {
+qInfo() << lbl;
 
 }
 
+void MyOpenglWidget::ctxMenu(const QPoint &pos) {
+    QMenu *menu = new QMenu;
+    menu->addAction(tr("Test Item"), this, SLOT(test_slot()));
+    menu->exec();
+}
 
 void MyOpenglWidget::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -355,6 +358,8 @@ void MyOpenglWidget::mouseMoveEvent(QMouseEvent *event)
             qDebug()<< "Y decreased value: "<< y;
         }
     }
+
+
     update();
 }
 
@@ -419,6 +424,8 @@ void MyOpenglWidget::dragMoveEvent(QDragMoveEvent *event)
         event->ignore();
     }
 
+
+
 }
 
 void MyOpenglWidget::dropEvent(QDropEvent *event)
@@ -434,24 +441,18 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
         assignObjectName(glbObjectName);
         defaultObjectName = glbObjectName;
 
-        QTableWidget *tableWidget = new QTableWidget(this);
-        tableWidget->setRowCount(2);
-        tableWidget->setColumnCount(2);
-        QTableWidgetItem *newItem = new QTableWidgetItem(tr("%0").arg("Name"));
-        tableWidget->setItem(0, 0, newItem);
-        QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
-        tableWidget->setItem(0, 1, newItem1);
-        QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
-        tableWidget->setItem(1, 0, newItem2);
 
-        tableWidget->setFixedSize(217,87);
-        tableWidget->show();
+        MainWindow *w = new MainWindow();
+        w->setObjNameTW(defaultObjectName);
+        SymbolInformation *ss = new SymbolInformation();
+        ss->updateLabel();
+
+
 
              newIcon->setPixmap(pixmap);
              newIcon->move(event->position().toPoint() - offset);
              newIcon->show();
              newIcon->setAttribute(Qt::WA_DeleteOnClose);
-
 
 
         if (event->source() == this) {
@@ -464,6 +465,10 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
         event->ignore();
     }
 
+
+
+    newIcon->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(newIcon, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(ctxMenu(const QPoint &)));
 
 
 
@@ -482,10 +487,12 @@ void MyOpenglWidget::assignObjectName(QString str){
              newIcon = new QLabel(this);
 
              newIcon->setObjectName("radsensor");
+
     }
     if(str== "hauptsignal"){
              newIcon = new QLabel(this);
               newIcon->setObjectName("hauptsignal");
+
     }
     if(str== "rangier"){
              newIcon = new QLabel(this);

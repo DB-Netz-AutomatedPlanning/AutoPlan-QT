@@ -134,9 +134,11 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
     foreach(QString eachMsg, msg){
         allMsg.append(eachMsg);
     }
+
     projectPath = ui->leEnterProjectPath->text();
     projectName = ui->leEnterProjectName->text();
     QMessageBox::information(this, "Successfull", allMsg);
+    createNewProject = true;
     close();
 }
 

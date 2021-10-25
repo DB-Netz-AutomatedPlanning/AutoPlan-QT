@@ -3,6 +3,8 @@
 
 #include <QWidget>
 class QString;
+class QLabel;
+
 namespace Ui {
 class SymbolContainer;
 }
@@ -29,4 +31,6 @@ extern QString stationLocation;
 
 extern QString projectPath;
 extern QString projectName;
+extern bool createNewProject;
+
 #endif // SYMBOLCONTAINER_H

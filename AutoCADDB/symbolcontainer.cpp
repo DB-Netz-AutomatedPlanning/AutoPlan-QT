@@ -17,6 +17,8 @@ QString projectName = "";
 
 QString glbObjectName = "sayli";
 QString defaultObjectName = "default name";
+bool createNewProject = false;
+
 
 
 SymbolContainer::SymbolContainer(QWidget *parent) :

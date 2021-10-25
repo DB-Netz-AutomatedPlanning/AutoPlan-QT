@@ -37,6 +37,7 @@ SOURCES += \
     removedata.cpp \
     svgdialogview.cpp \
     symbolcontainer.cpp \
+    symbolinformation.cpp \
     symboloptions.cpp \
     test.cpp \
     uploadnewdata.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     removedata.h \
     svgdialogview.h \
     symbolcontainer.h \
+    symbolinformation.h \
     symboloptions.h \
     test.h \
     uploadnewdata.h \
@@ -79,6 +81,7 @@ FORMS += \
     previeweulynxxml.ui \
     removedata.ui \
     symbolcontainer.ui \
+    symbolinformation.ui \
     symboloptions.ui \
     test.ui \
     uploadnewdata.ui \
