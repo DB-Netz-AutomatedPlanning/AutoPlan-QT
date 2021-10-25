@@ -22,6 +22,7 @@ public:
     explicit UploadNewData(QWidget *parent = nullptr);
     ~UploadNewData();
     void lblState(bool isON);
+    bool modifyData(QString fileName, QString resourceFileName, bool isAlreadyAvailable);
 
 private slots:
     void on_btnClickHere_clicked();
@@ -43,9 +44,9 @@ private slots:
 
     void on_btnOK_clicked();
 
-    void on_radioAddNew_clicked();
+//    void on_radioAddNew_clicked();
 
-    void on_radioModify_clicked();
+//    void on_radioModify_clicked();
 
 private:
 

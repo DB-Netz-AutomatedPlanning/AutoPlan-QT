@@ -10,17 +10,21 @@ ExportDialog::ExportDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Export file");
-    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-    while(iter.hasNext() )
-    {
-        QString val = iter.next();
-        ui->cmbStation->addItem(val.remove("Data/"));
-    }
+    //QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
+//    QDirIterator iter( projectPath+"/"+projectName, QDir::Dirs | QDir::NoDotAndDotDot);  //+"/temp"
+//    while(iter.hasNext() )
+//    {
+//        QString val = iter.next();
+//        ui->cmbStation->addItem(val.remove(projectPath+"/"+projectName+"/"));  //temp/
+//    }
+    ui->cmbStation->addItem(projectName);
+    ui->cmbStation->setCurrentText(projectName);
     if(!ui->cmbStation->currentText().isNull() && !ui->cmbStation->currentText().isEmpty()){
         ui->leFolder->setEnabled(true);
         ui->btnOpenFolder->setEnabled(true);
     }
 }
+
 
 ExportDialog::~ExportDialog()
 {
@@ -66,21 +70,77 @@ void ExportDialog::on_btnExport_clicked()
         return;
     }
     QString outputPath_ = ui->leFolder->text();
-    QString station_ = ui->cmbStation->currentText();
+//    QString station_ = ui->cmbStation->currentText();
+    QString station_ = projectName;
+    QString path_ = projectPath;
     QByteArray state = "export";
-    QByteArray gleiskantenPath = "Data/"+ui->cmbStation->currentText().toLatin1()+"/Gleiskanten.geojson";
-    QByteArray gleisknotenPath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Gleisknoten.geojson";
-    QByteArray hoehePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_HO.geojson";
-    QByteArray kMliniePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_KM.geojson";
-    QByteArray uberholenPath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_UH.geojson";
-    QByteArray lagePath = "Data/"+ui->cmbStation->currentText().toLatin1()+ "/Entwurfselement_LA.geojson";
+
+
+
+
+
+    std::vector<QString> filePaths;
+    QByteArray gleiskantenPath =  path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleiskanten.dbahn";
+    QByteArray gleisknotenPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleisknoten.dbahn";
+    QByteArray hoehePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_HO.dbahn";
+    QByteArray kMliniePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_KM.dbahn";
+    QByteArray uberholenPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_UH.dbahn";
+    QByteArray lagePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_LA.dbahn";
     QByteArray outputPath = ui->leFolder->text().toLatin1();
     QByteArray station = ui->cmbStation->currentText().toLatin1();
+
+    qDebug()<< gleiskantenPath << "  "<< kMliniePath;
     if (!QFile::exists(gleiskantenPath) || !QFile::exists(gleisknotenPath) || !QFile::exists(hoehePath) || !QFile::exists(kMliniePath)
             || !QFile::exists(uberholenPath) || !QFile::exists(lagePath)){
+
         QMessageBox::information(this, "Missing File", "Required file Missing... \n Please import appropriate files");
         return;
     }
+
+    filePaths.push_back(gleiskantenPath);
+    filePaths.push_back(gleisknotenPath);
+    filePaths.push_back(hoehePath);
+    filePaths.push_back(kMliniePath);
+    filePaths.push_back(uberholenPath);
+    filePaths.push_back(lagePath);
+
+    foreach (auto fi, filePaths){
+        QFile file (fi);
+        QFileInfo info (fi);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+            QMessageBox::information(this, "info", file.errorString());
+            return;
+        }
+
+        QString current = fi.remove(path_+"/"+station_+"/temp/");
+        current = current.remove("."+ info.completeSuffix());
+
+        QFile fileToSave (path_+"/"+station_+"/temp/"+current+".geojson");
+
+
+        if (!fileToSave.open(QIODevice::WriteOnly)){
+            QMessageBox::warning(this, "Warning", fileToSave.errorString());
+            return;
+        }
+
+        QByteArray data = file.readAll();
+        QByteArray decoded = QByteArray::fromHex(data);
+
+//        QString allData;
+//        allData = QString(decoded);
+        file.close();
+
+        fileToSave.write(decoded);
+        fileToSave.close();
+    }
+
+    gleiskantenPath =  path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleiskanten.geojson";
+    gleisknotenPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleisknoten.geojson";
+    hoehePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_HO.geojson";
+    kMliniePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_KM.geojson";
+    uberholenPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_UH.geojson";
+    lagePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_LA.geojson";
+
     QProcess csharp;
     findOS();   //determine the operating system
 
@@ -132,12 +192,32 @@ void ExportDialog::on_btnExport_clicked()
     csharp.waitForBytesWritten(1000);
 
     csharp.closeWriteChannel();
-    if(!csharp.waitForFinished(10000)) {
-        // Giving maximum of 6 seconds to execute the program
+    if(!csharp.waitForFinished(20000)) {
+        // Giving maximum of 15 seconds to execute the program
         qInfo() << "The program is taking too long to close the Channel";
         QMessageBox::warning(this, "Warning", "The program is taking too long to execute\n ... "
-                                              "the channel has been terminated before conversion");
+                                              "the channel has been terminated after conversion");
         return;
+    }
+
+    // remove all the input files
+    gleiskantenPath =  path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleiskanten.geojson";
+    gleisknotenPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleisknoten.geojson";
+    hoehePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_HO.geojson";
+    kMliniePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_KM.geojson";
+    uberholenPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_UH.geojson";
+    lagePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_LA.geojson";
+    std::vector<QString> paths;
+    paths.push_back(gleiskantenPath);
+    paths.push_back(gleisknotenPath);
+    paths.push_back(hoehePath);
+    paths.push_back(kMliniePath);
+    paths.push_back(uberholenPath);
+    paths.push_back(lagePath);
+
+    foreach(QString val, paths){
+        QFile file (val);
+        file.remove();
     }
 
     if (QFile::exists(outputPath_+"/eulynx"+station_+".euxml")){
@@ -145,10 +225,11 @@ void ExportDialog::on_btnExport_clicked()
                                                      "check ->"+outputPath_);
         folderPath = outputPath_;
         stationLocation = station_;
+
         PreviewEulynxXml preview;
         preview.setModal(true);
         preview.exec();
-
+        close();
     }
     else{
         QMessageBox::warning(this, "Fatal", "Process Failed\n ... "

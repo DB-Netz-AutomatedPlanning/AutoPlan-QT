@@ -28,6 +28,9 @@ extern QString geoJsonFileName;
 extern int geoJsonCodeNo;
 extern QString folderPath;
 extern QString stationLocation;
+
+extern QString projectPath;
+extern QString projectName;
 extern bool createNewProject;
 
 #endif // SYMBOLCONTAINER_H

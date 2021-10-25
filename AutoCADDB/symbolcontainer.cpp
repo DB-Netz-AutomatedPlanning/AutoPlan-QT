@@ -11,6 +11,9 @@ int geoJsonCodeNo = 0;
 QString folderPath = "";
 QString stationLocation = "";
 
+// project data locatio
+QString projectPath = "";
+QString projectName = "";
 
 QString glbObjectName = "sayli";
 QString defaultObjectName = "default name";
@@ -29,6 +32,6 @@ SymbolContainer::SymbolContainer(QWidget *parent) :
 SymbolContainer::~SymbolContainer()
 {
 
-     glbObjectName = "sayli";
+    glbObjectName = "sayli";
     delete ui ;
 }

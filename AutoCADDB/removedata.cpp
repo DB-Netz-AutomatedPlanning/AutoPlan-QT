@@ -1,5 +1,6 @@
 #include "removedata.h"
 #include "ui_removedata.h"
+#include "symbolcontainer.h"
 
 // This class allow for prevew of data before deleting
 RemoveData::RemoveData(QWidget *parent) :
@@ -8,12 +9,14 @@ RemoveData::RemoveData(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Preview Data");
-    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-    while(iter.hasNext() )
-    {
-        QString val = iter.next();
-        ui->comboAllFolder->addItem(val.remove("Data/"));
-    }
+//    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
+//    while(iter.hasNext() )
+//    {
+//        QString val = iter.next();
+//        ui->comboAllFolder->addItem(val.remove("Data/"));
+//    }
+    ui->comboAllFolder->addItem(projectName);
+
 }
 
 RemoveData::~RemoveData()
@@ -27,16 +30,24 @@ RemoveData::~RemoveData()
 void RemoveData::on_btnLoad_clicked()
 {
     QString location = ui->comboAllFolder->currentText();
-    QString path = "Data/"+location;
+    QString path = projectPath+"/"+location+"/temp";
     QDir dir (path);
     QFileInfoList files = dir.entryInfoList(QDir::Files);
-    if  (files.length() ==0) {
+    if (ui->comboAllFolder->currentText().isEmpty()) {
+        QMessageBox::information(this, "No Data Found!", "Nothing to Preview... Please create a project");
+        close();
+        return;
+    }
+
+
+
+    if (files.length() ==0) {
         QMessageBox::information(this, "No Data", "No Existing Data for the selected Station");
         return;
     }
 
     foreach(QFileInfo fi, files){
-        ui->comboFiles->addItem(fi.fileName());
+        ui->comboFiles->addItem(fi.fileName().remove("."+fi.completeSuffix()));
     }
 
     ui->comboFiles->setEnabled(true);
@@ -49,12 +60,16 @@ void RemoveData::on_btnPreview_clicked()
 {
     QString fileName = ui->comboFiles->currentText();
     QString location = ui->comboAllFolder->currentText();
-    QFile file ("Data/"+location+"/" +fileName);
+    QFile file (projectPath+"/"+location+"/temp/" +fileName+".dbahn");
     if (!file.open(QIODevice::ReadOnly)){
         QMessageBox::information(this, "Fatal", file.errorString());
         return;
     }
-    QTextStream in (&file);
+
+    QByteArray data = file.readAll();
+    file.close();
+    QByteArray decoded = QByteArray::fromHex(data);
+    QTextStream in (decoded);
     ui->textBrowserPreview->setText(in.readAll());
     ui->textBrowserPreview->setEnabled(true);
     ui->btnDelete->setEnabled(true);
@@ -87,7 +102,7 @@ void RemoveData::on_btnDelete_clicked()
 
     QString fileName = ui->comboFiles->currentText();
     QString location = ui->comboAllFolder->currentText();
-    QFile file ("Data/"+location+"/" +fileName);
+    QFile file (projectPath+"/"+location+"/temp/" +fileName+".dbahn");
     if (!file.remove()){
         QMessageBox::information(this, "Fatal", file.errorString());
         close();
