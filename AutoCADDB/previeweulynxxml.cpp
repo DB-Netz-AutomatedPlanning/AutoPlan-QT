@@ -24,6 +24,11 @@ PreviewEulynxXml::~PreviewEulynxXml()
     delete ui;
 }
 
+//void PreviewEulynxXml::updateText(const QString &newText)
+//{
+//    ui->tePreview->setText(newText);
+//}
+
 void PreviewEulynxXml::on_btnOk_clicked()
 {
     this->close();

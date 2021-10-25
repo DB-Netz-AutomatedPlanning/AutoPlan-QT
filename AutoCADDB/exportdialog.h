@@ -41,6 +41,8 @@ private slots:
 
     void on_btnCancel_clicked();
 
+signals:
+
 private:
     Ui::ExportDialog *ui;
     QString app;

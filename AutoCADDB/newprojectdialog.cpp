@@ -25,12 +25,17 @@ void NewProjectDialog::on_btnBrowseProjectPath_clicked()
     QString filePath = QFileDialog::getExistingDirectory(this, ("Select Output Folder"), QDir::currentPath());
 
     if (QDir(filePath+"/"+ui->leEnterProjectName->text()).exists()){
-        QMessageBox::StandardButton reply = QMessageBox::question(this, "Project Name Already Exist", "Did you want to override the project?");
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "Already Exist", "Project Name Already Exist... \n Did you want to override the project?");
         if (reply == QMessageBox::No){
             return;
         }
         else{
-            QDir().rmpath(ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text());
+            QDir dir(filePath+"/"+ui->leEnterProjectName->text());
+            dir.removeRecursively();
+//            if (!QDir().rmpath(ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text())){
+//                qDebug()<< 50000;
+//                QMessageBox::information(this, "Fatal", "Cannot remove path");
+//            }
         }
     }
 
@@ -116,15 +121,12 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
                 QMessageBox::warning(this, "Warning", fileToSave.errorString());
                 return;
             }
-
-            QDataStream data (&fileToSave);
-            data.setVersion(QDataStream::Qt_6_1);
-            data << allData;
+            QByteArray bytes(allData.toUtf8());
+            QByteArray encoded = bytes.toHex();
+            fileToSave.write(encoded);
+            fileToSave.close();
             msg.append(current +"successfully updated \n");
-            if(!fileToSave.flush()){
-                QMessageBox::information(this, "Warning", fileToSave.errorString());
-                file.close();
-            }
+
         }
     }
 
@@ -132,7 +134,10 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
     foreach(QString eachMsg, msg){
         allMsg.append(eachMsg);
     }
-    QMessageBox::information(this, "Successfull", "Project created successfully "+allMsg);
+
+    projectPath = ui->leEnterProjectPath->text();
+    projectName = ui->leEnterProjectName->text();
+    QMessageBox::information(this, "Successfull", allMsg);
     createNewProject = true;
     close();
 }
