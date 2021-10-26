@@ -11017,7 +11017,7 @@ Tabs</string>
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -11085,11 +11085,11 @@ Tabs</string>
             </widget>
             <widget class="QWidget" name="tab_3">
              <attribute name="title">
-              <string>Page</string>
+              <string>QGraphics</string>
              </attribute>
              <layout class="QVBoxLayout" name="verticalLayout_126">
               <item>
-               <widget class="MyOpenglWidget" name="widget_142" native="true"/>
+               <widget class="QGraphicsMainWindow" name="widget_142" native="true"/>
               </item>
              </layout>
             </widget>
@@ -11549,6 +11549,12 @@ Tabs</string>
    <class>MyOpenglWidget</class>
    <extends>QWidget</extends>
    <header>myopenglwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QGraphicsMainWindow</class>
+   <extends>QWidget</extends>
+   <header location="global">qgraphicsmainwindow.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

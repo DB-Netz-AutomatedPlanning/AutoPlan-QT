@@ -106,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     //Close button on Tab bar
-    ui->tabWidget_2->removeTab(2);
+   // ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(1);
 
     // Create button what must be placed in tabs row
