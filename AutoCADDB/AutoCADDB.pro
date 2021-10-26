@@ -40,6 +40,7 @@ SOURCES += \
     symbolinformation.cpp \
     symboloptions.cpp \
     test.cpp \
+    tracks.cpp \
     uploadnewdata.cpp \
     exportdialog.cpp
 
@@ -67,6 +68,7 @@ HEADERS += \
     symbolinformation.h \
     symboloptions.h \
     test.h \
+    tracks.h \
     uploadnewdata.h \
     exportdialog.h
 
