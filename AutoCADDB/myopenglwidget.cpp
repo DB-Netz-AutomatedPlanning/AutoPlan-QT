@@ -97,7 +97,7 @@ void MyOpenglWidget::initializeGL()
          connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &MyOpenglWidget::cleanup);
 
          initializeOpenGLFunctions(); // obvious
-         glClearColor(1.0, 1.0, 1.0, 1.0);
+         glClearColor(0.0, 0.0, 0.0, 1.0);
 
          shaderProg = new QOpenGLShaderProgram;
 
@@ -145,18 +145,21 @@ void MyOpenglWidget::initializeGL()
 std::vector<std::vector<GLfloat>> vec;
 void MyOpenglWidget::paintGL()
 {
-    if(isActive){
 
     //-------------------------------------------
 
     countLoop +=1;
     if(countLoop <=1){
-        Coordinates *coord = new Coordinates(projectPath, projectName);
-        coord->readCoordinates(geoJsonFileName,geoJsonCodeNo);
+        aPlanProjectPath = "D:/Users/BKU/MdSaifKhan/Documents/projectFileForAPlan";
+        aPlanProjectName = "Meggen";
+        aPlanFileName = "Entwurfselement_HO.dbahn";
+
+        Coordinates *coord = new Coordinates(aPlanProjectPath, aPlanProjectName);
+        coord->readCoordinates(aPlanFileName);
 
        int segmentSize = coord->getSegment().size();
 
-       for (int i=0; i<segmentSize; i++){
+       for (int i=0; i<segmentSize-1; i++){
            vec.push_back(std::vector<GLfloat>());
            for (int j=coord->getSegment()[i]; j< coord->getSegment()[i+1]; j++){
                vec[i].push_back(coord->getCoordinateLists()[j]);
@@ -225,7 +228,6 @@ void MyOpenglWidget::paintGL()
 
       shaderProg->release();
       qDebug()<< "end";
-    }
 }
 
 
@@ -237,16 +239,18 @@ void MyOpenglWidget::openGLUpdate()
 
 void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
 {
+    //---------------- saif start -----------------
     if(event->button() == Qt::LeftButton){
         mouseLeftButtonPressed = true;
     }else if(event->button() == Qt::RightButton){
         mouseRightButtonPressed = true;
-        scaleSpeed = scaleSpeed*1.1;
-        qDebug()<< "Scale Speed : " <<scaleSpeed;
     }else if(event->button() == Qt::MiddleButton){
         scaleSpeed = scaleSpeed/1.1;
         qDebug()<< "Scale Speed : " <<scaleSpeed;
     }
+    update();
+
+    //----------------------------- saif end =------------
 
     QLabel *child = static_cast<QLabel*>(childAt(event->position().toPoint()));
     if (!child)
@@ -320,16 +324,66 @@ void MyOpenglWidget::ctxMenu(const QPoint &pos) {
 
 void MyOpenglWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event);
-    mouseLeftButtonPressed = false;
-    mouseRightButtonPressed = false;
+    //--------------------- saif start -------------------------
+        update();
+        double currentX = event->position().x();
+        double currentY = (height()-1) - event->position().y();
+        minToCenterChangeValueX = (8360*powerValueOfTwo);
+        minToCenterChangeValueY = (4130*powerValueOfTwo);
+
+        getLowestCoordinateX = (x-minToCenterChangeValueX);
+        getLowestCoordinateY = (y-minToCenterChangeValueY);
+
+
+        double getCoordinateX =getLowestCoordinateX + (((double)minToCenterChangeValueX/(((double)width())/2)) * currentX);
+        double getCoordinateY =getLowestCoordinateY + (((double)minToCenterChangeValueY/(double)(height()/2)) * currentY);
+
+        qDebug()<<"(" <<currentX<<","<<currentY<<")";
+        qDebug() << qSetRealNumberPrecision( 15 ) << "x = " << x<< " y=" <<y<< " z= "<<z;
+        qDebug()<< qSetRealNumberPrecision( 15 ) <<"X Coordinate = "<< getCoordinateX;
+        qDebug()<< qSetRealNumberPrecision( 15 ) <<"Y Coordinate = "<< getCoordinateY;
+        qDebug()<< qSetRealNumberPrecision( 15 ) <<"Z Coordinate = "<< z;
+
+        Q_UNUSED(event);
+        mouseLeftButtonPressed = false;
+        mouseRightButtonPressed = false;
+
+
+        double mouseX = event->position().rx();
+        double mouseY = (height()-1) - event->position().ry();
+
+        QMatrix4x4 inverseProjectionMatrix = projectionMatrix.inverted();
+        QMatrix4x4 inverseViewMatrix = viewMatrix.inverted();
+        QMatrix4x4 inverseModelMatrix = modelMatrix.inverted();
+        QMatrix4x4 inverseMVP = inverseProjectionMatrix * inverseViewMatrix * inverseModelMatrix;
+
+
+
+
+
+
+
+        double presentX, presentY;
+        presentX = (mouseX/ (float)width())*2.0f -1.0f;
+        presentY = (mouseY/ (float)height())*2.0f -1.0f;
+
+        QVector4D tmp = QVector4D(presentX, 0, 0, 1);
+        QVector4D xResult = tmp*inverseProjectionMatrix*inverseViewMatrix*inverseModelMatrix;
+        presentX = xResult.x();
+
+
+        //qDebug()<<  presentX;
+
+        //-------------------------- saif end ------------------------------
 }
 
 void MyOpenglWidget::mouseMoveEvent(QMouseEvent *event)
 {
-
+    //----------------------- saif start --------------------------
     double currentX = event->position().x();
     double currentY = event->position().y();
+
+    qDebug()<< currentX;
 
     if(mouseLeftButtonPressed == true){
         if(dx < currentX){
@@ -358,30 +412,54 @@ void MyOpenglWidget::mouseMoveEvent(QMouseEvent *event)
             qDebug()<< "Y decreased value: "<< y;
         }
     }
-
-
     update();
+
+    // ------------------------ saif end ------------------------
 }
 
 void MyOpenglWidget::wheelEvent(QWheelEvent *event)
 {
+    // ------------------ saif start ---------------------
     QPoint numDegrees = event->angleDelta();
-
     if(numDegrees.y()>0){
-            z = z/1.1;
+        if(z>lowestZoomScale){
+            z = z/zoomScale;
+            if(z < compareTestZ){
+                power = power -1;
+                powerValueOfTwo = pow(2,power);
+            }
+            qDebug() << "Power Value: "<< powerValueOfTwo;
+            qDebug()<< "Z value: "<< z;
+            qDebug() << "CompareTestZ" << compareTestZ;
+            compareTestZ = z;
+        }
+        update();
     }else if(numDegrees.y()<0){
         if(z<highestZoomScale){
-            z = z*1.1;
+            z = z*zoomScale;
+            if(z > compareTestZ){
+                power = power + 1;
+                powerValueOfTwo = pow(2,power);
+            }
+            qDebug() << "PowerValue of 2 : "<< powerValueOfTwo;
+            qDebug()<< "Z value: "<< z;
+            qDebug() << "CompareTestZ" << compareTestZ;
+            compareTestZ = z;
         }
+        update();
     }
-    qDebug()<< "Z value: "<<z;
 
-    update();
+    // ---------------------- saif end -----------------------------
 }
 
 void MyOpenglWidget::resizeGL(int w, int h)
 {
       Q_UNUSED(w); Q_UNUSED(h);
+    setMaximumHeight(558);
+    setMaximumWidth(1128);
+
+    setMinimumHeight(558);
+    setMinimumWidth(1128);
       //glViewport(0, 0, (GLint)width(), (GLint)height());
       //projectionMatrix.perspective(45.0f, (float)width()/(float)height(), z, z/1000);
 
