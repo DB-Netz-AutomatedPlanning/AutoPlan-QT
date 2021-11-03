@@ -16,6 +16,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QTime>
+#include <QMap>
 #include <QCoreApplication>
 
 using namespace std;
@@ -109,6 +110,7 @@ protected:
 
 public:
     const QMap<QString,QString> &getSegmentInfoForCoordinate() const;
+    void setCoordinateinRightTable(QMap<QString, QString>);
 
 
 public slots:
