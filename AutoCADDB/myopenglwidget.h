@@ -80,6 +80,7 @@ protected:
     int power = 0;
     int testPower = 0;
     float compareTestZ = 10000.0f;
+    QMap<QString,QString> segmentInfoFromCoordinate;
 
     const QString PARAMETER = "GLeiskanten.geojson";
 
@@ -93,6 +94,11 @@ protected:
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
 
+
+    void showGleisknoten(QString path, QString projectName);
+
+    void setSegmentInfoForCoordinate(double xCoordinate, double yCoordinate);
+
     QPushButton *btnSender;
 
     QObject *object;
@@ -101,7 +107,8 @@ protected:
     QString str;
     QLabel *newIcon;
 
-
+public:
+    const QMap<QString,QString> &getSegmentInfoForCoordinate() const;
 
 
 public slots:
