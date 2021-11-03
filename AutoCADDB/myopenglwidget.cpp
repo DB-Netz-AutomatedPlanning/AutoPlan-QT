@@ -16,6 +16,7 @@ QList<QString> listo ;
 #include "symbolcontainer.h"
 
 static int countLoop = 0;
+static int countLoopGleisKanten = 0;
 bool countOkay = false;
 
 
@@ -143,15 +144,18 @@ void MyOpenglWidget::initializeGL()
 
 }
 std::vector<std::vector<GLfloat>> vec;
+std::vector<GLfloat> gleischknotenVector;
+std::vector<std::vector<GLfloat>> GleiskantenVector;
 void MyOpenglWidget::paintGL()
 {
 
     //-------------------------------------------
 
+    aPlanProjectPath = "D:/Users/BKU/MdSaifKhan/Documents/projectFileForAPlan";
+    aPlanProjectName = "Meggen";
+
     countLoop +=1;
     if(countLoop <=1){
-        aPlanProjectPath = "D:/Users/BKU/MdSaifKhan/Documents/projectFileForAPlan";
-        aPlanProjectName = "Meggen";
         aPlanFileName = "Entwurfselement_HO.dbahn";
 
         Coordinates *coord = new Coordinates(aPlanProjectPath, aPlanProjectName);
@@ -207,6 +211,8 @@ void MyOpenglWidget::paintGL()
     mvp = projectionMatrix * viewMatrix * modelMatrix;
 
     shaderProg->setUniformValue(m_MVPMatrixLoc, mvp);
+
+      showGleisknoten(aPlanProjectPath, aPlanProjectName);
 
       for(unsigned int i=0;i<vec.size();i++){
           for(unsigned int j=0;j<vec[i].size();j++){
@@ -349,30 +355,33 @@ void MyOpenglWidget::mouseReleaseEvent(QMouseEvent *event)
         mouseRightButtonPressed = false;
 
 
-        double mouseX = event->position().rx();
-        double mouseY = (height()-1) - event->position().ry();
-
-        QMatrix4x4 inverseProjectionMatrix = projectionMatrix.inverted();
-        QMatrix4x4 inverseViewMatrix = viewMatrix.inverted();
-        QMatrix4x4 inverseModelMatrix = modelMatrix.inverted();
-        QMatrix4x4 inverseMVP = inverseProjectionMatrix * inverseViewMatrix * inverseModelMatrix;
+        setSegmentInfoForCoordinate(getCoordinateX, getCoordinateY);
 
 
+//        double mouseX = event->position().rx();
+//        double mouseY = (height()-1) - event->position().ry();
+
+//        QMatrix4x4 inverseProjectionMatrix = projectionMatrix.inverted();
+//        QMatrix4x4 inverseViewMatrix = viewMatrix.inverted();
+//        QMatrix4x4 inverseModelMatrix = modelMatrix.inverted();
+//        QMatrix4x4 inverseMVP = inverseProjectionMatrix * inverseViewMatrix * inverseModelMatrix;
 
 
 
 
 
-        double presentX, presentY;
-        presentX = (mouseX/ (float)width())*2.0f -1.0f;
-        presentY = (mouseY/ (float)height())*2.0f -1.0f;
-
-        QVector4D tmp = QVector4D(presentX, 0, 0, 1);
-        QVector4D xResult = tmp*inverseProjectionMatrix*inverseViewMatrix*inverseModelMatrix;
-        presentX = xResult.x();
 
 
-        //qDebug()<<  presentX;
+//        double presentX, presentY;
+//        presentX = (mouseX/ (float)width())*2.0f -1.0f;
+//        presentY = (mouseY/ (float)height())*2.0f -1.0f;
+
+//        QVector4D tmp = QVector4D(presentX, 0, 0, 1);
+//        QVector4D xResult = tmp*inverseProjectionMatrix*inverseViewMatrix*inverseModelMatrix;
+//        presentX = xResult.x();
+
+
+//        //qDebug()<<  presentX;
 
         //-------------------------- saif end ------------------------------
 }
@@ -550,6 +559,121 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
 
 
 
+}
+
+// showGleisknoten
+void MyOpenglWidget::showGleisknoten(QString path, QString projectName)
+{
+
+    Coordinates *coordinates = new Coordinates(path, projectName);
+    coordinates->readCoordinates("Gleisknoten.dbahn");
+
+    gleischknotenVector = coordinates->getCoordinateLists();
+
+    for(unsigned int i=0;i<gleischknotenVector.size();i++){
+        //for(unsigned int j=0;j<gleischknotenVector.size();j++){
+            buffer.allocate( gleischknotenVector.size() *sizeof (GLfloat));
+            buffer.write(0, &gleischknotenVector[0], gleischknotenVector.size() *sizeof (GLfloat));
+            glDrawArrays(GL_POINTS, 0, gleischknotenVector.size()/2);
+        //}
+    }
+
+
+}
+
+void MyOpenglWidget::setSegmentInfoForCoordinate(double xCoordinate, double yCoordinate)
+{
+    QString projectPath = "D:/Users/BKU/MdSaifKhan/Documents/projectFileForAPlan";
+    QString projectName = "Meggen";
+    QString fileName = "Entwurfselement_HO.dbahn";
+    Coordinates *coordinates = new Coordinates(projectPath, projectName);
+    coordinates->readCoordinates(fileName);
+
+    std::vector<QMap<QString,QString>> map = coordinates->getMap();
+    QMap<QString, QString> mapTrack;
+
+    vector<int> segmentNumberX;
+    vector<int> segmentNumberY;
+    int segmentNumber;
+
+
+
+    int segmentSize = coordinates->getSegment().size()-1;
+
+
+
+//    for (int i=0; i<segmentSize; i++){
+//        for (int j=coordinates->getSegment()[i]; j< coordinates->getSegment()[i+1]; j++){
+////              if(j%2 != 0){
+////                 if(coordinates->getCoordinateLists()[j]>lessYYYY && coordinates->getCoordinateLists()[j]<greaterYYYY){
+////                     segmentNumberY = i;
+////                     qInfo()<< "Segment For Y: " <<segmentNumberY;
+//////                     if(coordinates->getCoordinateLists()[j-1]>lessXXXX && coordinates->getCoordinateLists()[j-1]<greaterXXXX){
+//////                         mapTrack = map[i];
+//////                     }
+////                     //qInfo()<< "Segment number: " <<i;
+////                 }
+////            }
+//              if(j%2==0){
+//                  if(coordinates->getCoordinateLists()[j]>lessXXXX && coordinates->getCoordinateLists()[j]<greaterXXXX){
+//                      //mapTrack = map[i];
+//                      segmentNumberX.push_back(i);
+//                      //qInfo()<<"Segment for X: "<<segmentNumberX;
+//                  }
+//              }else{
+//                  if(coordinates->getCoordinateLists()[j]>lessYYYY && coordinates->getCoordinateLists()[j]<greaterYYYY){
+//                      segmentNumberY.push_back(i);
+//                      //qInfo()<< "Segment For Y: " <<segmentNumberY;
+// //                     if(coordinates->getCoordinateLists()[j-1]>lessXXXX && coordinates->getCoordinateLists()[j-1]<greaterXXXX){
+// //                         mapTrack = map[i];
+// //                     }
+//                      //qInfo()<< "Segment number: " <<i;
+//                  }
+//              }
+
+//        }
+//    }
+
+    for(int i=0; i<segmentSize; i++){
+        for(int j=coordinates->getSegment()[i]; j<coordinates->getSegment()[i+1]; j++){
+            if( j%2 == 0){
+                if(xCoordinate>coordinates->getCoordinateLists()[j]-5 && xCoordinate < coordinates->getCoordinateLists()[j]+5 ){
+                    segmentNumberX.push_back(i);
+                }
+            }else{
+                if(yCoordinate>coordinates->getCoordinateLists()[j]-5 && yCoordinate < coordinates->getCoordinateLists()[j]+5 ){
+                    segmentNumberY.push_back(i);
+                }
+            }
+        }
+    }
+
+
+    qInfo()<<"Segment X"<<segmentNumberX;
+
+    qInfo()<<"Segment Y"<<segmentNumberY;
+
+    for(unsigned int i=0; i<segmentNumberX.size();i++){
+        for(unsigned int j=0; j<segmentNumberY.size();j++){
+            if(segmentNumberX[i] == segmentNumberY[j]){
+                segmentNumber = segmentNumberX[i];
+                   segmentInfoFromCoordinate = map[segmentNumber];
+                return;
+            }
+        }
+    }
+    segmentInfoFromCoordinate = {};
+
+
+
+//    qInfo()<<"Segment info: " << map[segmentNumber];
+
+    //return mapTrack;
+}
+
+const QMap<QString, QString> &MyOpenglWidget::getSegmentInfoForCoordinate() const
+{
+    return segmentInfoFromCoordinate;
 }
 
 void MyOpenglWidget::sendObjectProperties(QString str){
