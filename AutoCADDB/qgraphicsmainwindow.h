@@ -1,15 +1,16 @@
 #ifndef QGRAPHICSMAINWINDOW_H
 #define QGRAPHICSMAINWINDOW_H
 
+#include"tracks.h"
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QGraphicsItem>
+//#include <QGraphicsItem>
 namespace Ui {
 class QGraphicsMainWindow;
 }
 
-class QGraphicsMainWindow : public QGraphicsView
+class QGraphicsMainWindow : public QWidget
 {
     Q_OBJECT
 
@@ -19,10 +20,12 @@ public:
 
 private:
     Ui::QGraphicsMainWindow *ui;
+    Tracks *tracks;
+    QGraphicsScene *scene;
 
-protected slots:
-     void wheelEvent(QWheelEvent *event);
-     void keyPressEvent(QKeyEvent *event);
+//protected slots:
+//     void wheelEvent(QWheelEvent *event);
+//     void keyPressEvent(QKeyEvent *event);
 };
 
 #endif // QGRAPHICSMAINWINDOW_H
