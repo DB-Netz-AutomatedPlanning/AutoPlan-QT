@@ -5,7 +5,7 @@
 #include <QPainter>
 
 
-Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false)
+Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true)
 {
 
 }
@@ -38,6 +38,7 @@ void Tracks::addGleiskanten()
         int count =0;
         while (count < static_cast<int>(val.size())){
             segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
+//            segment << QPointF(val[count], val[count+1]);
             count =  count +2;
         }
         path.addPolygon(segment);
@@ -66,6 +67,7 @@ void Tracks::addGleiskanten()
             if (isFirstPoint){
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
                 gleiskantenDP_Parent = new QGraphicsPathItem(path);
 
                 gleiskantenDP_Parent->setPen(QPen(Qt::blue));
@@ -75,6 +77,7 @@ void Tracks::addGleiskanten()
             } else {
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
                 QGraphicsPathItem *gleiskantenDP = new QGraphicsPathItem(path);
                 gleiskantenDP->setPen(QPen(Qt::blue));
                 gleiskantenDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
@@ -155,27 +158,57 @@ void Tracks::multiplierEffect(float x, float y)
     }
 }
 
+bool Tracks::getDrawGrids() const
+{
+    return drawGrids;
+}
+
+void Tracks::setDrawGrids(bool newDrawGrids)
+{
+    if (drawGrids != newDrawGrids){
+        drawGrids = newDrawGrids;
+        scene()->update();
+    }
+}
+
 void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
 {
+    Q_UNUSED(rect);
+
     painter->save();
     painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
-    //getUpdateRect();
-    painter->drawRect(getUsedRect()[0]*multiplierValue, getUsedRect()[1]*multiplierValue, getUsedRect()[2]*multiplierValue,
-            getUsedRect()[3]*multiplierValue);
+    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
+            getUsedRect()[3]);
     qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
-
     painter->restore();
-
 }
+
 
 void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
-    painter->save();
+    if (drawGrids){
+        painter->save();
+        painter->setPen(QColor(95,52,21,35));
 
-    painter->restore();
+        for (int i = 0; i< getUsedRect()[2]/50; i++) {
+            painter->drawLine(getUsedRect()[0]+(50*i),getUsedRect()[1], getUsedRect()[0]+(50*i),
+                    getUsedRect()[1]+getUsedRect()[3] );
+
+        }
+        for(int i =0; i < getUsedRect()[3]/50; i++){
+            painter->drawLine(getUsedRect()[0],getUsedRect()[1]+(i*50),
+                    getUsedRect()[0]+getUsedRect()[2], getUsedRect()[1]+(i*50));
+        }
+        painter->restore();
+
+    } else {
+        QGraphicsView::drawForeground(painter, rect);
+    }
+
 
 }
+
 
 const QVector<float> &Tracks::getUsedRect() const
 {
@@ -225,6 +258,7 @@ void Tracks::getMultiplierEffect()
     qDebug()<< "Multiply"<< this->getMultiplierValue();
 }
 
+
 void Tracks::getUpdateRect()
 {
     QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
@@ -236,6 +270,8 @@ void Tracks::getUpdateRect()
     QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
     QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
 
+    getMultiplierEffect();    // in preparation to use the value
+
     if (file.exists()){
         std::vector<float>vec = unsegmentedVec(pPath, pName, "Gleiskanten.dbahn");
         QPainterPath path;
@@ -243,13 +279,16 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
+//            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
+        qDebug() << "Brect " << brect;
         if (brect.left()< boundingRect[0]) boundingRect[0] = brect.left();
         if (brect.top() < boundingRect[1]) boundingRect[1]= brect.top();
         if (brect.width() > boundingRect[2]) boundingRect[2] = brect.width();
         if (brect.height() > boundingRect[3]) boundingRect[3] = brect.height();
+        qDebug()<< "BoundingRect" <<boundingRect;
     }
     if (file2.exists()){
         std::vector<float>vec = unsegmentedVec(pPath, pName, "Entwurfselement_HO.dbahn");
@@ -258,6 +297,7 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
+//            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -274,6 +314,7 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
+//            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -290,6 +331,7 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
+//            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -306,6 +348,7 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
+//            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -323,6 +366,7 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
+//            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -343,6 +387,7 @@ int Tracks::getMultiplierValue() const
 {
     return multiplierValue;
 }
+
 
 void Tracks::setMultiplierValue(int newMultiplierValue)
 {

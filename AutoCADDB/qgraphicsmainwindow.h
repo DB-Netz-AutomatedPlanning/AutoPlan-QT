@@ -18,6 +18,9 @@ public:
     explicit QGraphicsMainWindow(QWidget *parent = nullptr);
     ~QGraphicsMainWindow();
 
+private slots:
+    void on_checkBoxGridLine_toggled(bool checked);
+
 private:
     Ui::QGraphicsMainWindow *ui;
     Tracks *tracks;

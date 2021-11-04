@@ -32,6 +32,9 @@ public:
     const QVector<float> &getUsedRect() const;
     void setUsedRect(const QVector<float> &newUsedRect);
 
+    bool getDrawGrids() const;
+    void setDrawGrids(bool newDrawGrids);
+
 signals:
 
 private:
@@ -45,6 +48,7 @@ private:
     bool multiplierDone;
     QVector <float> boundingRect = {100000000,100000000,1,1};
     QVector <float> usedRect = {0,0,1,1};     // used sceneRect
+    bool drawGrids;
 
 
 //    Object currentObject;

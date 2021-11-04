@@ -22,6 +22,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
 
 
     ui->verticalLayout->addWidget(tracks);
+    ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
 
 
 
@@ -65,3 +66,9 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
 //    }
 
 //}
+
+void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
+{
+    tracks->setDrawGrids(checked);
+}
+
