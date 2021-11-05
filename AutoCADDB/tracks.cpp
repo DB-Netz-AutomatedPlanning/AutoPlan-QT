@@ -3,10 +3,16 @@
 #include "symbolcontainer.h"
 #include <QGraphicsPathItem>
 #include <QPainter>
+#include <QWheelEvent>
 
 
-Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true)
+Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
+    drawGleiskanten(true),drawGleiskantenDP(true), drawHoehe(true), drawHoeheDP(true)
 {
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setDragMode(QGraphicsView::ScrollHandDrag);
+    setInteractive(true);
 
 }
 
@@ -24,7 +30,6 @@ void Tracks::addGleiskanten()
 {
     QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
     QString pName = "Meggen";
-
 
 //    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
     QVector<QVector<float>> vec = allVec(pPath, pName, "Gleiskanten.dbahn");
@@ -86,6 +91,74 @@ void Tracks::addGleiskanten()
             count =  count +2;
         }
     }
+}
+
+void Tracks::addHoehe()
+{
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+
+//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
+    QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_HO.dbahn");
+
+    // Add line tracks
+    bool isFirstSegment = true;
+    foreach (auto val, vec){
+        QPainterPath path;
+        QPolygonF segment;
+
+        int count =0;
+        while (count < static_cast<int>(val.size())){
+            segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
+//            segment << QPointF(val[count], val[count+1]);
+            count =  count +2;
+        }
+        path.addPolygon(segment);
+
+        if (isFirstSegment){
+            hoehe_Parent = new QGraphicsPathItem(path);
+            hoehe_Parent->setPen(QPen(Qt::black));
+            hoehe_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            scene()->addItem(hoehe_Parent);
+            isFirstSegment = !isFirstSegment;
+        } else {
+            QGraphicsPathItem *hoehe = new QGraphicsPathItem(path);
+            hoehe->setPen(QPen(Qt::black));
+            hoehe->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            hoehe->setParentItem(hoehe_Parent);
+        }
+    }
+
+    // Add DataPoints
+    bool isFirstPoint = true;
+    foreach (auto val, vec){
+
+        //QPointF point;
+        int count =0;
+        while (count < static_cast<int>(val.size())){
+            if (isFirstPoint){
+                QPainterPath path;
+                path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
+                hoeheDP_Parent = new QGraphicsPathItem(path);
+
+                hoeheDP_Parent->setPen(QPen(Qt::blue));
+                hoeheDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                scene()->addItem(hoeheDP_Parent);
+                isFirstPoint = !isFirstPoint;
+            } else {
+                QPainterPath path;
+                path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
+                QGraphicsPathItem *hoeheDP = new QGraphicsPathItem(path);
+                hoeheDP->setPen(QPen(Qt::blue));
+                hoeheDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                hoeheDP->setParentItem(hoeheDP_Parent);
+            }
+            count =  count +2;
+        }
+    }
+
 }
 
 
@@ -158,6 +231,79 @@ void Tracks::multiplierEffect(float x, float y)
     }
 }
 
+bool Tracks::getDrawHoeheDP() const
+{
+    return drawHoeheDP;
+}
+
+void Tracks::setDrawHoeheDP(bool newDrawHoeheDP)
+{
+    if (drawHoeheDP != newDrawHoeheDP){
+        drawHoeheDP = newDrawHoeheDP;
+        hoeheDP_Parent->setVisible(newDrawHoeheDP);
+    }
+}
+
+bool Tracks::getDrawGleiskantenDP() const
+{
+    return drawGleiskantenDP;
+}
+
+void Tracks::setDrawGleiskantenDP(bool newDrawGleiskantenDP)
+{
+    if (drawGleiskantenDP != newDrawGleiskantenDP){
+        drawGleiskantenDP = newDrawGleiskantenDP;
+        gleiskantenDP_Parent->setVisible(newDrawGleiskantenDP);
+    }
+}
+
+bool Tracks::getDrawGleiskanten() const
+{
+    return drawGleiskanten;
+}
+
+void Tracks::setDrawGleiskanten(bool newDrawGleiskanten)
+{
+    if (drawGleiskanten != newDrawGleiskanten){
+        drawGleiskanten = newDrawGleiskanten;
+        gleiskanten_Parent->setVisible(newDrawGleiskanten);
+    }
+}
+
+bool Tracks::getDrawHoehe() const
+{
+    return drawHoehe;
+}
+
+void Tracks::setDrawHoehe(bool newDrawHoehe)
+{
+    if (drawHoehe != newDrawHoehe){
+        drawHoehe = newDrawHoehe;
+        hoehe_Parent->setVisible(newDrawHoehe);
+    }
+
+}
+
+double Tracks::getYCoord() const
+{
+    return yCoord;
+}
+
+void Tracks::setYCoord(double newYCoord)
+{
+    yCoord = newYCoord;
+}
+
+double Tracks::getXCoord() const
+{
+    return xCoord;
+}
+
+void Tracks::setXCoord(double newXCoord)
+{
+    xCoord = newXCoord;
+}
+
 bool Tracks::getDrawGrids() const
 {
     return drawGrids;
@@ -189,7 +335,7 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
     if (drawGrids){
         painter->save();
-        painter->setPen(QColor(95,52,21,35));
+        painter->setPen(QColor(95,52,21,90));
 
         for (int i = 0; i< getUsedRect()[2]/50; i++) {
             painter->drawLine(getUsedRect()[0]+(50*i),getUsedRect()[1], getUsedRect()[0]+(50*i),
@@ -208,6 +354,61 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 
 
 }
+
+void Tracks::wheelEvent(QWheelEvent *event)
+{
+    if (event->modifiers() & Qt::ControlModifier) {
+
+        const ViewportAnchor anchor = transformationAnchor();
+        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+//        setTransformationAnchor(QGraphicsView::AnchorViewCenter);
+        int angleY = event->angleDelta().y();
+        int angleX = event->angleDelta().x();
+        qreal factor;
+        factor = (angleX > 0 || angleY >0) ? 1.1 : 0.9;
+        scale(factor, factor);
+        setTransformationAnchor(anchor);
+//        setTransformationAnchor( QGraphicsView::AnchorViewCenter);
+    } else {
+        QGraphicsView::wheelEvent(event);
+    }
+
+}
+
+void Tracks::keyPressEvent(QKeyEvent *event)
+{
+
+    if(event->key() == Qt::Key_Left) rotate(1);
+    else if(event->key() == Qt::Key_Right) rotate(-1);
+}
+
+//void Tracks::mousePressEvent(QMouseEvent *event)
+//{
+//    if (event->button() == Qt::RightButton){
+//        qDebug() << "Mouse Clicked : "<< event->pos();
+//        QPointF sceneCoord = mapToScene(event->pos());
+//        setXCoord(sceneCoord.x()/getMultiplierValue());
+//        setYCoord(sceneCoord.y()/getMultiplierValue());
+//    } else {
+//        setXCoord(0);
+//        setYCoord(0);
+//    }
+
+//    qDebug()<< "X : " << getXCoord();
+//    qDebug()<< "Y : " << getYCoord();
+
+
+
+
+
+//}
+
+//void Tracks::mouseMoveEvent(QMouseEvent *event)
+//{
+//    ttt++;
+//    qDebug()<< "MouseMove : " << ttt;
+
+//}
 
 
 const QVector<float> &Tracks::getUsedRect() const

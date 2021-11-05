@@ -14,15 +14,22 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     scene = new QGraphicsScene(this);
     tracks = new Tracks(this);
     tracks->getUpdateRect();
+
     scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
+
 
     tracks->setScene(scene);
     tracks->getMultiplierEffect();
     tracks->addGleiskanten();
+    tracks->addHoehe();
 
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
+    ui->checkBoxKanten->setChecked(tracks->getDrawGleiskanten());
+    ui->checkBoxKantenDP->setChecked(tracks->getDrawGleiskantenDP());
+    ui->checkBoxHO->setChecked(tracks->getDrawHoehe());
+    ui->checkBoxHODP->setChecked(tracks->getDrawHoeheDP());
 
 
 
@@ -70,5 +77,38 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
 void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
 {
     tracks->setDrawGrids(checked);
+}
+
+
+void QGraphicsMainWindow::on_checkBoxGridLine2_clicked()
+{
+    scene->update();
+
+}
+
+
+void QGraphicsMainWindow::on_checkBoxKanten_toggled(bool checked)
+{
+    tracks->setDrawGleiskanten(checked);
+}
+
+
+void QGraphicsMainWindow::on_checkBoxKantenDP_toggled(bool checked)
+{
+    tracks->setDrawGleiskantenDP(checked);
+}
+
+
+void QGraphicsMainWindow::on_checkBoxHO_toggled(bool checked)
+{
+    tracks->setDrawHoehe(checked);
+
+}
+
+
+void QGraphicsMainWindow::on_checkBoxHODP_toggled(bool checked)
+{
+    tracks->setDrawHoeheDP(checked);
+
 }
 
