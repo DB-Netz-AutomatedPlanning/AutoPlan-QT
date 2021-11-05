@@ -177,7 +177,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
      //HIDE RIGHT PANEL ON FIRST LOAD
-     ui->widget_147->setVisible(false);
+     //ui->widget_147->setVisible(false);
 }
 
 
@@ -650,11 +650,11 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         addTab();
     }
 
-   if (ui->tabWidget_2->currentIndex() == 0 || ui->tabWidget_2->currentIndex() == 3) {
-       ui->widget_147->setVisible(false);
-   } else{
-       ui->widget_147->setVisible(true);
-   }
+   //if (ui->tabWidget_2->currentIndex() == 0 || ui->tabWidget_2->currentIndex() == 3) {
+     //  ui->widget_147->setVisible(false);
+   //} else{
+     //  ui->widget_147->setVisible(true);
+   //}
 
 
     //right panel
