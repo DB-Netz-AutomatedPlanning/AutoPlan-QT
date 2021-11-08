@@ -31,6 +31,18 @@ private slots:
 
     void on_checkBoxHODP_toggled(bool checked);
 
+    void on_checkBoxKM_toggled(bool checked);
+
+    void on_checkBoxKMDP_toggled(bool checked);
+
+    void on_checkBoxLA_toggled(bool checked);
+
+    void on_checkBoxLADP_toggled(bool checked);
+
+    void on_checkBoxUH_toggled(bool checked);
+
+    void on_checkBoxUHDP_toggled(bool checked);
+
 private:
     Ui::QGraphicsMainWindow *ui;
     Tracks *tracks;

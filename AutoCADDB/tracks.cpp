@@ -7,7 +7,8 @@
 
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
-    drawGleiskanten(true),drawGleiskantenDP(true), drawHoehe(true), drawHoeheDP(true)
+    drawGleiskanten(true),drawGleiskantenDP(true), drawHoehe(true), drawHoeheDP(true), drawKmLine(true),
+    drawKmLineDP(true), drawLage(true), drawLageDP(true), drawUberhohung(true), drawUberhohungDP(true)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -30,6 +31,13 @@ void Tracks::addGleiskanten()
 {
     QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
     QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
+//    QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
+//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+//    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
+
+    if (!file.exists()) return;
 
 //    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
     QVector<QVector<float>> vec = allVec(pPath, pName, "Gleiskanten.dbahn");
@@ -62,6 +70,8 @@ void Tracks::addGleiskanten()
         }
     }
 
+    if (!parentItems.contains("gleiskanten_Parent")) parentItems << "gleiskanten_Parent";
+
     // Add DataPoints
     bool isFirstPoint = true;
     foreach (auto val, vec){
@@ -91,6 +101,7 @@ void Tracks::addGleiskanten()
             count =  count +2;
         }
     }
+    if (!parentItems.contains("gleiskantenDP_Parent")) parentItems << "gleiskantenDP_Parent";
 }
 
 void Tracks::addHoehe()
@@ -98,7 +109,10 @@ void Tracks::addHoehe()
     QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
     QString pName = "Meggen";
 
-//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
+    if (!file.exists()) return;
+
+//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
     QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_HO.dbahn");
 
     // Add line tracks
@@ -128,6 +142,7 @@ void Tracks::addHoehe()
             hoehe->setParentItem(hoehe_Parent);
         }
     }
+    if (!parentItems.contains("hoehe_Parent")) parentItems << "hoehe_Parent";
 
     // Add DataPoints
     bool isFirstPoint = true;
@@ -158,7 +173,317 @@ void Tracks::addHoehe()
             count =  count +2;
         }
     }
+    if (!parentItems.contains("hoeheDP_Parent")) parentItems << "hoeheDP_Parent";
+}
 
+void Tracks::addKMline()
+{
+
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
+//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+//    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
+
+    if (!file.exists()) return;
+
+//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_KM.dbahn");
+    QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_KM.dbahn");
+
+    // Add line tracks
+    bool isFirstSegment = true;
+    foreach (auto val, vec){
+        QPainterPath path;
+        QPolygonF segment;
+
+        int count =0;
+        while (count < static_cast<int>(val.size())){
+            segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
+//            segment << QPointF(val[count], val[count+1]);
+            count =  count +2;
+        }
+        path.addPolygon(segment);
+
+        if (isFirstSegment){
+            kmLine_Parent = new QGraphicsPathItem(path);
+            kmLine_Parent->setPen(QPen(Qt::black));
+            kmLine_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            scene()->addItem(kmLine_Parent);
+            isFirstSegment = !isFirstSegment;
+        } else {
+            QGraphicsPathItem *kmLine = new QGraphicsPathItem(path);
+            kmLine->setPen(QPen(Qt::black));
+            kmLine->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            kmLine->setParentItem(kmLine_Parent);
+        }
+    }
+
+    if (!parentItems.contains("kmLine_Parent")) parentItems << "kmLine_Parent";
+
+    // Add DataPoints
+    bool isFirstPoint = true;
+    foreach (auto val, vec){
+
+        //QPointF point;
+        int count =0;
+        while (count < static_cast<int>(val.size())){
+            if (isFirstPoint){
+                QPainterPath path;
+                path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
+                kmLineDP_Parent = new QGraphicsPathItem(path);
+
+                kmLineDP_Parent->setPen(QPen(Qt::blue));
+                kmLineDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                scene()->addItem(kmLineDP_Parent);
+                isFirstPoint = !isFirstPoint;
+            } else {
+                QPainterPath path;
+                path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
+                QGraphicsPathItem *kmLineDP = new QGraphicsPathItem(path);
+                kmLineDP->setPen(QPen(Qt::blue));
+                kmLineDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                kmLineDP->setParentItem(kmLineDP_Parent);
+            }
+            count =  count +2;
+        }
+    }
+    if (!parentItems.contains("kmLineDP_Parent")) parentItems << "kmLineDP_Parent";
+}
+
+
+void Tracks::addLage()
+{
+
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+//    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
+
+    if (!file.exists()) return;
+
+//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_LA.dbahn");
+    QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_LA.dbahn");
+
+    // Add line tracks
+    bool isFirstSegment = true;
+    foreach (auto val, vec){
+        QPainterPath path;
+        QPolygonF segment;
+
+        int count =0;
+        while (count < static_cast<int>(val.size())){
+            segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
+//            segment << QPointF(val[count], val[count+1]);
+            count =  count +2;
+        }
+        path.addPolygon(segment);
+
+        if (isFirstSegment){
+            lage_Parent = new QGraphicsPathItem(path);
+            lage_Parent->setPen(QPen(Qt::black));
+            lage_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            scene()->addItem(lage_Parent);
+            isFirstSegment = !isFirstSegment;
+        } else {
+            QGraphicsPathItem *lage = new QGraphicsPathItem(path);
+            lage->setPen(QPen(Qt::black));
+            lage->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            lage->setParentItem(lage_Parent);
+        }
+    }
+
+    if (!parentItems.contains("lage_Parent")) parentItems << "lage_Parent";
+
+    // Add DataPoints
+    bool isFirstPoint = true;
+    foreach (auto val, vec){
+
+        //QPointF point;
+        int count =0;
+        while (count < static_cast<int>(val.size())){
+            if (isFirstPoint){
+                QPainterPath path;
+                path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
+                lageDP_Parent = new QGraphicsPathItem(path);
+
+                lageDP_Parent->setPen(QPen(Qt::blue));
+                lageDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                scene()->addItem(lageDP_Parent);
+                isFirstPoint = !isFirstPoint;
+            } else {
+                QPainterPath path;
+                path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
+                QGraphicsPathItem *lageDP = new QGraphicsPathItem(path);
+                lageDP->setPen(QPen(Qt::blue));
+                lageDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                lageDP->setParentItem(lageDP_Parent);
+            }
+            count =  count +2;
+        }
+    }
+    if (!parentItems.contains("lageDP_Parent")) parentItems << "lageDP_Parent";
+
+}
+
+void Tracks::addUberhohung()
+{
+
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+//    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
+
+    if (!file.exists()) return;
+
+//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
+    QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_UH.dbahn");
+
+    // Add line tracks
+    bool isFirstSegment = true;
+    foreach (auto val, vec){
+        QPainterPath path;
+        QPolygonF segment;
+
+        int count =0;
+        while (count < static_cast<int>(val.size())){
+            segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
+//            segment << QPointF(val[count], val[count+1]);
+            count =  count +2;
+        }
+        path.addPolygon(segment);
+
+        if (isFirstSegment){
+            uberhohung_Parent = new QGraphicsPathItem(path);
+            uberhohung_Parent->setPen(QPen(Qt::black));
+            uberhohung_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            scene()->addItem(uberhohung_Parent);
+            isFirstSegment = !isFirstSegment;
+        } else {
+            QGraphicsPathItem *uberhohung = new QGraphicsPathItem(path);
+            uberhohung->setPen(QPen(Qt::black));
+            uberhohung->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            uberhohung->setParentItem(uberhohung_Parent);
+        }
+    }
+
+    if (!parentItems.contains("uberhohung_Parent")) parentItems << "uberhohung_Parent";
+
+    // Add DataPoints
+    bool isFirstPoint = true;
+    foreach (auto val, vec){
+
+        //QPointF point;
+        int count =0;
+        while (count < static_cast<int>(val.size())){
+            if (isFirstPoint){
+                QPainterPath path;
+                path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
+                uberhohungDP_Parent = new QGraphicsPathItem(path);
+
+                uberhohungDP_Parent->setPen(QPen(Qt::blue));
+                uberhohungDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                scene()->addItem(uberhohungDP_Parent);
+                isFirstPoint = !isFirstPoint;
+            } else {
+                QPainterPath path;
+                path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+//                path.addEllipse(val[count], val[count+1],1,1);
+                QGraphicsPathItem *uberhohungDP = new QGraphicsPathItem(path);
+                uberhohungDP->setPen(QPen(Qt::blue));
+                uberhohungDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                uberhohungDP->setParentItem(uberhohungDP_Parent);
+            }
+            count =  count +2;
+        }
+    }
+    if (!parentItems.contains("uberhohungDP_Parent")) parentItems << "uberhohungDP_Parent";
+
+}
+
+
+/*RESET ALL (deleteAll and updateAll...  These functions ensure that all objects drawn on the scene are removed and deleted as
+soon as it discovered that the Project path and /or Projetct name changes. It further helps in
+calling all relevants functions needed for the re-implementation based on the new data available*/
+
+void Tracks::deleteAll()
+{
+    if (parentItems.isEmpty()) return;
+
+    if (parentItems.contains("gleiskanten_Parent")){
+        scene()->removeItem(gleiskanten_Parent);
+        delete gleiskanten_Parent;
+        parentItems.remove("gleiskanten_Parent");
+    }
+    if (parentItems.contains("gleiskantenDP_Parent")){
+        scene()->removeItem(gleiskantenDP_Parent);
+        delete gleiskantenDP_Parent;
+        parentItems.remove("gleiskantenDP_Parent");
+    }
+    if (parentItems.contains("hoehe_Parent")){
+        scene()->removeItem(hoehe_Parent);
+        delete hoehe_Parent;
+        parentItems.remove("hoehe_Parent");
+    }
+    if (parentItems.contains("hoeheDP_Parent")){
+        scene()->removeItem(hoeheDP_Parent);
+        delete hoeheDP_Parent;
+        parentItems.remove("hoeheDP_Parent");
+    }
+
+    if (parentItems.contains("kmLine_Parent")){
+        scene()->removeItem(kmLine_Parent);
+        delete kmLine_Parent;
+        parentItems.remove("kmLine_Parent");
+    }
+    if (parentItems.contains("kmLineDP_Parent")){
+        scene()->removeItem(kmLineDP_Parent);
+        delete kmLineDP_Parent;
+        parentItems.remove("kmLineDP_Parent");
+    }
+
+    if (parentItems.contains("lage_Parent")){
+        scene()->removeItem(lage_Parent);
+        delete lage_Parent;
+        parentItems.remove("lage_Parent");
+    }
+    if (parentItems.contains("lageDP_Parent")){
+        scene()->removeItem(lageDP_Parent);
+        delete lageDP_Parent;
+        parentItems.remove("lageDP_Parent");
+    }
+
+    if (parentItems.contains("uberhohung_Parent")){
+        scene()->removeItem(uberhohung_Parent);
+        delete uberhohung_Parent;
+        parentItems.remove("uberhohung_Parent");
+    }
+    if (parentItems.contains("uberhohungDP_Parent")){
+        scene()->removeItem(uberhohungDP_Parent);
+        delete uberhohungDP_Parent;
+        parentItems.remove("uberhohungDP_Parent");
+    }
+}
+
+
+void Tracks::updateAll()
+{
+    getUpdateRect();
+    getMultiplierEffect();
+    addGleiskanten();
+    addHoehe();
+    addKMline();
+    addLage();
+    addUberhohung();
 }
 
 
@@ -231,6 +556,120 @@ void Tracks::multiplierEffect(float x, float y)
     }
 }
 
+bool Tracks::getDrawLageDP() const
+{
+    return drawLageDP;
+}
+
+void Tracks::setDrawLageDP(bool newDrawLageDP)
+{
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+
+    if (!file.exists()) return;
+
+    if (drawLageDP != newDrawLageDP){
+        drawLageDP = newDrawLageDP;
+        lageDP_Parent->setVisible(newDrawLageDP);
+    }
+}
+
+bool Tracks::getDrawUberhohungDP() const
+{
+    return drawUberhohungDP;
+}
+
+void Tracks::setDrawUberhohungDP(bool newDrawUberhohungDP)
+{
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+
+    if (!file.exists()) return;
+
+    if (drawUberhohungDP != newDrawUberhohungDP){
+        drawUberhohungDP = newDrawUberhohungDP;
+        uberhohungDP_Parent->setVisible(newDrawUberhohungDP);
+    }
+}
+
+bool Tracks::getDrawUberhohung() const
+{
+    return drawUberhohung;
+}
+
+void Tracks::setDrawUberhohung(bool newDrawUberhohung)
+{
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+
+    if (!file.exists()) return;
+
+    if (drawUberhohung != newDrawUberhohung){
+        drawUberhohung = newDrawUberhohung;
+        uberhohung_Parent->setVisible(newDrawUberhohung);
+    }
+}
+
+bool Tracks::getDrawLage() const
+{
+    return drawLage;
+}
+
+void Tracks::setDrawLage(bool newDrawLage)
+{
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+
+    if (!file.exists()) return;
+
+    if (drawLage != newDrawLage){
+        drawLage = newDrawLage;
+        lage_Parent->setVisible(newDrawLage);
+    }
+}
+
+bool Tracks::getDrawKmLineDP() const
+{
+    return drawKmLineDP;
+}
+
+void Tracks::setDrawKmLineDP(bool newDrawKmLineDP)
+{
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
+
+    if (!file.exists()) return;
+
+    if (drawKmLineDP != newDrawKmLineDP){
+        drawKmLineDP = newDrawKmLineDP;
+        kmLineDP_Parent->setVisible(newDrawKmLineDP);
+    }
+}
+
+bool Tracks::getDrawKmLine() const
+{
+    return drawKmLine;
+}
+
+void Tracks::setDrawKmLine(bool newDrawKmLine)
+{
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
+
+    if (!file.exists()) return;
+
+    if (drawKmLine != newDrawKmLine){
+        drawKmLine = newDrawKmLine;
+        kmLine_Parent->setVisible(newDrawKmLine);
+    }
+}
+
 bool Tracks::getDrawHoeheDP() const
 {
     return drawHoeheDP;
@@ -238,6 +677,13 @@ bool Tracks::getDrawHoeheDP() const
 
 void Tracks::setDrawHoeheDP(bool newDrawHoeheDP)
 {
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
+    if (!file.exists()) return;
+
+
     if (drawHoeheDP != newDrawHoeheDP){
         drawHoeheDP = newDrawHoeheDP;
         hoeheDP_Parent->setVisible(newDrawHoeheDP);
@@ -251,6 +697,11 @@ bool Tracks::getDrawGleiskantenDP() const
 
 void Tracks::setDrawGleiskantenDP(bool newDrawGleiskantenDP)
 {
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
+
+    if (!file.exists()) return;
     if (drawGleiskantenDP != newDrawGleiskantenDP){
         drawGleiskantenDP = newDrawGleiskantenDP;
         gleiskantenDP_Parent->setVisible(newDrawGleiskantenDP);
@@ -264,6 +715,13 @@ bool Tracks::getDrawGleiskanten() const
 
 void Tracks::setDrawGleiskanten(bool newDrawGleiskanten)
 {
+
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
+
+    if (!file.exists()) return;
+
     if (drawGleiskanten != newDrawGleiskanten){
         drawGleiskanten = newDrawGleiskanten;
         gleiskanten_Parent->setVisible(newDrawGleiskanten);
@@ -277,6 +735,12 @@ bool Tracks::getDrawHoehe() const
 
 void Tracks::setDrawHoehe(bool newDrawHoehe)
 {
+    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    QString pName = "Meggen";
+
+    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
+    if (!file.exists()) return;
+
     if (drawHoehe != newDrawHoehe){
         drawHoehe = newDrawHoehe;
         hoehe_Parent->setVisible(newDrawHoehe);
@@ -586,7 +1050,7 @@ void Tracks::getUpdateRect()
 
 int Tracks::getMultiplierValue() const
 {
-    return multiplierValue;
+    return multiplierValue; 
 }
 
 
@@ -594,3 +1058,7 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 {
     multiplierValue = newMultiplierValue;
 }
+
+
+
+

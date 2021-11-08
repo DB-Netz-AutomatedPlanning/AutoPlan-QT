@@ -22,6 +22,9 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->getMultiplierEffect();
     tracks->addGleiskanten();
     tracks->addHoehe();
+    tracks->addKMline();
+    tracks->addLage();
+    tracks->addUberhohung();
 
 
     ui->verticalLayout->addWidget(tracks);
@@ -30,6 +33,12 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     ui->checkBoxKantenDP->setChecked(tracks->getDrawGleiskantenDP());
     ui->checkBoxHO->setChecked(tracks->getDrawHoehe());
     ui->checkBoxHODP->setChecked(tracks->getDrawHoeheDP());
+    ui->checkBoxKM->setChecked(tracks->getDrawKmLine());
+    ui->checkBoxKMDP->setChecked(tracks->getDrawKmLineDP());
+    ui->checkBoxLA->setChecked(tracks->getDrawLage());
+    ui->checkBoxLADP->setChecked(tracks->getDrawLageDP());
+    ui->checkBoxUH->setChecked(tracks->getDrawUberhohung());
+    ui->checkBoxUHDP->setChecked(tracks->getDrawUberhohungDP());
 
 
 
@@ -82,8 +91,20 @@ void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
 
 void QGraphicsMainWindow::on_checkBoxGridLine2_clicked()
 {
-    scene->update();
-
+//    scene->update();
+    ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
+    ui->checkBoxKanten->setChecked(tracks->getDrawGleiskanten());
+    ui->checkBoxKantenDP->setChecked(tracks->getDrawGleiskantenDP());
+    ui->checkBoxHO->setChecked(tracks->getDrawHoehe());
+    ui->checkBoxHODP->setChecked(tracks->getDrawHoeheDP());
+    ui->checkBoxKM->setChecked(tracks->getDrawKmLine());
+    ui->checkBoxKMDP->setChecked(tracks->getDrawKmLineDP());
+    ui->checkBoxLA->setChecked(tracks->getDrawLage());
+    ui->checkBoxLADP->setChecked(tracks->getDrawLageDP());
+    ui->checkBoxUH->setChecked(tracks->getDrawUberhohung());
+    ui->checkBoxUHDP->setChecked(tracks->getDrawUberhohungDP());
+    tracks->deleteAll();
+    tracks->updateAll();
 }
 
 
@@ -110,5 +131,41 @@ void QGraphicsMainWindow::on_checkBoxHODP_toggled(bool checked)
 {
     tracks->setDrawHoeheDP(checked);
 
+}
+
+
+void QGraphicsMainWindow::on_checkBoxKM_toggled(bool checked)
+{
+    tracks->setDrawKmLine(checked);
+}
+
+
+void QGraphicsMainWindow::on_checkBoxKMDP_toggled(bool checked)
+{
+    tracks->setDrawKmLineDP(checked);
+}
+
+
+void QGraphicsMainWindow::on_checkBoxLA_toggled(bool checked)
+{
+    tracks->setDrawLage(checked);
+}
+
+
+void QGraphicsMainWindow::on_checkBoxLADP_toggled(bool checked)
+{
+    tracks->setDrawLageDP(checked);
+}
+
+
+void QGraphicsMainWindow::on_checkBoxUH_toggled(bool checked)
+{
+    tracks->setDrawUberhohung(checked);
+}
+
+
+void QGraphicsMainWindow::on_checkBoxUHDP_toggled(bool checked)
+{
+    tracks->setDrawUberhohungDP(checked);
 }
 

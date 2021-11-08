@@ -55,6 +55,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QCheckBox" name="checkBoxKnoten">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Knoten</string>
          </property>
@@ -118,6 +121,9 @@
        </item>
        <item row="7" column="0">
         <widget class="QCheckBox" name="checkBoxGridLine2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string/>
          </property>
