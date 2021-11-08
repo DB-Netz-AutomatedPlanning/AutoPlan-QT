@@ -364,54 +364,24 @@ void MyOpenglWidget::mouseReleaseEvent(QMouseEvent *event)
         // qInfo()<< getSegmentInfoForCoordinate();
       //  qInfo() << "count of" << getSegmentInfoForCoordinate().count();
         //countOfQmapCoordinates = getSegmentInfoForCoordinate().count();
-        if(map["ELTYP"] != ""){
-             ELTYP = map["ELTYP"];
-        }
-        if(map["ELTYP_L"] != ""){
-             ELTYP_L = map["ELTYP_L"];
-        }
-        if(map["HOEHE_A"] != ""){
-              HOEHE_A = map["HOEHE_A"];
-        }
-        if(map["HOEHE_E"] != ""){
-             HOEHE_E = map["HOEHE_E"];
-        }
-        if(map["ID"] != ""){
-             ID = map["ID"];
-        }
-        if(map["KM_A_KM"] != ""){
-             KM_A_KM = map["KM_A_KM"];
-        }
-        if(map["KM_A_M"] != ""){
-             KM_A_M = map["KM_A_M"];
-        }
-        if(map["KM_E_KM"] != ""){
-              KM_E_KM = map["KM_E_KM"];
-        }
-        if(map["KM_E_M"] != ""){
-             KM_E_M = map["KM_E_M"];
-        }
-        if(map["PAD_A"] != ""){
-             PAD_A = map["PAD_A"];
-        }
-        if(map["PARAM1"] != ""){
-             PARAM1 = map["PARAM1"];
-        }
-        if(map["PARAM2"] != ""){
-             PARAM2 = map["PARAM2"];
-        }
-        if(map["PARAM3"] != ""){
-             PARAM3 = map["PARAM3"];
-        }
-        if(map["PARAM4"] != ""){
-              PARAM4 = map["PARAM4"];
-        }
-        if(map["RIKZ"] != ""){
-             RIKZ = map["RIKZ"];
-        }
-        if(map["RIKZ_L"] != ""){
-             RIKZ_L = map["RIKZ_L"];
-        }
+         ELTYP = map["ELTYP"];
+         ELTYP_L = map["ELTYP_L"];
+         HOEHE_A = map["HOEHE_A"];
+         HOEHE_E = map["HOEHE_E"];
+         ID = map["ID"];
+         KM_A_KM = map["KM_A_KM"];
+         KM_A_M = map["KM_A_M"];
+         KM_E_KM = map["KM_E_KM"];
+         KM_E_M = map["KM_E_M"];
+         PAD_A = map["PAD_A"];
+         PARAM1 = map["PARAM1"];
+         PARAM2 = map["PARAM2"];
+         PARAM3 = map["PARAM3"];
+         PARAM4 = map["PARAM4"];
+         RIKZ = map["RIKZ"];
+         RIKZ_L = map["RIKZ_L"];
+
+
 
 
         qInfo()<< map["ELTYP"];
