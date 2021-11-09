@@ -113,7 +113,6 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
             object.insert("KM_M", KM_M);
             map.push_back(object);
             counter1++;
-
         }
         this->setMap(map);
 
