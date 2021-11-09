@@ -115,6 +115,9 @@ private:
     double xCoord;
     double yCoord;
     int ttt = 0;
+    // To be changed
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
 
 
 //    Object currentObject;

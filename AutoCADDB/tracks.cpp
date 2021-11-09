@@ -7,13 +7,15 @@
 
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
-    drawGleiskanten(true),drawGleiskantenDP(true), drawHoehe(true), drawHoeheDP(true), drawKmLine(true),
-    drawKmLineDP(true), drawLage(true), drawLageDP(true), drawUberhohung(true), drawUberhohungDP(true)
+    drawGleiskanten(true),drawGleiskantenDP(false), drawHoehe(true), drawHoeheDP(false), drawKmLine(true),
+    drawKmLineDP(false), drawLage(true), drawLageDP(false), drawUberhohung(true), drawUberhohungDP(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setDragMode(QGraphicsView::ScrollHandDrag);
     setInteractive(true);
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
 
 }
 
@@ -32,11 +34,6 @@ void Tracks::addGleiskanten()
     QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
     QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
-//    QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
-//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
-//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
-//    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
-
     if (!file.exists()) return;
 
 //    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
@@ -102,7 +99,10 @@ void Tracks::addGleiskanten()
         }
     }
     if (!parentItems.contains("gleiskantenDP_Parent")) parentItems << "gleiskantenDP_Parent";
+    gleiskanten_Parent->setVisible(getDrawGleiskanten());
+    gleiskantenDP_Parent->setVisible(getDrawGleiskantenDP());
 }
+
 
 void Tracks::addHoehe()
 {
@@ -174,6 +174,8 @@ void Tracks::addHoehe()
         }
     }
     if (!parentItems.contains("hoeheDP_Parent")) parentItems << "hoeheDP_Parent";
+    hoehe_Parent->setVisible(getDrawHoehe());
+    hoeheDP_Parent->setVisible(getDrawHoeheDP());
 }
 
 void Tracks::addKMline()
@@ -182,9 +184,6 @@ void Tracks::addKMline()
     QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
     QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
-//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
-//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
-//    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
 
     if (!file.exists()) return;
 
@@ -251,7 +250,10 @@ void Tracks::addKMline()
         }
     }
     if (!parentItems.contains("kmLineDP_Parent")) parentItems << "kmLineDP_Parent";
+    kmLine_Parent->setVisible(getDrawKmLine());
+    kmLineDP_Parent->setVisible(getDrawKmLineDP());
 }
+
 
 
 void Tracks::addLage()
@@ -260,9 +262,6 @@ void Tracks::addLage()
     QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
     QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
-//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
-//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
-//    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
 
     if (!file.exists()) return;
 
@@ -329,19 +328,17 @@ void Tracks::addLage()
         }
     }
     if (!parentItems.contains("lageDP_Parent")) parentItems << "lageDP_Parent";
-
+    lage_Parent->setVisible(getDrawLage());
+    lageDP_Parent->setVisible(getDrawLageDP());
 }
+
+
 
 void Tracks::addUberhohung()
 {
-
     QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
     QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
-//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
-//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
-//    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
-
     if (!file.exists()) return;
 
 //    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
@@ -407,7 +404,8 @@ void Tracks::addUberhohung()
         }
     }
     if (!parentItems.contains("uberhohungDP_Parent")) parentItems << "uberhohungDP_Parent";
-
+    uberhohung_Parent->setVisible(getDrawUberhohung());
+    uberhohungDP_Parent->setVisible(getDrawUberhohungDP());
 }
 
 
