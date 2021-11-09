@@ -101,4 +101,5 @@ RESOURCES += \
     resources.qrc
 
 DISTFILES += \
-    assets/Plan/import.png
+    assets/Plan/import.png \
+    assets/view/hand.png
