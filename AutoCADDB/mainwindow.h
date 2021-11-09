@@ -90,6 +90,10 @@ private slots:
     void on_btnSymbol_clicked();
     void closeEvent (QCloseEvent *event);
 
+    void on_grabBtn_clicked();
+
+    void on_grabBtn_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;

@@ -13,6 +13,7 @@
 #include "removedata.h"
 #include "nopreviewdelete.h"
 #include "exportdialog.h"
+#include "qgraphicsmainwindow.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -62,6 +63,7 @@
 
 #include <QTableView>
 
+bool isChecked = true;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -108,6 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
     //Close button on Tab bar
    // ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(1);
+    ui->tabWidget_2->removeTab(2);
 
     // Create button what must be placed in tabs row
     QToolButton* tb = new QToolButton(this);
@@ -249,7 +252,7 @@ bool MainWindow::writeFooBar()
 //Add new tab
 void MainWindow::addTab()
 {
-     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new MyOpenglWidget(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
+     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new QGraphicsMainWindow(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
      ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->count() - 2);
 }
 
@@ -638,3 +641,22 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
     }
 
 }
+
+void MainWindow::on_grabBtn_clicked()
+{
+    if(isChecked){
+        isChecked = false;
+       ui->grabBtn->setStyleSheet("QPushButton { background-color: white; border:none; }");
+    }else{
+          isChecked = true;
+         ui->grabBtn->setStyleSheet("QPushButton { background-color: green; border:none; }");
+    }
+
+}
+
+
+void MainWindow::on_grabBtn_toggled(bool checked)
+{
+
+}
+
