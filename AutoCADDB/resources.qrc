@@ -178,6 +178,7 @@
         <file>assets/Plan/blueprint.png</file>
         <file>assets/home/eulynx.jpg</file>
         <file>assets/Plan/symbol.png</file>
+        <file>assets/view/hand.png</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>
