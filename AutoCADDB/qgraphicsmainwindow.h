@@ -17,6 +17,7 @@ class QGraphicsMainWindow : public QWidget
 public:
     explicit QGraphicsMainWindow(QWidget *parent = nullptr);
     ~QGraphicsMainWindow();
+//    void setMouseDragMode(bool drag);
 
 private slots:
     void on_checkBoxGridLine_toggled(bool checked);
@@ -45,7 +46,7 @@ private slots:
 
 private:
     Ui::QGraphicsMainWindow *ui;
-    Tracks *tracks;
+//    Tracks *tracks;
     QGraphicsScene *scene;
 
 //protected slots:

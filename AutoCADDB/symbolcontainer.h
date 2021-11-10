@@ -2,6 +2,7 @@
 #define SYMBOLCONTAINER_H
 
 #include <QWidget>
+#include "tracks.h"
 class QString;
 class QLabel;
 
@@ -32,5 +33,8 @@ extern QString stationLocation;
 extern QString projectPath;
 extern QString projectName;
 extern bool createNewProject;
+extern bool mouseDragMode;
+
+extern Tracks *tracks;
 
 #endif // SYMBOLCONTAINER_H

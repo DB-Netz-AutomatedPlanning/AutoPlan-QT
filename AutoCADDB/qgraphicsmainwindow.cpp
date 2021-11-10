@@ -1,5 +1,6 @@
 #include "qgraphicsmainwindow.h"
 #include "ui_qgraphicsmainwindow.h"
+#include "symbolcontainer.h"
 
 //#include <QGraphicsPixmapItem>
 //#include <QWheelEvent>
@@ -59,6 +60,11 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
 {
     delete ui;
 }
+
+//void QGraphicsMainWindow::setMouseDragMode(bool drag)
+//{
+//    tracks->setDragMode(drag);
+//}
 
 
 //void QGraphicsMainWindow::keyPressEvent(QKeyEvent *event)

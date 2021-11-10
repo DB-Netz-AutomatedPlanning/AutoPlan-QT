@@ -5,15 +5,17 @@
 #include <QPainter>
 #include <QWheelEvent>
 
-
+QString pPath = projectPath;
+QString pName = projectName;
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
     drawGleiskanten(true),drawGleiskantenDP(false), drawHoehe(true), drawHoeheDP(false), drawKmLine(true),
     drawKmLineDP(false), drawLage(true), drawLageDP(false), drawUberhohung(true), drawUberhohungDP(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setDragMode(QGraphicsView::ScrollHandDrag);
-    setInteractive(true);
+//    setDragMode(QGraphicsView::ScrollHandDrag);
+//    setDragMode(QGraphicsView::NoDrag);
+//    setInteractive(true);
 //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
 //    QString pName = "Meggen";
 
@@ -31,8 +33,9 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
 
 void Tracks::addGleiskanten()
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
     if (!file.exists()) return;
 
@@ -106,8 +109,8 @@ void Tracks::addGleiskanten()
 
 void Tracks::addHoehe()
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
 
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
@@ -181,8 +184,8 @@ void Tracks::addHoehe()
 void Tracks::addKMline()
 {
 
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
 
     if (!file.exists()) return;
@@ -259,8 +262,8 @@ void Tracks::addKMline()
 void Tracks::addLage()
 {
 
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
 
     if (!file.exists()) return;
@@ -336,8 +339,8 @@ void Tracks::addLage()
 
 void Tracks::addUberhohung()
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
     if (!file.exists()) return;
 
@@ -484,6 +487,47 @@ void Tracks::updateAll()
     addUberhohung();
 }
 
+//void Tracks::itemInteractWithMouse(bool canInteract)
+//{
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
+//    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
+//    QFile file2 (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
+//    QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
+//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+////    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
+
+//    if (file.exists()){
+//        gleiskantenDP_Parent->setEnabled(canInteract);
+//        gleiskantenDP_Parent->setEnabled(canInteract);
+//    }
+
+//    if (file2.exists()){
+//        hoehe_Parent->setEnabled(canInteract);
+//        hoeheDP_Parent->setEnabled(canInteract);
+//    }
+
+//    if(file3.exists()){
+//        kmLine_Parent->setEnabled(canInteract);
+//        kmLineDP_Parent->setEnabled(canInteract);
+//    }
+
+//    if(file4.exists()){
+//        uberhohung_Parent->setEnabled(canInteract);
+//        uberhohungDP_Parent->setEnabled(canInteract);
+//    }
+//    if(file5.exists()){
+//        lage_Parent->setEnabled(canInteract);
+//        lageDP_Parent->setEnabled(canInteract);
+//    }
+////    if(file6.exists()){
+////        gleisknoten_Parent->setEnabled(canInteract);
+////        gleisknotenDP_Parent->setEnabled(canInteract);
+////    }
+
+//}
+
 
 QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fileName)
 {
@@ -554,6 +598,27 @@ void Tracks::multiplierEffect(float x, float y)
     }
 }
 
+bool Tracks::getDragModeMouse() const
+{
+    return dragModeMouse;
+}
+
+void Tracks::setDragModeMouse()
+{
+    //    itemInteractWithMouse(!mouseDragMode);
+        if (mouseDragMode){
+            setDragMode(QGraphicsView::ScrollHandDrag);
+            setInteractive(false);
+            setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+
+        }
+        else {
+            setDragMode(QGraphicsView::NoDrag);
+            setInteractive(true);
+            setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        }
+}
+
 bool Tracks::getDrawLageDP() const
 {
     return drawLageDP;
@@ -561,8 +626,8 @@ bool Tracks::getDrawLageDP() const
 
 void Tracks::setDrawLageDP(bool newDrawLageDP)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
 
     if (!file.exists()) return;
@@ -580,8 +645,8 @@ bool Tracks::getDrawUberhohungDP() const
 
 void Tracks::setDrawUberhohungDP(bool newDrawUberhohungDP)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
 
     if (!file.exists()) return;
@@ -599,8 +664,8 @@ bool Tracks::getDrawUberhohung() const
 
 void Tracks::setDrawUberhohung(bool newDrawUberhohung)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
 
     if (!file.exists()) return;
@@ -618,8 +683,8 @@ bool Tracks::getDrawLage() const
 
 void Tracks::setDrawLage(bool newDrawLage)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
 
     if (!file.exists()) return;
@@ -637,8 +702,8 @@ bool Tracks::getDrawKmLineDP() const
 
 void Tracks::setDrawKmLineDP(bool newDrawKmLineDP)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
 
     if (!file.exists()) return;
@@ -656,8 +721,8 @@ bool Tracks::getDrawKmLine() const
 
 void Tracks::setDrawKmLine(bool newDrawKmLine)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
 
     if (!file.exists()) return;
@@ -675,8 +740,8 @@ bool Tracks::getDrawHoeheDP() const
 
 void Tracks::setDrawHoeheDP(bool newDrawHoeheDP)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
 
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
@@ -695,8 +760,8 @@ bool Tracks::getDrawGleiskantenDP() const
 
 void Tracks::setDrawGleiskantenDP(bool newDrawGleiskantenDP)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
 
     if (!file.exists()) return;
@@ -714,8 +779,8 @@ bool Tracks::getDrawGleiskanten() const
 void Tracks::setDrawGleiskanten(bool newDrawGleiskanten)
 {
 
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
 
     if (!file.exists()) return;
@@ -733,8 +798,8 @@ bool Tracks::getDrawHoehe() const
 
 void Tracks::setDrawHoehe(bool newDrawHoehe)
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
 
     QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
@@ -795,6 +860,7 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
 
 void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
+
     if (drawGrids){
         painter->save();
         painter->setPen(QColor(95,52,21,90));
@@ -823,6 +889,8 @@ void Tracks::wheelEvent(QWheelEvent *event)
 
         const ViewportAnchor anchor = transformationAnchor();
         setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        if (mouseDragMode) setTransformationAnchor(QGraphicsView::AnchorViewCenter);
+
 //        setTransformationAnchor(QGraphicsView::AnchorViewCenter);
         int angleY = event->angleDelta().y();
         int angleX = event->angleDelta().x();
@@ -885,8 +953,8 @@ void Tracks::setUsedRect(const QVector<float> &newUsedRect)
 
 void Tracks::getMultiplierEffect()
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
     QFile file2 (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
     QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
@@ -924,8 +992,8 @@ void Tracks::getMultiplierEffect()
 
 void Tracks::getUpdateRect()
 {
-    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    QString pName = "Meggen";
+//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+//    QString pName = "Meggen";
     QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
     QFile file2 (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
     QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
