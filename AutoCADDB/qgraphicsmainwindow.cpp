@@ -1,5 +1,6 @@
 #include "qgraphicsmainwindow.h"
 #include "ui_qgraphicsmainwindow.h"
+#include "symbolcontainer.h"
 
 //#include <QGraphicsPixmapItem>
 //#include <QWheelEvent>
@@ -13,9 +14,12 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
     tracks = new Tracks(this);
+
+    tracks->setBoolParameters();
     tracks->getUpdateRect();
 
     scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
+//    scene->setBackgroundBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
 
 
     tracks->setScene(scene);
@@ -25,7 +29,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->addKMline();
     tracks->addLage();
     tracks->addUberhohung();
-
+//    tracks->addSymbol();
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
@@ -59,6 +63,11 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
 {
     delete ui;
 }
+
+//void QGraphicsMainWindow::setMouseDragMode(bool drag)
+//{
+//    tracks->setDragMode(drag);
+//}
 
 
 //void QGraphicsMainWindow::keyPressEvent(QKeyEvent *event)

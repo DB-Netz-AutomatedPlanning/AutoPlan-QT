@@ -23,9 +23,13 @@ public:
     void addKMline();
     void addLage();
     void addUberhohung();
+    void setBoolParameters();
+    void reload();
+    void addSymbol();
 
     void deleteAll();
     void updateAll();
+//    void itemInteractWithMouse(bool canInteract);
 
 
 //    Object getCurrentObject() const;
@@ -79,6 +83,9 @@ public:
     bool getDrawLageDP() const;
     void setDrawLageDP(bool newDrawLageDP);
 
+    bool getDragModeMouse() const;
+    void setDragModeMouse();
+
 signals:
 
 private:
@@ -112,6 +119,7 @@ private:
     bool drawLageDP;
     bool drawUberhohung;
     bool drawUberhohungDP;
+    bool dragModeMouse;
     double xCoord;
     double yCoord;
     int ttt = 0;

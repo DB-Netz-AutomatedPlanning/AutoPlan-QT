@@ -11,13 +11,16 @@ int geoJsonCodeNo = 0;
 QString folderPath = "";
 QString stationLocation = "";
 
-// project data locatio
+// project data location
 QString projectPath = "";
 QString projectName = "";
+bool mouseDragMode = false;
 
 QString glbObjectName = "sayli";
 QString defaultObjectName = "default name";
 bool createNewProject = false;
+
+Tracks *tracks = nullptr;
 
 
 

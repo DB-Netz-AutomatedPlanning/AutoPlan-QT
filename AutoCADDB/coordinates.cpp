@@ -1,4 +1,5 @@
 #include "coordinates.h"
+#include <QPointF>
 
 
 Coordinates::Coordinates(QString pPath, QString pName )      //QString station)
@@ -69,7 +70,6 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
     while(!document["features"][count].isUndefined()){
         count = count+1;
     }
-    qInfo()<< "count = " << count;
 
     if (count == 0){
         qInfo() << "Coordinates cannot be found in your prefered data... Please use data preview section";
@@ -115,8 +115,6 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
             counter1++;
         }
         this->setMap(map);
-
-
 
         std::vector<float> arrayOfCoordinates;
         int counter =0;
@@ -307,17 +305,23 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
 
         std::vector<float> arrayOfCoordinates;
         std::vector<int> segmentCount;
+        std::vector<QPointF> segmentExtremePoints;
+//        std::vector<double> segmentExtremeKmValues;
+
+
         segmentCount.push_back(0);
         int globalCount =0;
         int counter =0;
         while (counter < count){
             int innerCount =0;
+            segmentExtremePoints.push_back(QPointF(document["features"][counter]["geometry"]["coordinates"][0][0].toDouble(), document["features"][counter]["geometry"]["coordinates"][0][1].toDouble()));
 
             while(!document["features"][counter]["geometry"]["coordinates"][innerCount].isUndefined()){
                 innerCount++;
             }
             globalCount+=(innerCount*2);
             segmentCount.push_back(globalCount);
+            segmentExtremePoints.push_back(QPointF(document["features"][counter]["geometry"]["coordinates"][innerCount-1][0].toDouble(), document["features"][counter]["geometry"]["coordinates"][innerCount-1][1].toDouble()));
 
             int innerIndex =0;
             while (innerIndex < innerCount){
@@ -329,6 +333,7 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         }
         setCoordinateLists(arrayOfCoordinates);
         setSegment(segmentCount);
+        setSegmentExtremePoints(segmentExtremePoints);
         break;
     }
     default: {
@@ -365,4 +370,24 @@ const std::vector<QMap<QString, QString> > &Coordinates::getMap() const
 void Coordinates::setMap(const std::vector<QMap<QString, QString> > &newMap)
 {
     map = newMap;
+}
+
+const std::vector<QPointF> &Coordinates::getSegmentExtremePoints() const
+{
+    return segmentExtremePoints;
+}
+
+void Coordinates::setSegmentExtremePoints(const std::vector<QPointF> &newSegmentExtremePoints)
+{
+    segmentExtremePoints = newSegmentExtremePoints;
+}
+
+const std::vector<double> &Coordinates::getSegmentExtremeKmValues() const
+{
+    return segmentExtremeKmValues;
+}
+
+void Coordinates::setSegmentExtremeKmValues(const std::vector<double> &newSegmentExtremeKmValues)
+{
+    segmentExtremeKmValues = newSegmentExtremeKmValues;
 }

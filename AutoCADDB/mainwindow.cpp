@@ -644,14 +644,16 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
 
 void MainWindow::on_grabBtn_clicked()
 {
-    if(isChecked){
-        isChecked = false;
-       ui->grabBtn->setStyleSheet("QPushButton { background-color: white; border:none; }");
-    }else{
-          isChecked = true;
-         ui->grabBtn->setStyleSheet("QPushButton { background-color: green; border:none; }");
-    }
+    mouseDragMode = isChecked;
 
+    tracks->setDragModeMouse();
+    if(!isChecked){
+        isChecked = !isChecked;
+        ui->grabBtn->setStyleSheet("QPushButton { background-color: white; border:none; }");
+    }else{
+        isChecked = !isChecked;
+        ui->grabBtn->setStyleSheet("QPushButton { background-color: green; border:none; }");
+    }
 }
 
 

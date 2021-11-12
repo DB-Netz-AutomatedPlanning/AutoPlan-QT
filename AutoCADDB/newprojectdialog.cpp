@@ -70,7 +70,6 @@ void NewProjectDialog::on_btnBrowseProjectData_clicked()
         ui->btnCreateNewProject->setEnabled(true);
         ui->leImportProjectData->setText("Multiple files selected*");
     }
-
 }
 
 
@@ -135,11 +134,19 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         allMsg.append(eachMsg);
     }
 
-    projectPath = ui->leEnterProjectPath->text();
-    projectName = ui->leEnterProjectName->text();
-    QMessageBox::information(this, "Successfull", allMsg);
-    createNewProject = true;
-    close();
+
+
+    if (allMsg.isEmpty() || allMsg.isNull() || allMsg ==""){
+        QMessageBox::warning(this, "Fatal !", "Please upload appropriate file with correct Naming Convention");
+        return;
+    }else {
+        QMessageBox::information(this, "Successfull", allMsg);
+        // set Important global parameters
+        projectPath = ui->leEnterProjectPath->text();
+        projectName = ui->leEnterProjectName->text();
+        createNewProject = true;
+        close();
+    }
 }
 
 
