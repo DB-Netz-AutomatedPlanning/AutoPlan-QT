@@ -645,6 +645,7 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
 void MainWindow::on_grabBtn_clicked()
 {
     mouseDragMode = isChecked;
+
     tracks->setDragModeMouse();
     if(!isChecked){
         isChecked = !isChecked;

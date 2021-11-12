@@ -14,10 +14,12 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
     tracks = new Tracks(this);
+
+    tracks->setBoolParameters();
     tracks->getUpdateRect();
 
     scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
-
+//    scene->setBackgroundBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
 
     tracks->setScene(scene);
     tracks->getMultiplierEffect();
@@ -26,7 +28,6 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->addKMline();
     tracks->addLage();
     tracks->addUberhohung();
-
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());

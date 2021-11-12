@@ -5,20 +5,15 @@
 #include <QPainter>
 #include <QWheelEvent>
 
-QString pPath = projectPath;
-QString pName = projectName;
+//QString pPath = projectPath;
+//QString pName = projectName;
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
-    drawGleiskanten(true),drawGleiskantenDP(false), drawHoehe(true), drawHoeheDP(false), drawKmLine(true),
-    drawKmLineDP(false), drawLage(true), drawLageDP(false), drawUberhohung(true), drawUberhohungDP(false)
+    drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
+    drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    setDragMode(QGraphicsView::ScrollHandDrag);
-//    setDragMode(QGraphicsView::NoDrag);
-//    setInteractive(true);
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-
+    scale(1,-1);
 }
 
 //Tracks::Object Tracks::getCurrentObject() const
@@ -33,14 +28,10 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
 
 void Tracks::addGleiskanten()
 {
-
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
+    QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
     if (!file.exists()) return;
 
-//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
-    QVector<QVector<float>> vec = allVec(pPath, pName, "Gleiskanten.dbahn");
+    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -51,7 +42,6 @@ void Tracks::addGleiskanten()
         int count =0;
         while (count < static_cast<int>(val.size())){
             segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
-//            segment << QPointF(val[count], val[count+1]);
             count =  count +2;
         }
         path.addPolygon(segment);
@@ -82,7 +72,7 @@ void Tracks::addGleiskanten()
             if (isFirstPoint){
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
+                //                path.addEllipse(val[count], val[count+1],1,1);
                 gleiskantenDP_Parent = new QGraphicsPathItem(path);
 
                 gleiskantenDP_Parent->setPen(QPen(Qt::blue));
@@ -92,7 +82,6 @@ void Tracks::addGleiskanten()
             } else {
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
                 QGraphicsPathItem *gleiskantenDP = new QGraphicsPathItem(path);
                 gleiskantenDP->setPen(QPen(Qt::blue));
                 gleiskantenDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
@@ -109,14 +98,10 @@ void Tracks::addGleiskanten()
 
 void Tracks::addHoehe()
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
 
-//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
-    QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_HO.dbahn");
+    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -127,7 +112,6 @@ void Tracks::addHoehe()
         int count =0;
         while (count < static_cast<int>(val.size())){
             segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
-//            segment << QPointF(val[count], val[count+1]);
             count =  count +2;
         }
         path.addPolygon(segment);
@@ -157,9 +141,7 @@ void Tracks::addHoehe()
             if (isFirstPoint){
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
                 hoeheDP_Parent = new QGraphicsPathItem(path);
-
                 hoeheDP_Parent->setPen(QPen(Qt::blue));
                 hoeheDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
                 scene()->addItem(hoeheDP_Parent);
@@ -167,7 +149,7 @@ void Tracks::addHoehe()
             } else {
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
+                //                path.addEllipse(val[count], val[count+1],1,1);
                 QGraphicsPathItem *hoeheDP = new QGraphicsPathItem(path);
                 hoeheDP->setPen(QPen(Qt::blue));
                 hoeheDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
@@ -183,15 +165,10 @@ void Tracks::addHoehe()
 
 void Tracks::addKMline()
 {
-
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
 
     if (!file.exists()) return;
-
-//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_KM.dbahn");
-    QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_KM.dbahn");
+    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_KM.dbahn");
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -202,7 +179,7 @@ void Tracks::addKMline()
         int count =0;
         while (count < static_cast<int>(val.size())){
             segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
-//            segment << QPointF(val[count], val[count+1]);
+            //            segment << QPointF(val[count], val[count+1]);
             count =  count +2;
         }
         path.addPolygon(segment);
@@ -233,9 +210,7 @@ void Tracks::addKMline()
             if (isFirstPoint){
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
                 kmLineDP_Parent = new QGraphicsPathItem(path);
-
                 kmLineDP_Parent->setPen(QPen(Qt::blue));
                 kmLineDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
                 scene()->addItem(kmLineDP_Parent);
@@ -243,7 +218,7 @@ void Tracks::addKMline()
             } else {
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
+                //                path.addEllipse(val[count], val[count+1],1,1);
                 QGraphicsPathItem *kmLineDP = new QGraphicsPathItem(path);
                 kmLineDP->setPen(QPen(Qt::blue));
                 kmLineDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
@@ -261,15 +236,10 @@ void Tracks::addKMline()
 
 void Tracks::addLage()
 {
-
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
 
     if (!file.exists()) return;
-
-//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_LA.dbahn");
-    QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_LA.dbahn");
+    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_LA.dbahn");
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -280,7 +250,7 @@ void Tracks::addLage()
         int count =0;
         while (count < static_cast<int>(val.size())){
             segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
-//            segment << QPointF(val[count], val[count+1]);
+            //            segment << QPointF(val[count], val[count+1]);
             count =  count +2;
         }
         path.addPolygon(segment);
@@ -311,9 +281,7 @@ void Tracks::addLage()
             if (isFirstPoint){
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
                 lageDP_Parent = new QGraphicsPathItem(path);
-
                 lageDP_Parent->setPen(QPen(Qt::blue));
                 lageDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
                 scene()->addItem(lageDP_Parent);
@@ -321,7 +289,6 @@ void Tracks::addLage()
             } else {
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
                 QGraphicsPathItem *lageDP = new QGraphicsPathItem(path);
                 lageDP->setPen(QPen(Qt::blue));
                 lageDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
@@ -339,13 +306,13 @@ void Tracks::addLage()
 
 void Tracks::addUberhohung()
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
     if (!file.exists()) return;
 
-//    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
-    QVector<QVector<float>> vec = allVec(pPath, pName, "Entwurfselement_UH.dbahn");
+    //    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
+    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -356,7 +323,7 @@ void Tracks::addUberhohung()
         int count =0;
         while (count < static_cast<int>(val.size())){
             segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
-//            segment << QPointF(val[count], val[count+1]);
+            //            segment << QPointF(val[count], val[count+1]);
             count =  count +2;
         }
         path.addPolygon(segment);
@@ -387,7 +354,7 @@ void Tracks::addUberhohung()
             if (isFirstPoint){
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
+                //                path.addEllipse(val[count], val[count+1],1,1);
                 uberhohungDP_Parent = new QGraphicsPathItem(path);
 
                 uberhohungDP_Parent->setPen(QPen(Qt::blue));
@@ -397,7 +364,7 @@ void Tracks::addUberhohung()
             } else {
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-//                path.addEllipse(val[count], val[count+1],1,1);
+                //                path.addEllipse(val[count], val[count+1],1,1);
                 QGraphicsPathItem *uberhohungDP = new QGraphicsPathItem(path);
                 uberhohungDP->setPen(QPen(Qt::blue));
                 uberhohungDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
@@ -409,6 +376,37 @@ void Tracks::addUberhohung()
     if (!parentItems.contains("uberhohungDP_Parent")) parentItems << "uberhohungDP_Parent";
     uberhohung_Parent->setVisible(getDrawUberhohung());
     uberhohungDP_Parent->setVisible(getDrawUberhohungDP());
+}
+
+void Tracks::setBoolParameters()
+{
+    QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
+    QFile file2 (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
+    QFile file3 (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
+    QFile file4 (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
+    QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
+    QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
+
+    if (file.exists()){
+        qDebug()<< "Kanten exists";
+    }else{
+        qDebug()<< "Kanten does not exist";
+    }
+
+    drawGleiskanten = file.exists() ? true : false;
+    drawHoehe = file2.exists() ? true : false;
+    drawKmLine = file3.exists() ? true : false;
+    drawUberhohung = file4.exists() ? true : false;
+    drawLage = file5.exists() ? true : false;
+    //    drawGleisknoten = file6.exists() ? true : false;
+}
+
+void Tracks::reload()
+{
+    setBoolParameters();
+    deleteAll();
+    updateAll();
+
 }
 
 
@@ -489,8 +487,6 @@ void Tracks::updateAll()
 
 //void Tracks::itemInteractWithMouse(bool canInteract)
 //{
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
 //    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
 //    QFile file2 (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
 //    QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
@@ -545,7 +541,6 @@ QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fi
             }
         }
     }
-
     return vec;
 }
 
@@ -606,17 +601,17 @@ bool Tracks::getDragModeMouse() const
 void Tracks::setDragModeMouse()
 {
     //    itemInteractWithMouse(!mouseDragMode);
-        if (mouseDragMode){
-            setDragMode(QGraphicsView::ScrollHandDrag);
-            setInteractive(false);
-            setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    if (mouseDragMode){
+        setDragMode(QGraphicsView::ScrollHandDrag);
+        setInteractive(false);
+        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 
-        }
-        else {
-            setDragMode(QGraphicsView::NoDrag);
-            setInteractive(true);
-            setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-        }
+    }
+    else {
+        setDragMode(QGraphicsView::NoDrag);
+        setInteractive(true);
+        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    }
 }
 
 bool Tracks::getDrawLageDP() const
@@ -626,9 +621,9 @@ bool Tracks::getDrawLageDP() const
 
 void Tracks::setDrawLageDP(bool newDrawLageDP)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
 
     if (!file.exists()) return;
 
@@ -645,9 +640,9 @@ bool Tracks::getDrawUberhohungDP() const
 
 void Tracks::setDrawUberhohungDP(bool newDrawUberhohungDP)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
 
     if (!file.exists()) return;
 
@@ -664,9 +659,9 @@ bool Tracks::getDrawUberhohung() const
 
 void Tracks::setDrawUberhohung(bool newDrawUberhohung)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
 
     if (!file.exists()) return;
 
@@ -683,9 +678,9 @@ bool Tracks::getDrawLage() const
 
 void Tracks::setDrawLage(bool newDrawLage)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
 
     if (!file.exists()) return;
 
@@ -702,9 +697,9 @@ bool Tracks::getDrawKmLineDP() const
 
 void Tracks::setDrawKmLineDP(bool newDrawKmLineDP)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
 
     if (!file.exists()) return;
 
@@ -721,9 +716,9 @@ bool Tracks::getDrawKmLine() const
 
 void Tracks::setDrawKmLine(bool newDrawKmLine)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
 
     if (!file.exists()) return;
 
@@ -740,10 +735,10 @@ bool Tracks::getDrawHoeheDP() const
 
 void Tracks::setDrawHoeheDP(bool newDrawHoeheDP)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
 
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
 
 
@@ -760,9 +755,9 @@ bool Tracks::getDrawGleiskantenDP() const
 
 void Tracks::setDrawGleiskantenDP(bool newDrawGleiskantenDP)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
 
     if (!file.exists()) return;
     if (drawGleiskantenDP != newDrawGleiskantenDP){
@@ -779,9 +774,9 @@ bool Tracks::getDrawGleiskanten() const
 void Tracks::setDrawGleiskanten(bool newDrawGleiskanten)
 {
 
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
+    QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
 
     if (!file.exists()) return;
 
@@ -798,10 +793,10 @@ bool Tracks::getDrawHoehe() const
 
 void Tracks::setDrawHoehe(bool newDrawHoehe)
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
+    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
+    //    QString pName = "Meggen";
 
-    QFile file (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
+    QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
 
     if (drawHoehe != newDrawHoehe){
@@ -891,14 +886,14 @@ void Tracks::wheelEvent(QWheelEvent *event)
         setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
         if (mouseDragMode) setTransformationAnchor(QGraphicsView::AnchorViewCenter);
 
-//        setTransformationAnchor(QGraphicsView::AnchorViewCenter);
+        //        setTransformationAnchor(QGraphicsView::AnchorViewCenter);
         int angleY = event->angleDelta().y();
         int angleX = event->angleDelta().x();
         qreal factor;
         factor = (angleX > 0 || angleY >0) ? 1.1 : 0.9;
         scale(factor, factor);
         setTransformationAnchor(anchor);
-//        setTransformationAnchor( QGraphicsView::AnchorViewCenter);
+        //        setTransformationAnchor( QGraphicsView::AnchorViewCenter);
     } else {
         QGraphicsView::wheelEvent(event);
     }
@@ -953,37 +948,35 @@ void Tracks::setUsedRect(const QVector<float> &newUsedRect)
 
 void Tracks::getMultiplierEffect()
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
-    QFile file2 (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
-    QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
-    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
-    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
-    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
+    QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
+    QFile file2 (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
+    QFile file3 (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
+    QFile file4 (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
+    QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
+    QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
     if (file.exists()){
-        QVector<QVector<float> > kanten = allVec(pPath, pName, "Gleiskanten.dbahn");
+        QVector<QVector<float> > kanten = allVec(projectPath, projectName, "Gleiskanten.dbahn");
         multiplierEffect(kanten[0][0], kanten[0][1]);
     }
     if (file2.exists()){
-        QVector<QVector<float> > ho = allVec(pPath, pName, "Entwurfselement_HO.dbahn");
+        QVector<QVector<float> > ho = allVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
         multiplierEffect(ho[0][0], ho[0][1]);
     }
     if (file3.exists()){
-        QVector<QVector<float> > km = allVec(pPath, pName, "Entwurfselement_KM.dbahn");
+        QVector<QVector<float> > km = allVec(projectPath, projectName, "Entwurfselement_KM.dbahn");
         multiplierEffect(km[0][0], km[0][1]);
     }
     if (file4.exists()){
-        QVector<QVector<float> > uh = allVec(pPath, pName, "Entwurfselement_UH.dbahn");
+        QVector<QVector<float> > uh = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
         multiplierEffect(uh[0][0], uh[0][1]);
     }
     if (file5.exists()){
-        QVector<QVector<float> > la = allVec(pPath, pName, "Entwurfselement_LA.dbahn");
+        QVector<QVector<float> > la = allVec(projectPath, projectName, "Entwurfselement_LA.dbahn");
         multiplierEffect(la[0][0], la[0][1]);
     }
     if (file6.exists()){
-        std::vector<float>  knoten = allVecKnoten(pPath, pName, "Gleisknoten.dbahn");
+        std::vector<float>  knoten = allVecKnoten(projectPath, projectName, "Gleisknoten.dbahn");
         multiplierEffect(knoten[0], knoten[1]);
     }
     qDebug()<< "Multiply"<< this->getMultiplierValue();
@@ -992,25 +985,23 @@ void Tracks::getMultiplierEffect()
 
 void Tracks::getUpdateRect()
 {
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
-    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
-    QFile file2 (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
-    QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
-    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
-    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
-    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
+    QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
+    QFile file2 (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
+    QFile file3 (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
+    QFile file4 (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
+    QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
+    QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
     getMultiplierEffect();    // in preparation to use the value
 
     if (file.exists()){
-        std::vector<float>vec = unsegmentedVec(pPath, pName, "Gleiskanten.dbahn");
+        std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Gleiskanten.dbahn");
         QPainterPath path;
         QVector<QPointF> polyPoints;
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-//            polyPoints << QPointF(vec[i], vec[i+1]);
+            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1022,13 +1013,13 @@ void Tracks::getUpdateRect()
         qDebug()<< "BoundingRect" <<boundingRect;
     }
     if (file2.exists()){
-        std::vector<float>vec = unsegmentedVec(pPath, pName, "Entwurfselement_HO.dbahn");
+        std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
         QPainterPath path;
         QVector<QPointF> polyPoints;
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-//            polyPoints << QPointF(vec[i], vec[i+1]);
+            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1039,13 +1030,13 @@ void Tracks::getUpdateRect()
     }
 
     if (file3.exists()){
-        std::vector<float>vec = unsegmentedVec(pPath, pName, "Entwurfselement_KM.dbahn");
+        std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_KM.dbahn");
         QPainterPath path;
         QVector<QPointF> polyPoints;
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-//            polyPoints << QPointF(vec[i], vec[i+1]);
+            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1056,13 +1047,13 @@ void Tracks::getUpdateRect()
     }
 
     if (file4.exists()){
-        std::vector<float>vec = unsegmentedVec(pPath, pName, "Entwurfselement_UH.dbahn");
+        std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
         QPainterPath path;
         QVector<QPointF> polyPoints;
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-//            polyPoints << QPointF(vec[i], vec[i+1]);
+            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1073,13 +1064,13 @@ void Tracks::getUpdateRect()
     }
 
     if (file5.exists()){
-        std::vector<float>vec = unsegmentedVec(pPath, pName, "Entwurfselement_LA.dbahn");
+        std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_LA.dbahn");
         QPainterPath path;
         QVector<QPointF> polyPoints;
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-//            polyPoints << QPointF(vec[i], vec[i+1]);
+            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1091,13 +1082,13 @@ void Tracks::getUpdateRect()
 
 
     if (file6.exists()){
-        std::vector<float>vec = unsegmentedVec(pPath, pName, "Gleisknoten.dbahn");
+        std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Gleisknoten.dbahn");
         QPainterPath path;
         QVector<QPointF> polyPoints;
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-//            polyPoints << QPointF(vec[i], vec[i+1]);
+            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1108,7 +1099,7 @@ void Tracks::getUpdateRect()
     }
 
     QVector <float> newUsedRect = {boundingRect[0]-boundingRect[2]/2, boundingRect[1]-boundingRect[3]/2,
-                                  boundingRect[2]*2, boundingRect[3]*2};
+                                   boundingRect[2]*2, boundingRect[3]*2};
     setUsedRect(newUsedRect);
 }
 
@@ -1116,7 +1107,7 @@ void Tracks::getUpdateRect()
 
 int Tracks::getMultiplierValue() const
 {
-    return multiplierValue; 
+    return multiplierValue;
 }
 
 

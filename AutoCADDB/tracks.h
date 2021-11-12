@@ -23,6 +23,8 @@ public:
     void addKMline();
     void addLage();
     void addUberhohung();
+    void setBoolParameters();
+    void reload();
 
     void deleteAll();
     void updateAll();
