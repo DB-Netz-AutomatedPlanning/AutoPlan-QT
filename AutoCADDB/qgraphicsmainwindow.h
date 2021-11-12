@@ -46,7 +46,6 @@ private slots:
 
 private:
     Ui::QGraphicsMainWindow *ui;
-//    Tracks *tracks;
     QGraphicsScene *scene;
 
 //protected slots:

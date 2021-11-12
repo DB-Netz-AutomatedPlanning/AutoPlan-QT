@@ -26,6 +26,7 @@ SOURCES += \
     dropwidget.cpp \
     iconslist.cpp \
     importfolder.cpp \
+    kmtocoordinate.cpp \
     main.cpp \
     mainwindow.cpp \
     myopenglwidget.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     dropwidget.h \
     iconslist.h \
     importfolder.h \
+    kmtocoordinate.h \
     mainwindow.h \
     myopenglwidget.h \
     newprojectdialog.h \

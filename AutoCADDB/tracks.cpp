@@ -13,7 +13,7 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scale(1,-1);
+//    scale(1, -1);
 }
 
 //Tracks::Object Tracks::getCurrentObject() const
@@ -387,12 +387,6 @@ void Tracks::setBoolParameters()
     QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
     QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
-    if (file.exists()){
-        qDebug()<< "Kanten exists";
-    }else{
-        qDebug()<< "Kanten does not exist";
-    }
-
     drawGleiskanten = file.exists() ? true : false;
     drawHoehe = file2.exists() ? true : false;
     drawKmLine = file3.exists() ? true : false;
@@ -408,6 +402,16 @@ void Tracks::reload()
     updateAll();
 
 }
+
+//void Tracks::addSymbol()
+//{
+//    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/fifteenSvgs/Ersatzsignal.svg"));
+//    pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+//    pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+//    pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+//    scene()->addItem(pixmapItem);
+
+//}
 
 
 /*RESET ALL (deleteAll and updateAll...  These functions ensure that all objects drawn on the scene are removed and deleted as
@@ -484,45 +488,6 @@ void Tracks::updateAll()
     addLage();
     addUberhohung();
 }
-
-//void Tracks::itemInteractWithMouse(bool canInteract)
-//{
-//    QFile file (pPath+"/"+pName+"/temp/Gleiskanten.dbahn");
-//    QFile file2 (pPath+"/"+pName+"/temp/Entwurfselement_HO.dbahn");
-//    QFile file3 (pPath+"/"+pName+"/temp/Entwurfselement_KM.dbahn");
-//    QFile file4 (pPath+"/"+pName+"/temp/Entwurfselement_UH.dbahn");
-//    QFile file5 (pPath+"/"+pName+"/temp/Entwurfselement_LA.dbahn");
-////    QFile file6 (pPath+"/"+pName+"/temp/Gleisknoten.dbahn");
-
-//    if (file.exists()){
-//        gleiskantenDP_Parent->setEnabled(canInteract);
-//        gleiskantenDP_Parent->setEnabled(canInteract);
-//    }
-
-//    if (file2.exists()){
-//        hoehe_Parent->setEnabled(canInteract);
-//        hoeheDP_Parent->setEnabled(canInteract);
-//    }
-
-//    if(file3.exists()){
-//        kmLine_Parent->setEnabled(canInteract);
-//        kmLineDP_Parent->setEnabled(canInteract);
-//    }
-
-//    if(file4.exists()){
-//        uberhohung_Parent->setEnabled(canInteract);
-//        uberhohungDP_Parent->setEnabled(canInteract);
-//    }
-//    if(file5.exists()){
-//        lage_Parent->setEnabled(canInteract);
-//        lageDP_Parent->setEnabled(canInteract);
-//    }
-////    if(file6.exists()){
-////        gleisknoten_Parent->setEnabled(canInteract);
-////        gleisknotenDP_Parent->setEnabled(canInteract);
-////    }
-
-//}
 
 
 QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fileName)
@@ -921,19 +886,6 @@ void Tracks::keyPressEvent(QKeyEvent *event)
 
 //    qDebug()<< "X : " << getXCoord();
 //    qDebug()<< "Y : " << getYCoord();
-
-
-
-
-
-//}
-
-//void Tracks::mouseMoveEvent(QMouseEvent *event)
-//{
-//    ttt++;
-//    qDebug()<< "MouseMove : " << ttt;
-
-//}
 
 
 const QVector<float> &Tracks::getUsedRect() const

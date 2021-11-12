@@ -9,6 +9,7 @@
 #include<QJsonArray>
 #include<QJsonObject>
 #include <QDataStream>
+#include <QPointF>
 
 class Coordinates : public QObject
 {
@@ -16,8 +17,6 @@ class Coordinates : public QObject
 public:
     Coordinates(QString pPath, QString pName);      //QString station);
     void readCoordinates(QString dataFile = "", int dataCodeNumber = 0);
-    void readProperties();
-
 
     const std::vector<float> &getCoordinateLists() const;
     void setCoordinateLists(const std::vector<float> &newCoordinateLists);
@@ -28,6 +27,15 @@ public:
     const std::vector<QMap<QString, QString> > &getMap() const;
     void setMap(const std::vector<QMap<QString, QString> > &newMap);
 
+    const std::vector<int> &getDirectionLists() const;
+    void setDirectionLists(const std::vector<int> &newDirectionLists);
+
+    const std::vector<QPointF> &getSegmentExtremePoints() const;
+    void setSegmentExtremePoints(const std::vector<QPointF> &newSegmentExtremePoints);
+
+    const std::vector<double> &getSegmentExtremeKmValues() const;
+    void setSegmentExtremeKmValues(const std::vector<double> &newSegmentExtremeKmValues);
+
 signals:
 
 private:
@@ -36,6 +44,8 @@ private:
     //QString station;
     std::vector<float> coordinateLists;
     std::vector<int> segment;
+    std::vector<QPointF> segmentExtremePoints;
+    std::vector<double> segmentExtremeKmValues;
     std::vector<QMap<QString, QString>> map;
 
 };
