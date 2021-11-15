@@ -27,9 +27,6 @@ public:
     const std::vector<QMap<QString, QString> > &getMap() const;
     void setMap(const std::vector<QMap<QString, QString> > &newMap);
 
-    const std::vector<int> &getDirectionLists() const;
-    void setDirectionLists(const std::vector<int> &newDirectionLists);
-
     const std::vector<QPointF> &getSegmentExtremePoints() const;
     void setSegmentExtremePoints(const std::vector<QPointF> &newSegmentExtremePoints);
 
