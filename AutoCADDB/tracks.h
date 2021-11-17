@@ -25,7 +25,7 @@ public:
     void addUberhohung();
     void setBoolParameters();
     void reload();
-    void addSymbol();
+    void addSymbol(QString str);
 
     void deleteAll();
     void updateAll();
