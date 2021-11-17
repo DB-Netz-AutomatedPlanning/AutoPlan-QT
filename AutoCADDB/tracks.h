@@ -29,6 +29,7 @@ public:
 
     void deleteAll();
     void updateAll();
+    QGraphicsPixmapItem *pixmapItem;
 //    void itemInteractWithMouse(bool canInteract);
 
 
