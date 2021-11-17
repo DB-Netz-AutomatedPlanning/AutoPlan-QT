@@ -36,6 +36,7 @@ SOURCES += \
     planningtable.cpp \
     previeweulynxxml.cpp \
     qgraphicsmainwindow.cpp \
+    qgraphicssymbolcontainer.cpp \
     removedata.cpp \
     svgdialogview.cpp \
     symbolcontainer.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     planningtable.h \
     previeweulynxxml.h \
     qgraphicsmainwindow.h \
+    qgraphicssymbolcontainer.h \
     removedata.h \
     svgdialogview.h \
     symbolcontainer.h \
@@ -86,6 +88,7 @@ FORMS += \
     planningtable.ui \
     previeweulynxxml.ui \
     qgraphicsmainwindow.ui \
+    qgraphicssymbolcontainer.ui \
     removedata.ui \
     symbolcontainer.ui \
     symbolinformation.ui \

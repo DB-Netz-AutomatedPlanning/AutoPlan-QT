@@ -29,7 +29,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->addKMline();
     tracks->addLage();
     tracks->addUberhohung();
-    tracks->addSymbol();
+    tracks->addSymbol("");
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
