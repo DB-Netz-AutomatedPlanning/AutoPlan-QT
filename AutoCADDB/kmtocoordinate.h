@@ -11,7 +11,6 @@ class KmToCoordinate : public QObject
 public:
     explicit KmToCoordinate(QString pPath, QString pName);
 
-    
     const std::vector<double> &getSegmentExtremeKmValues() const;
     void setSegmentExtremeKmValues(const std::vector<double> &newSegmentExtremeKmValues);
 
@@ -39,6 +38,18 @@ public:
     const std::vector<double> &getSegmentLengths_FromAddedValues() const;
     void setSegmentLengths_FromAddedValues(const std::vector<double> &newSegmentLengths_FromAddedValues);
 
+    const std::vector<std::vector<double> > &getRealKmValues() const;
+    void setRealKmValues(const std::vector<std::vector<double> > &newRealKmValues);
+    void calculateRealKmValues();
+    double estimateActualLength(double actualDist, double sumDist, double distToEstimate );
+
+
+    const QMap<double, QPointF> &getKmAndCoord() const;
+    void setKmAndCoord(const QMap<double, QPointF> &newKmAndCoord);
+    void mapKmAndCoord();
+    double searchNearestKmValue (double value);
+    QPointF getNearestCoordFromKmValue(double value);
+
 signals:
 
 private:
@@ -51,6 +62,8 @@ private:
 //    std::vector<double> segmentPointDist;
     std::vector<double> segmentLengths;
     std::vector<double> segmentLengths_FromAddedValues;
+    std::vector<std::vector<double>> realKmValues;
+    QMap<double, QPointF> kmAndCoord;
     Coordinates *coord;
 
 

@@ -51,15 +51,18 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         return;
     }
 
+    qDebug()<< "1";
+
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qInfo()<< file.errorString();
         return;
     }
+    qDebug()<< "2";
 
 
     QByteArray data = file.readAll();  //&file);
     QByteArray decoded = QByteArray::fromHex(data);
-
+    qDebug()<< "3";
     QString allData;
     allData = QString(decoded);
     file.close();
@@ -80,9 +83,11 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
     int value =0; // assign arbitrary value to data seleceted to be used for switch case statement;
     if (dataFile == "Gleisknoten.dbahn"){
         value = 1;
+        qDebug()<< "4";
     }else if (dataFile == "Gleiskanten.dbahn" || dataFile =="Entwurfselement_HO.dbahn" || dataFile =="Entwurfselement_KM.dbahn" ||
               dataFile == "Entwurfselement_UH.dbahn" || dataFile == "Entwurfselement_LA.dbahn"){
         value =2;
+        qDebug()<< "5";
     }else {
         qInfo()<< "Please enter a valid data name";
         return;
@@ -130,6 +135,7 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         }
         setCoordinateLists(arrayOfCoordinates);
         break;
+        qDebug()<< "6";
     }
 
 
@@ -334,28 +340,31 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         setSegment(segmentCount);
         setSegmentExtremePoints(segmentExtremePoints);
 
-        // Set values fot the extreme dataPoints Km that is correcponding to segmentExtremepoints
-        std::vector<double> segmentExtremeKmValues;
-        counter =0;
-        while (counter < count){
-            QString KM_A_TEXT = document["features"][counter]["properties"]["KM_A_TEXT"].toString();
-            QString KM_E_TEXT = document["features"][counter]["properties"]["KM_E_TEXT"].toString();
-            QList<QString> KM_A_SPLIT = KM_A_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
-            QList<QString> KM_E_SPLIT = KM_E_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
-            double p1_km,p1_m, p2_km, p2_m, p1_final, p2_final;
-            p1_km = KM_A_SPLIT[0].replace(",",".").toDouble();
-            p1_m = KM_A_SPLIT[1].replace(",",".").toDouble();
-            p1_final = p1_km + p1_m/1000;
 
-            p2_km = KM_E_SPLIT[0].replace(",",".").toDouble();
-            p2_m = KM_E_SPLIT[1].replace(",",".").toDouble();
-            p2_final = p2_km + p2_m/1000;
-            segmentExtremeKmValues.push_back(p1_final);
-            segmentExtremeKmValues.push_back(p2_final);
-            counter++;
+        if (dataFile == "Entwurfselement_KM.dbahn"){
+            // Set values fot the extreme dataPoints Km that is correcponding to segmentExtremepoints
+            std::vector<double> segmentExtremeKmVals;
+            counter =0;
+            while (counter < count){
+                QString KM_A_TEXT = document["features"][counter]["properties"]["KM_A_TEXT"].toString();
+                QString KM_E_TEXT = document["features"][counter]["properties"]["KM_E_TEXT"].toString();
+                QList<QString> KM_A_SPLIT = KM_A_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
+                QList<QString> KM_E_SPLIT = KM_E_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
+                double p1_km,p1_m, p2_km, p2_m, p1_final, p2_final;
+                p1_km = KM_A_SPLIT[0].replace(",",".").toDouble();
+                p1_m = KM_A_SPLIT[1].replace(",",".").toDouble();
+                p1_final = p1_km + p1_m/1000;
 
+                p2_km = KM_E_SPLIT[0].replace(",",".").toDouble();
+                p2_m = KM_E_SPLIT[1].replace(",",".").toDouble();
+                p2_final = p2_km + p2_m/1000;
+                segmentExtremeKmVals.push_back(p1_final);
+                segmentExtremeKmVals.push_back(p2_final);
+                counter++;
+
+            }
+            setSegmentExtremeKmValues(segmentExtremeKmVals);
         }
-        setSegmentExtremeKmValues(segmentExtremeKmValues);
         break;
     }
     default: {

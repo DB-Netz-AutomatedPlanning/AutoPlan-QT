@@ -3,11 +3,13 @@
 #include "symbolcontainer.h"
 #include <QGraphicsPathItem>
 #include <QPainter>
+#include <QPainterPath>
+#include <QPointF>
 #include <QWheelEvent>
 
 //QString pPath = projectPath;
 //QString pName = projectName;
-Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
+Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false)
 {
@@ -49,6 +51,7 @@ void Tracks::addGleiskanten()
         if (isFirstSegment){
             gleiskanten_Parent = new QGraphicsPathItem(path);
             gleiskanten_Parent->setPen(QPen(Qt::black));
+//            gleiskanten_Parent->setData(1, "QVAR");
             gleiskanten_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(gleiskanten_Parent);
             isFirstSegment = !isFirstSegment;
@@ -507,6 +510,7 @@ QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fi
         }
     }
     return vec;
+
 }
 
 std::vector<float> Tracks::allVecKnoten(QString pPath, QString pName, QString fileName)
@@ -527,9 +531,7 @@ std::vector<float> Tracks::unsegmentedVec(QString pPath, QString pName, QString 
 
     Coordinates *coord = new Coordinates(pPath, pName);
     coord->readCoordinates(fileName);
-
     vec = coord->getCoordinateLists();
-
     return vec;
 
 }
@@ -809,9 +811,9 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
     Q_UNUSED(rect);
 
     painter->save();
-    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
-    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
-            getUsedRect()[3]);
+//    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
+//    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
+//            getUsedRect()[3]);
     qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
@@ -945,7 +947,6 @@ void Tracks::getUpdateRect()
     QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
     getMultiplierEffect();    // in preparation to use the value
-
     if (file.exists()){
         std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Gleiskanten.dbahn");
         QPainterPath path;
@@ -957,12 +958,10 @@ void Tracks::getUpdateRect()
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
-        qDebug() << "Brect " << brect;
         if (brect.left()< boundingRect[0]) boundingRect[0] = brect.left();
         if (brect.top() < boundingRect[1]) boundingRect[1]= brect.top();
         if (brect.width() > boundingRect[2]) boundingRect[2] = brect.width();
         if (brect.height() > boundingRect[3]) boundingRect[3] = brect.height();
-        qDebug()<< "BoundingRect" <<boundingRect;
     }
     if (file2.exists()){
         std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
