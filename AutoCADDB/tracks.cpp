@@ -1070,4 +1070,11 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 
 
 
-
+void Tracks::addSymbol()
+{
+    pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/fifteenSvgs/Ersatzsignal.svg"));
+    pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+    scene()->addItem(pixmapItem);
+}
