@@ -51,6 +51,7 @@ void Tracks::addGleiskanten()
         if (isFirstSegment){
             gleiskanten_Parent = new QGraphicsPathItem(path);
             gleiskanten_Parent->setPen(QPen(Qt::black));
+
 //            gleiskanten_Parent->setData(1, "QVAR");
             gleiskanten_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(gleiskanten_Parent);

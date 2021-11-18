@@ -17,6 +17,8 @@ public:
     const std::vector<QPointF> &getSegmentExtremePoints() const;
     void setSegmentExtremePoints(const std::vector<QPointF> &newSegmentExtremePoints);
     void calculateSegmentAllPoints();
+    void calculateAngles();
+
 
     const std::vector<std::vector<QPointF> > &getSegmentAllPoints() const;
     void setSegmentAllPoints(const std::vector<std::vector<QPointF> > &newSegmentAllPoints);
@@ -49,6 +51,10 @@ public:
     void mapKmAndCoord();
     double searchNearestKmValue (double value);
     QPointF getNearestCoordFromKmValue(double value);
+    double getAngleFromKmValue(double value);
+
+    const QList<double> &getAngles() const;
+    void setAngles(const QList<double> &newAngles);
 
 signals:
 
@@ -61,6 +67,7 @@ private:
     std::vector<std::vector<double>> segmentPointDistance;
 //    std::vector<double> segmentPointDist;
     std::vector<double> segmentLengths;
+    QList<double> angles;
     std::vector<double> segmentLengths_FromAddedValues;
     std::vector<std::vector<double>> realKmValues;
     QMap<double, QPointF> kmAndCoord;

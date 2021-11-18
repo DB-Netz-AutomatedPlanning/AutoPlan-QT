@@ -33,6 +33,9 @@ public:
     const std::vector<double> &getSegmentExtremeKmValues() const;
     void setSegmentExtremeKmValues(const std::vector<double> &newSegmentExtremeKmValues);
 
+    const QList<QString> &getDirection() const;
+    void setDirection(const QList<QString> &newDirection);
+
 signals:
 
 private:
@@ -44,6 +47,7 @@ private:
     std::vector<QPointF> segmentExtremePoints;
     std::vector<double> segmentExtremeKmValues;
     std::vector<QMap<QString, QString>> map;
+    QList<QString> direction;
 
 };
 

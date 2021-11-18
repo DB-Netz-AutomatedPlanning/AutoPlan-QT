@@ -51,18 +51,13 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         return;
     }
 
-    qDebug()<< "1";
-
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qInfo()<< file.errorString();
         return;
     }
-    qDebug()<< "2";
-
 
     QByteArray data = file.readAll();  //&file);
     QByteArray decoded = QByteArray::fromHex(data);
-    qDebug()<< "3";
     QString allData;
     allData = QString(decoded);
     file.close();
@@ -83,11 +78,9 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
     int value =0; // assign arbitrary value to data seleceted to be used for switch case statement;
     if (dataFile == "Gleisknoten.dbahn"){
         value = 1;
-        qDebug()<< "4";
     }else if (dataFile == "Gleiskanten.dbahn" || dataFile =="Entwurfselement_HO.dbahn" || dataFile =="Entwurfselement_KM.dbahn" ||
               dataFile == "Entwurfselement_UH.dbahn" || dataFile == "Entwurfselement_LA.dbahn"){
         value =2;
-        qDebug()<< "5";
     }else {
         qInfo()<< "Please enter a valid data name";
         return;
@@ -135,7 +128,6 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         }
         setCoordinateLists(arrayOfCoordinates);
         break;
-        qDebug()<< "6";
     }
 
 
@@ -143,6 +135,7 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
 
         int counter1 =0;
         if (dataFile == "Gleiskanten.dbahn"){
+            QList<QString> dir; //RITZ
             while(counter1 < count){
                 QMap<QString, QString> object;
                 double ID = document["features"][counter1]["properties"]["ID"].toDouble();
@@ -156,11 +149,16 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
                 object.insert("RIKZ", QString::number(RIKZ,'f',0));
                 object.insert("RIKZ_L", RIKZ_L);
                 map.push_back(object);
+
+                // Also set the direction
+                dir.append(QString::number(RIKZ));
                 counter1++;
             }
             this->setMap(map);
+            this->setDirection(dir);
         }
         else if (dataFile == "Entwurfselement_HO.dbahn"){
+            QList<QString> dir; //RITZ
             while (counter1 < count){
                 QMap<QString, QString> object;
                 double ID = document["features"][counter1]["properties"]["ID"].toDouble();
@@ -196,12 +194,17 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
                 object.insert("HOEHE_A", QString::number(HOEHE_A,'f'));
                 object.insert("HOEHE_E", QString::number(HOEHE_E,'f'));
                 map.push_back(object);
+
+                // Also set the direction
+                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
                 counter1++;
             }
             this->setMap(map);
+            this->setDirection(dir);
         }
 
         else if (dataFile == "Entwurfselement_LA.dbahn"){
+            QList<QString> dir; //RITZ
             while(counter1 < count){
                 QMap<QString, QString> object;
                 double ID = document["features"][counter1]["properties"]["ID"].toDouble();
@@ -240,11 +243,16 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
                 object.insert("KM_E_KM", QString::number( KM_E_KM,'f') );
                 object.insert("KM_E_M", QString::number( KM_E_M,'f') );
                 map.push_back(object);
+
+                // Also set the direction
+                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
                 counter1++;
             }
             this->setMap(map);
+            this->setDirection(dir);
         }
         else if(dataFile == "Entwurfselement_UH.dbahn"){
+            QList<QString> dir; //RITZ
             while (counter1 < count){
                 QMap<QString, QString> object;
                 double ID = document["features"][counter1]["properties"]["ID"].toDouble();
@@ -279,9 +287,13 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
                 object.insert("KM_E_KM", QString::number( KM_E_KM,'f') );
                 object.insert("KM_E_M", QString::number( KM_E_M,'f') );
                 map.push_back(object);
+
+                // Also set the direction
+                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
                 counter1++;
             }
             this->setMap(map);
+            this->setDirection(dir);
         }
 
         else if (dataFile == "Entwurfselement_KM.dbahn"){
@@ -421,4 +433,14 @@ const std::vector<double> &Coordinates::getSegmentExtremeKmValues() const
 void Coordinates::setSegmentExtremeKmValues(const std::vector<double> &newSegmentExtremeKmValues)
 {
     segmentExtremeKmValues = newSegmentExtremeKmValues;
+}
+
+const QList<QString> &Coordinates::getDirection() const
+{
+    return direction;
+}
+
+void Coordinates::setDirection(const QList<QString> &newDirection)
+{
+    direction = newDirection;
 }

@@ -2,6 +2,7 @@
 #include <QLineF>
 #include <QPointF>
 #include<QMap>
+#include<math.h>
 
 
 KmToCoordinate::KmToCoordinate(QString pPath, QString pName)
@@ -10,7 +11,6 @@ KmToCoordinate::KmToCoordinate(QString pPath, QString pName)
     this->pName = pName;
 
     coord = new Coordinates(pPath,pName);
-//    coord = new Coordinates("C:/Users/DR-PHELZ/Documents/pdf","Meggen");
     coord->readCoordinates("Entwurfselement_KM.dbahn");
     setSegmentExtremeKmValues(coord->getSegmentExtremeKmValues());
     setSegmentExtremePoints(coord->getSegmentExtremePoints());
@@ -194,6 +194,7 @@ void KmToCoordinate::mapKmAndCoord()
     qDebug()<< "Total = "<< sum;
 }
 
+// this function return the nearest Km value to the provided Km value
 double KmToCoordinate::searchNearestKmValue(double value)
 {
     QMap<double, QPointF> km_And_Coord = getKmAndCoord();
@@ -229,11 +230,49 @@ QPointF KmToCoordinate::getNearestCoordFromKmValue(double value)
     QMap<double, QPointF> km_And_Coord = getKmAndCoord();
     double val = searchNearestKmValue(value);
     if (val == INT_MIN){
-        return QPointF();
+        return QPointF(INT_MIN, INT_MIN);
     }
     else {
         return km_And_Coord[val];
     }
+}
+
+double KmToCoordinate::getAngleFromKmValue(double value)
+{
+    QMap<double, QPointF> km_And_Coord = getKmAndCoord();
+    QList<double> keys = km_And_Coord.keys();
+    std::sort(keys.begin(),keys.end(), std::less<>());
+    double val = searchNearestKmValue(value);
+    QList<double> allAngles = getAngles();
+    int count =0;
+    int counter =0;
+    for (int i=0;i<keys.size(); i++){
+        if (keys[i] == val){
+            count++;
+            counter++;
+            break;
+        } else {
+            counter++;
+        }
+    }
+    if (count ==1){
+        return allAngles[counter-1];
+    }
+    else {
+        qDebug()<< "Invalid Km value / Not within range";
+        return INT_MIN;
+    }
+}
+
+
+const QList<double> &KmToCoordinate::getAngles() const
+{
+    return angles;
+}
+
+void KmToCoordinate::setAngles(const QList<double> &newAngles)
+{
+    angles = newAngles;
 }
 
 
@@ -263,5 +302,19 @@ void KmToCoordinate::calculateSegmentAllPoints()
         counter++;
     }
     setSegmentAllPoints(allPoints);
+}
+
+void KmToCoordinate::calculateAngles()
+{
+    QMap<double, QPointF> km_And_Coord = getKmAndCoord();
+    QList<QPointF> onlyPts = km_And_Coord.values();
+    QList<double> angles;
+    for (int i=0; i<onlyPts.size()-1; i++){
+        double deltaY = onlyPts[i+1].y() - onlyPts[i].y();
+        double deltaX = onlyPts[i+1].x() - onlyPts[i].x();
+        double angle = atan2(deltaY, deltaX) * 180/M_PI;
+        angles.append(angle);
+    }
+    setAngles(angles);
 }
 
