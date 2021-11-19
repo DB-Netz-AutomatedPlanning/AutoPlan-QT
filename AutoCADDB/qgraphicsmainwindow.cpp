@@ -21,7 +21,6 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
 //    scene->setBackgroundBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
 
-
     tracks->setScene(scene);
     tracks->getMultiplierEffect();
     tracks->addGleiskanten();
@@ -139,7 +138,6 @@ void QGraphicsMainWindow::on_checkBoxHO_toggled(bool checked)
 void QGraphicsMainWindow::on_checkBoxHODP_toggled(bool checked)
 {
     tracks->setDrawHoeheDP(checked);
-
 }
 
 
@@ -177,4 +175,3 @@ void QGraphicsMainWindow::on_checkBoxUHDP_toggled(bool checked)
 {
     tracks->setDrawUberhohungDP(checked);
 }
-

@@ -1,5 +1,6 @@
 #include "coordinates.h"
 #include <QPointF>
+#include <QRegularExpression>
 
 
 Coordinates::Coordinates(QString pPath, QString pName )      //QString station)
@@ -55,10 +56,8 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         return;
     }
 
-
     QByteArray data = file.readAll();  //&file);
     QByteArray decoded = QByteArray::fromHex(data);
-
     QString allData;
     allData = QString(decoded);
     file.close();
@@ -136,6 +135,7 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
 
         int counter1 =0;
         if (dataFile == "Gleiskanten.dbahn"){
+            QList<QString> dir; //RITZ
             while(counter1 < count){
                 QMap<QString, QString> object;
                 double ID = document["features"][counter1]["properties"]["ID"].toDouble();
@@ -149,11 +149,16 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
                 object.insert("RIKZ", QString::number(RIKZ,'f',0));
                 object.insert("RIKZ_L", RIKZ_L);
                 map.push_back(object);
+
+                // Also set the direction
+                dir.append(QString::number(RIKZ));
                 counter1++;
             }
             this->setMap(map);
+            this->setDirection(dir);
         }
         else if (dataFile == "Entwurfselement_HO.dbahn"){
+            QList<QString> dir; //RITZ
             while (counter1 < count){
                 QMap<QString, QString> object;
                 double ID = document["features"][counter1]["properties"]["ID"].toDouble();
@@ -189,12 +194,17 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
                 object.insert("HOEHE_A", QString::number(HOEHE_A,'f'));
                 object.insert("HOEHE_E", QString::number(HOEHE_E,'f'));
                 map.push_back(object);
+
+                // Also set the direction
+                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
                 counter1++;
             }
             this->setMap(map);
+            this->setDirection(dir);
         }
 
         else if (dataFile == "Entwurfselement_LA.dbahn"){
+            QList<QString> dir; //RITZ
             while(counter1 < count){
                 QMap<QString, QString> object;
                 double ID = document["features"][counter1]["properties"]["ID"].toDouble();
@@ -233,11 +243,16 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
                 object.insert("KM_E_KM", QString::number( KM_E_KM,'f') );
                 object.insert("KM_E_M", QString::number( KM_E_M,'f') );
                 map.push_back(object);
+
+                // Also set the direction
+                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
                 counter1++;
             }
             this->setMap(map);
+            this->setDirection(dir);
         }
         else if(dataFile == "Entwurfselement_UH.dbahn"){
+            QList<QString> dir; //RITZ
             while (counter1 < count){
                 QMap<QString, QString> object;
                 double ID = document["features"][counter1]["properties"]["ID"].toDouble();
@@ -272,9 +287,13 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
                 object.insert("KM_E_KM", QString::number( KM_E_KM,'f') );
                 object.insert("KM_E_M", QString::number( KM_E_M,'f') );
                 map.push_back(object);
+
+                // Also set the direction
+                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
                 counter1++;
             }
             this->setMap(map);
+            this->setDirection(dir);
         }
 
         else if (dataFile == "Entwurfselement_KM.dbahn"){
@@ -306,8 +325,6 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         std::vector<float> arrayOfCoordinates;
         std::vector<int> segmentCount;
         std::vector<QPointF> segmentExtremePoints;
-//        std::vector<double> segmentExtremeKmValues;
-
 
         segmentCount.push_back(0);
         int globalCount =0;
@@ -334,6 +351,32 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
         setCoordinateLists(arrayOfCoordinates);
         setSegment(segmentCount);
         setSegmentExtremePoints(segmentExtremePoints);
+
+
+        if (dataFile == "Entwurfselement_KM.dbahn"){
+            // Set values fot the extreme dataPoints Km that is correcponding to segmentExtremepoints
+            std::vector<double> segmentExtremeKmVals;
+            counter =0;
+            while (counter < count){
+                QString KM_A_TEXT = document["features"][counter]["properties"]["KM_A_TEXT"].toString();
+                QString KM_E_TEXT = document["features"][counter]["properties"]["KM_E_TEXT"].toString();
+                QList<QString> KM_A_SPLIT = KM_A_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
+                QList<QString> KM_E_SPLIT = KM_E_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
+                double p1_km,p1_m, p2_km, p2_m, p1_final, p2_final;
+                p1_km = KM_A_SPLIT[0].replace(",",".").toDouble();
+                p1_m = KM_A_SPLIT[1].replace(",",".").toDouble();
+                p1_final = p1_km + p1_m/1000;
+
+                p2_km = KM_E_SPLIT[0].replace(",",".").toDouble();
+                p2_m = KM_E_SPLIT[1].replace(",",".").toDouble();
+                p2_final = p2_km + p2_m/1000;
+                segmentExtremeKmVals.push_back(p1_final);
+                segmentExtremeKmVals.push_back(p2_final);
+                counter++;
+
+            }
+            setSegmentExtremeKmValues(segmentExtremeKmVals);
+        }
         break;
     }
     default: {
@@ -390,4 +433,14 @@ const std::vector<double> &Coordinates::getSegmentExtremeKmValues() const
 void Coordinates::setSegmentExtremeKmValues(const std::vector<double> &newSegmentExtremeKmValues)
 {
     segmentExtremeKmValues = newSegmentExtremeKmValues;
+}
+
+const QList<QString> &Coordinates::getDirection() const
+{
+    return direction;
+}
+
+void Coordinates::setDirection(const QList<QString> &newDirection)
+{
+    direction = newDirection;
 }

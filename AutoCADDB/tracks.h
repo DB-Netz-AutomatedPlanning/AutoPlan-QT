@@ -87,6 +87,9 @@ public:
     bool getDragModeMouse() const;
     void setDragModeMouse();
 
+    const QList<QString> &getDirection() const;
+    void setDirection(const QList<QString> &newDirection);
+
 signals:
 
 private:
@@ -109,6 +112,7 @@ private:
     QVector <float> boundingRect = {100000000,100000000,1,1};
     QVector <float> usedRect = {0,0,1,1};     // used sceneRect
     QSet <QString> parentItems;   // QLists of all parent items
+    QList<QString> direction;
     bool drawGrids;
     bool drawGleiskanten;
     bool drawGleiskantenDP;

@@ -27,14 +27,14 @@ public:
     const std::vector<QMap<QString, QString> > &getMap() const;
     void setMap(const std::vector<QMap<QString, QString> > &newMap);
 
-    const std::vector<int> &getDirectionLists() const;
-    void setDirectionLists(const std::vector<int> &newDirectionLists);
-
     const std::vector<QPointF> &getSegmentExtremePoints() const;
     void setSegmentExtremePoints(const std::vector<QPointF> &newSegmentExtremePoints);
 
     const std::vector<double> &getSegmentExtremeKmValues() const;
     void setSegmentExtremeKmValues(const std::vector<double> &newSegmentExtremeKmValues);
+
+    const QList<QString> &getDirection() const;
+    void setDirection(const QList<QString> &newDirection);
 
 signals:
 
@@ -47,6 +47,7 @@ private:
     std::vector<QPointF> segmentExtremePoints;
     std::vector<double> segmentExtremeKmValues;
     std::vector<QMap<QString, QString>> map;
+    QList<QString> direction;
 
 };
 

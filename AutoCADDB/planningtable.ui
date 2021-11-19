@@ -134,7 +134,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Select Station</string>
+         <string>Station Name</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
