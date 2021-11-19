@@ -147,7 +147,7 @@ protected:
 
     // QWidget interface
 //protected:
-//    void mousePressEvent(QMouseEvent *event) override;
+  // void mousePressEvent(QMouseEvent *event) override;
 };
 
 #endif // TRACKS_H
