@@ -1141,4 +1141,14 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 
 
 
+void Tracks::addSymbol(QString str)
+{
+    defaultObjectName = str;
+    pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+str+".svg"));
+    pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+    pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+    pixmapItem->setRotation(-30);
+    scene()->addItem(pixmapItem);
+}
 

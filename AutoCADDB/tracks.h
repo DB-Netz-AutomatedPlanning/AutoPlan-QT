@@ -25,10 +25,11 @@ public:
     void addUberhohung();
     void setBoolParameters();
     void reload();
-//    void addSymbol();
+    void addSymbol(QString str);
 
     void deleteAll();
     void updateAll();
+    QGraphicsPixmapItem *pixmapItem;
 //    void itemInteractWithMouse(bool canInteract);
 
 
@@ -150,7 +151,7 @@ protected:
 
     // QWidget interface
 //protected:
-//    void mousePressEvent(QMouseEvent *event) override;
+  // void mousePressEvent(QMouseEvent *event) override;
 };
 
 #endif // TRACKS_H

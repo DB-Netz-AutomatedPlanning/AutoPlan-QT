@@ -14,6 +14,7 @@
 #include "nopreviewdelete.h"
 #include "exportdialog.h"
 #include "qgraphicsmainwindow.h"
+#include "qgraphicssymbolcontainer.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -109,8 +110,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Close button on Tab bar
    // ui->tabWidget_2->removeTab(2);
-    ui->tabWidget_2->removeTab(1);
     ui->tabWidget_2->removeTab(2);
+    ui->tabWidget_2->removeTab(1);
+
 
     // Create button what must be placed in tabs row
     QToolButton* tb = new QToolButton(this);
@@ -156,7 +158,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
 
 
-
+    ui->widget_147->hide();
+    ui->widget_146->hide();
 
     ui->tabWidget_2->setCurrentIndex(0);
 
@@ -601,8 +604,8 @@ void MainWindow::on_exportBtnPlan_clicked()
 
 void MainWindow::on_btnSymbol_clicked()
 {
-    IconsList *svgDialog;
-    svgDialog = new IconsList();
+    QGraphicsSymbolContainer *svgDialog;
+    svgDialog = new QGraphicsSymbolContainer();
     svgDialog->show();
 }
 
