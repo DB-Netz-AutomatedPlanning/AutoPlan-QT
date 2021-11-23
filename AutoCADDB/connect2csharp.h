@@ -19,7 +19,7 @@ public:
     QByteArray state = "plan";
     explicit Connect2CSharp(QByteArray mdbFilePath ="", QByteArray kmLinePath = "", QByteArray gleiskantenPath = "",
                             QByteArray gleisknotenPath ="", QByteArray hoehePath ="", QByteArray UH_Path ="",
-                            QByteArray LA_Path ="");
+                            QByteArray LA_Path ="",QByteArray outputPath ="");
 
     const QString &getApp() const;
     void setApp(const QString &newApp);
@@ -56,6 +56,7 @@ private:
     QByteArray hoehePath;
     QByteArray UH_Path;
     QByteArray LA_Path;
+    QByteArray outputPath;
     int NumberOfRows;
     int NumberofCols;
 
