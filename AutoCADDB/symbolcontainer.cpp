@@ -11,9 +11,11 @@ int geoJsonCodeNo = 0;
 QString folderPath = "";
 QString stationLocation = "";
 
-// project data location
+// project data and location
 QString projectPath = "";
 QString projectName = "";
+QString countryCode ="";
+QString fileFormat = "";
 bool mouseDragMode = false;
 
 QString glbObjectName = "sayli";

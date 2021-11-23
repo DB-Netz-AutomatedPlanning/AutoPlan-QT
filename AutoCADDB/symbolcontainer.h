@@ -34,6 +34,8 @@ extern QString projectPath;
 extern QString projectName;
 extern bool createNewProject;
 extern bool mouseDragMode;
+extern QString countryCode;
+extern QString fileFormat;
 
 extern Tracks *tracks;
 

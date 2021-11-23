@@ -33,6 +33,7 @@ private:
     Ui::NewProjectDialog *ui;
     QStringList msg;
     QStringList fileNames;
+    QString fileNames;
 };
 
 #endif // NEWPROJECTDIALOG_H
