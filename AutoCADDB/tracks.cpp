@@ -54,8 +54,11 @@ void Tracks::addGleiskanten()
             gleiskanten_Parent = new QGraphicsPathItem(path);
             if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
                 gleiskanten_Parent->setPen(QPen(Qt::black, 1));
-                segmentCount++;
-            } else {
+                segmentCount++;                
+            } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
+                gleiskanten_Parent->setPen(QPen(Qt::black, 1));
+            }
+            else {
                 gleiskanten_Parent->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
             }
@@ -68,6 +71,8 @@ void Tracks::addGleiskanten()
             if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
                 gleiskanten->setPen(QPen(Qt::black, 1));
                 segmentCount++;
+            } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
+                gleiskanten->setPen(QPen(Qt::black, 1));
             } else {
                 gleiskanten->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
@@ -1150,5 +1155,16 @@ void Tracks::addSymbol(QString str)
     pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
     pixmapItem->setRotation(-30);
     scene()->addItem(pixmapItem);
+}
+
+void Tracks::addAutomateSignal(QString name, QPointF location, double angle)
+{
+    //defaultObjectName = str;
+    QGraphicsPixmapItem *signal = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+name+".svg"));
+    signal->setTransformationMode(Qt::SmoothTransformation);
+    signal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    signal->setPos(location*getMultiplierValue());
+    signal->setRotation(angle);
+    scene()->addItem(signal);
 }
 

@@ -26,6 +26,7 @@ public:
     void setBoolParameters();
     void reload();
     void addSymbol(QString str);
+    void addAutomateSignal(QString name, QPointF location, double angle);
 
     void deleteAll();
     void updateAll();

@@ -4,6 +4,7 @@
 #include "mainwindow.h"
 #include "myopenglwidget.h"
 #include "symbolcontainer.h"
+#include "kmtocoordinate.h"
 
 PlanningTable::PlanningTable(QWidget *parent) :
     QMainWindow(parent),
@@ -171,6 +172,11 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         this->table = csharp->getMainAntwort();
         this->rows = csharp->getNumberOfRows();
         this->cols = csharp->getNumberofCols();
+        qDebug()<< "table: "<< csharp->getMainAntwort();
+        qDebug()<< "Rows: " <<csharp->getNumberOfRows();
+        qDebug()<< "Cols: " <<csharp->getNumberofCols();
+
+
         ui->lblLocation->hide();
         ui->lblLocation->setText(location.toUpper());
         ui->btnAutoPLAN->setEnabled(true);
@@ -204,6 +210,33 @@ void PlanningTable::on_btnAutoPLAN_clicked()
 
             ui->tableWidget->setItem(i,j, item);
         }
+    }
+
+
+    // Add Symbols/Signals -- only if KmLine data is available (Json)
+    KmToCoordinate *kmToCoord = new KmToCoordinate(projectPath,projectName);
+    kmToCoord->mapKmAndCoord();
+    kmToCoord->calculateAngles();
+
+    for (int i =0; i<this->rows; i++){
+        double val = table[i][1].toDouble();
+        QPointF position = kmToCoord->getNearestCoordFromKmValue(val);
+        double angle = kmToCoord->getAngleFromKmValue(val);
+        if (table[i][0] == "entry" &&  table[i][4] == "1"){
+            tracks->addAutomateSignal("Ankundetafel",position, angle);
+        }
+        else if (table[i][0] == "entry" && table[i][4] == "2"){
+            //Then add 180 to the angle (to make symbol rotate/turn to other direction
+            tracks->addAutomateSignal("Ankundetafel",position, angle+180);
+        }
+        else if (table[i][0] == "exit" && table[i][4] == "1"){
+            tracks->addAutomateSignal("Abfahrsignal",position, angle);
+        }
+        else if (table[i][0] == "exit" && table[i][4] == "2"){
+            //Then add 180 to the angle (to make symbol rotate/turn to other direction
+            tracks->addAutomateSignal("Abfahrsignal",position, angle+180);
+        }
+        else qDebug()<< "None";
     }
 }
 
