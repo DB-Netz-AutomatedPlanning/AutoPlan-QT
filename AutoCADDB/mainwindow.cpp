@@ -255,7 +255,7 @@ bool MainWindow::writeFooBar()
 //Add new tab
 void MainWindow::addTab()
 {
-     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new QGraphicsMainWindow(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
+     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new QGraphicsMainWindow(),QString(projectName).arg(ui->tabWidget_2->count() + 1));
      ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->count() - 2);
 }
 
@@ -263,7 +263,6 @@ void MainWindow::closeTab(int index)
 {
     delete ui->tabWidget_2->widget(index);
 }
-
 
 void MainWindow::on_actionOpen_triggered()
 {

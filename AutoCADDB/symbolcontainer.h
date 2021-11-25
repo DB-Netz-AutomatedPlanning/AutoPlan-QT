@@ -36,5 +36,6 @@ extern bool createNewProject;
 extern bool mouseDragMode;
 
 extern Tracks *tracks;
+extern QString projectName;
 
 #endif // SYMBOLCONTAINER_H

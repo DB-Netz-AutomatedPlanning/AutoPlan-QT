@@ -30,6 +30,7 @@ public:
     void deleteAll();
     void updateAll();
     QGraphicsPixmapItem *pixmapItem;
+    QGraphicsPixmapItem *pixmapItem2;
 //    void itemInteractWithMouse(bool canInteract);
 
 
@@ -87,6 +88,9 @@ public:
     bool getDragModeMouse() const;
     void setDragModeMouse();
 
+    void sceneSelectedItems(int degree);
+public slots:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 signals:
 
 private:
@@ -124,6 +128,7 @@ private:
     double xCoord;
     double yCoord;
     int ttt = 0;
+
     // To be changed
 //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
 //    QString pName = "Meggen";
@@ -141,7 +146,8 @@ protected:
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
-//    void mouseMoveEvent(QMouseEvent *event) override;
+
+
 
 
 

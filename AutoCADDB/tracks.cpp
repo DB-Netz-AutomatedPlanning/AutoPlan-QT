@@ -1,9 +1,12 @@
 #include "tracks.h"
 #include "coordinates.h"
 #include "symbolcontainer.h"
+#include "tracks.h"
 #include <QGraphicsPathItem>
 #include <QPainter>
 #include <QWheelEvent>
+
+
 
 //QString pPath = projectPath;
 //QString pName = projectName;
@@ -812,7 +815,7 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
     painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
     painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
             getUsedRect()[3]);
-    qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
+   // qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
 }
@@ -870,6 +873,15 @@ void Tracks::keyPressEvent(QKeyEvent *event)
 
     if(event->key() == Qt::Key_Left) rotate(1);
     else if(event->key() == Qt::Key_Right) rotate(-1);
+
+    if((event->key() == Qt::Key_Delete))
+    {
+        foreach (QGraphicsItem *item, scene()->selectedItems()) {
+                    scene()->removeItem(item);
+                    delete item;
+        }
+    }
+
 }
 
 //void Tracks::mousePressEvent(QMouseEvent *event)
@@ -1069,15 +1081,45 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 }
 
 
+void Tracks :: sceneSelectedItems(int degree){
+    foreach (QGraphicsItem *item, scene()->selectedItems()) {
+               item->setRotation(degree);
+    }
+}
+
+void Tracks ::mousePressEvent(QGraphicsSceneMouseEvent *event){
+  qInfo() << "event" <<event;
+}
 
 void Tracks::addSymbol(QString str)
 {
     defaultObjectName = str;
-    pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+str+".svg"));
-    pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-    pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-    pixmapItem->setRotation(-30);
-    scene()->addItem(pixmapItem);
+    if(str == "stellwerksbedient_arrow"){
+
+        pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+        pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+
+        pixmapItem2 =  new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
+        pixmapItem2->setTransformationMode(Qt::SmoothTransformation);
+        pixmapItem2->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        pixmapItem2->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+
+        QGraphicsItemGroup *group = new QGraphicsItemGroup(0);
+        group->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
+        scene()->addItem(group);
+        group->addToGroup(pixmapItem);
+        group->addToGroup(pixmapItem2);
+    }else{
+        glbObjectName = str;
+        pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+str+".svg"));
+        pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+        pixmapItem->setToolTip(str);
+        scene()->addItem(pixmapItem);
+    }
+
 }
 
