@@ -220,6 +220,7 @@ void PlanningTable::on_btnAutoPLAN_clicked()
 
     for (int i =0; i<this->rows; i++){
         double val = table[i][1].toDouble();
+        qDebug()<< "Value: "<< val;
         QPointF position = kmToCoord->getNearestCoordFromKmValue(val);
         double angle = kmToCoord->getAngleFromKmValue(val);
         if (table[i][0] == "entry" &&  table[i][4] == "1"){

@@ -97,6 +97,7 @@ private:
     QVector<QVector<float>> allVec(QString pPath, QString pName, QString fileName);
     std::vector<float> allVecKnoten(QString pPath, QString pName, QString fileName);
     std::vector<float> unsegmentedVec (QString pPath, QString pName, QString fileName);
+    QGraphicsItem *getSelectedItem();
     QGraphicsPathItem *gleiskanten_Parent;
     QGraphicsPathItem *gleiskantenDP_Parent;
     QGraphicsPathItem *hoehe_Parent;
@@ -107,6 +108,7 @@ private:
     QGraphicsPathItem *lageDP_Parent;
     QGraphicsPathItem *uberhohung_Parent;
     QGraphicsPathItem *uberhohungDP_Parent;
+
     void multiplierEffect(float x, float y);
     int multiplierValue = 1;
     bool multiplierDone;
@@ -129,9 +131,6 @@ private:
     double xCoord;
     double yCoord;
     int ttt = 0;
-    // To be changed
-//    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-//    QString pName = "Meggen";
 
 
 //    Object currentObject;
@@ -152,7 +151,7 @@ protected:
 
     // QWidget interface
 //protected:
-  // void mousePressEvent(QMouseEvent *event) override;
+//   void mousePressEvent(QMouseEvent *event) override;
 };
 
 #endif // TRACKS_H
