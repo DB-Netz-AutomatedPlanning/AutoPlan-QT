@@ -30,6 +30,7 @@ public:
     void deleteAll();
     void updateAll();
     QGraphicsPixmapItem *pixmapItem;
+     QGraphicsPixmapItem *pixmapItem2;
 //    void itemInteractWithMouse(bool canInteract);
 
 
@@ -89,6 +90,8 @@ public:
 
     const QList<QString> &getDirection() const;
     void setDirection(const QList<QString> &newDirection);
+
+    void sceneSelectedItems(int degree);
 
 signals:
 
@@ -154,4 +157,6 @@ protected:
   // void mousePressEvent(QMouseEvent *event) override;
 };
 
+
 #endif // TRACKS_H
+
