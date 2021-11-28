@@ -92,8 +92,16 @@ private slots:
 
     void on_pb38_clicked();
 
+    void on_stellwerksbedient_clicked();
+
+    void on_chk_stellArrow_clicked();
+
+    void on_pb_hauptSignalbegriffe_clicked();
+
 private:
     Ui::QGraphicsSymbolContainer *ui;
+    QPixmap *pixmap;
+    QPainter *painter;
 };
 
 #endif // QGRAPHICSSYMBOLCONTAINER_H

@@ -8,6 +8,14 @@ QGraphicsSymbolContainer::QGraphicsSymbolContainer(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Add Symbols");
+
+    pixmap=new QPixmap(100, 50);
+    pixmap->fill(Qt::transparent);
+    painter=new QPainter(pixmap);
+    painter->drawPixmap(0, 0,  QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+    painter->end();
+
+    ui->lbl_stellwerksbedient->setPixmap(*pixmap);
 }
 
 QGraphicsSymbolContainer::~QGraphicsSymbolContainer()
@@ -239,4 +247,41 @@ void QGraphicsSymbolContainer::on_pb38_clicked()
 {
      tracks->addSymbol("ETCSstopTafelTwo");
 }
+
+
+void QGraphicsSymbolContainer::on_stellwerksbedient_clicked()
+{
+     tracks->addSymbol("stellwerksbedient");
+}
+
+
+
+void QGraphicsSymbolContainer::on_chk_stellArrow_clicked()
+{
+    pixmap=new QPixmap(100,20);
+    pixmap->fill(Qt::transparent);
+    painter=new QPainter(pixmap);
+
+    if (ui->chk_stellArrow->isChecked()) {
+        painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+        painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
+    } else {
+         painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+    }
+     painter->end();
+     ui->lbl_stellwerksbedient->setPixmap(*pixmap);
+}
+
+
+void QGraphicsSymbolContainer::on_pb_hauptSignalbegriffe_clicked()
+{
+    if(ui->chk_stellArrow->isChecked()){
+         tracks->addSymbol("stellwerksbedient_arrow");
+    }else{
+         tracks->addSymbol("stellwerksbedient");
+    }
+
+}
+
+
 
