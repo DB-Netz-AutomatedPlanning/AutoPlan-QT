@@ -1,22 +1,21 @@
 #include "tracks.h"
 #include "coordinates.h"
 #include "symbolcontainer.h"
-#include "tracks.h"
 #include <QGraphicsPathItem>
 #include <QPainter>
+#include <QPainterPath>
+#include <QPointF>
 #include <QWheelEvent>
-
-
 
 //QString pPath = projectPath;
 //QString pName = projectName;
-Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
+Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-//    scale(1, -1);
+    scale(1, -1);
 }
 
 //Tracks::Object Tracks::getCurrentObject() const
@@ -35,6 +34,8 @@ void Tracks::addGleiskanten()
     if (!file.exists()) return;
 
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
+    QList<QString> dir = getDirection();
+    int segmentCount =0;
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -51,13 +52,26 @@ void Tracks::addGleiskanten()
 
         if (isFirstSegment){
             gleiskanten_Parent = new QGraphicsPathItem(path);
-            gleiskanten_Parent->setPen(QPen(Qt::black));
+            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+                gleiskanten_Parent->setPen(QPen(Qt::black, 1));
+                segmentCount++;
+            } else {
+                gleiskanten_Parent->setPen(QPen(Qt::black, 0.3));
+                segmentCount++;
+            }
+//            gleiskanten_Parent->setData(1, "QVAR");
             gleiskanten_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(gleiskanten_Parent);
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *gleiskanten = new QGraphicsPathItem(path);
-            gleiskanten->setPen(QPen(Qt::black));
+            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+                gleiskanten->setPen(QPen(Qt::black, 1));
+                segmentCount++;
+            } else {
+                gleiskanten->setPen(QPen(Qt::black, 0.3));
+                segmentCount++;
+            }
             gleiskanten->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             gleiskanten->setParentItem(gleiskanten_Parent);
         }
@@ -75,7 +89,6 @@ void Tracks::addGleiskanten()
             if (isFirstPoint){
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
-                //                path.addEllipse(val[count], val[count+1],1,1);
                 gleiskantenDP_Parent = new QGraphicsPathItem(path);
 
                 gleiskantenDP_Parent->setPen(QPen(Qt::blue));
@@ -106,6 +119,9 @@ void Tracks::addHoehe()
 
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
 
+    QList<QString> dir = getDirection();
+    int segmentCount =0;
+
     // Add line tracks
     bool isFirstSegment = true;
     foreach (auto val, vec){
@@ -121,13 +137,25 @@ void Tracks::addHoehe()
 
         if (isFirstSegment){
             hoehe_Parent = new QGraphicsPathItem(path);
-            hoehe_Parent->setPen(QPen(Qt::black));
+            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+                hoehe_Parent->setPen(QPen(Qt::black, 1));
+                segmentCount++;
+            } else {
+                hoehe_Parent->setPen(QPen(Qt::black, 0.3));
+                segmentCount++;
+            }
             hoehe_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(hoehe_Parent);
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *hoehe = new QGraphicsPathItem(path);
-            hoehe->setPen(QPen(Qt::black));
+            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+                hoehe->setPen(QPen(Qt::black, 1));
+                segmentCount++;
+            } else {
+                hoehe->setPen(QPen(Qt::black, 0.3));
+                segmentCount++;
+            }
             hoehe->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             hoehe->setParentItem(hoehe_Parent);
         }
@@ -244,6 +272,9 @@ void Tracks::addLage()
     if (!file.exists()) return;
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_LA.dbahn");
 
+    QList<QString> dir = getDirection();
+    int segmentCount =0;
+
     // Add line tracks
     bool isFirstSegment = true;
     foreach (auto val, vec){
@@ -260,13 +291,26 @@ void Tracks::addLage()
 
         if (isFirstSegment){
             lage_Parent = new QGraphicsPathItem(path);
-            lage_Parent->setPen(QPen(Qt::black));
+            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+                lage_Parent->setPen(QPen(Qt::black, 1));
+                segmentCount++;
+            } else {
+                lage_Parent->setPen(QPen(Qt::black, 0.3));
+                segmentCount++;
+            }
             lage_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(lage_Parent);
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *lage = new QGraphicsPathItem(path);
-            lage->setPen(QPen(Qt::black));
+
+            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+                lage->setPen(QPen(Qt::black, 1));
+                segmentCount++;
+            } else {
+                lage->setPen(QPen(Qt::black, 0.3));
+                segmentCount++;
+            }
             lage->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             lage->setParentItem(lage_Parent);
         }
@@ -309,13 +353,12 @@ void Tracks::addLage()
 
 void Tracks::addUberhohung()
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
     if (!file.exists()) return;
 
-    //    QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
+    QList<QString> dir = getDirection();
+    int segmentCount =0;
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -333,13 +376,25 @@ void Tracks::addUberhohung()
 
         if (isFirstSegment){
             uberhohung_Parent = new QGraphicsPathItem(path);
-            uberhohung_Parent->setPen(QPen(Qt::black));
+            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+                uberhohung_Parent->setPen(QPen(Qt::black, 1));
+                segmentCount++;
+            } else {
+                uberhohung_Parent->setPen(QPen(Qt::black, 0.3));
+                segmentCount++;
+            }
             uberhohung_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(uberhohung_Parent);
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *uberhohung = new QGraphicsPathItem(path);
-            uberhohung->setPen(QPen(Qt::black));
+            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+                uberhohung->setPen(QPen(Qt::black, 1));
+                segmentCount++;
+            } else {
+                uberhohung->setPen(QPen(Qt::black, 0.3));
+                segmentCount++;
+            }
             uberhohung->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             uberhohung->setParentItem(uberhohung_Parent);
         }
@@ -495,6 +550,14 @@ void Tracks::updateAll()
 
 QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fileName)
 {
+    // First get the Directions (RITZ)
+    if (fileName != "Gleisknoten.dbahn" && fileName != "Entwurfselement_KM.dbahn" ){
+        Coordinates *coord = new Coordinates(pPath, pName);
+        coord->readCoordinates(fileName);
+        setDirection(coord->getDirection());
+    }
+
+    // Then get all the coordinates to be used for each segment plot
     QVector<QVector<float>> vec;
     if (fileName != "Gleisknoten.dbahn"){
 
@@ -530,9 +593,7 @@ std::vector<float> Tracks::unsegmentedVec(QString pPath, QString pName, QString 
 
     Coordinates *coord = new Coordinates(pPath, pName);
     coord->readCoordinates(fileName);
-
     vec = coord->getCoordinateLists();
-
     return vec;
 
 }
@@ -559,6 +620,16 @@ void Tracks::multiplierEffect(float x, float y)
         this->setMultiplierValue(finalEffect);
         multiplierDone = !multiplierDone;
     }
+}
+
+const QList<QString> &Tracks::getDirection() const
+{
+    return direction;
+}
+
+void Tracks::setDirection(const QList<QString> &newDirection)
+{
+    direction = newDirection;
 }
 
 bool Tracks::getDragModeMouse() const
@@ -812,10 +883,10 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
     Q_UNUSED(rect);
 
     painter->save();
-    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
-    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
-            getUsedRect()[3]);
-   // qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
+//    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
+//    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
+//            getUsedRect()[3]);
+    qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
 }
@@ -881,7 +952,6 @@ void Tracks::keyPressEvent(QKeyEvent *event)
                     delete item;
         }
     }
-
 }
 
 //void Tracks::mousePressEvent(QMouseEvent *event)
@@ -957,7 +1027,6 @@ void Tracks::getUpdateRect()
     QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
     getMultiplierEffect();    // in preparation to use the value
-
     if (file.exists()){
         std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Gleiskanten.dbahn");
         QPainterPath path;
@@ -969,12 +1038,10 @@ void Tracks::getUpdateRect()
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
-        qDebug() << "Brect " << brect;
         if (brect.left()< boundingRect[0]) boundingRect[0] = brect.left();
         if (brect.top() < boundingRect[1]) boundingRect[1]= brect.top();
         if (brect.width() > boundingRect[2]) boundingRect[2] = brect.width();
         if (brect.height() > boundingRect[3]) boundingRect[3] = brect.height();
-        qDebug()<< "BoundingRect" <<boundingRect;
     }
     if (file2.exists()){
         std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
@@ -1081,15 +1148,7 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 }
 
 
-void Tracks :: sceneSelectedItems(int degree){
-    foreach (QGraphicsItem *item, scene()->selectedItems()) {
-               item->setRotation(degree);
-    }
-}
 
-void Tracks ::mousePressEvent(QGraphicsSceneMouseEvent *event){
-  qInfo() << "event" <<event;
-}
 
 void Tracks::addSymbol(QString str)
 {
@@ -1122,4 +1181,32 @@ void Tracks::addSymbol(QString str)
     }
 
 }
+void Tracks :: sceneSelectedItems(int degree){
+    foreach (QGraphicsItem *item, scene()->selectedItems()) {
+               item->setRotation(degree);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

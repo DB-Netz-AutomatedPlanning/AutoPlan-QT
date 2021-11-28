@@ -30,7 +30,7 @@ public:
     void deleteAll();
     void updateAll();
     QGraphicsPixmapItem *pixmapItem;
-    QGraphicsPixmapItem *pixmapItem2;
+     QGraphicsPixmapItem *pixmapItem2;
 //    void itemInteractWithMouse(bool canInteract);
 
 
@@ -88,9 +88,11 @@ public:
     bool getDragModeMouse() const;
     void setDragModeMouse();
 
+    const QList<QString> &getDirection() const;
+    void setDirection(const QList<QString> &newDirection);
+
     void sceneSelectedItems(int degree);
-public slots:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
 signals:
 
 private:
@@ -113,6 +115,7 @@ private:
     QVector <float> boundingRect = {100000000,100000000,1,1};
     QVector <float> usedRect = {0,0,1,1};     // used sceneRect
     QSet <QString> parentItems;   // QLists of all parent items
+    QList<QString> direction;
     bool drawGrids;
     bool drawGleiskanten;
     bool drawGleiskantenDP;
@@ -128,7 +131,6 @@ private:
     double xCoord;
     double yCoord;
     int ttt = 0;
-
     // To be changed
 //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
 //    QString pName = "Meggen";
@@ -146,8 +148,7 @@ protected:
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
-
-
+//    void mouseMoveEvent(QMouseEvent *event) override;
 
 
 
@@ -156,4 +157,6 @@ protected:
   // void mousePressEvent(QMouseEvent *event) override;
 };
 
+
 #endif // TRACKS_H
+
