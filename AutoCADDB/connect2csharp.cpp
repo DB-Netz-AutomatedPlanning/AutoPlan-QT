@@ -1,17 +1,23 @@
 #include "connect2csharp.h"
 
 // this class works only for planning (and not for exporting eulynx)
-Connect2CSharp::Connect2CSharp(QByteArray gleiskantenPath, QByteArray gleisknotenPath, QByteArray hoehePath)
+Connect2CSharp::Connect2CSharp(QByteArray mdbFilePath, QByteArray kmLinePath, QByteArray gleiskantenPath,
+                               QByteArray gleisknotenPath, QByteArray hoehePath, QByteArray UH_Path,
+                               QByteArray LA_Path, QByteArray outputPath)
 {
+    this->mdbFilePath = mdbFilePath;
+    this->kmLinePath = kmLinePath;
     this->gleiskantenPath = gleiskantenPath;
     this->gleisknotenPath = gleisknotenPath;
     this->hoehePath = hoehePath;
+    this->UH_Path = UH_Path;
+    this->LA_Path = LA_Path;
+    this->outputPath = outputPath;
 }
 
 void Connect2CSharp::cSharp()
 {
     QProcess csharp;
-
     findOS();   //determine the operating system
 
     // replace this with corresponding filepath
@@ -29,27 +35,82 @@ void Connect2CSharp::cSharp()
     csharp.write(state);
     csharp.waitForBytesWritten(1000);
 
-    if(!gleiskantenPath.endsWith(endl.toLatin1())) gleiskantenPath.append(endl.toUtf8());
-    csharp.write(gleiskantenPath);
+    QByteArray Code = countryCode.toUtf8();
+    QByteArray format = fileFormat.toUtf8();
+    QByteArray name = projectName.toUtf8();
+
+    if(!Code.endsWith(endl.toLatin1())) Code.append(endl.toUtf8());
+    csharp.write(Code);
     csharp.waitForBytesWritten(1000);
 
-    if(!gleisknotenPath.endsWith(endl.toLatin1())) gleisknotenPath.append(endl.toUtf8());
-    csharp.write(gleisknotenPath);
+    if(!format.endsWith(endl.toLatin1())) format.append(endl.toUtf8());
+    csharp.write(format);
     csharp.waitForBytesWritten(1000);
 
-    if(!hoehePath.endsWith(endl.toLatin1())) hoehePath.append(endl.toUtf8());
-    csharp.write(hoehePath);
+    if(!name.endsWith(endl.toLatin1())) name.append(endl.toUtf8());
+    csharp.write(name);
     csharp.waitForBytesWritten(1000);
 
-    csharp.closeWriteChannel();
-    if(!csharp.waitForFinished(6000)) {
-        // Giving maximum of 6 seconds to execute the program
-        qInfo() << "The program is taking too long to close the Channel";
+    if (fileFormat == ".mdb"){
+        qDebug()<< "Temporary disabled for mdb data";
+        csharp.closeWriteChannel();
         return;
-    }
-    QByteArray result = csharp.readAll();
+//        if(!mdbFilePath.endsWith(endl.toLatin1())) mdbFilePath.append(endl.toUtf8());
+//        csharp.write(mdbFilePath);
+//        csharp.waitForBytesWritten(1000);
 
-    this->setAntwort(result);
+//        csharp.closeWriteChannel();
+//        if(!csharp.waitForFinished(6000)) {
+//            // Giving maximum of 6 seconds to execute the program
+//            qInfo() << "The program is taking too long to close the Channel";
+//            return;
+//        }
+//        QByteArray result = csharp.readAll();
+
+//        this->setAntwort(result);
+    } else if(fileFormat == ".json"){
+        if(!kmLinePath.endsWith(endl.toLatin1())) kmLinePath.append(endl.toUtf8());
+        csharp.write(kmLinePath);
+        csharp.waitForBytesWritten(1000);
+
+        if(!gleiskantenPath.endsWith(endl.toLatin1())) gleiskantenPath.append(endl.toUtf8());
+        csharp.write(gleiskantenPath);
+        csharp.waitForBytesWritten(1000);
+
+        if(!gleisknotenPath.endsWith(endl.toLatin1())) gleisknotenPath.append(endl.toUtf8());
+        csharp.write(gleisknotenPath);
+        csharp.waitForBytesWritten(1000);
+
+        if(!hoehePath.endsWith(endl.toLatin1())) hoehePath.append(endl.toUtf8());
+        csharp.write(hoehePath);
+        csharp.waitForBytesWritten(1000);
+
+        if(!UH_Path.endsWith(endl.toLatin1())) UH_Path.append(endl.toUtf8());
+        csharp.write(UH_Path);
+        csharp.waitForBytesWritten(1000);
+
+        if(!LA_Path.endsWith(endl.toLatin1())) LA_Path.append(endl.toUtf8());
+        csharp.write(LA_Path);
+        csharp.waitForBytesWritten(1000);
+
+        if(!outputPath.endsWith(endl.toLatin1())) outputPath.append(endl.toUtf8());
+        csharp.write(outputPath);
+        csharp.waitForBytesWritten(1000);
+
+        csharp.closeWriteChannel();
+        if(!csharp.waitForFinished(10000)) {
+            // Giving maximum of 6 seconds to execute the program
+            qInfo() << "The program is taking too long to close the Channel";
+            return;
+        }
+
+        QByteArray result = csharp.readAll();
+
+        this->setAntwort(result);
+    }else {
+        qDebug()<< "Please import valid file format (.json, .geojson)";
+
+    }
 }
 
 const QString &Connect2CSharp::getAntwort() const

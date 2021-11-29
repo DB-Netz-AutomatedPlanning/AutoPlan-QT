@@ -533,13 +533,21 @@ void MainWindow::exportToPicture()
 
 void MainWindow::planningFnt()
 {
-    PlanningTable *plan;
-    plan = new PlanningTable();
-    plan->show();
+    if (fileFormat == ".mdb"){
+        QMessageBox::warning(this, "File Format", "Planning of .mdb data source/file was temporarily disabled");
+    }else{
+        PlanningTable *plan;
+        plan = new PlanningTable();
+        plan->show();
+    }
 }
 
 void MainWindow::on_actionAdd_Data_triggered()
 {
+    if (fileFormat == ".mdb"){
+        QMessageBox::information(this, "Information", "You cannot change/modify .mdb file after uploading");
+        return;
+    }
     UploadNewData uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();

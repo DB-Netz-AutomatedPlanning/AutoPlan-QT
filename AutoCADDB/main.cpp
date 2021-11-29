@@ -6,6 +6,7 @@
 
 #include<QSurfaceFormat>
 #include "coordinates.h"
+#include "kmtocoordinate.h"
 
 
 int main(int argc, char *argv[])
@@ -21,6 +22,8 @@ int main(int argc, char *argv[])
    MainWindow w;
    w.setWindowState(Qt::WindowMaximized);
    w.show();
+
+
 
 
 

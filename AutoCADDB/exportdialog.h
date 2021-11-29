@@ -25,6 +25,7 @@ public:
     bool isAvailable = true;
     void findOS();
     void cSharp();
+    void waitToFinish(int miliSeconds);
 
     const QString &getApp() const;
     void setApp(const QString &newApp);

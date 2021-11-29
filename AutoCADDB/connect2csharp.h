@@ -1,6 +1,7 @@
 #ifndef CONNECT2CSHARP_H
 #define CONNECT2CSHARP_H
 
+#include "symbolcontainer.h"
 #include <type_traits>
 #include <QObject>
 #include<QSysInfo>
@@ -16,7 +17,9 @@ public:
     //Connect2CSharp();
     bool isAvailable = true; // to know if the CSharp app exist o the running PC
     QByteArray state = "plan";
-    explicit Connect2CSharp(QByteArray gleiskantenPath = "", QByteArray gleisknotenPath ="", QByteArray hoehePath ="");
+    explicit Connect2CSharp(QByteArray mdbFilePath ="", QByteArray kmLinePath = "", QByteArray gleiskantenPath = "",
+                            QByteArray gleisknotenPath ="", QByteArray hoehePath ="", QByteArray UH_Path ="",
+                            QByteArray LA_Path ="",QByteArray outputPath ="");
 
     const QString &getApp() const;
     void setApp(const QString &newApp);
@@ -45,10 +48,15 @@ private:
     QString** mainAntwort;
     QString antwort;
     QString app;
-    QString endl;
+    QString endl; 
+    QByteArray mdbFilePath;
+    QByteArray kmLinePath;
     QByteArray gleiskantenPath;
     QByteArray gleisknotenPath;
     QByteArray hoehePath;
+    QByteArray UH_Path;
+    QByteArray LA_Path;
+    QByteArray outputPath;
     int NumberOfRows;
     int NumberofCols;
 

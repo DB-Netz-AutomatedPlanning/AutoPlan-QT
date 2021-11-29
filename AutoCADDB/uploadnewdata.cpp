@@ -46,7 +46,6 @@ void UploadNewData::lblState(bool isON)
     ui->btnKMLine->setEnabled(isON);
     ui->btnLage->setEnabled(isON);
     ui->btnUberhohung->setEnabled(isON);
-
 }
 
 bool UploadNewData::modifyData(QString fileName, QString resourceFileName, bool isAlreadyAvailable)

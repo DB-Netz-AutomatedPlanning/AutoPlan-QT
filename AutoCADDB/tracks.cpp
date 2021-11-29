@@ -54,8 +54,11 @@ void Tracks::addGleiskanten()
             gleiskanten_Parent = new QGraphicsPathItem(path);
             if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
                 gleiskanten_Parent->setPen(QPen(Qt::black, 1));
-                segmentCount++;
-            } else {
+                segmentCount++;                
+            } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
+                gleiskanten_Parent->setPen(QPen(Qt::black, 1));
+            }
+            else {
                 gleiskanten_Parent->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
             }
@@ -68,6 +71,8 @@ void Tracks::addGleiskanten()
             if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
                 gleiskanten->setPen(QPen(Qt::black, 1));
                 segmentCount++;
+            } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
+                gleiskanten->setPen(QPen(Qt::black, 1));
             } else {
                 gleiskanten->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
@@ -461,16 +466,6 @@ void Tracks::reload()
 
 }
 
-//void Tracks::addSymbol()
-//{
-//    QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/fifteenSvgs/Ersatzsignal.svg"));
-//    pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-//    pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-//    pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-//    scene()->addItem(pixmapItem);
-
-//}
-
 
 /*RESET ALL (deleteAll and updateAll...  These functions ensure that all objects drawn on the scene are removed and deleted as
 soon as it discovered that the Project path and /or Projetct name changes. It further helps in
@@ -598,6 +593,14 @@ std::vector<float> Tracks::unsegmentedVec(QString pPath, QString pName, QString 
 
 }
 
+QGraphicsItem *Tracks::getSelectedItem()
+{
+    if (scene()->selectedItems().count() >0){
+        return scene()->selectedItems().at(0);
+    }
+    return nullptr;
+}
+
 void Tracks::multiplierEffect(float x, float y)
 {
     if (!multiplierDone){
@@ -660,12 +663,9 @@ bool Tracks::getDrawLageDP() const
 
 void Tracks::setDrawLageDP(bool newDrawLageDP)
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
 
     if (!file.exists()) return;
-
     if (drawLageDP != newDrawLageDP){
         drawLageDP = newDrawLageDP;
         lageDP_Parent->setVisible(newDrawLageDP);
@@ -679,10 +679,7 @@ bool Tracks::getDrawUberhohungDP() const
 
 void Tracks::setDrawUberhohungDP(bool newDrawUberhohungDP)
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
-
     if (!file.exists()) return;
 
     if (drawUberhohungDP != newDrawUberhohungDP){
@@ -698,10 +695,7 @@ bool Tracks::getDrawUberhohung() const
 
 void Tracks::setDrawUberhohung(bool newDrawUberhohung)
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
-
     if (!file.exists()) return;
 
     if (drawUberhohung != newDrawUberhohung){
@@ -716,11 +710,8 @@ bool Tracks::getDrawLage() const
 }
 
 void Tracks::setDrawLage(bool newDrawLage)
-{
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
+{;
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
-
     if (!file.exists()) return;
 
     if (drawLage != newDrawLage){
@@ -736,10 +727,7 @@ bool Tracks::getDrawKmLineDP() const
 
 void Tracks::setDrawKmLineDP(bool newDrawKmLineDP)
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
-
     if (!file.exists()) return;
 
     if (drawKmLineDP != newDrawKmLineDP){
@@ -755,10 +743,7 @@ bool Tracks::getDrawKmLine() const
 
 void Tracks::setDrawKmLine(bool newDrawKmLine)
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
-
     if (!file.exists()) return;
 
     if (drawKmLine != newDrawKmLine){
@@ -774,13 +759,8 @@ bool Tracks::getDrawHoeheDP() const
 
 void Tracks::setDrawHoeheDP(bool newDrawHoeheDP)
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
-
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
-
-
     if (drawHoeheDP != newDrawHoeheDP){
         drawHoeheDP = newDrawHoeheDP;
         hoeheDP_Parent->setVisible(newDrawHoeheDP);
@@ -794,10 +774,7 @@ bool Tracks::getDrawGleiskantenDP() const
 
 void Tracks::setDrawGleiskantenDP(bool newDrawGleiskantenDP)
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
     QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
-
     if (!file.exists()) return;
     if (drawGleiskantenDP != newDrawGleiskantenDP){
         drawGleiskantenDP = newDrawGleiskantenDP;
@@ -812,11 +789,7 @@ bool Tracks::getDrawGleiskanten() const
 
 void Tracks::setDrawGleiskanten(bool newDrawGleiskanten)
 {
-
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
     QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
-
     if (!file.exists()) return;
 
     if (drawGleiskanten != newDrawGleiskanten){
@@ -832,9 +805,6 @@ bool Tracks::getDrawHoehe() const
 
 void Tracks::setDrawHoehe(bool newDrawHoehe)
 {
-    //    QString pPath = "C:/Users/DR-PHELZ/Documents/pdf";
-    //    QString pName = "Meggen";
-
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
 
@@ -842,7 +812,6 @@ void Tracks::setDrawHoehe(bool newDrawHoehe)
         drawHoehe = newDrawHoehe;
         hoehe_Parent->setVisible(newDrawHoehe);
     }
-
 }
 
 double Tracks::getYCoord() const
@@ -894,7 +863,6 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
 
 void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
-
     if (drawGrids){
         painter->save();
         painter->setPen(QColor(95,52,21,90));
@@ -913,8 +881,6 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
     } else {
         QGraphicsView::drawForeground(painter, rect);
     }
-
-
 }
 
 void Tracks::wheelEvent(QWheelEvent *event)
@@ -936,12 +902,10 @@ void Tracks::wheelEvent(QWheelEvent *event)
     } else {
         QGraphicsView::wheelEvent(event);
     }
-
 }
 
 void Tracks::keyPressEvent(QKeyEvent *event)
 {
-
     if(event->key() == Qt::Key_Left) rotate(1);
     else if(event->key() == Qt::Key_Right) rotate(-1);
 
@@ -968,7 +932,7 @@ void Tracks::keyPressEvent(QKeyEvent *event)
 
 //    qDebug()<< "X : " << getXCoord();
 //    qDebug()<< "Y : " << getYCoord();
-
+//}
 
 const QVector<float> &Tracks::getUsedRect() const
 {
@@ -1187,26 +1151,15 @@ void Tracks :: sceneSelectedItems(int degree){
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void Tracks::addAutomateSignal(QString name, QPointF location, double angle)
+{
+    QGraphicsPixmapItem *signal = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+name+".svg"));
+    signal->setTransformationMode(Qt::SmoothTransformation);
+    signal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+//    signal->setToolTip(name);
+    signal->setPos(location*getMultiplierValue());
+    signal->setRotation(angle);
+    scene()->addItem(signal);
+}
 
 
