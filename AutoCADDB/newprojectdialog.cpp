@@ -24,6 +24,8 @@ void NewProjectDialog::on_btnBrowseProjectPath_clicked()
 
     QString filePath = QFileDialog::getExistingDirectory(this, ("Select Output Folder"), QDir::currentPath());
 
+
+
     if (QDir(filePath+"/"+ui->leEnterProjectName->text()).exists()){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Already Exist", "Project Name Already Exist... \n Did you want to override the project?");
         if (reply == QMessageBox::No){
@@ -41,6 +43,8 @@ void NewProjectDialog::on_btnBrowseProjectPath_clicked()
         ui->btnBrowseProjectData->setEnabled(false);
     }
     else  ui->btnBrowseProjectData->setEnabled(true);
+
+
 }
 
 
@@ -180,6 +184,8 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         createNewProject = true;
         close();
     }
+
+    projectName = ui->leEnterProjectName->text();
 }
 
 void NewProjectDialog::on_btnCancel_clicked()

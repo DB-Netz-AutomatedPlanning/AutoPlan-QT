@@ -38,5 +38,6 @@ extern QString countryCode;
 extern QString fileFormat;
 
 extern Tracks *tracks;
+extern QString projectName;
 
 #endif // SYMBOLCONTAINER_H

@@ -23,327 +23,12 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
-        <width>427</width>
-        <height>1273</height>
+        <y>-791</y>
+        <width>478</width>
+        <height>1328</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="14" column="0">
-        <widget class="QPushButton" name="pb16">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/balisengruppeRechts.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="1">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>AutomatikHETSchild</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="1">
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>BalisengruppeGesteuertTri</string>
-         </property>
-        </widget>
-       </item>
-       <item row="29" column="0">
-        <widget class="QPushButton" name="pb31">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/EinschaltGleisAusschaltmagnet.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="0">
-        <widget class="QPushButton" name="pb22">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/Blockschaltbilder.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Achszahlkontakt</string>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="1">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>balisengruppeRechts</string>
-         </property>
-        </widget>
-       </item>
-       <item row="25" column="0">
-        <widget class="QPushButton" name="pb27">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/BuAnkundetafelWiederholerOne.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QPushButton" name="pb15">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/balisengruppeLinks.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="17" column="1">
-        <widget class="QLabel" name="label_18">
-         <property name="text">
-          <string>Bereichskennungswechsel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="30" column="0">
-        <widget class="QPushButton" name="pb32">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/EinzelbaliseGesteuert.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>30</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QPushButton" name="pb10">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/AusschaltEinschalt.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="QPushButton" name="pb14">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/BalisengruppeGesteuertTri.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="29" column="1">
-        <widget class="QLabel" name="label_30">
-         <property name="text">
-          <string>EinschaltGleisAusschaltmagnet</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pb1">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/Abfahrsignal.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>AutomatikETSchild</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QPushButton" name="pb13">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/BalisengruppeGesteuert.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Abfahrsignal</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QPushButton" name="pb9">
-         <property name="text">
-          <string notr="true"/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/Ankundigungsbake.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="22" column="0">
-        <widget class="QPushButton" name="pb24">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/Bremsprobe.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>Ankundetafel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="0">
-        <widget class="QPushButton" name="pb25">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/BuAnkundetafel.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pb2">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/Achszahlkontakt.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
        <item row="3" column="1">
         <widget class="QLabel" name="label_4">
          <property name="text">
@@ -351,28 +36,24 @@
          </property>
         </widget>
        </item>
-       <item row="15" column="1">
-        <widget class="QLabel" name="label_16">
+       <item row="22" column="1">
+        <widget class="QLabel" name="label_23">
          <property name="text">
-          <string>BalisengruppeunGesteuert</string>
+          <string>Bremsprobe</string>
          </property>
         </widget>
        </item>
-       <item row="28" column="0">
-        <widget class="QPushButton" name="pb30">
+       <item row="38" column="2">
+        <widget class="QPushButton" name="pb_hauptSignalbegriffe">
          <property name="text">
-          <string/>
+          <string>Add</string>
          </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/BuSchaltkontakt.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
+        </widget>
+       </item>
+       <item row="16" column="1">
+        <widget class="QLabel" name="label_17">
+         <property name="text">
+          <string>BalisengruppeUngesteuertTri</string>
          </property>
         </widget>
        </item>
@@ -394,35 +75,21 @@
          </property>
         </widget>
        </item>
-       <item row="18" column="1">
-        <widget class="QLabel" name="label_19">
+       <item row="15" column="1">
+        <widget class="QLabel" name="label_16">
          <property name="text">
-          <string>Bereichskennungswechselortungsneutral</string>
+          <string>BalisengruppeunGesteuert</string>
          </property>
         </widget>
        </item>
-       <item row="32" column="1">
-        <widget class="QLabel" name="label_33">
-         <property name="text">
-          <string>EinzelbaliseRechts</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>aktivengelben</string>
-         </property>
-        </widget>
-       </item>
-       <item row="27" column="0">
-        <widget class="QPushButton" name="pb29">
+       <item row="12" column="0">
+        <widget class="QPushButton" name="pb14">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/icons/assets/qgraphics/BuBuTafel.svg</normalon>
+           <normalon>:/icons/assets/qgraphics/BalisengruppeGesteuertTri.svg</normalon>
           </iconset>
          </property>
          <property name="iconSize">
@@ -433,21 +100,21 @@
          </property>
         </widget>
        </item>
-       <item row="34" column="1">
-        <widget class="QLabel" name="label_35">
+       <item row="12" column="1">
+        <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>ErsatzsignalHauptsignalschirm</string>
+          <string>BalisengruppeGesteuertTri</string>
          </property>
         </widget>
        </item>
-       <item row="24" column="0">
-        <widget class="QPushButton" name="pb26">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pb1">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <normalon>:/icons/assets/qgraphics/BuAnkundetafelWiederholer.svg</normalon>
+           <normalon>:/icons/assets/qgraphics/Abfahrsignal.svg</normalon>
           </iconset>
          </property>
          <property name="iconSize">
@@ -455,106 +122,6 @@
            <width>50</width>
            <height>20</height>
           </size>
-         </property>
-        </widget>
-       </item>
-       <item row="24" column="1">
-        <widget class="QLabel" name="label_25">
-         <property name="text">
-          <string>BuAnkundetafelWiederholer</string>
-         </property>
-        </widget>
-       </item>
-       <item row="23" column="1">
-        <widget class="QLabel" name="label_24">
-         <property name="text">
-          <string>BuAnkundetafel</string>
-         </property>
-        </widget>
-       </item>
-       <item row="21" column="1">
-        <widget class="QLabel" name="label_22">
-         <property name="text">
-          <string>Bremsprellbock</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QPushButton" name="pb6">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/AndreaskreuzAmPeitschenmast.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QPushButton" name="pb8">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/Ankundetafel.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="31" column="0">
-        <widget class="QPushButton" name="pb33">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/EinzelbaliseLinks.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>30</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="0">
-        <widget class="QPushButton" name="pb18">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/BalisengruppeUngesteuertTri.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="20" column="1">
-        <widget class="QLabel" name="label_21">
-         <property name="text">
-          <string>Blockschaltbilder</string>
          </property>
         </widget>
        </item>
@@ -570,14 +137,14 @@
          </property>
         </widget>
        </item>
-       <item row="19" column="0">
-        <widget class="QPushButton" name="pb21">
+       <item row="1" column="0">
+        <widget class="QPushButton" name="pb2">
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset>
-           <activeon>:/icons/assets/qgraphics/Blockkennzeichen.svg</activeon>
+           <normalon>:/icons/assets/qgraphics/Achszahlkontakt.svg</normalon>
           </iconset>
          </property>
          <property name="iconSize">
@@ -606,63 +173,6 @@
          </property>
         </widget>
        </item>
-       <item row="10" column="0">
-        <widget class="QPushButton" name="pb12">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/AutomatikHETSchild.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="30" column="1">
-        <widget class="QLabel" name="label_31">
-         <property name="text">
-          <string>EinzelbaliseGesteuert</string>
-         </property>
-        </widget>
-       </item>
-       <item row="22" column="1">
-        <widget class="QLabel" name="label_23">
-         <property name="text">
-          <string>Bremsprobe</string>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="1">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>BalisengruppeGesteuert</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QPushButton" name="pb3">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/aktivengelben.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
        <item row="18" column="0">
         <widget class="QPushButton" name="pb20">
          <property name="text">
@@ -675,56 +185,17 @@
          </property>
         </widget>
        </item>
-       <item row="27" column="1">
-        <widget class="QLabel" name="label_28">
+       <item row="6" column="1">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>BuBuTafel</string>
+          <string>Ankundetafel</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="pb5">
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_3">
          <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/Andreaskreuz.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="26" column="1">
-        <widget class="QLabel" name="label_27">
-         <property name="text">
-          <string>BuBetonschalthaus</string>
-         </property>
-        </widget>
-       </item>
-       <item row="16" column="1">
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>BalisengruppeUngesteuertTri</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="1">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>AusschaltEinschalt</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="1">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>balisengruppeLinks</string>
+          <string>aktivengelben</string>
          </property>
         </widget>
        </item>
@@ -740,6 +211,49 @@
          </property>
         </widget>
        </item>
+       <item row="24" column="1">
+        <widget class="QLabel" name="label_25">
+         <property name="text">
+          <string>BuAnkundetafelWiederholer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="25" column="0">
+        <widget class="QPushButton" name="pb27">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/BuAnkundetafelWiederholerOne.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="QPushButton" name="pb16">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/balisengruppeRechts.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
        <item row="17" column="0">
         <widget class="QPushButton" name="pb19">
          <property name="text">
@@ -749,152 +263,6 @@
           <iconset>
            <normalon>:/icons/assets/qgraphics/Bereichskennungswechsel.svg</normalon>
           </iconset>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>AndreaskreuzAmPeitschenmast</string>
-         </property>
-        </widget>
-       </item>
-       <item row="35" column="0">
-        <widget class="QPushButton" name="pb37">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/ETCSstopTafelOne.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="25" column="1">
-        <widget class="QLabel" name="label_26">
-         <property name="text">
-          <string>BuAnkundetafelWiederholerOne</string>
-         </property>
-        </widget>
-       </item>
-       <item row="31" column="1">
-        <widget class="QLabel" name="label_32">
-         <property name="text">
-          <string>EinzelbaliseLinks</string>
-         </property>
-        </widget>
-       </item>
-       <item row="33" column="0">
-        <widget class="QPushButton" name="pb35">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/EinzelbaliseUngesteuert.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>30</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="28" column="1">
-        <widget class="QLabel" name="label_29">
-         <property name="text">
-          <string>BuSchaltkontakt</string>
-         </property>
-        </widget>
-       </item>
-       <item row="19" column="1">
-        <widget class="QLabel" name="label_20">
-         <property name="text">
-          <string>Blockkennzeichen</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QLabel" name="label_6">
-         <property name="text">
-          <string>Anfangsschleife</string>
-         </property>
-        </widget>
-       </item>
-       <item row="33" column="1">
-        <widget class="QLabel" name="label_34">
-         <property name="text">
-          <string>EinzelbaliseUngesteuert</string>
-         </property>
-        </widget>
-       </item>
-       <item row="32" column="0">
-        <widget class="QPushButton" name="pb34">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/EinzelbaliseRechts.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>30</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QPushButton" name="pb11">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/AutomatikETSchild.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="1">
-        <widget class="QLabel" name="label_8">
-         <property name="text">
-          <string>Ankundigungsbake</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="0">
-        <widget class="QPushButton" name="pb17">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normalon>:/icons/assets/qgraphics/BalisengruppeunGesteuert.svg</normalon>
-          </iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>50</width>
-           <height>20</height>
-          </size>
          </property>
         </widget>
        </item>
@@ -916,6 +284,152 @@
          </property>
         </widget>
        </item>
+       <item row="22" column="0">
+        <widget class="QPushButton" name="pb24">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/Bremsprobe.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="30" column="1">
+        <widget class="QLabel" name="label_31">
+         <property name="text">
+          <string>EinzelbaliseGesteuert</string>
+         </property>
+        </widget>
+       </item>
+       <item row="28" column="0">
+        <widget class="QPushButton" name="pb30">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/BuSchaltkontakt.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="1">
+        <widget class="QLabel" name="label_21">
+         <property name="text">
+          <string>Blockschaltbilder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="20" column="0">
+        <widget class="QPushButton" name="pb22">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/Blockschaltbilder.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="1">
+        <widget class="QLabel" name="label_14">
+         <property name="text">
+          <string>balisengruppeLinks</string>
+         </property>
+        </widget>
+       </item>
+       <item row="31" column="1">
+        <widget class="QLabel" name="label_32">
+         <property name="text">
+          <string>EinzelbaliseLinks</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="1">
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Blockkennzeichen</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Abfahrsignal</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QPushButton" name="pb11">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/AutomatikETSchild.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="38" column="0">
+        <widget class="QLabel" name="lbl_stellwerksbedient">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="0">
+        <widget class="QPushButton" name="pb18">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/BalisengruppeUngesteuertTri.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Ankundigungsbake</string>
+         </property>
+        </widget>
+       </item>
        <item row="35" column="1">
         <widget class="QLabel" name="label_36">
          <property name="text">
@@ -923,10 +437,524 @@
          </property>
         </widget>
        </item>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="pb8">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/Ankundetafel.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QPushButton" name="pb12">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/AutomatikHETSchild.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="26" column="1">
+        <widget class="QLabel" name="label_27">
+         <property name="text">
+          <string>BuBetonschalthaus</string>
+         </property>
+        </widget>
+       </item>
+       <item row="31" column="0">
+        <widget class="QPushButton" name="pb33">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/EinzelbaliseLinks.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QPushButton" name="pb15">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/balisengruppeLinks.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pb5">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/Andreaskreuz.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="24" column="0">
+        <widget class="QPushButton" name="pb26">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/BuAnkundetafelWiederholer.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="1">
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>BalisengruppeGesteuert</string>
+         </property>
+        </widget>
+       </item>
        <item row="36" column="1">
         <widget class="QLabel" name="label_37">
          <property name="text">
           <string>ETCSstopTafelTwo</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="0">
+        <widget class="QPushButton" name="pb17">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/BalisengruppeunGesteuert.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="pb9">
+         <property name="text">
+          <string notr="true"/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/Ankundigungsbake.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="1">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>AutomatikHETSchild</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Anfangsschleife</string>
+         </property>
+        </widget>
+       </item>
+       <item row="27" column="0">
+        <widget class="QPushButton" name="pb29">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/BuBuTafel.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="25" column="1">
+        <widget class="QLabel" name="label_26">
+         <property name="text">
+          <string>BuAnkundetafelWiederholerOne</string>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="0">
+        <widget class="QPushButton" name="pb25">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/BuAnkundetafel.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="29" column="1">
+        <widget class="QLabel" name="label_30">
+         <property name="text">
+          <string>EinschaltGleisAusschaltmagnet</string>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="1">
+        <widget class="QLabel" name="label_18">
+         <property name="text">
+          <string>Bereichskennungswechsel</string>
+         </property>
+        </widget>
+       </item>
+       <item row="27" column="1">
+        <widget class="QLabel" name="label_28">
+         <property name="text">
+          <string>BuBuTafel</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="1">
+        <widget class="QLabel" name="label_15">
+         <property name="text">
+          <string>balisengruppeRechts</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="1">
+        <widget class="QLabel" name="label_19">
+         <property name="text">
+          <string>Bereichskennungswechselortungsneutral</string>
+         </property>
+        </widget>
+       </item>
+       <item row="29" column="0">
+        <widget class="QPushButton" name="pb31">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/EinschaltGleisAusschaltmagnet.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="pb3">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/aktivengelben.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="34" column="1">
+        <widget class="QLabel" name="label_35">
+         <property name="text">
+          <string>ErsatzsignalHauptsignalschirm</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Achszahlkontakt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="23" column="1">
+        <widget class="QLabel" name="label_24">
+         <property name="text">
+          <string>BuAnkundetafel</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="pb6">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/AndreaskreuzAmPeitschenmast.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QPushButton" name="pb10">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/AusschaltEinschalt.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="33" column="0">
+        <widget class="QPushButton" name="pb35">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/EinzelbaliseUngesteuert.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>AutomatikETSchild</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>AndreaskreuzAmPeitschenmast</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>AusschaltEinschalt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="38" column="1">
+        <widget class="QCheckBox" name="chk_stellArrow">
+         <property name="text">
+          <string>hauptSignalbegriffe</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QPushButton" name="pb13">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/BalisengruppeGesteuert.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="28" column="1">
+        <widget class="QLabel" name="label_29">
+         <property name="text">
+          <string>BuSchaltkontakt</string>
+         </property>
+        </widget>
+       </item>
+       <item row="21" column="1">
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>Bremsprellbock</string>
+         </property>
+        </widget>
+       </item>
+       <item row="32" column="1">
+        <widget class="QLabel" name="label_33">
+         <property name="text">
+          <string>EinzelbaliseRechts</string>
+         </property>
+        </widget>
+       </item>
+       <item row="19" column="0">
+        <widget class="QPushButton" name="pb21">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <activeon>:/icons/assets/qgraphics/Blockkennzeichen.svg</activeon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="37" column="0">
+        <widget class="QLabel" name="label_38">
+         <property name="text">
+          <string>Customize the symbols</string>
+         </property>
+        </widget>
+       </item>
+       <item row="33" column="1">
+        <widget class="QLabel" name="label_34">
+         <property name="text">
+          <string>EinzelbaliseUngesteuert</string>
+         </property>
+        </widget>
+       </item>
+       <item row="30" column="0">
+        <widget class="QPushButton" name="pb32">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/EinzelbaliseGesteuert.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="32" column="0">
+        <widget class="QPushButton" name="pb34">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/EinzelbaliseRechts.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="35" column="0">
+        <widget class="QPushButton" name="pb37">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normalon>:/icons/assets/qgraphics/ETCSstopTafelOne.svg</normalon>
+          </iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>20</height>
+          </size>
          </property>
         </widget>
        </item>
