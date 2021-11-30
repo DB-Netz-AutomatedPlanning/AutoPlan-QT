@@ -6,6 +6,7 @@
 #include <QPainterPath>
 #include <QPointF>
 #include <QWheelEvent>
+#include <QRegularExpression>
 
 //QString pPath = projectPath;
 //QString pName = projectName;
@@ -16,17 +17,8 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scale(1, -1);
+    setMouseTracking(true);
 }
-
-//Tracks::Object Tracks::getCurrentObject() const
-//{
-//    return currentObject;
-//}
-
-//void Tracks::setCurrentObject(Object newCurrentObject)
-//{
-//    currentObject = newCurrentObject;
-//}
 
 void Tracks::addGleiskanten()
 {
@@ -36,6 +28,13 @@ void Tracks::addGleiskanten()
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
     QList<QString> dir = getDirection();
     int segmentCount =0;
+
+    // To obtain and add the data object to appropriate section
+    Coordinates *coord = new Coordinates(projectPath, projectName);
+    coord->readCoordinates("Gleiskanten.dbahn");
+    std::vector<QMap<QString, QString>> map = coord->getMap();
+    int dataSegCount =0;
+    int signalKey =0;
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -55,14 +54,20 @@ void Tracks::addGleiskanten()
             if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
                 gleiskanten_Parent->setPen(QPen(Qt::black, 1));
                 segmentCount++;                
+                gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
+                gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values() );
             } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
-                gleiskanten_Parent->setPen(QPen(Qt::black, 1));
+                gleiskanten_Parent->setPen(QPen(Qt::black, 1));      
             }
             else {
                 gleiskanten_Parent->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
+                gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
+                gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values() );
             }
-//            gleiskanten_Parent->setData(1, "QVAR");
+            gleiskanten_Parent->setToolTip("Gleiskanten_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             gleiskanten_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(gleiskanten_Parent);
             isFirstSegment = !isFirstSegment;
@@ -71,12 +76,19 @@ void Tracks::addGleiskanten()
             if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
                 gleiskanten->setPen(QPen(Qt::black, 1));
                 segmentCount++;
+                gleiskanten->setData(signalKey, map[dataSegCount].keys() );
+                gleiskanten->setData(signalKey+1, map[dataSegCount].values() );
             } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
                 gleiskanten->setPen(QPen(Qt::black, 1));
             } else {
                 gleiskanten->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
+                gleiskanten->setData(signalKey, map[dataSegCount].keys() );
+                gleiskanten->setData(signalKey+1, map[dataSegCount].values() );
             }
+            gleiskanten->setToolTip("Gleiskanten_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             gleiskanten->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             gleiskanten->setParentItem(gleiskanten_Parent);
         }
@@ -98,6 +110,7 @@ void Tracks::addGleiskanten()
 
                 gleiskantenDP_Parent->setPen(QPen(Qt::blue));
                 gleiskantenDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                gleiskantenDP_Parent->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 scene()->addItem(gleiskantenDP_Parent);
                 isFirstPoint = !isFirstPoint;
             } else {
@@ -106,6 +119,7 @@ void Tracks::addGleiskanten()
                 QGraphicsPathItem *gleiskantenDP = new QGraphicsPathItem(path);
                 gleiskantenDP->setPen(QPen(Qt::blue));
                 gleiskantenDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                gleiskantenDP->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 gleiskantenDP->setParentItem(gleiskantenDP_Parent);
             }
             count =  count +2;
@@ -127,6 +141,13 @@ void Tracks::addHoehe()
     QList<QString> dir = getDirection();
     int segmentCount =0;
 
+    // To obtain and add the data object to appropriate section
+    Coordinates *coord = new Coordinates(projectPath, projectName);
+    coord->readCoordinates("Entwurfselement_HO.dbahn");
+    std::vector<QMap<QString, QString>> map = coord->getMap();
+    int dataSegCount =0;
+    int signalKey =0;
+
     // Add line tracks
     bool isFirstSegment = true;
     foreach (auto val, vec){
@@ -145,10 +166,17 @@ void Tracks::addHoehe()
             if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
                 hoehe_Parent->setPen(QPen(Qt::black, 1));
                 segmentCount++;
+
             } else {
                 hoehe_Parent->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
             }
+            hoehe_Parent->setData(signalKey, map[dataSegCount].keys() );
+            hoehe_Parent->setData(signalKey+1, map[dataSegCount].values() );
+
+            hoehe_Parent->setToolTip("Hoehe_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             hoehe_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(hoehe_Parent);
             isFirstSegment = !isFirstSegment;
@@ -161,6 +189,12 @@ void Tracks::addHoehe()
                 hoehe->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
             }
+            hoehe->setData(signalKey, map[dataSegCount].keys() );
+            hoehe->setData(signalKey+1, map[dataSegCount].values() );
+
+            hoehe->setToolTip("Hoehe_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             hoehe->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             hoehe->setParentItem(hoehe_Parent);
         }
@@ -180,6 +214,7 @@ void Tracks::addHoehe()
                 hoeheDP_Parent = new QGraphicsPathItem(path);
                 hoeheDP_Parent->setPen(QPen(Qt::blue));
                 hoeheDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                hoeheDP_Parent->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 scene()->addItem(hoeheDP_Parent);
                 isFirstPoint = !isFirstPoint;
             } else {
@@ -189,6 +224,7 @@ void Tracks::addHoehe()
                 QGraphicsPathItem *hoeheDP = new QGraphicsPathItem(path);
                 hoeheDP->setPen(QPen(Qt::blue));
                 hoeheDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                hoeheDP->setToolTip("x: "+QString::number(val[count])+"\ny: "+QString::number(val[count+1]));
                 hoeheDP->setParentItem(hoeheDP_Parent);
             }
             count =  count +2;
@@ -205,6 +241,14 @@ void Tracks::addKMline()
 
     if (!file.exists()) return;
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_KM.dbahn");
+
+    int dataSegCount=0;
+
+    // To obtain and add the data object to appropriate section
+    Coordinates *coord = new Coordinates(projectPath, projectName);
+    coord->readCoordinates("Entwurfselement_KM.dbahn");
+    std::vector<QMap<QString, QString>> map = coord->getMap();
+    int signalKey =0;
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -224,12 +268,25 @@ void Tracks::addKMline()
             kmLine_Parent = new QGraphicsPathItem(path);
             kmLine_Parent->setPen(QPen(Qt::black));
             kmLine_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            kmLine_Parent->setData(signalKey, map[dataSegCount].keys() );
+            kmLine_Parent->setData(signalKey+1, map[dataSegCount].values() );
+
+            kmLine_Parent->setToolTip("KMLine_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
+
             scene()->addItem(kmLine_Parent);
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *kmLine = new QGraphicsPathItem(path);
             kmLine->setPen(QPen(Qt::black));
             kmLine->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            kmLine->setData(signalKey, map[dataSegCount].keys() );
+            kmLine->setData(signalKey+1, map[dataSegCount].values() );
+
+            kmLine->setToolTip("KMLine_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             kmLine->setParentItem(kmLine_Parent);
         }
     }
@@ -249,6 +306,7 @@ void Tracks::addKMline()
                 kmLineDP_Parent = new QGraphicsPathItem(path);
                 kmLineDP_Parent->setPen(QPen(Qt::blue));
                 kmLineDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                kmLineDP_Parent->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 scene()->addItem(kmLineDP_Parent);
                 isFirstPoint = !isFirstPoint;
             } else {
@@ -258,6 +316,7 @@ void Tracks::addKMline()
                 QGraphicsPathItem *kmLineDP = new QGraphicsPathItem(path);
                 kmLineDP->setPen(QPen(Qt::blue));
                 kmLineDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                kmLineDP->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 kmLineDP->setParentItem(kmLineDP_Parent);
             }
             count =  count +2;
@@ -279,6 +338,13 @@ void Tracks::addLage()
 
     QList<QString> dir = getDirection();
     int segmentCount =0;
+
+    // To obtain and add the data object to appropriate section
+    Coordinates *coord = new Coordinates(projectPath, projectName);
+    coord->readCoordinates("Entwurfselement_LA.dbahn");
+    std::vector<QMap<QString, QString>> map = coord->getMap();
+    int signalKey =0;
+    int dataSegCount =0;
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -303,6 +369,12 @@ void Tracks::addLage()
                 lage_Parent->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
             }
+            lage_Parent->setData(signalKey, map[dataSegCount].keys() );
+            lage_Parent->setData(signalKey+1, map[dataSegCount].values() );
+
+            lage_Parent->setToolTip("Lage_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             lage_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(lage_Parent);
             isFirstSegment = !isFirstSegment;
@@ -316,6 +388,12 @@ void Tracks::addLage()
                 lage->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
             }
+            lage->setData(signalKey, map[dataSegCount].keys() );
+            lage->setData(signalKey+1, map[dataSegCount].values() );
+
+            lage->setToolTip("Lage_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             lage->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             lage->setParentItem(lage_Parent);
         }
@@ -336,6 +414,7 @@ void Tracks::addLage()
                 lageDP_Parent = new QGraphicsPathItem(path);
                 lageDP_Parent->setPen(QPen(Qt::blue));
                 lageDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                lageDP_Parent->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 scene()->addItem(lageDP_Parent);
                 isFirstPoint = !isFirstPoint;
             } else {
@@ -344,6 +423,7 @@ void Tracks::addLage()
                 QGraphicsPathItem *lageDP = new QGraphicsPathItem(path);
                 lageDP->setPen(QPen(Qt::blue));
                 lageDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                lageDP->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 lageDP->setParentItem(lageDP_Parent);
             }
             count =  count +2;
@@ -364,6 +444,12 @@ void Tracks::addUberhohung()
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
     QList<QString> dir = getDirection();
     int segmentCount =0;
+    // To obtain and add the data object to appropriate section
+    Coordinates *coord = new Coordinates(projectPath, projectName);
+    coord->readCoordinates("Entwurfselement_UH.dbahn");
+    std::vector<QMap<QString, QString>> map = coord->getMap();
+    int signalKey =0;
+    int dataSegCount =0;
 
     // Add line tracks
     bool isFirstSegment = true;
@@ -388,6 +474,11 @@ void Tracks::addUberhohung()
                 uberhohung_Parent->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
             }
+            uberhohung_Parent->setData(signalKey, map[dataSegCount].keys() );
+            uberhohung_Parent->setData(signalKey+1, map[dataSegCount].values() );
+            uberhohung_Parent->setToolTip("Uberhohung_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             uberhohung_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             scene()->addItem(uberhohung_Parent);
             isFirstSegment = !isFirstSegment;
@@ -400,6 +491,11 @@ void Tracks::addUberhohung()
                 uberhohung->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
             }
+            uberhohung->setData(signalKey, map[dataSegCount].keys() );
+            uberhohung->setData(signalKey+1, map[dataSegCount].values() );
+            uberhohung->setToolTip("Uberhohung_"+QString::number(signalKey));
+            signalKey +=2;
+            dataSegCount++;
             uberhohung->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             uberhohung->setParentItem(uberhohung_Parent);
         }
@@ -422,6 +518,7 @@ void Tracks::addUberhohung()
 
                 uberhohungDP_Parent->setPen(QPen(Qt::blue));
                 uberhohungDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                uberhohungDP_Parent->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 scene()->addItem(uberhohungDP_Parent);
                 isFirstPoint = !isFirstPoint;
             } else {
@@ -431,6 +528,7 @@ void Tracks::addUberhohung()
                 QGraphicsPathItem *uberhohungDP = new QGraphicsPathItem(path);
                 uberhohungDP->setPen(QPen(Qt::blue));
                 uberhohungDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+                uberhohungDP->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 uberhohungDP->setParentItem(uberhohungDP_Parent);
             }
             count =  count +2;
@@ -593,13 +691,13 @@ std::vector<float> Tracks::unsegmentedVec(QString pPath, QString pName, QString 
 
 }
 
-QGraphicsItem *Tracks::getSelectedItem()
-{
-    if (scene()->selectedItems().count() >0){
-        return scene()->selectedItems().at(0);
-    }
-    return nullptr;
-}
+//QGraphicsItem *Tracks::getSelectedItem()
+//{
+//    if (scene()->selectedItems().count() >0){
+//        return scene()->selectedItems().at(0);
+//    }
+//    return nullptr;
+//}
 
 void Tracks::multiplierEffect(float x, float y)
 {
@@ -855,7 +953,8 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
 //    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
 //    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
 //            getUsedRect()[3]);
-    qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
+//    getSegementObjects();
+    //qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
 }
@@ -1151,15 +1250,45 @@ void Tracks :: sceneSelectedItems(int degree){
     }
 }
 
-void Tracks::addAutomateSignal(QString name, QPointF location, double angle)
+void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QString type,
+                               QString position, QString latDist, QString orientation, QString direction)
 {
     QGraphicsPixmapItem *signal = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+name+".svg"));
     signal->setTransformationMode(Qt::SmoothTransformation);
     signal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-//    signal->setToolTip(name);
+    signal->setToolTip("Type : " +type+"\n Coordinate: "+QString::number(location.x())+" , "+QString::number(location.y())+
+                       "\n Position(km): "+ position+ "\n Lateral Dist: "+latDist+ "\n Orientation: "+orientation+ "\n Direction: "+direction);
+
     signal->setPos(location*getMultiplierValue());
     signal->setRotation(angle);
     scene()->addItem(signal);
+}
+
+void Tracks::getSegementObjects()
+{
+    if (scene()->selectedItems().count() >0){
+        foreach (QGraphicsItem *item, scene()->selectedItems()){
+            QString toolTip = item->toolTip();
+            QStringList breakToolTip;
+            if (toolTip.isNull() || toolTip.isEmpty()) return;
+            breakToolTip = toolTip.split(QRegularExpression("_"));
+            if (breakToolTip.length()==2 && isTrack(breakToolTip[0])){
+                qDebug()<< "Name:" <<breakToolTip[0];
+                qDebug()<< "Keys: "<< item->data(breakToolTip[1].toInt());
+                qDebug()<< "Values: "<< item->data(breakToolTip[1].toInt()+1);
+                qDebug()<< "\n";
+            }
+        }
+    }
+}
+
+bool Tracks::isTrack(QString name)
+{
+    if (name == "Gleiskanten" || name == "Gleisknoten" || name == "KMLine" ||
+            name == "Lage" || name == "Uberhohung" || name == "Hoehe"){
+        return true;
+    }
+    return false;
 }
 
 

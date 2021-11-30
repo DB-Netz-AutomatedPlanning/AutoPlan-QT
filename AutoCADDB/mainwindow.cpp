@@ -630,13 +630,15 @@ void MainWindow::closeEvent (QCloseEvent *event)
                                                                     tr("Do you want to save the changes?\n"),
                                                                     QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
                                                                     QMessageBox::Yes);
-        if (resBtn != QMessageBox::Yes) {
+        if (resBtn == QMessageBox::No) {
             event->ignore();
             QCoreApplication::quit();
-        } else {
+        } else if (resBtn == QMessageBox::Yes) {
             event->accept();
+            QCoreApplication::quit();
+        } else if (resBtn == QMessageBox::Cancel){
+            event->ignore();
         }
-
 }
 
 // this event loads everytime after specific time interval or anything is updated on the screen

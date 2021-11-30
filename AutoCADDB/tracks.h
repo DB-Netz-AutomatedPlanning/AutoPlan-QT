@@ -11,12 +11,12 @@ class Tracks : public QGraphicsView
 public:
     explicit Tracks(QWidget *parent = nullptr);
 //    enum Object {
-//        gleiskanten,
-//        gleisknoten,
-//        entwurfselement_HO,
-//        entwurfselement_KM,
-//        entwurfselement_UH,
-//        entwurfselement_LA
+//        Gleiskanten,
+//        Gleisknoten,
+//        Hoehe,
+//        KMLine,
+//        Lage,
+//        Uberhohung
 //    };
     void addGleiskanten();
     void addHoehe();
@@ -26,15 +26,18 @@ public:
     void setBoolParameters();
     void reload();
     void addSymbol(QString str);
-    void addAutomateSignal(QString name, QPointF location, double angle);
+    void addAutomateSignal(QString name, QPointF location, double angle,
+                           QString type, QString position, QString latDist,
+                           QString orientation, QString direction);
+    void getSegementObjects();
+    bool isTrack(QString name);
+
 
     void deleteAll();
     void updateAll();
     QGraphicsPixmapItem *pixmapItem;
-     QGraphicsPixmapItem *pixmapItem2;
+    QGraphicsPixmapItem *pixmapItem2;
 //    void itemInteractWithMouse(bool canInteract);
-
-
 //    Object getCurrentObject() const;
 //    void setCurrentObject(Object newCurrentObject);
 
@@ -100,7 +103,7 @@ private:
     QVector<QVector<float>> allVec(QString pPath, QString pName, QString fileName);
     std::vector<float> allVecKnoten(QString pPath, QString pName, QString fileName);
     std::vector<float> unsegmentedVec (QString pPath, QString pName, QString fileName);
-    QGraphicsItem *getSelectedItem();
+//    QGraphicsItem *getSelectedItem();
     QGraphicsPathItem *gleiskanten_Parent;
     QGraphicsPathItem *gleiskantenDP_Parent;
     QGraphicsPathItem *hoehe_Parent;
@@ -136,9 +139,8 @@ private:
     int ttt = 0;
 
 
+
 //    Object currentObject;
-
-
     // QGraphicsView interface
 protected:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
@@ -149,7 +151,6 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
 //    void mouseMoveEvent(QMouseEvent *event) override;
-
 
 
     // QWidget interface
