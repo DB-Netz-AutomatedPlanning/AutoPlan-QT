@@ -564,6 +564,7 @@ QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fi
             vec.push_back(QVector<float>());
             for (int j=coord->getSegment()[i]; j< coord->getSegment()[i+1]; j++){
                 vec[i].push_back(coord->getCoordinateLists()[j]);
+
             }
         }
     }

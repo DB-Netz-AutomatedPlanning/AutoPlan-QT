@@ -40,4 +40,6 @@ extern QString fileFormat;
 extern Tracks *tracks;
 extern QString projectName;
 
+extern int rightPanelTable;
+
 #endif // SYMBOLCONTAINER_H

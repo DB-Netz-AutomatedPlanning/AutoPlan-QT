@@ -23,6 +23,7 @@ QString defaultObjectName = "default name";
 bool createNewProject = false;
 
 Tracks *tracks = nullptr;
+int rightPanelTable = 0;
 
 
 
