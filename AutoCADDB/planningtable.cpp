@@ -224,18 +224,18 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         QPointF position = kmToCoord->getNearestCoordFromKmValue(val);
         double angle = kmToCoord->getAngleFromKmValue(val);
         if (table[i][0] == "entry" &&  table[i][4] == "1"){
-            tracks->addAutomateSignal("Ankundetafel",position, angle);
+            tracks->addAutomateSignal("Ankundetafel",position, angle, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
         }
         else if (table[i][0] == "entry" && table[i][4] == "2"){
             //Then add 180 to the angle (to make symbol rotate/turn to other direction
-            tracks->addAutomateSignal("Ankundetafel",position, angle+180);
+            tracks->addAutomateSignal("Ankundetafel",position, angle+180, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
         }
         else if (table[i][0] == "exit" && table[i][4] == "1"){
-            tracks->addAutomateSignal("Abfahrsignal",position, angle);
+            tracks->addAutomateSignal("Abfahrsignal",position, angle, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
         }
         else if (table[i][0] == "exit" && table[i][4] == "2"){
             //Then add 180 to the angle (to make symbol rotate/turn to other direction
-            tracks->addAutomateSignal("Abfahrsignal",position, angle+180);
+            tracks->addAutomateSignal("Abfahrsignal",position, angle+180, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
         }
         else qDebug()<< "None";
     }
