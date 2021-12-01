@@ -264,6 +264,38 @@ double KmToCoordinate::getAngleFromKmValue(double value)
     }
 }
 
+QPointF KmToCoordinate::getNextCoordFromKmValue(double value)
+{
+    double val = value;
+    QPointF destination = getNearestCoordFromKmValue(value);
+
+    do {
+        // search at interval of 5meters
+        val += 0.005;
+    } while (getNearestCoordFromKmValue(val).x() == destination.x() &&
+             getNearestCoordFromKmValue(val).y() == destination.y() );
+    return getNearestCoordFromKmValue(val);
+}
+
+QPointF KmToCoordinate::getFinalPosition(double value, double lateralDist, QString orientation)
+{
+    QPointF pt1 (getNearestCoordFromKmValue(value));
+    QPointF pt2 (getNextCoordFromKmValue(value));
+
+    QLineF line1 (pt1,pt2);
+    QLineF line2 = line1.normalVector();  // this function return a line that has a starting point 1(pt1) and endpoint
+                                            // that is normal to the line 1 with a length exactly as length of line1
+    double lenOfLine1 = line1.length();
+    double intrinsicCoord = (lateralDist*5)/lenOfLine1;
+
+    if (orientation == "right") return line2.pointAt(intrinsicCoord);
+    else if (orientation == "left") return line2.pointAt(-1*intrinsicCoord);
+    else {
+        qDebug()<< "Please give a valid orienatation";
+        return QPointF();
+    }
+}
+
 
 const QList<double> &KmToCoordinate::getAngles() const
 {
