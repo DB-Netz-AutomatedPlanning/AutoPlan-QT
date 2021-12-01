@@ -1333,6 +1333,79 @@ void Tracks::getSegementObjects()
     kantenRIKZ_L="";
     kantenSTATUS="";
 
+    kmID ="";
+    kmSTRECKENR ="";
+    kmEELK_ELTYP ="";
+    kmEELK_PARAM ="";
+    kmEELK_PAR_1 ="";
+    kmEELK_PAR_2 = "";
+    kmKM_A_TEXT ="";
+    kmKM_E_TEXT ="";
+
+    hoID ="";
+    hoPAD_A ="";
+    hoELTYP ="";
+    hoELTYP_L ="";
+    hoPARAM1 ="";
+     hoPARAM2 ="";
+     hoPARAM3 ="";
+     hoPARAM4 ="";
+     hoRIKZ="";
+     hoRIKZ_L="";
+     hoKM_A_KM="";
+     hoKM_A_M="";
+     hoKM_E_KM="";
+     hoKM_E_M="";
+     hoHOEHE_A="";
+     hoHOEHE_E="";
+
+     //LA Variables
+     laID="";
+      laPAD_A="";
+      laPAD_E="";
+      laELTYP="";
+      laELTYP_L="";
+      laPARAM1="";
+      laPARAM2="";
+      laPARAM3="";
+      laPARAM4="";
+      laPARAM4_L="";
+      laWINKEL_ANF="";
+      laRIKZ="";
+      laRIKZ_L="";
+      laKM_A_KM="";
+      laKM_A_M="";
+      laKM_E_KM="";
+      laKM_E_M="";
+
+     //UH Variables
+      uhID="";
+      uhPAD_A="";
+      uhPAD_E="";
+      uhELTYP="";
+      uhELTYP_L="";
+      uhPARAM1="";
+      uhPARAM2="";
+      uhPARAM3="";
+      uhPARAM4="";
+      uhRIKZ="";
+      uhRIKZ_L="";
+      uhKM_A_KM="";
+      uhKM_A_M="";
+      uhKM_E_KM="";
+      uhKM_E_M="";
+
+     //KNOTEN Variables
+      knotenID="";
+      kntKNOTENNAME="";
+      kntKNOTENBESC="";
+      kntTYP="";
+      kntTYP_L="";
+      kntSTATUS="";
+      kntKM_KM="";
+      kntKM_M="";
+
+
 
     if (scene()->selectedItems().count() >0){
         QGraphicsItem *item = scene()->selectedItems()[0];
