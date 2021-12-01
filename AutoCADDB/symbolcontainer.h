@@ -43,7 +43,7 @@ extern QString projectName;
 extern int rightPanelTable;
 
 //Kanten variables
-extern QString kantenID;
+extern QString kantenID ;
 extern QString kantenLAENGE_ENT;
 extern QString kantenRIKZ;
 extern QString kantenRIKZ_L;
@@ -122,5 +122,8 @@ extern QString kntTYP_L;
 extern QString kntSTATUS;
 extern QString kntKM_KM;
 extern QString kntKM_M;
+
+//trackname
+extern QString nameOfTrack;
 
 #endif // SYMBOLCONTAINER_H

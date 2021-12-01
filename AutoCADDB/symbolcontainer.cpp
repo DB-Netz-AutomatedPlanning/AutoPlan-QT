@@ -95,7 +95,7 @@ QString uhRIKZ_L="e";
 QString uhKM_A_KM="e";
 QString uhKM_A_M="e";
 QString uhKM_E_KM="e";
-QString uhKM_E_M="e";
+QString uhKM_E_M="0.000000";
 
 //KNOTEN Variables
 QString knotenID="e";
@@ -106,6 +106,9 @@ QString kntTYP_L="e";
 QString kntSTATUS="e";
 QString kntKM_KM="e";
 QString kntKM_M="e";
+
+//name
+QString nameOfTrack = "";
 
 SymbolContainer::SymbolContainer(QWidget *parent) :
     QWidget(parent),
