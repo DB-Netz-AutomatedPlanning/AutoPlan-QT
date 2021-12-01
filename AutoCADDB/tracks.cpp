@@ -1,6 +1,8 @@
 #include "tracks.h"
 #include "coordinates.h"
 #include "symbolcontainer.h"
+#include "mainwindow.h"
+#include "qgraphicsmainwindow.h"
 #include <QGraphicsPathItem>
 #include <QPainter>
 #include <QPainterPath>
@@ -17,6 +19,7 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scale(1, -1);
     setMouseTracking(true);
+
 }
 
 void Tracks::addGleiskanten()
@@ -236,6 +239,7 @@ void Tracks::addHoehe()
 
 void Tracks::addKMline()
 {
+
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
 
     if (!file.exists()) return;
@@ -661,6 +665,7 @@ QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fi
             vec.push_back(QVector<float>());
             for (int j=coord->getSegment()[i]; j< coord->getSegment()[i+1]; j++){
                 vec[i].push_back(coord->getCoordinateLists()[j]);
+
             }
         }
     }
@@ -952,15 +957,18 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
 //    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
 //    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
 //            getUsedRect()[3]);
-//    getSegementObjects();
+    getSegementObjects();
     //qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
+   // qApp->processEvents();
+    update();
 }
 
 
 void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
+  //  getSegementObjects();
     if (drawGrids){
         painter->save();
         painter->setPen(QColor(95,52,21,90));
@@ -979,6 +987,8 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
     } else {
         QGraphicsView::drawForeground(painter, rect);
     }
+
+
 }
 
 void Tracks::wheelEvent(QWheelEvent *event)
@@ -1010,14 +1020,26 @@ void Tracks::keyPressEvent(QKeyEvent *event)
     if((event->key() == Qt::Key_Delete))
     {
         foreach (QGraphicsItem *item, scene()->selectedItems()) {
-                    scene()->removeItem(item);
-                    delete item;
+            QString toolTip = item->toolTip();
+            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+            qInfo() << breakToolTip[0];
+            if(breakToolTip[0].isEmpty()){
+                scene()->removeItem(item);
+                delete item;
+            }else{
+
+            }
+
         }
     }
 }
 
 //void Tracks::mousePressEvent(QMouseEvent *event)
 //{
+
+
+   // getSegementObjects();
+
 //    if (event->button() == Qt::RightButton){
 //        qDebug() << "Mouse Clicked : "<< event->pos();
 //        QPointF sceneCoord = mapToScene(event->pos());
@@ -1030,6 +1052,8 @@ void Tracks::keyPressEvent(QKeyEvent *event)
 
 //    qDebug()<< "X : " << getXCoord();
 //    qDebug()<< "Y : " << getYCoord();
+
+
 //}
 
 const QVector<float> &Tracks::getUsedRect() const
@@ -1227,26 +1251,64 @@ void Tracks::addSymbol(QString str)
         pixmapItem2->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         pixmapItem2->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
 
-        QGraphicsItemGroup *group = new QGraphicsItemGroup(0);
-        group->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-        scene()->addItem(group);
+        group = new QGraphicsItemGroup(0);
+        group->setFlags(QGraphicsItemGroup::ItemIsSelectable | QGraphicsItemGroup::ItemIsMovable);
+
         group->addToGroup(pixmapItem);
         group->addToGroup(pixmapItem2);
+
+
+        scene()->addItem(group);
+
+
     }else{
         glbObjectName = str;
         pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+str+".svg"));
         pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-        pixmapItem->setToolTip(str);
+      //  pixmapItem->setToolTip(str);
         scene()->addItem(pixmapItem);
     }
 
 }
 void Tracks :: sceneSelectedItems(int degree){
+
+        //QPointF offset = group->sceneBoundingRect().center();
+        //QTransform transform;
+       // transform.translate(offset.x(),offset.y());
+        //transform.rotate(degree);
+        //transform.translate(-offset.x(),-offset.y());
+        //group->setTransform(transform);
+
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
-               item->setRotation(degree);
+
+
+
+        foreach (QGraphicsItem *item, scene()->selectedItems()) {
+            QString toolTip = item->toolTip();
+            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+            qInfo() << breakToolTip[0];
+            if(breakToolTip[0].isEmpty()){
+                 item->setRotation(degree);
+
+
+            }else{
+
+            }
+
+        }
+
+
     }
+   // group = scene()->createItemGroup(scene()->selectedItems());
+    //QPointF offset = group->sceneBoundingRect().center();
+    //QTransform transform;
+    //transform.translate(offset.x(),offset.y());
+    //transform.rotate(degree);
+    //transform.translate(-offset.x(),-offset.y());
+    //group->setTransform(transform);
+
 }
 
 void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QString type,
@@ -1265,30 +1327,246 @@ void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QSt
 
 void Tracks::getSegementObjects()
 {
+    kantenID = "";
+    kantenLAENGE_ENT = "";
+    kantenRIKZ = "";
+    kantenRIKZ_L="";
+    kantenSTATUS="";
+
+
     if (scene()->selectedItems().count() >0){
-        foreach (QGraphicsItem *item, scene()->selectedItems()){
+        QGraphicsItem *item = scene()->selectedItems()[0];
+       // foreach (QGraphicsItem *item, scene()->selectedItems()){
             QString toolTip = item->toolTip();
             QStringList breakToolTip;
-            if (toolTip.isNull() || toolTip.isEmpty()) return;
-            breakToolTip = toolTip.split(QRegularExpression("_"));
-            if (breakToolTip.length()==2 && isTrack(breakToolTip[0])){
-                qDebug()<< "Name:" <<breakToolTip[0];
-                QStringList keys = item->data(breakToolTip[1].toInt()).toStringList();
-//                qDebug()<< "Keys: "<< item->data(breakToolTip[1].toInt());
-//                qDebug()<< "Values: "<< item->data(breakToolTip[1].toInt()+1);
-                qDebug()<< keys[0];
-                qDebug()<< keys[1];
-                qDebug()<< keys[2];
-                qDebug()<< "\n";
+            if (!toolTip.isNull() || !toolTip.isEmpty()){
+                 breakToolTip = toolTip.split(QRegularExpression("_"));
+
+                 if (breakToolTip.length()==2 && isTrack(breakToolTip[0])){
+                         QList keyKanten = item->data(breakToolTip[1].toInt()).toStringList();
+                         QList valKanten = item->data(breakToolTip[1].toInt()+1).toStringList();
+                         QString name = breakToolTip[0];
+                         extractData(name, keyKanten, valKanten);
+                 }
+
             }
-        }
+
+       // }
     }
 }
 
 bool Tracks::isTrack(QString name)
 {
-    return (name == "Gleiskanten" || name == "Gleisknoten" || name == "KMLine" ||
-            name == "Lage" || name == "Uberhohung" || name == "Hoehe") ? true : false;
+    nameOfTrack = name;
+    if (name == "Gleiskanten" ){
+          rightPanelTable = 2;
+          return true;
+    }else if (name == "Gleisknoten"){
+          rightPanelTable = 1;
+          return true;
+    }else if(name == "KMLine"){
+          rightPanelTable = 4;
+
+          return true;
+    }else if(name == "Lage"){
+          rightPanelTable = 6;
+          return true;
+    }else if(name == "Uberhohung"){
+          rightPanelTable = 5;
+          return true;
+    }else if(name == "Hoehe"){
+          rightPanelTable = 3;
+          return true;
+    }else{
+
+    }
+    return false;
+}
+
+
+
+void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKanten){
+    nameOfTrack = name;
+    if(name == "Gleiskanten"){
+        for(int i = 0; i < keyKanten.count(); i++){
+            if(keyKanten[i] == "ID"){
+                kantenID = valKanten[i];
+            } else if(keyKanten[i] == "LAENGE_ENT"){
+                kantenLAENGE_ENT = valKanten[i];
+            } else if(keyKanten[i] == "RIKZ"){
+                kantenRIKZ = valKanten[i];
+            } else if(keyKanten[i] == "RIKZ_L"){
+                kantenRIKZ_L = valKanten[i];
+            } else if(keyKanten[i] == "STATUS"){
+                kantenSTATUS = valKanten[i];
+            }
+        }
+    }
+    else if(name == "KMLine"){
+        for(int i = 0; i < keyKanten.count(); i++){
+            if(keyKanten[i] == "ID"){
+                kmID = valKanten[i];
+            } else if(keyKanten[i] == "STRECKENR"){
+                kmSTRECKENR = valKanten[i];
+            } else if(keyKanten[i] == "EELK_ELTYP"){
+                kmEELK_ELTYP = valKanten[i];
+            } else if(keyKanten[i] == "EELK_PARAM"){
+                kmEELK_PARAM = valKanten[i];
+            } else if(keyKanten[i] == "EELK_PAR_1"){
+                kmEELK_PAR_1 = valKanten[i];
+            } else if(keyKanten[i] == "EELK_PAR_2"){
+                kmEELK_PAR_2 = valKanten[i];
+            } else if(keyKanten[i] == "KM_A_TEXT"){
+                kmKM_A_TEXT = valKanten[i];
+            } else if(keyKanten[i] == "KM_E_TEXT"){
+                kmKM_E_TEXT = valKanten[i];
+            }
+        }
+    }
+    else if(name == "Hoehe"){
+        for(int i = 0; i < keyKanten.count(); i++){
+            if(keyKanten[i] == "ID"){
+                hoID = valKanten[i];
+            } else if(keyKanten[i] == "PAD_A"){
+                hoPAD_A = valKanten[i];
+            } else if(keyKanten[i] == "ELTYP"){
+                hoELTYP = valKanten[i];
+            } else if(keyKanten[i] == "ELTYP_L"){
+                hoELTYP_L = valKanten[i];
+            } else if(keyKanten[i] == "PARAM1"){
+                hoPARAM1 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM2"){
+                hoPARAM2 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM3"){
+                hoPARAM3 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM4"){
+                hoPARAM4 = valKanten[i];
+            } else if(keyKanten[i] == "RIKZ"){
+                hoRIKZ = valKanten[i];
+            } else if(keyKanten[i] == "RIKZ_L"){
+                hoRIKZ_L = valKanten[i];
+            } else if(keyKanten[i] == "KM_A_KM"){
+                hoKM_A_KM = valKanten[i];
+            } else if(keyKanten[i] == "KM_A_M"){
+                hoKM_A_M = valKanten[i];
+            } else if(keyKanten[i] == "KM_E_KM"){
+                hoKM_E_KM = valKanten[i];
+            } else if(keyKanten[i] == "KM_E_M"){
+                hoKM_E_M = valKanten[i];
+            } else if(keyKanten[i] == "HOEHE_A"){
+                hoHOEHE_A = valKanten[i];
+            } else if(keyKanten[i] == "HOEHE_E"){
+                hoHOEHE_E = valKanten[i];
+            }
+        }
+    }
+
+
+    else if(name == "Lage"){
+        for(int i = 0; i < keyKanten.count(); i++){
+            if(keyKanten[i] == "ID"){
+                laID = valKanten[i];
+            } else if(keyKanten[i] == "PAD_A"){
+                laPAD_A = valKanten[i];
+            } else if(keyKanten[i] == "PAD_E"){
+                laPAD_E = valKanten[i];
+            } else if(keyKanten[i] == "ELTYP"){
+                laELTYP = valKanten[i];
+            } else if(keyKanten[i] == "ELTYP_L"){
+                laELTYP_L = valKanten[i];
+            } else if(keyKanten[i] == "PARAM1"){
+                laPARAM1 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM2"){
+                laPARAM2 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM3"){
+                laPARAM3 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM4"){
+                laPARAM4 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM4_L"){
+                laPARAM4_L = valKanten[i];
+            }else if(keyKanten[i] == "WINKEL_ANF"){
+                laWINKEL_ANF = valKanten[i];
+            } else if(keyKanten[i] == "RIKZ"){
+                laRIKZ = valKanten[i];
+            } else if(keyKanten[i] == "RIKZ_L"){
+                laRIKZ_L = valKanten[i];
+            } else if(keyKanten[i] == "KM_A_KM"){
+                laKM_A_KM = valKanten[i];
+            } else if(keyKanten[i] == "KM_A_M"){
+                laKM_A_M = valKanten[i];
+            } else if(keyKanten[i] == "KM_E_KM"){
+                laKM_E_KM = valKanten[i];
+            } else if(keyKanten[i] == "KM_E_M"){
+                laKM_E_M = valKanten[i];
+            }
+        }
+    }
+
+    else if(name == "Uberhohung"){
+        for(int i = 0; i < keyKanten.count(); i++){
+            if(keyKanten[i] == "ID"){
+                uhID = valKanten[i];
+            } else if(keyKanten[i] == "PAD_A"){
+                uhPAD_A = valKanten[i];
+            } else if(keyKanten[i] == "ELTYP"){
+                uhPAD_E = valKanten[i];
+            } else if(keyKanten[i] == "ELTYP_L"){
+                uhELTYP = valKanten[i];
+            } else if(keyKanten[i] == "PARAM1"){
+                uhELTYP_L = valKanten[i];
+            } else if(keyKanten[i] == "PARAM2"){
+                uhPARAM1 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM3"){
+                uhPARAM2 = valKanten[i];
+            } else if(keyKanten[i] == "PARAM4"){
+                uhPARAM3 = valKanten[i];
+            } else if(keyKanten[i] == "RIKZ"){
+                uhPARAM4 = valKanten[i];
+            } else if(keyKanten[i] == "RIKZ_L"){
+                uhRIKZ = valKanten[i];
+            } else if(keyKanten[i] == "KM_A_KM"){
+                uhRIKZ_L = valKanten[i];
+            } else if(keyKanten[i] == "KM_A_M"){
+                uhKM_A_KM = valKanten[i];
+            } else if(keyKanten[i] == "KM_E_KM"){
+                uhKM_A_M = valKanten[i];
+            } else if(keyKanten[i] == "KM_E_M"){
+                uhKM_E_KM = valKanten[i];
+            } else if(keyKanten[i] == "HOEHE_A"){
+                uhKM_E_M = valKanten[i];
+            }
+        }
+    }
+
+    else if(name == "Gleisknoten"){
+        for(int i = 0; i < keyKanten.count(); i++){
+            if(keyKanten[i] == "ID"){
+                knotenID = valKanten[i];
+            } else if(keyKanten[i] == "KNOTENNAME"){
+                kntKNOTENNAME = valKanten[i];
+            } else if(keyKanten[i] == "KNOTENBESC"){
+                kntKNOTENBESC = valKanten[i];
+            } else if(keyKanten[i] == "TYP"){
+                kntTYP = valKanten[i];
+            } else if(keyKanten[i] == "PATYP_LRAM1"){
+                kntTYP_L = valKanten[i];
+            } else if(keyKanten[i] == "STATUS"){
+                kntSTATUS = valKanten[i];
+            } else if(keyKanten[i] == "KM_KM"){
+                kntKM_KM = valKanten[i];
+            } else if(keyKanten[i] == "KM_M"){
+                kntKM_M = valKanten[i];
+            }
+        }
+    }
+
+
+ // qDebug()<< "ID: "<< kantenID <<"LAENGE_ENT: "<<kantenLAENGE_ENT <<"RIKZ: "<< kantenRIKZ <<"RIKZ_L: " << kantenRIKZ_L << "STATUS: " <<kantenSTATUS;
+  //qDebug()<< "Keys: "<< keyKanten;
+  //qDebug()<< "Values: "<< valKanten;
+
+
+
 }
 
 

@@ -158,7 +158,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
 
 
-    ui->widget_147->hide();
+   // ui->widget_147->hide();
     ui->widget_146->hide();
 
     ui->tabWidget_2->setCurrentIndex(0);
@@ -173,6 +173,15 @@ MainWindow::MainWindow(QWidget *parent)
      ui->tableWidget->setItem(0, 1, newItem1);
      QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
      ui->tableWidget->setItem(1, 0, newItem2);
+
+
+     //Right panel for co ordinates
+
+
+
+
+
+
 }
 
 
@@ -643,14 +652,492 @@ void MainWindow::closeEvent (QCloseEvent *event)
 
 // this event loads everytime after specific time interval or anything is updated on the screen
 void MainWindow:: paintEvent(QPaintEvent *event) {
+
+    if(rightPanelTable == 0){
+        ui->tableWidget_2->setRowCount(0);
+        ui->widget_147->hide();
+    }
+
+    else if(rightPanelTable == 1){
+
+        //Gleisknoten
+
+        ui->widget_147->show();
+        ui->tableWidget_2->setRowCount(8);
+        ui->lblTrackName->setText("Gleisknoten");
+
+        QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
+        ui->tableWidget_2->setItem(0, 0, rp);
+
+        QTableWidgetItem *rp1 = new QTableWidgetItem(tr("%0").arg(knotenID));
+        ui->tableWidget_2->setItem(0, 1, rp1);
+
+        QTableWidgetItem *rp2 = new QTableWidgetItem(tr("%1").arg("KNOTENNAME"));
+        ui->tableWidget_2->setItem(1, 0, rp2);
+
+        QTableWidgetItem *rp3 = new QTableWidgetItem(tr("%1").arg(kntKNOTENNAME));
+        ui->tableWidget_2->setItem(1, 1, rp3);
+
+        QTableWidgetItem *rp4 = new QTableWidgetItem(tr("%2").arg("KNOTENBESC"));
+        ui->tableWidget_2->setItem(2, 0, rp4);
+
+        QTableWidgetItem *rp5 = new QTableWidgetItem(tr("%2").arg(kntKNOTENBESC));
+        ui->tableWidget_2->setItem(2, 1, rp5);
+
+        QTableWidgetItem *rp6 = new QTableWidgetItem(tr("%3").arg("TYP"));
+        ui->tableWidget_2->setItem(3, 0, rp6);
+
+        QTableWidgetItem *rp7 = new QTableWidgetItem(tr("%3").arg(kntTYP));
+        ui->tableWidget_2->setItem(3, 1, rp7);
+
+        QTableWidgetItem *rp8 = new QTableWidgetItem(tr("%4").arg("TYP_L"));
+        ui->tableWidget_2->setItem(4, 0, rp8);
+
+        QTableWidgetItem *rp9 = new QTableWidgetItem(tr("%4").arg(kntTYP_L));
+        ui->tableWidget_2->setItem(4, 1, rp9);
+
+        QTableWidgetItem *rp10 = new QTableWidgetItem(tr("%5").arg("STATUS"));
+        ui->tableWidget_2->setItem(5, 0, rp10);
+
+        QTableWidgetItem *rp11 = new QTableWidgetItem(tr("%5").arg(kntSTATUS));
+        ui->tableWidget_2->setItem(5, 1, rp11);
+
+        QTableWidgetItem *rp12 = new QTableWidgetItem(tr("%6").arg("KM_KM"));
+        ui->tableWidget_2->setItem(6, 0, rp12);
+
+        QTableWidgetItem *rp13 = new QTableWidgetItem(tr("%6").arg(kntKM_KM));
+        ui->tableWidget_2->setItem(6, 1, rp13);
+
+        QTableWidgetItem *rp14 = new QTableWidgetItem(tr("%7").arg("KM_M"));
+        ui->tableWidget_2->setItem(7, 0, rp14);
+
+        QTableWidgetItem *rp15 = new QTableWidgetItem(tr("%7").arg(kntKM_M));
+        ui->tableWidget_2->setItem(7, 1, rp15);
+
+
+    }
+    else if(rightPanelTable == 2){
+
+    //Gleiskanten
+
+        ui->widget_147->show();
+        ui->tableWidget_2->setRowCount(5);
+        ui->lblTrackName->setText("Gleiskanten");
+
+        QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
+        ui->tableWidget_2->setItem(0, 0, rp);
+
+        QTableWidgetItem *rp1 = new QTableWidgetItem(tr("%0").arg(kantenID));
+        ui->tableWidget_2->setItem(0, 1, rp1);
+
+        QTableWidgetItem *rp2 = new QTableWidgetItem(tr("%1").arg("LAENGE_ENT"));
+        ui->tableWidget_2->setItem(1, 0, rp2);
+
+        QTableWidgetItem *rp3 = new QTableWidgetItem(tr("%1").arg(kantenLAENGE_ENT));
+        ui->tableWidget_2->setItem(1, 1, rp3);
+
+        QTableWidgetItem *rp4 = new QTableWidgetItem(tr("%2").arg("STATUS"));
+        ui->tableWidget_2->setItem(2, 0, rp4);
+
+        QTableWidgetItem *rp5 = new QTableWidgetItem(tr("%2").arg(kantenSTATUS));
+        ui->tableWidget_2->setItem(2, 1, rp5);
+
+        QTableWidgetItem *rp6 = new QTableWidgetItem(tr("%3").arg("RIKZ"));
+        ui->tableWidget_2->setItem(3, 0, rp6);
+
+        QTableWidgetItem *rp7 = new QTableWidgetItem(tr("%3").arg(kantenRIKZ));
+        ui->tableWidget_2->setItem(3, 1, rp7);
+
+        QTableWidgetItem *rp8 = new QTableWidgetItem(tr("%4").arg("RIKZ_L"));
+        ui->tableWidget_2->setItem(4, 0, rp8);
+
+        QTableWidgetItem *rp9 = new QTableWidgetItem(tr("%4").arg(kantenRIKZ_L));
+        ui->tableWidget_2->setItem(4, 1, rp9);
+
+    }
+    else if(rightPanelTable == 3){
+
+        //Entwurfselement_HO
+        ui->widget_147->show();
+        ui->tableWidget_2->setRowCount(16);
+        ui->lblTrackName->setText("Entwurfselement_HO");
+
+        QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
+        ui->tableWidget_2->setItem(0, 0, rp);
+
+        QTableWidgetItem *rp1 = new QTableWidgetItem(tr("%0").arg(hoID));
+        ui->tableWidget_2->setItem(0, 1, rp1);
+
+        QTableWidgetItem *rp2 = new QTableWidgetItem(tr("%1").arg("PAD_A"));
+        ui->tableWidget_2->setItem(1, 0, rp2);
+
+        QTableWidgetItem *rp3 = new QTableWidgetItem(tr("%1").arg(hoPAD_A));
+        ui->tableWidget_2->setItem(1, 1, rp3);
+
+        QTableWidgetItem *rp4 = new QTableWidgetItem(tr("%2").arg("ELTYP"));
+        ui->tableWidget_2->setItem(2, 0, rp4);
+
+        QTableWidgetItem *rp5 = new QTableWidgetItem(tr("%2").arg(hoELTYP));
+        ui->tableWidget_2->setItem(2, 1, rp5);
+
+        QTableWidgetItem *rp6 = new QTableWidgetItem(tr("%3").arg("ELTYP_L"));
+        ui->tableWidget_2->setItem(3, 0, rp6);
+
+        QTableWidgetItem *rp7 = new QTableWidgetItem(tr("%3").arg(hoELTYP_L));
+        ui->tableWidget_2->setItem(3, 1, rp7);
+
+        QTableWidgetItem *rp8 = new QTableWidgetItem(tr("%4").arg("PARAM1"));
+        ui->tableWidget_2->setItem(4, 0, rp8);
+
+        QTableWidgetItem *rp9 = new QTableWidgetItem(tr("%4").arg(hoPARAM1));
+        ui->tableWidget_2->setItem(4, 1, rp9);
+
+        QTableWidgetItem *rp10 = new QTableWidgetItem(tr("%5").arg("PARAM2"));
+        ui->tableWidget_2->setItem(5, 0, rp10);
+
+        QTableWidgetItem *rp11 = new QTableWidgetItem(tr("%5").arg(hoPARAM2));
+        ui->tableWidget_2->setItem(5, 1, rp11);
+
+        QTableWidgetItem *rp12 = new QTableWidgetItem(tr("%6").arg("PARAM3"));
+        ui->tableWidget_2->setItem(6, 0, rp12);
+
+        QTableWidgetItem *rp13 = new QTableWidgetItem(tr("%6").arg(hoPARAM3));
+        ui->tableWidget_2->setItem(6, 1, rp13);
+
+        QTableWidgetItem *rp14 = new QTableWidgetItem(tr("%7").arg("PARAM4"));
+        ui->tableWidget_2->setItem(7, 0, rp14);
+
+        QTableWidgetItem *rp15 = new QTableWidgetItem(tr("%7").arg(hoPARAM4));
+        ui->tableWidget_2->setItem(7, 1, rp15);
+
+        QTableWidgetItem *rp16 = new QTableWidgetItem(tr("%8").arg("RIKZ"));
+        ui->tableWidget_2->setItem(8, 0, rp16);
+
+        QTableWidgetItem *rp17 = new QTableWidgetItem(tr("%8").arg(hoRIKZ));
+        ui->tableWidget_2->setItem(8, 1, rp17);
+
+        QTableWidgetItem *rp18 = new QTableWidgetItem(tr("%9").arg("RIKZ_L"));
+        ui->tableWidget_2->setItem(9, 0, rp18);
+
+        QTableWidgetItem *rp19 = new QTableWidgetItem(tr("%9").arg(hoRIKZ_L));
+        ui->tableWidget_2->setItem(9, 1, rp19);
+
+        QTableWidgetItem *rp20 = new QTableWidgetItem(tr("%10").arg("KM_A_KM"));
+        ui->tableWidget_2->setItem(10, 0, rp20);
+
+        QTableWidgetItem *rp21 = new QTableWidgetItem(tr("%10").arg(hoKM_A_KM));
+        ui->tableWidget_2->setItem(10, 1, rp21);
+
+        QTableWidgetItem *rp22 = new QTableWidgetItem(tr("%11").arg("KM_A_M"));
+        ui->tableWidget_2->setItem(11, 0, rp22);
+
+        QTableWidgetItem *rp23 = new QTableWidgetItem(tr("%11").arg(hoKM_A_M));
+        ui->tableWidget_2->setItem(11, 1, rp23);
+
+        QTableWidgetItem *rp24 = new QTableWidgetItem(tr("%12").arg("KM_E_KM"));
+        ui->tableWidget_2->setItem(12, 0, rp24);
+
+        QTableWidgetItem *rp25 = new QTableWidgetItem(tr("%12").arg(hoKM_E_KM));
+        ui->tableWidget_2->setItem(12, 1, rp25);
+
+        QTableWidgetItem *rp26 = new QTableWidgetItem(tr("%13").arg("KM_E_M"));
+        ui->tableWidget_2->setItem(13, 0, rp26);
+
+        QTableWidgetItem *rp27 = new QTableWidgetItem(tr("%13").arg(hoKM_E_M));
+        ui->tableWidget_2->setItem(13, 1, rp27);
+
+        QTableWidgetItem *rp28 = new QTableWidgetItem(tr("%14").arg("HOEHE_A"));
+        ui->tableWidget_2->setItem(14, 0, rp28);
+
+        QTableWidgetItem *rp29 = new QTableWidgetItem(tr("%14").arg(hoHOEHE_A));
+        ui->tableWidget_2->setItem(14, 1, rp29);
+
+        QTableWidgetItem *rp30 = new QTableWidgetItem(tr("%15").arg("HOEHE_E"));
+        ui->tableWidget_2->setItem(15, 0, rp30);
+
+        QTableWidgetItem *rp31 = new QTableWidgetItem(tr("%15").arg(hoHOEHE_E));
+        ui->tableWidget_2->setItem(15, 1, rp31);
+
+    }
+
+    else if(rightPanelTable == 4){
+
+    //Entwurfselement_KM
+        ui->widget_147->show();
+        ui->tableWidget_2->setRowCount(8);
+        ui->lblTrackName->setText("Entwurfselement_KM");
+
+        QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
+        ui->tableWidget_2->setItem(0, 0, rp);
+
+        QTableWidgetItem *rp1 = new QTableWidgetItem(tr("%0").arg(kmID));
+        ui->tableWidget_2->setItem(0, 1, rp1);
+
+        QTableWidgetItem *rp2 = new QTableWidgetItem(tr("%1").arg("STRECKENR"));
+        ui->tableWidget_2->setItem(1, 0, rp2);
+
+        QTableWidgetItem *rp3 = new QTableWidgetItem(tr("%1").arg(kmSTRECKENR));
+        ui->tableWidget_2->setItem(1, 1, rp3);
+
+        QTableWidgetItem *rp4 = new QTableWidgetItem(tr("%2").arg("EELK_ELTYP"));
+        ui->tableWidget_2->setItem(2, 0, rp4);
+
+        QTableWidgetItem *rp5 = new QTableWidgetItem(tr("%2").arg(kmEELK_ELTYP));
+        ui->tableWidget_2->setItem(2, 1, rp5);
+
+        QTableWidgetItem *rp6 = new QTableWidgetItem(tr("%3").arg("EELK_PARAM"));
+        ui->tableWidget_2->setItem(3, 0, rp6);
+
+        QTableWidgetItem *rp7 = new QTableWidgetItem(tr("%3").arg(kmEELK_PARAM));
+        ui->tableWidget_2->setItem(3, 1, rp7);
+
+        QTableWidgetItem *rp8 = new QTableWidgetItem(tr("%4").arg("EELK_PAR_1"));
+        ui->tableWidget_2->setItem(4, 0, rp8);
+
+        QTableWidgetItem *rp9 = new QTableWidgetItem(tr("%4").arg(kmEELK_PAR_1));
+        ui->tableWidget_2->setItem(4, 1, rp9);
+
+        QTableWidgetItem *rp10 = new QTableWidgetItem(tr("%5").arg("EELK_PAR_2"));
+        ui->tableWidget_2->setItem(5, 0, rp10);
+
+        QTableWidgetItem *rp11 = new QTableWidgetItem(tr("%5").arg(kmEELK_PAR_2));
+        ui->tableWidget_2->setItem(5, 1, rp11);
+
+        QTableWidgetItem *rp12 = new QTableWidgetItem(tr("%6").arg("KM_A_TEXT"));
+        ui->tableWidget_2->setItem(6, 0, rp12);
+
+        QTableWidgetItem *rp13 = new QTableWidgetItem(tr("%6").arg(kmKM_A_TEXT));
+        ui->tableWidget_2->setItem(6, 1, rp13);
+
+        QTableWidgetItem *rp14 = new QTableWidgetItem(tr("%7").arg("KM_E_TEXT"));
+        ui->tableWidget_2->setItem(7, 0, rp14);
+
+        QTableWidgetItem *rp15 = new QTableWidgetItem(tr("%7").arg(kmKM_E_TEXT));
+        ui->tableWidget_2->setItem(7, 1, rp15);
+
+        }
+
+    else if(rightPanelTable == 5){
+
+    //Entwurfselement_UH
+        ui->widget_147->show();
+        ui->tableWidget_2->setRowCount(15);
+        ui->lblTrackName->setText("Entwurfselement_UH");
+
+        QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
+        ui->tableWidget_2->setItem(0, 0, rp);
+
+        QTableWidgetItem *rp1 = new QTableWidgetItem(tr("%0").arg(uhID));
+        ui->tableWidget_2->setItem(0, 1, rp1);
+
+        QTableWidgetItem *rp2 = new QTableWidgetItem(tr("%1").arg("PAD_A"));
+        ui->tableWidget_2->setItem(1, 0, rp2);
+
+        QTableWidgetItem *rp3 = new QTableWidgetItem(tr("%1").arg(uhPAD_A));
+        ui->tableWidget_2->setItem(1, 1, rp3);
+
+        QTableWidgetItem *rp28 = new QTableWidgetItem(tr("%2").arg("PAD_E"));
+        ui->tableWidget_2->setItem(2, 0, rp28);
+
+        QTableWidgetItem *rp29 = new QTableWidgetItem(tr("%2").arg(uhPAD_E));
+        ui->tableWidget_2->setItem(2, 1, rp29);
+
+        QTableWidgetItem *rp4 = new QTableWidgetItem(tr("%3").arg("ELTYP"));
+        ui->tableWidget_2->setItem(3, 0, rp4);
+
+        QTableWidgetItem *rp5 = new QTableWidgetItem(tr("%3").arg(uhELTYP));
+        ui->tableWidget_2->setItem(3, 1, rp5);
+
+        QTableWidgetItem *rp6 = new QTableWidgetItem(tr("%4").arg("ELTYP_L"));
+        ui->tableWidget_2->setItem(4, 0, rp6);
+
+        QTableWidgetItem *rp7 = new QTableWidgetItem(tr("%4").arg(uhELTYP_L));
+        ui->tableWidget_2->setItem(4, 1, rp7);
+
+        QTableWidgetItem *rp8 = new QTableWidgetItem(tr("%5").arg("PARAM1"));
+        ui->tableWidget_2->setItem(5, 0, rp8);
+
+        QTableWidgetItem *rp9 = new QTableWidgetItem(tr("%5").arg(uhPARAM1));
+        ui->tableWidget_2->setItem(5, 1, rp9);
+
+        QTableWidgetItem *rp10 = new QTableWidgetItem(tr("%6").arg("PARAM2"));
+        ui->tableWidget_2->setItem(6, 0, rp10);
+
+        QTableWidgetItem *rp11 = new QTableWidgetItem(tr("%6").arg(uhPARAM2));
+        ui->tableWidget_2->setItem(6, 1, rp11);
+
+        QTableWidgetItem *rp12 = new QTableWidgetItem(tr("%7").arg("PARAM3"));
+        ui->tableWidget_2->setItem(7, 0, rp12);
+
+        QTableWidgetItem *rp13 = new QTableWidgetItem(tr("%7").arg(uhPARAM3));
+        ui->tableWidget_2->setItem(7, 1, rp13);
+
+        QTableWidgetItem *rp14 = new QTableWidgetItem(tr("%8").arg("PARAM4"));
+        ui->tableWidget_2->setItem(8, 0, rp14);
+
+        QTableWidgetItem *rp15 = new QTableWidgetItem(tr("%8").arg(uhPARAM4));
+        ui->tableWidget_2->setItem(8, 1, rp15);
+
+        QTableWidgetItem *rp16 = new QTableWidgetItem(tr("%9").arg("RIKZ"));
+        ui->tableWidget_2->setItem(9, 0, rp16);
+
+        QTableWidgetItem *rp17 = new QTableWidgetItem(tr("%9").arg(uhRIKZ));
+        ui->tableWidget_2->setItem(9, 1, rp17);
+
+        QTableWidgetItem *rp18 = new QTableWidgetItem(tr("%10").arg("RIKZ_L"));
+        ui->tableWidget_2->setItem(10, 0, rp18);
+
+        QTableWidgetItem *rp19 = new QTableWidgetItem(tr("%10").arg(uhRIKZ_L));
+        ui->tableWidget_2->setItem(10, 1, rp19);
+
+        QTableWidgetItem *rp20 = new QTableWidgetItem(tr("%11").arg("KM_A_KM"));
+        ui->tableWidget_2->setItem(11, 0, rp20);
+
+        QTableWidgetItem *rp21 = new QTableWidgetItem(tr("%11").arg(uhKM_A_KM));
+        ui->tableWidget_2->setItem(11, 1, rp21);
+
+        QTableWidgetItem *rp22 = new QTableWidgetItem(tr("%12").arg("KM_A_M"));
+        ui->tableWidget_2->setItem(12, 0, rp22);
+
+        QTableWidgetItem *rp23 = new QTableWidgetItem(tr("%12").arg(uhKM_A_M));
+        ui->tableWidget_2->setItem(12, 1, rp23);
+
+        QTableWidgetItem *rp24 = new QTableWidgetItem(tr("%13").arg("KM_E_KM"));
+        ui->tableWidget_2->setItem(13, 0, rp24);
+
+        QTableWidgetItem *rp25 = new QTableWidgetItem(tr("%13").arg(uhKM_E_KM));
+        ui->tableWidget_2->setItem(13, 1, rp25);
+
+        QTableWidgetItem *rp26 = new QTableWidgetItem(tr("%14").arg("KM_E_M"));
+        ui->tableWidget_2->setItem(14, 0, rp26);
+
+        QTableWidgetItem *rp27 = new QTableWidgetItem(tr("%14").arg(uhKM_E_M));
+        ui->tableWidget_2->setItem(14, 1, rp27);
+
+        }
+
+    else if(rightPanelTable == 6){
+
+    //Entwurfselement_LA
+        ui->widget_147->show();
+        ui->tableWidget_2->setRowCount(16);
+        ui->lblTrackName->setText("Entwurfselement_LA");
+
+        QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
+        ui->tableWidget_2->setItem(0, 0, rp);
+
+        QTableWidgetItem *rp1 = new QTableWidgetItem(tr("%0").arg(laID));
+        ui->tableWidget_2->setItem(0, 1, rp1);
+
+        QTableWidgetItem *rp2 = new QTableWidgetItem(tr("%1").arg("PAD_A"));
+        ui->tableWidget_2->setItem(1, 0, rp2);
+
+        QTableWidgetItem *rp3 = new QTableWidgetItem(tr("%1").arg(laPAD_A));
+        ui->tableWidget_2->setItem(1, 1, rp3);
+
+        QTableWidgetItem *rp28 = new QTableWidgetItem(tr("%2").arg("PAD_E"));
+        ui->tableWidget_2->setItem(2, 0, rp28);
+
+        QTableWidgetItem *rp29 = new QTableWidgetItem(tr("%2").arg(laPAD_E));
+        ui->tableWidget_2->setItem(2, 1, rp29);
+
+        QTableWidgetItem *rp4 = new QTableWidgetItem(tr("%3").arg("ELTYP"));
+        ui->tableWidget_2->setItem(3, 0, rp4);
+
+        QTableWidgetItem *rp5 = new QTableWidgetItem(tr("%3").arg(laELTYP));
+        ui->tableWidget_2->setItem(3, 1, rp5);
+
+        QTableWidgetItem *rp6 = new QTableWidgetItem(tr("%4").arg("ELTYP_L"));
+        ui->tableWidget_2->setItem(4, 0, rp6);
+
+        QTableWidgetItem *rp7 = new QTableWidgetItem(tr("%4").arg(laELTYP_L));
+        ui->tableWidget_2->setItem(4, 1, rp7);
+
+        QTableWidgetItem *rp8 = new QTableWidgetItem(tr("%5").arg("PARAM1"));
+        ui->tableWidget_2->setItem(5, 0, rp8);
+
+        QTableWidgetItem *rp9 = new QTableWidgetItem(tr("%5").arg(laPARAM1));
+        ui->tableWidget_2->setItem(5, 1, rp9);
+
+        QTableWidgetItem *rp10 = new QTableWidgetItem(tr("%6").arg("PARAM2"));
+        ui->tableWidget_2->setItem(6, 0, rp10);
+
+        QTableWidgetItem *rp11 = new QTableWidgetItem(tr("%6").arg(laPARAM2));
+        ui->tableWidget_2->setItem(6, 1, rp11);
+
+        QTableWidgetItem *rp12 = new QTableWidgetItem(tr("%7").arg("PARAM3"));
+        ui->tableWidget_2->setItem(7, 0, rp12);
+
+        QTableWidgetItem *rp13 = new QTableWidgetItem(tr("%7").arg(laPARAM3));
+        ui->tableWidget_2->setItem(7, 1, rp13);
+
+        QTableWidgetItem *rp14 = new QTableWidgetItem(tr("%8").arg("PARAM4"));
+        ui->tableWidget_2->setItem(8, 0, rp14);
+
+        QTableWidgetItem *rp15 = new QTableWidgetItem(tr("%8").arg(laPARAM4));
+        ui->tableWidget_2->setItem(8, 1, rp15);
+
+        QTableWidgetItem *rp30 = new QTableWidgetItem(tr("%9").arg("WINKEL_ANF"));
+        ui->tableWidget_2->setItem(9, 0, rp30);
+
+        QTableWidgetItem *rp31 = new QTableWidgetItem(tr("%9").arg(laWINKEL_ANF));
+        ui->tableWidget_2->setItem(9, 1, rp31);
+
+        QTableWidgetItem *rp16 = new QTableWidgetItem(tr("%10").arg("RIKZ"));
+        ui->tableWidget_2->setItem(10, 0, rp16);
+
+        QTableWidgetItem *rp17 = new QTableWidgetItem(tr("%10").arg(laRIKZ));
+        ui->tableWidget_2->setItem(10, 1, rp17);
+
+        QTableWidgetItem *rp18 = new QTableWidgetItem(tr("%11").arg("RIKZ_L"));
+        ui->tableWidget_2->setItem(11, 0, rp18);
+
+        QTableWidgetItem *rp19 = new QTableWidgetItem(tr("%11").arg(laRIKZ_L));
+        ui->tableWidget_2->setItem(11, 1, rp19);
+
+        QTableWidgetItem *rp20 = new QTableWidgetItem(tr("%12").arg("KM_A_KM"));
+        ui->tableWidget_2->setItem(12, 0, rp20);
+
+        QTableWidgetItem *rp21 = new QTableWidgetItem(tr("%12").arg(laKM_A_KM));
+        ui->tableWidget_2->setItem(12, 1, rp21);
+
+        QTableWidgetItem *rp22 = new QTableWidgetItem(tr("%13").arg("KM_A_M"));
+        ui->tableWidget_2->setItem(13, 0, rp22);
+
+        QTableWidgetItem *rp23 = new QTableWidgetItem(tr("%13").arg(laKM_A_M));
+        ui->tableWidget_2->setItem(13, 1, rp23);
+
+        QTableWidgetItem *rp24 = new QTableWidgetItem(tr("%14").arg("KM_E_KM"));
+        ui->tableWidget_2->setItem(14, 0, rp24);
+
+        QTableWidgetItem *rp25 = new QTableWidgetItem(tr("%14").arg(laKM_E_KM));
+        ui->tableWidget_2->setItem(14, 1, rp25);
+
+        QTableWidgetItem *rp26 = new QTableWidgetItem(tr("%15").arg("KM_E_M"));
+        ui->tableWidget_2->setItem(15, 0, rp26);
+
+        QTableWidgetItem *rp27 = new QTableWidgetItem(tr("%15").arg(laKM_E_M));
+        ui->tableWidget_2->setItem(15, 1, rp27);
+
+        }
+
+
+
     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
     ui->tableWidget->setItem(0, 1, newItem1);
-
 
     if(createNewProject){
         createNewProject = false;
         addTab();
     }
+
+ //   tracks->getSegementObjects();
+    //right panel
+
+
+
+
+
 
 }
 

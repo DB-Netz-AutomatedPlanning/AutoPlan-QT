@@ -53,11 +53,11 @@ void ExportDialog::findOS()
 
 void ExportDialog::waitToFinish(int miliSeconds)
 {
-    QElapsedTimer timer;
-    timer.start();
-    while (timer.elapsed() < miliSeconds){
-        QCoreApplication::processEvents();
-    }
+    //QElapsedTimer timer;
+    //timer.start();
+    //while (timer.elapsed() < miliSeconds){
+      //  QCoreApplication::processEvents();
+   // }
 }
 
 
