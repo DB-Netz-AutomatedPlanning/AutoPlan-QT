@@ -10,8 +10,7 @@
 #include <QWheelEvent>
 #include <QRegularExpression>
 
-//QString pPath = projectPath;
-//QString pName = projectName;
+
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false)
@@ -1318,8 +1317,8 @@ void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QSt
     QGraphicsPixmapItem *signal = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+name+".svg"));
     signal->setTransformationMode(Qt::SmoothTransformation);
     signal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    signal->setToolTip("Type : " +type+"\n Coordinate: "+QString::number(location.x())+" , "+QString::number(location.y())+
-                       "\n Position(km): "+ position+ "\n Lateral Dist: "+latDist+ "\n Orientation: "+orientation+ "\n Direction: "+direction);
+    signal->setToolTip(" DB Signal Function : " +type+"\n Coordinate: "+QString::number(location.x())+" , "+QString::number(location.y())+
+                       "\n Linear Coordinate(Km): "+ position+ "\n Lateral Dist: "+latDist+ "\n Lateral Side: "+orientation+ "\n Direction: "+direction);
 
     signal->setPos(location*getMultiplierValue());
     signal->setRotation(angle);
@@ -1349,6 +1348,7 @@ void Tracks::getSegementObjects()
                          QString name = breakToolTip[0];
                          extractData(name, keyKanten, valKanten);
                  }
+
             }
 
        // }

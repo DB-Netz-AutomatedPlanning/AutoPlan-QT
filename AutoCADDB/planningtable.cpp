@@ -172,9 +172,9 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         this->table = csharp->getMainAntwort();
         this->rows = csharp->getNumberOfRows();
         this->cols = csharp->getNumberofCols();
-        qDebug()<< "table: "<< csharp->getMainAntwort();
-        qDebug()<< "Rows: " <<csharp->getNumberOfRows();
-        qDebug()<< "Cols: " <<csharp->getNumberofCols();
+//        qDebug()<< "table: "<< csharp->getMainAntwort();
+//        qDebug()<< "Rows: " <<csharp->getNumberOfRows();
+//        qDebug()<< "Cols: " <<csharp->getNumberofCols();
 
 
         ui->lblLocation->hide();
@@ -187,7 +187,8 @@ void PlanningTable::on_btnAutoPLAN_clicked()
     QStringList headers;
     QStringList rows;
 
-    headers <<"Type" << "Position(Km)"<< "Lateral Distance(Km)" << "Orientation" << "Belogs To";
+    headers <<"DB Signal Function" << "Linear Coordinate (Km)"<< "Lateral Distance(Km)" << "Lateral Side" << "Direction";
+//    headers <<"Type" << "Position(Km)"<< "Lateral Distance(Km)" << "Orientation" << "Belogs To";
     ui->tableWidget->setColumnCount(5);
     ui->tableWidget->setHorizontalHeaderLabels(headers);
     ui->tableWidget->horizontalHeader()->frameStyle();
@@ -199,6 +200,8 @@ void PlanningTable::on_btnAutoPLAN_clicked()
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
     ui->tableWidget->setColumnWidth(2, 150);
+    ui->tableWidget->setColumnWidth(1, 150);
+    ui->tableWidget->setColumnWidth(0, 150);
     ui->tableWidget->setEnabled(true);
     ui->lblLocation->show();
 
@@ -220,11 +223,10 @@ void PlanningTable::on_btnAutoPLAN_clicked()
 
     for (int i =0; i<this->rows; i++){
         double val = table[i][1].toDouble();
-        qDebug()<< "Value: "<< val;
-        QPointF position = kmToCoord->getNearestCoordFromKmValue(val);
+        QPointF position = kmToCoord->getFinalPosition(val,table[i][2].toDouble(),table[i][3]);  //getNearestCoordFromKmValue(val);
         double angle = kmToCoord->getAngleFromKmValue(val);
         if (table[i][0] == "entry" &&  table[i][4] == "1"){
-            tracks->addAutomateSignal("Ankundetafel",position, angle, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
+            tracks->addAutomateSignal("Ankundetafel", position, angle, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
         }
         else if (table[i][0] == "entry" && table[i][4] == "2"){
             //Then add 180 to the angle (to make symbol rotate/turn to other direction

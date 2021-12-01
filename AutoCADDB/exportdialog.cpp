@@ -99,8 +99,8 @@ void ExportDialog::on_btnExport_clicked()
         foreach (QFileInfo fi, files){
             if (fi.completeSuffix() == "mdb" || fi.completeSuffix() == "MDB"){
                 mdbPath = fi.filePath().toUtf8();
-                qDebug()<< "NOW";
-                qDebug()<< "See Path: "<< mdbPath;
+//                qDebug()<< "NOW";
+//                qDebug()<< "See Path: "<< mdbPath;
                 break;
             }
         }
@@ -163,32 +163,26 @@ void ExportDialog::on_btnExport_clicked()
 
         // write data(each parameter) to the terminal, followed by Enter key
         if(!state.endsWith(endl.toLatin1())) state.append(endl.toUtf8());
-        qDebug()<< "State: "<< state;
         csharp.write(state);
         csharp.waitForBytesWritten(1000);
 
         if(!code.endsWith(endl.toLatin1())) code.append(endl.toUtf8());
-        qDebug()<< "Code: "<< code;
         csharp.write(code);
         csharp.waitForBytesWritten(1000);
 
         if(!format.endsWith(endl.toLatin1())) format.append(endl.toUtf8());
-        qDebug()<< "Format: "<< format;
         csharp.write(format);
         csharp.waitForBytesWritten(1000);
 
         if(!station.endsWith(endl.toLatin1())) station.append(endl.toUtf8());
-        qDebug()<< "Station: "<< station;
         csharp.write(station);
         csharp.waitForBytesWritten(1000);
 
         if(!mdbPath.endsWith(endl.toLatin1())) mdbPath.append(endl.toUtf8());
-        qDebug()<< "mdbPath: "<< mdbPath;
         csharp.write(mdbPath);
         csharp.waitForBytesWritten(1000);
 
         if(!outputPath.endsWith(endl.toLatin1())) outputPath.append(endl.toUtf8());
-        qDebug()<< "Output folder: "<< outputPath;
         csharp.write(outputPath);
         csharp.waitForBytesWritten(1000);
 
@@ -203,12 +197,6 @@ void ExportDialog::on_btnExport_clicked()
             return;
         }
 
-//        mdbPath = (path_+"/"+station_+"/temp/"+current+".MDB").toUtf8();
-//        mdbPath =  (path_.toLatin1()+"/" +station_.toLatin1()+"/temp/"+current+".MDB").toUtf8();
-
-//        QFile fileToRemove (mdbPath);
-//        fileToRemove.remove();
-
     }
 
     else if (fileFormat == ".json"){
@@ -222,7 +210,6 @@ void ExportDialog::on_btnExport_clicked()
         QByteArray outputPath = ui->leFolder->text().toLatin1();
         QByteArray station = ui->cmbStation->currentText().toLatin1();
 
-        qDebug()<< gleiskantenPath << "  "<< kMliniePath;
         if (countryCode == "de"){
             if (!QFile::exists(gleiskantenPath) || !QFile::exists(gleisknotenPath) || !QFile::exists(hoehePath) || !QFile::exists(kMliniePath)
                     || !QFile::exists(uberholenPath) || !QFile::exists(lagePath)){
@@ -259,9 +246,6 @@ void ExportDialog::on_btnExport_clicked()
 
                 QByteArray data = file.readAll();
                 QByteArray decoded = QByteArray::fromHex(data);
-
-                //        QString allData;
-                //        allData = QString(decoded);
                 file.close();
 
                 fileToSave.write(decoded);
@@ -382,18 +366,12 @@ void ExportDialog::on_btnExport_clicked()
                 current = current.remove("."+ info.completeSuffix());
 
                 QFile fileToSave (path_+"/"+station_+"/temp/"+current+".geojson");
-
-
                 if (!fileToSave.open(QIODevice::WriteOnly)){
                     QMessageBox::warning(this, "Warning", fileToSave.errorString());
                     return;
                 }
-
                 QByteArray data = file.readAll();
                 QByteArray decoded = QByteArray::fromHex(data);
-
-                //        QString allData;
-                //        allData = QString(decoded);
                 file.close();
 
                 fileToSave.write(decoded);
@@ -500,10 +478,8 @@ void ExportDialog::on_btnExport_clicked()
         QMessageBox::warning(this, "Fatal", "Process Failed\n ... "
                                             "the channel has been terminated before conversion");
         close();
-
     }
 }
-
 
 
 const QString &ExportDialog::getEndl() const
@@ -526,19 +502,13 @@ void ExportDialog::setApp(const QString &newApp)
     app = newApp;
 }
 
-
 void ExportDialog::on_cmbStation_currentTextChanged()
 {
     ui->btnExport->setEnabled(false);
     ui->leFolder->clear();
 }
 
-
 void ExportDialog::on_btnCancel_clicked()
 {
     close();
 }
-
-// PreviewEulynxXml preXml;
-// preXml.setModal(true);
-//preXml.exec();
