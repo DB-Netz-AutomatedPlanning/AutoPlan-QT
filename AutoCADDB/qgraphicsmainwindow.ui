@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>532</width>
-    <height>362</height>
+    <height>536</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,6 +16,13 @@
   <layout class="QFormLayout" name="formLayout_2">
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout_5">
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Rotate Symbol</string>
+       </property>
+      </widget>
+     </item>
      <item row="0" column="0">
       <layout class="QGridLayout" name="gridLayout">
        <item row="3" column="0">
@@ -131,27 +138,6 @@
        </item>
       </layout>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Rotate Symbol</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
-      <widget class="QCheckBox" name="showCoordinates_UH">
-       <property name="text">
-        <string>UH</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
-      <widget class="QCheckBox" name="showCoordinates_HO">
-       <property name="text">
-        <string>HO</string>
-       </property>
-      </widget>
-     </item>
      <item row="3" column="0">
       <widget class="QSlider" name="horizontalSlider">
        <property name="maximum">
@@ -159,13 +145,6 @@
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QCheckBox" name="showCoordinates_Kanten">
-       <property name="text">
-        <string>Kanten</string>
        </property>
       </widget>
      </item>
@@ -259,27 +238,6 @@ border-color: rgb(0, 0, 0);</string>
        </property>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QCheckBox" name="showCoordinates_KM">
-       <property name="text">
-        <string>KM</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QCheckBox" name="showCoordinates_Knoten">
-       <property name="text">
-        <string>Knoten</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
-      <widget class="QCheckBox" name="showCoordinates_LA">
-       <property name="text">
-        <string>LA</string>
        </property>
       </widget>
      </item>
