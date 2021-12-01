@@ -1252,11 +1252,16 @@ void Tracks::addSymbol(QString str)
         pixmapItem2->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         pixmapItem2->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
 
-        QGraphicsItemGroup *group = new QGraphicsItemGroup(0);
-        group->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsMovable);
-        scene()->addItem(group);
+        group = new QGraphicsItemGroup(0);
+        group->setFlags(QGraphicsItemGroup::ItemIsSelectable | QGraphicsItemGroup::ItemIsMovable);
+
         group->addToGroup(pixmapItem);
         group->addToGroup(pixmapItem2);
+
+
+        scene()->addItem(group);
+
+
     }else{
         glbObjectName = str;
         pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+str+".svg"));
@@ -1270,7 +1275,16 @@ void Tracks::addSymbol(QString str)
 }
 void Tracks :: sceneSelectedItems(int degree){
 
+        //QPointF offset = group->sceneBoundingRect().center();
+        //QTransform transform;
+       // transform.translate(offset.x(),offset.y());
+        //transform.rotate(degree);
+        //transform.translate(-offset.x(),-offset.y());
+        //group->setTransform(transform);
+
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
+
+
 
         foreach (QGraphicsItem *item, scene()->selectedItems()) {
             QString toolTip = item->toolTip();
@@ -1278,6 +1292,8 @@ void Tracks :: sceneSelectedItems(int degree){
             qInfo() << breakToolTip[0];
             if(breakToolTip[0].isEmpty()){
                  item->setRotation(degree);
+
+
             }else{
 
             }
@@ -1286,6 +1302,13 @@ void Tracks :: sceneSelectedItems(int degree){
 
 
     }
+   // group = scene()->createItemGroup(scene()->selectedItems());
+    //QPointF offset = group->sceneBoundingRect().center();
+    //QTransform transform;
+    //transform.translate(offset.x(),offset.y());
+    //transform.rotate(degree);
+    //transform.translate(-offset.x(),-offset.y());
+    //group->setTransform(transform);
 
 }
 
@@ -1545,3 +1568,5 @@ void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKan
 
 
 }
+
+

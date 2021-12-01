@@ -152,6 +152,7 @@ public:
     void drawForeground(QPainter *painter, const QRectF &rect) override;
 
     // QWidget interface
+    QGraphicsItemGroup *group;
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
