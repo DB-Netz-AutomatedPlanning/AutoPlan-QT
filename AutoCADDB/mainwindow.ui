@@ -11235,7 +11235,7 @@ Tabs</string>
           </size>
          </property>
          <layout class="QGridLayout" name="gridLayout_70">
-          <item row="0" column="0">
+          <item row="1" column="0">
            <widget class="QTableWidget" name="tableWidget_2">
             <column>
              <property name="text">
@@ -11247,6 +11247,13 @@ Tabs</string>
               <string>Properties</string>
              </property>
             </column>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblTrackName">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
            </widget>
           </item>
          </layout>
@@ -11263,7 +11270,7 @@ Tabs</string>
      <x>0</x>
      <y>0</y>
      <width>2187</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuNew">

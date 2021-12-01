@@ -97,6 +97,11 @@ public:
 
     void sceneSelectedItems(int degree);
 
+    void extractData(QString breakToolTip, QStringList keyK, QStringList vakK);
+   // void mousePressEvent(QMouseEvent *event);
+public slots:
+    // void mousePressEvent(QMouseEvent *event);
+
 signals:
 
 private:
@@ -142,7 +147,7 @@ private:
 
 //    Object currentObject;
     // QGraphicsView interface
-protected:
+public:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
     void drawForeground(QPainter *painter, const QRectF &rect) override;
 

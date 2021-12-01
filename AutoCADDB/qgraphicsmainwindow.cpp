@@ -42,6 +42,8 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     ui->checkBoxLADP->setChecked(tracks->getDrawLageDP());
     ui->checkBoxUH->setChecked(tracks->getDrawUberhohung());
     ui->checkBoxUHDP->setChecked(tracks->getDrawUberhohungDP());
+
+    qInfo() << "hello";
 }
 
 QGraphicsMainWindow::~QGraphicsMainWindow()
@@ -154,122 +156,122 @@ void QGraphicsMainWindow::on_horizontalSlider_valueChanged(int value)
 }
 
 
-void QGraphicsMainWindow::on_showCoordinates_Knoten_clicked()
-{
-    //Gleisknoten
+//void QGraphicsMainWindow::on_showCoordinates_Knoten_clicked()
+//{
+    ////Gleisknoten
 
-    if(ui->showCoordinates_Knoten->isChecked()){
+   // if(ui->showCoordinates_Knoten->isChecked()){
 
-        ui->showCoordinates_Kanten->setChecked(false);
-        ui->showCoordinates_KM->setChecked(false);
-        ui->showCoordinates_HO->setChecked(false);
-        ui->showCoordinates_LA->setChecked(false);
-        ui->showCoordinates_UH->setChecked(false);
+    //    ui->showCoordinates_Kanten->setChecked(false);
+      //  ui->showCoordinates_KM->setChecked(false);
+      //  ui->showCoordinates_HO->setChecked(false);
+      //  ui->showCoordinates_LA->setChecked(false);
+      //  ui->showCoordinates_UH->setChecked(false);
 
-        rightPanelTable = 1;
-    }else{
-        rightPanelTable = 0;
-    }
+      //  rightPanelTable = 1;
+   // }else{
+      //  rightPanelTable = 0;
+  //  }
 
-}
-
-
-void QGraphicsMainWindow::on_showCoordinates_Kanten_clicked()
-{
-    //Gleiskanten
-
-    if(ui->showCoordinates_Kanten->isChecked()){
-
-        ui->showCoordinates_Knoten->setChecked(false);
-        ui->showCoordinates_KM->setChecked(false);
-        ui->showCoordinates_HO->setChecked(false);
-        ui->showCoordinates_LA->setChecked(false);
-        ui->showCoordinates_UH->setChecked(false);
-
-       rightPanelTable = 2;
-    }else{
-        rightPanelTable = 0;
-    }
-}
+//}
 
 
-void QGraphicsMainWindow::on_showCoordinates_KM_clicked()
-{
+//void QGraphicsMainWindow::on_showCoordinates_Kanten_clicked()
+//{
+   // //Gleiskanten
 
-    //Entwurfselement_KM
+  //  if(ui->showCoordinates_Kanten->isChecked()){
 
-    if(ui->showCoordinates_KM->isChecked()){
+     //   ui->showCoordinates_Knoten->setChecked(false);
+     //   ui->showCoordinates_KM->setChecked(false);
+     //   ui->showCoordinates_HO->setChecked(false);
+     //   ui->showCoordinates_LA->setChecked(false);
+     //   ui->showCoordinates_UH->setChecked(false);
 
-        ui->showCoordinates_Knoten->setChecked(false);
-        ui->showCoordinates_Kanten->setChecked(false);
-        ui->showCoordinates_HO->setChecked(false);
-        ui->showCoordinates_LA->setChecked(false);
-        ui->showCoordinates_UH->setChecked(false);
-
-          rightPanelTable = 4;
-    }else{
-        rightPanelTable = 0;
-    }
-}
-
-
-void QGraphicsMainWindow::on_showCoordinates_HO_clicked()
-{
-
-    //Entwurfselement_HO
-
-    if(ui->showCoordinates_HO->isChecked()){
-
-        ui->showCoordinates_Knoten->setChecked(false);
-        ui->showCoordinates_Kanten->setChecked(false);
-        ui->showCoordinates_KM->setChecked(false);
-        ui->showCoordinates_LA->setChecked(false);
-        ui->showCoordinates_UH->setChecked(false);
-
-        rightPanelTable = 3;
-    }else{
-        rightPanelTable = 0;
-    }
-}
+     //  rightPanelTable = 2;
+  //  }else{
+     //   rightPanelTable = 0;
+   // }
+//}
 
 
-void QGraphicsMainWindow::on_showCoordinates_LA_clicked()
-{
-    //Entwurfselement_LA
+//void QGraphicsMainWindow::on_showCoordinates_KM_clicked()
+//{
 
-    if(ui->showCoordinates_LA->isChecked()){
+    ////Entwurfselement_KM
 
-        ui->showCoordinates_Knoten->setChecked(false);
-        ui->showCoordinates_Kanten->setChecked(false);
-        ui->showCoordinates_KM->setChecked(false);
-        ui->showCoordinates_HO->setChecked(false);
-        ui->showCoordinates_UH->setChecked(false);
+  //  if(ui->showCoordinates_KM->isChecked()){
 
-        rightPanelTable = 6;
-    }else{
-        rightPanelTable = 0;
-    }
-}
+  //      ui->showCoordinates_Knoten->setChecked(false);
+   //     ui->showCoordinates_Kanten->setChecked(false);
+    //    ui->showCoordinates_HO->setChecked(false);
+    //    ui->showCoordinates_LA->setChecked(false);
+    //    ui->showCoordinates_UH->setChecked(false);
+
+    //      rightPanelTable = 4;
+  //  }else{
+  //      rightPanelTable = 0;
+  //  }
+//}
 
 
-void QGraphicsMainWindow::on_showCoordinates_UH_clicked()
-{
+//void QGraphicsMainWindow::on_showCoordinates_HO_clicked()
+//{
 
-    //Entwurfselement_UH
+   ////Entwurfselement_HO
 
-    if(ui->showCoordinates_UH->isChecked()){
+   // if(ui->showCoordinates_HO->isChecked()){
 
-        ui->showCoordinates_Knoten->setChecked(false);
-        ui->showCoordinates_Kanten->setChecked(false);
-        ui->showCoordinates_KM->setChecked(false);
-        ui->showCoordinates_HO->setChecked(false);
-        ui->showCoordinates_LA->setChecked(false);
+    //    ui->showCoordinates_Knoten->setChecked(false);
+    //    ui->showCoordinates_Kanten->setChecked(false);
+    //    ui->showCoordinates_KM->setChecked(false);
+     //   ui->showCoordinates_LA->setChecked(false);
+     //   ui->showCoordinates_UH->setChecked(false);
 
-        rightPanelTable = 5;
-    }else{
-        rightPanelTable = 0;
-    }
-}
+     //   rightPanelTable = 3;
+   // }else{
+      //  rightPanelTable = 0;
+   // }
+//}
+
+
+//void QGraphicsMainWindow::on_showCoordinates_LA_clicked()
+//{
+    ////Entwurfselement_LA
+
+   // if(ui->showCoordinates_LA->isChecked()){
+
+    //    ui->showCoordinates_Knoten->setChecked(false);
+    //    ui->showCoordinates_Kanten->setChecked(false);
+    //    ui->showCoordinates_KM->setChecked(false);
+    //    ui->showCoordinates_HO->setChecked(false);
+    //    ui->showCoordinates_UH->setChecked(false);
+
+   //     rightPanelTable = 6;
+   // }else{
+   //     rightPanelTable = 0;
+   // }
+//}
+
+
+//void QGraphicsMainWindow::on_showCoordinates_UH_clicked()
+//{
+
+    ////Entwurfselement_UH
+
+   // if(ui->showCoordinates_UH->isChecked()){
+
+       // ui->showCoordinates_Knoten->setChecked(false);
+       // ui->showCoordinates_Kanten->setChecked(false);
+       // ui->showCoordinates_KM->setChecked(false);
+       // ui->showCoordinates_HO->setChecked(false);
+       // ui->showCoordinates_LA->setChecked(false);
+
+      //  rightPanelTable = 5;
+    //}else{
+      //  rightPanelTable = 0;
+   // }
+//}
 
 
 
