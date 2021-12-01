@@ -962,6 +962,8 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
     //qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
+   // qApp->processEvents();
+    update();
 }
 
 
@@ -1019,8 +1021,16 @@ void Tracks::keyPressEvent(QKeyEvent *event)
     if((event->key() == Qt::Key_Delete))
     {
         foreach (QGraphicsItem *item, scene()->selectedItems()) {
-                    scene()->removeItem(item);
-                    delete item;
+            QString toolTip = item->toolTip();
+            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+            qInfo() << breakToolTip[0];
+            if(breakToolTip[0].isEmpty()){
+                scene()->removeItem(item);
+                delete item;
+            }else{
+
+            }
+
         }
     }
 }
@@ -1253,7 +1263,7 @@ void Tracks::addSymbol(QString str)
         pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-        pixmapItem->setToolTip(str);
+      //  pixmapItem->setToolTip(str);
         scene()->addItem(pixmapItem);
     }
 
@@ -1262,7 +1272,18 @@ void Tracks :: sceneSelectedItems(int degree){
 
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
 
-               item->setRotation(degree);
+        foreach (QGraphicsItem *item, scene()->selectedItems()) {
+            QString toolTip = item->toolTip();
+            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+            qInfo() << breakToolTip[0];
+            if(breakToolTip[0].isEmpty()){
+                 item->setRotation(degree);
+            }else{
+
+            }
+
+        }
+
 
     }
 
@@ -1305,11 +1326,7 @@ void Tracks::getSegementObjects()
                          QString name = breakToolTip[0];
                          extractData(name, keyKanten, valKanten);
                  }
-
             }
-
-
-
 
        // }
     }
@@ -1317,6 +1334,7 @@ void Tracks::getSegementObjects()
 
 bool Tracks::isTrack(QString name)
 {
+    nameOfTrack = name;
     if (name == "Gleiskanten" ){
           rightPanelTable = 2;
           return true;
@@ -1345,6 +1363,7 @@ bool Tracks::isTrack(QString name)
 
 
 void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKanten){
+    nameOfTrack = name;
     if(name == "Gleiskanten"){
         for(int i = 0; i < keyKanten.count(); i++){
             if(keyKanten[i] == "ID"){
@@ -1520,8 +1539,8 @@ void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKan
 
 
  // qDebug()<< "ID: "<< kantenID <<"LAENGE_ENT: "<<kantenLAENGE_ENT <<"RIKZ: "<< kantenRIKZ <<"RIKZ_L: " << kantenRIKZ_L << "STATUS: " <<kantenSTATUS;
-  qDebug()<< "Keys: "<< keyKanten;
-  qDebug()<< "Values: "<< valKanten;
+  //qDebug()<< "Keys: "<< keyKanten;
+  //qDebug()<< "Values: "<< valKanten;
 
 
 
