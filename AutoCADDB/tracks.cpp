@@ -55,11 +55,11 @@ void Tracks::addGleiskanten()
             gleiskanten_Parent = new QGraphicsPathItem(path);
             if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
                 gleiskanten_Parent->setPen(QPen(Qt::black, 1));
-                segmentCount++;                
+                segmentCount++;
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values() );
             } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
-                gleiskanten_Parent->setPen(QPen(Qt::black, 1));      
+                gleiskanten_Parent->setPen(QPen(Qt::black, 1));
             }
             else {
                 gleiskanten_Parent->setPen(QPen(Qt::black, 0.3));
@@ -954,21 +954,21 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
     Q_UNUSED(rect);
 
     painter->save();
-//    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
-//    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
-//            getUsedRect()[3]);
+    //    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
+    //    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
+    //            getUsedRect()[3]);
     getSegementObjects();
     //qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
-   // qApp->processEvents();
+    // qApp->processEvents();
     update();
 }
 
 
 void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
-  //  getSegementObjects();
+    //  getSegementObjects();
     if (drawGrids){
         painter->save();
         painter->setPen(QColor(95,52,21,90));
@@ -1038,7 +1038,7 @@ void Tracks::keyPressEvent(QKeyEvent *event)
 //{
 
 
-   // getSegementObjects();
+// getSegementObjects();
 
 //    if (event->button() == Qt::RightButton){
 //        qDebug() << "Mouse Clicked : "<< event->pos();
@@ -1267,41 +1267,41 @@ void Tracks::addSymbol(QString str)
         pixmapItem->setTransformationMode(Qt::SmoothTransformation);
         pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-      //  pixmapItem->setToolTip(str);
+        //  pixmapItem->setToolTip(str);
         scene()->addItem(pixmapItem);
     }
 
 }
 void Tracks :: sceneSelectedItems(int degree){
 
-        //QPointF offset = group->sceneBoundingRect().center();
-        //QTransform transform;
-       // transform.translate(offset.x(),offset.y());
-        //transform.rotate(degree);
-        //transform.translate(-offset.x(),-offset.y());
-        //group->setTransform(transform);
+    //QPointF offset = group->sceneBoundingRect().center();
+    //QTransform transform;
+    // transform.translate(offset.x(),offset.y());
+    //transform.rotate(degree);
+    //transform.translate(-offset.x(),-offset.y());
+    //group->setTransform(transform);
+
+    //    foreach (QGraphicsItem *item, scene()->selectedItems()) {
+
+
 
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
+        QString toolTip = item->toolTip();
+        QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+        qInfo() << breakToolTip[0];
+        if(breakToolTip[0].isEmpty()){
+            item->setRotation(degree);
 
 
-
-        foreach (QGraphicsItem *item, scene()->selectedItems()) {
-            QString toolTip = item->toolTip();
-            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
-            qInfo() << breakToolTip[0];
-            if(breakToolTip[0].isEmpty()){
-                 item->setRotation(degree);
-
-
-            }else{
-
-            }
+        }else{
 
         }
 
-
     }
-   // group = scene()->createItemGroup(scene()->selectedItems());
+
+
+    //    }
+    // group = scene()->createItemGroup(scene()->selectedItems());
     //QPointF offset = group->sceneBoundingRect().center();
     //QTransform transform;
     //transform.translate(offset.x(),offset.y());
@@ -1347,84 +1347,84 @@ void Tracks::getSegementObjects()
     hoELTYP ="";
     hoELTYP_L ="";
     hoPARAM1 ="";
-     hoPARAM2 ="";
-     hoPARAM3 ="";
-     hoPARAM4 ="";
-     hoRIKZ="";
-     hoRIKZ_L="";
-     hoKM_A_KM="";
-     hoKM_A_M="";
-     hoKM_E_KM="";
-     hoKM_E_M="";
-     hoHOEHE_A="";
-     hoHOEHE_E="";
+    hoPARAM2 ="";
+    hoPARAM3 ="";
+    hoPARAM4 ="";
+    hoRIKZ="";
+    hoRIKZ_L="";
+    hoKM_A_KM="";
+    hoKM_A_M="";
+    hoKM_E_KM="";
+    hoKM_E_M="";
+    hoHOEHE_A="";
+    hoHOEHE_E="";
 
-     //LA Variables
-     laID="";
-      laPAD_A="";
-      laPAD_E="";
-      laELTYP="";
-      laELTYP_L="";
-      laPARAM1="";
-      laPARAM2="";
-      laPARAM3="";
-      laPARAM4="";
-      laPARAM4_L="";
-      laWINKEL_ANF="";
-      laRIKZ="";
-      laRIKZ_L="";
-      laKM_A_KM="";
-      laKM_A_M="";
-      laKM_E_KM="";
-      laKM_E_M="";
+    //LA Variables
+    laID="";
+    laPAD_A="";
+    laPAD_E="";
+    laELTYP="";
+    laELTYP_L="";
+    laPARAM1="";
+    laPARAM2="";
+    laPARAM3="";
+    laPARAM4="";
+    laPARAM4_L="";
+    laWINKEL_ANF="";
+    laRIKZ="";
+    laRIKZ_L="";
+    laKM_A_KM="";
+    laKM_A_M="";
+    laKM_E_KM="";
+    laKM_E_M="";
 
-     //UH Variables
-      uhID="";
-      uhPAD_A="";
-      uhPAD_E="";
-      uhELTYP="";
-      uhELTYP_L="";
-      uhPARAM1="";
-      uhPARAM2="";
-      uhPARAM3="";
-      uhPARAM4="";
-      uhRIKZ="";
-      uhRIKZ_L="";
-      uhKM_A_KM="";
-      uhKM_A_M="";
-      uhKM_E_KM="";
-      uhKM_E_M="";
+    //UH Variables
+    uhID="";
+    uhPAD_A="";
+    uhPAD_E="";
+    uhELTYP="";
+    uhELTYP_L="";
+    uhPARAM1="";
+    uhPARAM2="";
+    uhPARAM3="";
+    uhPARAM4="";
+    uhRIKZ="";
+    uhRIKZ_L="";
+    uhKM_A_KM="";
+    uhKM_A_M="";
+    uhKM_E_KM="";
+    uhKM_E_M="";
 
-     //KNOTEN Variables
-      knotenID="";
-      kntKNOTENNAME="";
-      kntKNOTENBESC="";
-      kntTYP="";
-      kntTYP_L="";
-      kntSTATUS="";
-      kntKM_KM="";
-      kntKM_M="";
+    //KNOTEN Variables
+    knotenID="";
+    kntKNOTENNAME="";
+    kntKNOTENBESC="";
+    kntTYP="";
+    kntTYP_L="";
+    kntSTATUS="";
+    kntKM_KM="";
+    kntKM_M="";
 
 
 
     if (scene()->selectedItems().count() >0){
         QGraphicsItem *item = scene()->selectedItems()[0];
-       // foreach (QGraphicsItem *item, scene()->selectedItems()){
-            QString toolTip = item->toolTip();
-            QStringList breakToolTip;
-            if (!toolTip.isNull() || !toolTip.isEmpty()){
-                 breakToolTip = toolTip.split(QRegularExpression("_"));
+        // foreach (QGraphicsItem *item, scene()->selectedItems()){
+        QString toolTip = item->toolTip();
+        QStringList breakToolTip;
+        if (!toolTip.isNull() || !toolTip.isEmpty()){
+            breakToolTip = toolTip.split(QRegularExpression("_"));
 
-                 if (breakToolTip.length()==2 && isTrack(breakToolTip[0])){
-                         QList keyKanten = item->data(breakToolTip[1].toInt()).toStringList();
-                         QList valKanten = item->data(breakToolTip[1].toInt()+1).toStringList();
-                         QString name = breakToolTip[0];
-                         extractData(name, keyKanten, valKanten);
-                 }
-
+            if (breakToolTip.length()==2 && isTrack(breakToolTip[0])){
+                QList keyKanten = item->data(breakToolTip[1].toInt()).toStringList();
+                QList valKanten = item->data(breakToolTip[1].toInt()+1).toStringList();
+                QString name = breakToolTip[0];
+                extractData(name, keyKanten, valKanten);
             }
 
-       // }
+        }
+
+        // }
     }
 }
 
@@ -1432,24 +1432,24 @@ bool Tracks::isTrack(QString name)
 {
     nameOfTrack = name;
     if (name == "Gleiskanten" ){
-          rightPanelTable = 2;
-          return true;
+        rightPanelTable = 2;
+        return true;
     }else if (name == "Gleisknoten"){
-          rightPanelTable = 1;
-          return true;
+        rightPanelTable = 1;
+        return true;
     }else if(name == "KMLine"){
-          rightPanelTable = 4;
+        rightPanelTable = 4;
 
-          return true;
+        return true;
     }else if(name == "Lage"){
-          rightPanelTable = 6;
-          return true;
+        rightPanelTable = 6;
+        return true;
     }else if(name == "Uberhohung"){
-          rightPanelTable = 5;
-          return true;
+        rightPanelTable = 5;
+        return true;
     }else if(name == "Hoehe"){
-          rightPanelTable = 3;
-          return true;
+        rightPanelTable = 3;
+        return true;
     }else{
 
     }
@@ -1634,9 +1634,9 @@ void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKan
     }
 
 
- // qDebug()<< "ID: "<< kantenID <<"LAENGE_ENT: "<<kantenLAENGE_ENT <<"RIKZ: "<< kantenRIKZ <<"RIKZ_L: " << kantenRIKZ_L << "STATUS: " <<kantenSTATUS;
-  //qDebug()<< "Keys: "<< keyKanten;
-  //qDebug()<< "Values: "<< valKanten;
+    // qDebug()<< "ID: "<< kantenID <<"LAENGE_ENT: "<<kantenLAENGE_ENT <<"RIKZ: "<< kantenRIKZ <<"RIKZ_L: " << kantenRIKZ_L << "STATUS: " <<kantenSTATUS;
+    //qDebug()<< "Keys: "<< keyKanten;
+    //qDebug()<< "Values: "<< valKanten;
 
 
 
