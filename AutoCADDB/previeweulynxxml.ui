@@ -14,7 +14,21 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0" colspan="2">
+   <item row="0" column="0">
+    <widget class="QLabel" name="lblSuccessMsg">
+     <property name="text">
+      <string>Eulynx XML successfully generated.</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QPushButton" name="btnValidateXML">
+     <property name="text">
+      <string>Validate XML</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="4">
     <widget class="QWidget" name="widget" native="true">
      <property name="minimumSize">
       <size>
@@ -37,26 +51,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="lblSuccessMsg">
-     <property name="text">
-      <string>Eulynx XML successfully generated.</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QPushButton" name="btnOk">
-     <property name="maximumSize">
-      <size>
-       <width>60</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>OK</string>
-     </property>
     </widget>
    </item>
    <item row="1" column="0">
@@ -107,6 +101,19 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="btnOk">
+     <property name="maximumSize">
+      <size>
+       <width>60</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>OK</string>
+     </property>
     </widget>
    </item>
   </layout>

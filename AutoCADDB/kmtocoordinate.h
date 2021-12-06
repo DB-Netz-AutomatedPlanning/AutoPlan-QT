@@ -52,6 +52,8 @@ public:
     double searchNearestKmValue (double value);
     QPointF getNearestCoordFromKmValue(double value);
     double getAngleFromKmValue(double value);
+    QPointF getNextCoordFromKmValue(double value);
+    QPointF getFinalPosition(double value, double lateralDist, QString orientation);
 
     const QList<double> &getAngles() const;
     void setAngles(const QList<double> &newAngles);

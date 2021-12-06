@@ -22,6 +22,8 @@ private slots:
     void on_btnOk_clicked();
 
 
+    void on_btnValidateXML_clicked();
+
 private:
     Ui::PreviewEulynxXml *ui;
     Ui::ExportDialog *uiE;
