@@ -1394,7 +1394,7 @@ void Tracks::getSegementObjects()
       uhKM_A_KM="";
       uhKM_A_M="";
       uhKM_E_KM="";
-      uhKM_E_M="";
+      uhKM_E_M="0.0000";
 
      //KNOTEN Variables
       knotenID="";
@@ -1635,8 +1635,8 @@ void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKan
 
 
  // qDebug()<< "ID: "<< kantenID <<"LAENGE_ENT: "<<kantenLAENGE_ENT <<"RIKZ: "<< kantenRIKZ <<"RIKZ_L: " << kantenRIKZ_L << "STATUS: " <<kantenSTATUS;
-  //qDebug()<< "Keys: "<< keyKanten;
-  //qDebug()<< "Values: "<< valKanten;
+  qDebug()<< "Keys: "<< keyKanten;
+  qDebug()<< "Values: "<< valKanten;
 
 
 
