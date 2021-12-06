@@ -9,6 +9,10 @@
 #include <QPointF>
 #include <QWheelEvent>
 #include <QRegularExpression>
+#include <QSvgRenderer>
+#include <QGraphicsSvgItem>
+
+
 
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
@@ -1263,12 +1267,21 @@ void Tracks::addSymbol(QString str)
 
     }else{
         glbObjectName = str;
-        pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+str+".svg"));
-        pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-        //  pixmapItem->setToolTip(str);
-        scene()->addItem(pixmapItem);
+        QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
+        QGraphicsSvgItem *black = new QGraphicsSvgItem();
+        black->setSharedRenderer(renderer);
+      //  black->setTransformations(Qt::SmoothTransformation);
+        black->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        black->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+        scene()->addItem(black);
+
+
+
+      //  pixmapItem = new QGraphicsSvgItem(":/icons/assets/qgraphics/"+str+".svg");
+        //pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        //pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        //pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+        //scene()->addItem(pixmapItem);
     }
 
 }

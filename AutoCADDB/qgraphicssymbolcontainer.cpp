@@ -1,7 +1,7 @@
 #include "qgraphicssymbolcontainer.h"
 #include "ui_qgraphicssymbolcontainer.h"
 #include "symbolcontainer.h"
-
+bool zugCutomiseBtn = false;
 QGraphicsSymbolContainer::QGraphicsSymbolContainer(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::QGraphicsSymbolContainer)
@@ -16,6 +16,7 @@ QGraphicsSymbolContainer::QGraphicsSymbolContainer(QWidget *parent) :
     painter->end();
 
     ui->lbl_stellwerksbedient->setPixmap(*pixmap);
+    ui->widget_zugbedient->hide();
 }
 
 QGraphicsSymbolContainer::~QGraphicsSymbolContainer()
@@ -284,4 +285,129 @@ void QGraphicsSymbolContainer::on_pb_hauptSignalbegriffe_clicked()
 }
 
 
+void QGraphicsSymbolContainer::on_pb_fdurchfarten_clicked()
+{
+   tracks->addSymbol("FahrstrassensymboleDurchfahrten");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_FDurchGuterzuge_clicked()
+{
+   tracks->addSymbol("FahrstrassensymboleDurchGuterzuge");
+
+}
+
+
+
+
+
+
+
+
+void QGraphicsSymbolContainer::on_btn_zugbedient_clicked()
+{
+    if(zugCutomiseBtn){
+        zugCutomiseBtn = false;
+        ui->widget_zugbedient->hide();
+    }else{
+        zugCutomiseBtn = true;
+        ui->widget_zugbedient->show();
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_chb_zug_filled_clicked()
+{
+    ui->chb_zug_partial->setChecked(false);
+    ui->chb_zug_nofill->setChecked(false);
+    ui->chb_zug_arrow->setChecked(false);
+
+
+    pixmap=new QPixmap(100,20);
+    pixmap->fill(Qt::transparent);
+    painter=new QPainter(pixmap);
+
+    if (ui->chb_zug_filled->isChecked()) {
+        painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+    } else {
+         painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugbedient.svg"));
+    }
+     painter->end();
+     ui->lbl_zugbedient->setPixmap(*pixmap);
+
+}
+
+
+void QGraphicsSymbolContainer::on_chb_zug_partial_clicked()
+{
+
+    ui->chb_zug_nofill->setChecked(false);
+    ui->chb_zug_filled->setChecked(false);
+    ui->chb_zug_arrow->setChecked(false);
+
+    pixmap=new QPixmap(100,20);
+    pixmap->fill(Qt::transparent);
+    painter=new QPainter(pixmap);
+
+    if (ui->chb_zug_partial->isChecked()) {
+        painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugOderStellwerksbedient.svg"));
+    } else {
+         painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugbedient.svg"));
+    }
+     painter->end();
+     ui->lbl_zugbedient->setPixmap(*pixmap);
+}
+
+
+void QGraphicsSymbolContainer::on_chb_zug_arrow_clicked()
+{
+    pixmap=new QPixmap(100,20);
+    pixmap->fill(Qt::transparent);
+    painter=new QPainter(pixmap);
+
+    if (ui->chb_zug_arrow->isChecked()) {
+        painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
+        if((ui->chb_zug_filled->isChecked())){
+            painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+        }
+        if((ui->chb_zug_nofill->isChecked())){
+            painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugbedient.svg"));
+        }
+        if((ui->chb_zug_partial->isChecked())){
+            painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugOderStellwerksbedient.svg"));
+        }
+    } else {
+         if((ui->chb_zug_filled->isChecked())){
+             painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+         }
+         if((ui->chb_zug_nofill->isChecked())){
+             painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugbedient.svg"));
+         }
+         if((ui->chb_zug_partial->isChecked())){
+             painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugOderStellwerksbedient.svg"));
+         }
+    }
+     painter->end();
+     ui->lbl_zugbedient->setPixmap(*pixmap);
+}
+
+
+void QGraphicsSymbolContainer::on_chb_zug_nofill_clicked()
+{
+    ui->chb_zug_partial->setChecked(false);
+    ui->chb_zug_filled->setChecked(false);
+    ui->chb_zug_arrow->setChecked(false);
+
+    pixmap=new QPixmap(100,20);
+    pixmap->fill(Qt::transparent);
+    painter=new QPainter(pixmap);
+
+    if (ui->chb_zug_nofill->isChecked()) {
+        painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugbedient.svg"));
+    } else {
+         painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugbedient.svg"));
+    }
+     painter->end();
+     ui->lbl_zugbedient->setPixmap(*pixmap);
+}
 

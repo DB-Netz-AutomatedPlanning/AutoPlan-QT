@@ -98,6 +98,22 @@ private slots:
 
     void on_pb_hauptSignalbegriffe_clicked();
 
+    void on_pb_fdurchfarten_clicked();
+
+    void on_pb_FDurchGuterzuge_clicked();
+
+
+
+    void on_btn_zugbedient_clicked();
+
+    void on_chb_zug_filled_clicked();
+
+    void on_chb_zug_partial_clicked();
+
+    void on_chb_zug_arrow_clicked();
+
+    void on_chb_zug_nofill_clicked();
+
 private:
     Ui::QGraphicsSymbolContainer *ui;
     QPixmap *pixmap;
