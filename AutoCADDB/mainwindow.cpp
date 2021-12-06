@@ -662,12 +662,21 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
 
         //Gleisknoten
 
-        ui->widget_147->show();
+
+
         ui->tableWidget_2->setRowCount(8);
         ui->lblTrackName->setText("Gleisknoten");
 
+        if(knotenID.isEmpty()){
+             ui->widget_147->hide();
+        }
+        else{
+             ui->widget_147->show();
+
         QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
         ui->tableWidget_2->setItem(0, 0, rp);
+
+
 
         QTableWidgetItem *rp1 = new QTableWidgetItem(tr("%0").arg(knotenID));
         ui->tableWidget_2->setItem(0, 1, rp1);
@@ -714,15 +723,21 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         QTableWidgetItem *rp15 = new QTableWidgetItem(tr("%7").arg(kntKM_M));
         ui->tableWidget_2->setItem(7, 1, rp15);
 
-
+        }
     }
     else if(rightPanelTable == 2){
 
     //Gleiskanten
 
-        ui->widget_147->show();
+
         ui->tableWidget_2->setRowCount(5);
         ui->lblTrackName->setText("Gleiskanten");
+
+
+        if(kantenID.isEmpty()){
+            ui->widget_147->hide();
+        }else{
+            ui->widget_147->show();
 
         QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
         ui->tableWidget_2->setItem(0, 0, rp);
@@ -754,13 +769,20 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         QTableWidgetItem *rp9 = new QTableWidgetItem(tr("%4").arg(kantenRIKZ_L));
         ui->tableWidget_2->setItem(4, 1, rp9);
 
-    }
+       }
+     }
     else if(rightPanelTable == 3){
 
         //Entwurfselement_HO
-        ui->widget_147->show();
+
         ui->tableWidget_2->setRowCount(16);
         ui->lblTrackName->setText("Entwurfselement_HO");
+
+        if(hoID.isEmpty()){
+            ui->widget_147->hide();
+        }
+        else{
+           ui->widget_147->show();
 
         QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
         ui->tableWidget_2->setItem(0, 0, rp);
@@ -859,13 +881,18 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         ui->tableWidget_2->setItem(15, 1, rp31);
 
     }
-
+}
     else if(rightPanelTable == 4){
 
     //Entwurfselement_KM
-        ui->widget_147->show();
+
         ui->tableWidget_2->setRowCount(8);
         ui->lblTrackName->setText("Entwurfselement_KM");
+
+        if(kmID.isEmpty()){
+            ui->widget_147->hide();
+        }else{
+            ui->widget_147->show();
 
         QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
         ui->tableWidget_2->setItem(0, 0, rp);
@@ -916,13 +943,19 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         ui->tableWidget_2->setItem(7, 1, rp15);
 
         }
-
+  }
     else if(rightPanelTable == 5){
 
     //Entwurfselement_UH
-        ui->widget_147->show();
+
         ui->tableWidget_2->setRowCount(15);
         ui->lblTrackName->setText("Entwurfselement_UH");
+
+        if(uhID.isEmpty()){
+            ui->widget_147->hide();
+        }
+        else{
+            ui->widget_147->show();
 
         QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
         ui->tableWidget_2->setItem(0, 0, rp);
@@ -1015,13 +1048,18 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         ui->tableWidget_2->setItem(14, 1, rp27);
 
         }
-
+ }
     else if(rightPanelTable == 6){
 
     //Entwurfselement_LA
-        ui->widget_147->show();
+
         ui->tableWidget_2->setRowCount(16);
         ui->lblTrackName->setText("Entwurfselement_LA");
+
+        if(laID.isEmpty()){
+           ui->widget_147->hide();
+        }else{
+           ui->widget_147->show();
 
         QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ID"));
         ui->tableWidget_2->setItem(0, 0, rp);
@@ -1121,9 +1159,9 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
 
         }
 
+}
 
-
-    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
+    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName    ));
     ui->tableWidget->setItem(0, 1, newItem1);
 
     if(createNewProject){
