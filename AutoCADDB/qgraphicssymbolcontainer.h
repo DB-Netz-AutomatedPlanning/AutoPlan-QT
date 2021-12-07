@@ -114,6 +114,128 @@ private slots:
 
     void on_chb_zug_nofill_clicked();
 
+    void on_pushButton_vorStellwerksbedient_clicked();
+
+    void on_checkBox_vorStellwerksbedient_clicked();
+
+    void on_checkBox_vorZugbedient_clicked();
+
+    void on_checkBox_vorZugoderStellwerksbedient_clicked();
+
+    void on_pushButton_Wartezeichen_clicked();
+
+    void on_checkBox_Wartezeichenmit_clicked();
+
+    void on_pushButton_Achszahlkontakt_clicked();
+
+    void on_checkBox_ZweiBuSchaltkontakt_clicked();
+
+    void on_checkBox_Schaltkontakt_clicked();
+
+    void on_pushButton_Ankundetafel_clicked();
+
+    void on_checkBox_AutomatikETSchild_clicked();
+
+    void on_checkBox_AutomatikHETSchild_clicked();
+
+    void on_checkBox_BuAnkundetafel_clicked();
+
+    void on_checkBox_BuBuTafel_clicked();
+
+    void on_pushButton_balisengruppeLinks_clicked();
+
+    void on_checkBox_balisengruppeLinks_clicked();
+
+    void on_pushButton_BalisengruppeUngesteuertTri_clicked();
+
+    void on_checkBox_BalisengruppeGesteuertTri_clicked();
+
+    void on_pushButton_Bereichskennungswechsel_clicked();
+
+    void on_checkBox_Bereichskennungswechsel_clicked();
+
+    void on_pushButton_BalisengruppeGesteuert_clicked();
+
+    void on_checkBox_BalisengruppeGesteuert_clicked();
+
+    void on_pushButton_EinzelbaliseUngesteuert_clicked();
+
+    void on_checkBox_EinzelbaliseUngesteuert_clicked();
+
+    void on_pushButton_EinzelbaliseRechts_clicked();
+
+    void on_checkBox_EinzelbaliseRechts_clicked();
+
+    void on_pushButton_ETCSstopTafelTwo_clicked();
+
+    void on_checkBox_ETCSstopTafelTwo_clicked();
+
+    void on_pushButton_FahrstrassensymboleReise_clicked();
+
+    void on_checkBox_FahrstrassensymboleRangierfahrten_clicked();
+
+    void on_checkBox_FahrstrassensymboleGuterzuge_clicked();
+
+    void on_checkBox_FahrstrassensymboleDurchGuterzuge_clicked();
+
+    void on_checkBox_FahrstrassensymboleDurchfahrten_clicked();
+
+    void on_pushButton_Festprellbock_clicked();
+
+    void on_checkBox_Bremsprellbock_clicked();
+
+    void on_checkBox_Abklappbarer_clicked();
+
+    void on_checkBox_Anfangsschleife_clicked();
+
+    void on_pushButton_Fruhhaltanzeiger_clicked();
+
+    void on_checkBox_GegengleisanzeigerHauptsignalschirm_clicked();
+
+    void on_checkBox_Geschwindigkeitsanzeiger_clicked();
+
+    void on_checkBox_hauptRichtungsanzeiger_clicked();
+
+    void on_checkBox_HauptGegengleisanzeiger_clicked();
+
+    void on_pushButton_GegengleisanzeigerLichtsignal_clicked();
+
+    void on_checkBox_GegengleisanzeigerLichtsignal_clicked();
+
+    void on_pushButton_Geschwindigkeits_clicked();
+
+    void on_checkBox_Geschwindigkeits_clicked();
+
+    void on_pushButton_GeshLichtsignal_clicked();
+
+    void on_checkBox_GeshLichtsignal_clicked();
+
+    void on_pushButton_gesteuertRechts_clicked();
+
+    void on_checkBox_gesteuertRechts_clicked();
+
+    void on_pushButton_hauptTunneln_clicked();
+
+    void on_checkBox_hauptTunneln_clicked();
+
+    void on_pushButton_Kabelverteiler_clicked();
+
+    void on_checkBox_Kabelverteiler_clicked();
+
+    void on_pushButton_mehraZugbedient_clicked();
+
+    void on_checkBox_mehraZugoderStellwerksbedient_clicked();
+
+    void on_checkBox_mehrasStellwerksbedient_clicked();
+
+    void on_checkBox_mehraausanderemStellbereich_clicked();
+
+    void on_pushButton_MTafel_clicked();
+
+    void on_checkBox_Richtungsanzeiger_clicked();
+
+    void on_checkBox_Stumpfgleis_clicked();
+
 private:
     Ui::QGraphicsSymbolContainer *ui;
     QPixmap *pixmap;

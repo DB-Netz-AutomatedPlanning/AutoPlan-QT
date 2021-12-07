@@ -1245,23 +1245,43 @@ void Tracks::addSymbol(QString str)
     defaultObjectName = str;
     if(str == "stellwerksbedient_arrow"){
 
-        pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
-        pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+        //pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+        //pixmapItem->setTransformationMode(Qt::SmoothTransformation);
+        //pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        //pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
 
-        pixmapItem2 =  new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
-        pixmapItem2->setTransformationMode(Qt::SmoothTransformation);
-        pixmapItem2->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        pixmapItem2->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+        //pixmapItem2 =  new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
+        //pixmapItem2->setTransformationMode(Qt::SmoothTransformation);
+        //pixmapItem2->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        //pixmapItem2->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+
+        //group = new QGraphicsItemGroup(0);
+        //group->setFlags(QGraphicsItemGroup::ItemIsSelectable | QGraphicsItemGroup::ItemIsMovable);
+
+        //group->addToGroup(pixmapItem);
+        //group->addToGroup(pixmapItem2);
+
+
+        //scene()->addItem(group);
+
+
+        QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+        QGraphicsSvgItem *black = new QGraphicsSvgItem();
+        black->setSharedRenderer(renderer);
+        black->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        black->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+
+        QSvgRenderer *renderer1 = new QSvgRenderer(QString(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
+        QGraphicsSvgItem *black1 = new QGraphicsSvgItem();
+        black1->setSharedRenderer(renderer1);
+        black1->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        black1->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
 
         group = new QGraphicsItemGroup(0);
         group->setFlags(QGraphicsItemGroup::ItemIsSelectable | QGraphicsItemGroup::ItemIsMovable);
 
-        group->addToGroup(pixmapItem);
-        group->addToGroup(pixmapItem2);
-
-
+        group->addToGroup(black);
+        group->addToGroup(black1);
         scene()->addItem(group);
 
 
@@ -1270,7 +1290,6 @@ void Tracks::addSymbol(QString str)
         QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
         QGraphicsSvgItem *black = new QGraphicsSvgItem();
         black->setSharedRenderer(renderer);
-      //  black->setTransformations(Qt::SmoothTransformation);
         black->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
         black->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
         scene()->addItem(black);
