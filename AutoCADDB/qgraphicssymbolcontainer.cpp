@@ -28,7 +28,12 @@ bool hauptTunnelnCustomiseBtn = false;
 bool KabelverteilerCustomiseBtn = false;
 bool mehraCustomiseBtn = false;
 bool MTafelCustomiseBtn = false;
-
+bool reflektierendenCustomiseBtn = false;
+bool SpeisegeratCustomiseBtn = false;
+bool VorsignalbakenFiveCustomiseBtn = false;
+bool KabelschrankCustomiseBtn = false;
+bool WeitereOneCustomiseBtn = false;
+bool zweiAktivenCustomiseBtn = false;
 
 
 QGraphicsSymbolContainer::QGraphicsSymbolContainer(QWidget *parent) :
@@ -45,7 +50,7 @@ QGraphicsSymbolContainer::QGraphicsSymbolContainer(QWidget *parent) :
     painter->end();
 
     //HIDE ALL THE FRAMES
-    ui->lbl_stellwerksbedient->setPixmap(*pixmap);
+
     ui->widget_zugbedient->hide();
     ui->widget_vorStellwerksbedient->hide();
     ui->frame_Wartezeichen->hide();
@@ -69,7 +74,12 @@ QGraphicsSymbolContainer::QGraphicsSymbolContainer(QWidget *parent) :
     ui->frame_Kabelverteiler->hide();
     ui->frame_mehraZugbedient->hide();
     ui->frame_MTafel->hide();
-
+    ui->frame_reflektierenden->hide();
+    ui->frame_Speisegerat->hide();
+    ui->frame_VorsignalbakenFive->hide();
+    ui->frame_Kabelschrank->hide();
+    ui->frame_WeitereOne->hide();
+    ui->frame_zweiAktiven->hide();
 
 }
 
@@ -81,21 +91,25 @@ QGraphicsSymbolContainer::~QGraphicsSymbolContainer()
 
 void QGraphicsSymbolContainer::on_pb1_clicked()
 {
-    defaultObjectName = "Abfahrsignal";
     tracks->addSymbol("Abfahrsignal");
 }
 
 
 void QGraphicsSymbolContainer::on_pb2_clicked()
 {
-    defaultObjectName = "Achszahlkontakt";
-    tracks->addSymbol("Achszahlkontakt");
+    if(ui->checkBox_ZweiBuSchaltkontakt->isChecked()){
+        tracks->addSymbol("ZweiBuSchaltkontakt");
+    } else if(ui->checkBox_Schaltkontakt->isChecked()){
+        tracks->addSymbol("Schaltkontakt");
+    }else{
+        tracks->addSymbol("Achszahlkontakt");
+    }
+
 }
 
 
 void QGraphicsSymbolContainer::on_pb3_clicked()
 {
-    defaultObjectName = "AutomatikETSchild";
     tracks->addSymbol("AutomatikETSchild");
 }
 
@@ -120,7 +134,18 @@ void QGraphicsSymbolContainer::on_pb7_clicked()
 
 void QGraphicsSymbolContainer::on_pb8_clicked()
 {
-    tracks->addSymbol("Ankundetafel");
+    if(ui->checkBox_AutomatikETSchild->isChecked()){
+        tracks->addSymbol("AutomatikETSchild");
+    }else if(ui->checkBox_BuBuTafel->isChecked()){
+        tracks->addSymbol("BuBuTafel");
+    }else if(ui->checkBox_AutomatikHETSchild->isChecked()){
+        tracks->addSymbol("AutomatikHETSchild");
+    }else if(ui->checkBox_BuAnkundetafel->isChecked()){
+        tracks->addSymbol("BuAnkundetafel");
+    }else{
+        tracks->addSymbol("Ankundetafel");
+    }
+
 }
 
 
@@ -162,7 +187,13 @@ void QGraphicsSymbolContainer::on_pb14_clicked()
 
 void QGraphicsSymbolContainer::on_pb15_clicked()
 {
-    tracks->addSymbol("balisengruppeLinks");
+
+    if(ui->checkBox_balisengruppeLinks->isChecked()){
+       tracks->addSymbol("balisengruppeRechts");
+    }else{
+       tracks->addSymbol("balisengruppeLinks");
+    }
+
 }
 
 
@@ -174,19 +205,34 @@ void QGraphicsSymbolContainer::on_pb16_clicked()
 
 void QGraphicsSymbolContainer::on_pb17_clicked()
 {
-    tracks->addSymbol("BalisengruppeunGesteuert");
+    if(ui->checkBox_BalisengruppeGesteuert->isChecked()){
+       tracks->addSymbol("BalisengruppeGesteuert");
+    }else{
+       tracks->addSymbol("BalisengruppeunGesteuert");
+    }
+
 }
 
 
 void QGraphicsSymbolContainer::on_pb18_clicked()
 {
-     tracks->addSymbol("BalisengruppeUngesteuertTri");
+    if(ui->checkBox_BalisengruppeGesteuertTri->isChecked()){
+       tracks->addSymbol("BalisengruppeGesteuertTri");
+    }else{
+       tracks->addSymbol("BalisengruppeUngesteuertTri");
+    }
+
 }
 
 
 void QGraphicsSymbolContainer::on_pb19_clicked()
 {
-     tracks->addSymbol("Bereichskennungswechsel");
+    if(ui->checkBox_Bereichskennungswechsel->isChecked()){
+       tracks->addSymbol("Bereichskennungswechselortungsneutral");
+    }else{
+       tracks->addSymbol("Bereichskennungswechsel");
+    }
+
 }
 
 
@@ -264,13 +310,22 @@ void QGraphicsSymbolContainer::on_pb31_clicked()
 
 void QGraphicsSymbolContainer::on_pb32_clicked()
 {
-     tracks->addSymbol("EinzelbaliseGesteuert");
+    if(ui->checkBox_EinzelbaliseUngesteuert->isChecked()){
+         tracks->addSymbol("EinzelbaliseUngesteuert");
+    }else{
+        tracks->addSymbol("EinzelbaliseGesteuert");
+    }
 }
 
 
 void QGraphicsSymbolContainer::on_pb33_clicked()
 {
-     tracks->addSymbol("EinzelbaliseLinks");
+    if(ui->checkBox_EinzelbaliseRechts->isChecked()){
+         tracks->addSymbol("EinzelbaliseRechts");
+    }else{
+        tracks->addSymbol("EinzelbaliseLinks");
+    }
+
 }
 
 
@@ -294,7 +349,12 @@ void QGraphicsSymbolContainer::on_pb36_clicked()
 
 void QGraphicsSymbolContainer::on_pb37_clicked()
 {
-     tracks->addSymbol("ETCSstopTafelOne");
+    if(ui->checkBox_ETCSstopTafelTwo->isChecked()){
+         tracks->addSymbol("ETCSstopTafelTwo");
+    }else{
+        tracks->addSymbol("ETCSstopTafelOne");
+    }
+
 }
 
 
@@ -311,30 +371,13 @@ void QGraphicsSymbolContainer::on_stellwerksbedient_clicked()
 
 
 
-void QGraphicsSymbolContainer::on_chk_stellArrow_clicked()
-{
-    pixmap=new QPixmap(100,20);
-    pixmap->fill(Qt::transparent);
-    painter=new QPainter(pixmap);
-
-    if (ui->chk_stellArrow->isChecked()) {
-        painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
-        painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
-    } else {
-         painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
-    }
-     painter->end();
-     ui->lbl_stellwerksbedient->setPixmap(*pixmap);
-}
 
 
 void QGraphicsSymbolContainer::on_pb_hauptSignalbegriffe_clicked()
 {
-    if(ui->chk_stellArrow->isChecked()){
-         tracks->addSymbol("stellwerksbedient_arrow");
-    }else{
+
          tracks->addSymbol("stellwerksbedient");
-    }
+
 
 }
 
@@ -405,19 +448,20 @@ void QGraphicsSymbolContainer::on_chb_zug_arrow_clicked()
 {
 
     if (ui->chb_zug_arrow->isChecked()) {
-        ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
+ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedientArrow.svg"));
 
         if((ui->chb_zug_filled->isChecked())){
-            ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/stellwerksbedient.svg"));
+            ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/stellwerksbedientArrow.svg"));
 
         }
         if((ui->chb_zug_nofill->isChecked())){
-            ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedient.svg"));
+            ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedientArrow.svg"));
         }
         if((ui->chb_zug_partial->isChecked())){
-            ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugOderStellwerksbedient.svg"));
+            ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugOderStellwerksbedientArrow.svg"));
         }
     } else {
+        ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedient.svg"));
          if((ui->chb_zug_filled->isChecked())){
             ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/stellwerksbedient.svg"));
          }
@@ -427,7 +471,10 @@ void QGraphicsSymbolContainer::on_chb_zug_arrow_clicked()
          if((ui->chb_zug_partial->isChecked())){
              ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugOderStellwerksbedient.svg"));
          }
+
     }
+
+
 
 }
 
@@ -464,6 +511,7 @@ void QGraphicsSymbolContainer::on_checkBox_vorStellwerksbedient_clicked()
 {
 
     ui->checkBox_vorZugoderStellwerksbedient->setChecked(false);
+    ui->checkBox_Arrow->setChecked(false);
 
     if (ui->checkBox_vorStellwerksbedient->isChecked()) {
         ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorStellwerksbedient.svg"));
@@ -473,26 +521,42 @@ void QGraphicsSymbolContainer::on_checkBox_vorStellwerksbedient_clicked()
 }
 
 
-void QGraphicsSymbolContainer::on_checkBox_vorZugbedient_clicked()
-{
-    ui->checkBox_vorStellwerksbedient->setChecked(false);
-    ui->checkBox_vorZugoderStellwerksbedient->setChecked(false);
 
-
-         ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugbedient.svg"));
-
-}
 
 
 void QGraphicsSymbolContainer::on_checkBox_vorZugoderStellwerksbedient_clicked()
 {
     ui->checkBox_vorStellwerksbedient->setChecked(false);
-
+    ui->checkBox_Arrow->setChecked(false);
 
     if (ui->checkBox_vorZugoderStellwerksbedient->isChecked()) {
         ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugoderStellwerksbedient.svg"));
     } else {
          ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugbedient.svg"));
+    }
+}
+
+void QGraphicsSymbolContainer::on_checkBox_Arrow_clicked()
+{
+    if (ui->checkBox_Arrow->isChecked()) {
+         ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugbedientArrow.svg"));
+        if(ui->checkBox_vorZugoderStellwerksbedient->isChecked()){
+             ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugoderStellwerksbedientArrow.svg"));
+        }
+        if(ui->checkBox_vorStellwerksbedient->isChecked()){
+             ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorStellwerksbedientArrow.svg"));
+        }
+
+
+    } else {
+         ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugbedient.svg"));
+        if(ui->checkBox_vorZugoderStellwerksbedient->isChecked()){
+             ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugoderStellwerksbedient.svg"));
+        }
+        if(ui->checkBox_vorStellwerksbedient->isChecked()){
+             ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorStellwerksbedien.svg"));
+        }
+
     }
 }
 
@@ -1125,11 +1189,40 @@ void QGraphicsSymbolContainer::on_pushButton_mehraZugbedient_clicked()
     }
 }
 
+void QGraphicsSymbolContainer::on_checkBox_mehraArrow_clicked()
+{
+    if(ui->checkBox_mehraArrow->isChecked()){
+        ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehraZugbedientArrow.svg"));
+        if(ui->checkBox_mehraZugoderStellwerksbedient->isChecked()){
+            ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehraZugoderStellwerksbedientArrow.svg"));
+
+        }if (ui->checkBox_mehrasStellwerksbedient->isChecked()) {
+            ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehrasStellwerksbedientArrow.svg"));
+        }
+        if (ui->checkBox_mehraausanderemStellbereich->isChecked()) {
+            ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehraausanderemStellbereichArrow.svg"));
+        }
+    }else{
+        ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehraZugbedient.svg"));
+        if(ui->checkBox_mehraZugoderStellwerksbedient->isChecked()){
+            ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehraZugoderStellwerksbedient.svg"));
+
+        }if (ui->checkBox_mehrasStellwerksbedient->isChecked()) {
+            ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehrasStellwerksbedient.svg"));
+        }
+        if (ui->checkBox_mehraausanderemStellbereich->isChecked()) {
+            ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehraausanderemStellbereich.svg"));
+        }
+    }
+
+}
+
 
 void QGraphicsSymbolContainer::on_checkBox_mehraZugoderStellwerksbedient_clicked()
 {
     ui->checkBox_mehrasStellwerksbedient->setChecked(false);
     ui->checkBox_mehraausanderemStellbereich->setChecked(false);
+    ui->checkBox_mehraArrow->setChecked(false);
 
     if (ui->checkBox_mehraZugoderStellwerksbedient->isChecked()) {
         ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehraZugoderStellwerksbedient.svg"));
@@ -1143,6 +1236,7 @@ void QGraphicsSymbolContainer::on_checkBox_mehrasStellwerksbedient_clicked()
 {
     ui->checkBox_mehraZugoderStellwerksbedient->setChecked(false);
     ui->checkBox_mehraausanderemStellbereich->setChecked(false);
+    ui->checkBox_mehraArrow->setChecked(false);
 
     if (ui->checkBox_mehrasStellwerksbedient->isChecked()) {
         ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehrasStellwerksbedient.svg"));
@@ -1156,6 +1250,7 @@ void QGraphicsSymbolContainer::on_checkBox_mehraausanderemStellbereich_clicked()
 {
     ui->checkBox_mehrasStellwerksbedient->setChecked(false);
     ui->checkBox_mehraZugoderStellwerksbedient->setChecked(false);
+    ui->checkBox_mehraArrow->setChecked(false);
 
     if (ui->checkBox_mehraausanderemStellbereich->isChecked()) {
         ui->pb_mehra->setIcon(QIcon(":/icons/assets/qgraphics/mehraausanderemStellbereich.svg"));
@@ -1199,5 +1294,831 @@ void QGraphicsSymbolContainer::on_checkBox_Stumpfgleis_clicked()
         ui->pb_MTafel->setIcon(QIcon(":/icons/assets/qgraphics/MTafel.svg"));
     }
 
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_reflektierenden_clicked()
+{
+    if(reflektierendenCustomiseBtn){
+        reflektierendenCustomiseBtn = false;
+        ui->frame_reflektierenden->hide();
+    }else{
+        reflektierendenCustomiseBtn = true;
+        ui->frame_reflektierenden->show();
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_reflektierenden_clicked()
+{
+    if (ui->checkBox_reflektierenden->isChecked()) {
+        ui->pb_reflektierenden->setIcon(QIcon(":/icons/assets/qgraphics/aktivengelben.svg"));
+    } else {
+        ui->pb_reflektierenden->setIcon(QIcon(":/icons/assets/qgraphics/reflektierenden.svg"));
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Speisegerat_clicked()
+{
+
+            if(SpeisegeratCustomiseBtn){
+                SpeisegeratCustomiseBtn = false;
+                ui->frame_Speisegerat->hide();
+            }else{
+                SpeisegeratCustomiseBtn = true;
+                ui->frame_Speisegerat->show();
+            }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_Signalhaltmelder_clicked()
+{
+    ui->checkBox_Sperrsignal->setChecked(false);
+    ui->checkBox_SperrsignalKennlicht->setChecked(false);
+
+    if (ui->checkBox_Signalhaltmelder->isChecked()) {
+        ui->pb_Speisegerat->setIcon(QIcon(":/icons/assets/qgraphics/Signalhaltmelder.svg"));
+    } else {
+        ui->pb_Speisegerat->setIcon(QIcon(":/icons/assets/qgraphics/Speisegerat.svg"));
+    }
+     ui->pb_Speisegerat->setIconSize(QSize(50,20));
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_Sperrsignal_clicked()
+{
+    ui->checkBox_Signalhaltmelder->setChecked(false);
+    ui->checkBox_SperrsignalKennlicht->setChecked(false);
+
+    if (ui->checkBox_Sperrsignal->isChecked()) {
+        ui->pb_Speisegerat->setIcon(QIcon(":/icons/assets/qgraphics/Sperrsignal.svg"));
+    } else {
+        ui->pb_Speisegerat->setIcon(QIcon(":/icons/assets/qgraphics/Speisegerat.svg"));
+    }
+     ui->pb_Speisegerat->setIconSize(QSize(50,20));
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_SperrsignalKennlicht_clicked()
+{
+    ui->checkBox_Sperrsignal->setChecked(false);
+    ui->checkBox_Signalhaltmelder->setChecked(false);
+
+    if (ui->checkBox_SperrsignalKennlicht->isChecked()) {
+        ui->pb_Speisegerat->setIcon(QIcon(":/icons/assets/qgraphics/SperrsignalKennlicht.svg"));
+    } else {
+        ui->pb_Speisegerat->setIcon(QIcon(":/icons/assets/qgraphics/Speisegerat.svg"));
+    }
+     ui->pb_Speisegerat->setIconSize(QSize(50,20));
+
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_VorsignalbakenFive_clicked()
+{
+    if(VorsignalbakenFiveCustomiseBtn){
+        VorsignalbakenFiveCustomiseBtn = false;
+        ui->frame_VorsignalbakenFive->hide();
+    }else{
+        VorsignalbakenFiveCustomiseBtn = true;
+        ui->frame_VorsignalbakenFive->show();
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_VorsignalbakenOne_clicked()
+{
+    ui->checkBox_VorsignalbakenTwo->setChecked(false);
+    ui->checkBox_VorsignalbakenThree->setChecked(false);
+    ui->checkBox_VorsignalbakenFour->setChecked(false);
+
+    if (ui->checkBox_VorsignalbakenOne->isChecked()) {
+        ui->pb_VorsignalbakenFive->setIcon(QIcon(":/icons/assets/qgraphics/VorsignalbakenOne.svg"));
+    } else {
+        ui->pb_VorsignalbakenFive->setIcon(QIcon(":/icons/assets/qgraphics/VorsignalbakenFive.svg"));
+    }
+
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_VorsignalbakenTwo_clicked()
+{
+    ui->checkBox_VorsignalbakenOne->setChecked(false);
+    ui->checkBox_VorsignalbakenThree->setChecked(false);
+    ui->checkBox_VorsignalbakenFour->setChecked(false);
+
+    if (ui->checkBox_VorsignalbakenTwo->isChecked()) {
+        ui->pb_VorsignalbakenFive->setIcon(QIcon(":/icons/assets/qgraphics/VorsignalbakenTwo.svg"));
+    } else {
+        ui->pb_VorsignalbakenFive->setIcon(QIcon(":/icons/assets/qgraphics/VorsignalbakenFive.svg"));
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_VorsignalbakenThree_clicked()
+{
+    ui->checkBox_VorsignalbakenTwo->setChecked(false);
+    ui->checkBox_VorsignalbakenOne->setChecked(false);
+    ui->checkBox_VorsignalbakenFour->setChecked(false);
+
+    if (ui->checkBox_VorsignalbakenThree->isChecked()) {
+        ui->pb_VorsignalbakenFive->setIcon(QIcon(":/icons/assets/qgraphics/VorsignalbakenThree.svg"));
+    } else {
+        ui->pb_VorsignalbakenFive->setIcon(QIcon(":/icons/assets/qgraphics/VorsignalbakenFive.svg"));
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_VorsignalbakenFour_clicked()
+{
+    ui->checkBox_VorsignalbakenTwo->setChecked(false);
+    ui->checkBox_VorsignalbakenThree->setChecked(false);
+    ui->checkBox_VorsignalbakenOne->setChecked(false);
+
+    if (ui->checkBox_VorsignalbakenFour->isChecked()) {
+        ui->pb_VorsignalbakenFive->setIcon(QIcon(":/icons/assets/qgraphics/VorsignalbakenFour.svg"));
+    } else {
+        ui->pb_VorsignalbakenFive->setIcon(QIcon(":/icons/assets/qgraphics/VorsignalbakenFive.svg"));
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Vorsignaltafel_clicked()
+{
+    if(KabelschrankCustomiseBtn){
+        KabelschrankCustomiseBtn = false;
+        ui->frame_Kabelschrank->hide();
+    }else{
+        KabelschrankCustomiseBtn = true;
+        ui->frame_Kabelschrank->show();
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_Kabelschrank_clicked()
+{
+
+
+
+            if (ui->checkBox_Kabelschrank->isChecked()) {
+                ui->pb_Kabelschrank->setIcon(QIcon(":/icons/assets/qgraphics/Kabelschrank.svg"));
+            } else {
+                ui->pb_Kabelschrank->setIcon(QIcon(":/icons/assets/qgraphics/Vorsignaltafel.svg"));
+            }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_WeitereOne_clicked()
+{
+    if(WeitereOneCustomiseBtn){
+        WeitereOneCustomiseBtn = false;
+        ui->frame_WeitereOne->hide();
+    }else{
+        WeitereOneCustomiseBtn = true;
+        ui->frame_WeitereOne->show();
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_WeitereTwo_clicked()
+{
+    ui->checkBox_WeitereTwo_2->setChecked(false);
+    if (ui->checkBox_WeitereTwo->isChecked()) {
+        ui->pb_WeitereOne->setIcon(QIcon(":/icons/assets/qgraphics/WeitereTwo.svg"));
+    } else {
+        ui->pb_WeitereOne->setIcon(QIcon(":/icons/assets/qgraphics/WeitereOne.svg"));
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_WeitereTwo_2_clicked()
+{
+    ui->checkBox_WeitereTwo->setChecked(false);
+    if (ui->checkBox_WeitereTwo_2->isChecked()) {
+        ui->pb_WeitereOne->setIcon(QIcon(":/icons/assets/qgraphics/WeitereThree.svg"));
+    } else {
+        ui->pb_WeitereOne->setIcon(QIcon(":/icons/assets/qgraphics/WeitereOne.svg"));
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_zweiAktiven_clicked()
+{
+    if(zweiAktivenCustomiseBtn){
+        zweiAktivenCustomiseBtn = false;
+        ui->frame_zweiAktiven->hide();
+    }else{
+        zweiAktivenCustomiseBtn = true;
+        ui->frame_zweiAktiven->show();
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_checkBox_2_clicked()
+{
+
+            if (ui->checkBox_2->isChecked()) {
+                ui->pb_zweiAktiven->setIcon(QIcon(":/icons/assets/qgraphics/zweiReflektierenden.svg"));
+            } else {
+                ui->pb_zweiAktiven->setIcon(QIcon(":/icons/assets/qgraphics/zweiAktiven.svg"));
+            }
+}
+
+
+
+
+//on click add symbol
+
+void QGraphicsSymbolContainer::on_pb_FahrstrassensymboleReise_clicked()
+{
+    if(ui->checkBox_FahrstrassensymboleDurchfahrten->isChecked()){
+        tracks->addSymbol("FahrstrassensymboleDurchfahrten");
+    } else if(ui->checkBox_FahrstrassensymboleGuterzuge->isChecked()){
+        tracks->addSymbol("FahrstrassensymboleGuterzuge");
+    }else if(ui->checkBox_FahrstrassensymboleRangierfahrten->isChecked()){
+        tracks->addSymbol("FahrstrassensymboleRangierfahrten");
+    }else if(ui->checkBox_FahrstrassensymboleDurchGuterzuge->isChecked()){
+        tracks->addSymbol("FahrstrassensymboleDurchGuterzuge");
+    }else{
+        tracks->addSymbol("FahrstrassensymboleReise");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Fahrtanzeiger_clicked()
+{
+     tracks->addSymbol("Fahrtanzeiger");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Fahrzeugsensor_clicked()
+{
+    tracks->addSymbol("Fahrzeugsensor");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Festprellbock_clicked()
+{
+    if(ui->checkBox_Bremsprellbock->isChecked()){
+        tracks->addSymbol("Bremsprellbock");
+    } else if(ui->checkBox_Abklappbarer->isChecked()){
+        tracks->addSymbol("Abklappbarer");
+    }else if(ui->checkBox_Anfangsschleife->isChecked()){
+        tracks->addSymbol("Anfangsschleife");
+    }else{
+        tracks->addSymbol("Festprellbock");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Flachstellenortungsanlage_clicked()
+{
+    tracks->addSymbol("Flachstellenortungsanlage");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Fruhhaltanzeiger_clicked()
+{
+    if(ui->checkBox_GegengleisanzeigerHauptsignalschirm->isChecked()){
+        tracks->addSymbol("GegengleisanzeigerHauptsignalschirm");
+    }else if(ui->checkBox_Geschwindigkeitsanzeiger->isChecked()){
+        tracks->addSymbol("Geschwindigkeitsanzeiger");
+    }else if(ui->checkBox_hauptRichtungsanzeiger->isChecked()){
+        tracks->addSymbol("hauptRichtungsanzeiger");
+    }else if(ui->checkBox_HauptGegengleisanzeiger->isChecked()){
+        tracks->addSymbol("HauptGegengleisanzeiger");
+    }else{
+        tracks->addSymbol("Fruhhaltanzeiger");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Funkanruckmelder_clicked()
+{
+    tracks->addSymbol("Funkanruckmelder");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_FusgangermaskeundAndreaskreuz_clicked()
+{
+    tracks->addSymbol("FusgangermaskeundAndreaskreuz");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_GegengleisanzeigerLichtsignal_clicked()
+{
+    if(ui->checkBox_GegengleisanzeigerLichtsignal->isChecked()){
+        tracks->addSymbol("Gegengleisanzeiger");
+    }else{
+        tracks->addSymbol("GegengleisanzeigerLichtsignal");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Geschwindigkeits_clicked()
+{
+    if(ui->checkBox_Geschwindigkeits->isChecked()){
+        tracks->addSymbol("GeschwindigkeirRichtungspfeil");
+    }else{
+        tracks->addSymbol("Geschwindigkeits");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Geschwindigkeitssignal_clicked()
+{
+    tracks->addSymbol("Geschwindigkeitssignal");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Geschwindigkeitswechsel_clicked()
+{
+    tracks->addSymbol("Geschwindigkeitswechsel");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_GeshLichtsignal_clicked()
+{
+    if(ui->checkBox_GeshLichtsignal->isChecked()){
+        tracks->addSymbol("Richtungsvoranzeiger");
+    }else{
+        tracks->addSymbol("GeshLichtsignal");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pb_gesteuertRechts_clicked()
+{
+    if(ui->checkBox_gesteuertRechts->isChecked()){
+        tracks->addSymbol("gesteuertLinks");
+    }else{
+        tracks->addSymbol("gesteuertRechts");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Gleislangen_clicked()
+{
+    tracks->addSymbol("Gleislangen");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_27_clicked()
+{
+    tracks->addSymbol("HaltetafelmitZuord");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_hauptGeschwindigkeitsanzeiger_clicked()
+{
+    tracks->addSymbol("hauptGeschwindigkeitsanzeiger");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_hauptSignalbegriffe_clicked()
+{
+    tracks->addSymbol("hauptSignalbegriffe");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_HauptsignalIdentificationFour_clicked()
+{
+    tracks->addSymbol("HauptsignalIdentificationFour");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Haltepunkttafel_clicked()
+{
+    tracks->addSymbol("Haltepunkttafel");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_hauptTunneln_clicked()
+{
+    if(ui->checkBox_hauptTunneln->isChecked()){
+        tracks->addSymbol("HauptBahnsteigdach");
+    }else{
+        tracks->addSymbol("hauptTunneln");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Heisslauferortungsanlage_clicked()
+{
+     tracks->addSymbol("Heisslauferortungsanlage");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Hektometerangabe_clicked()
+{
+     tracks->addSymbol("Hektometerangabe");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Kabelformstein_clicked()
+{
+     tracks->addSymbol("Kabelformstein");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Kabelmuffe_clicked()
+{
+     tracks->addSymbol("Kabelmuffe");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Kabelschacht_clicked()
+{
+     tracks->addSymbol("Kabelschacht");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Kabelverteiler_clicked()
+{
+    if(ui->checkBox_Kabelverteiler->isChecked()){
+        tracks->addSymbol("Kilometerangabe");
+    }else{
+        tracks->addSymbol("Kabelverteiler");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Kennzeichentafel_clicked()
+{
+    tracks->addSymbol("Kennzeichentafel");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_KombinationBlockkennzeichen_clicked()
+{
+    tracks->addSymbol("KombinationBlockkennzeichen");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Lautsprechersaule_clicked()
+{
+    tracks->addSymbol("Lautsprechersaule");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Lichtzeichen_clicked()
+{
+    tracks->addSymbol("Lichtzeichen");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_LinienleiterschleifeNummer_clicked()
+{
+    tracks->addSymbol("LinienleiterschleifeNummer");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Luftstromungsanlage_clicked()
+{
+    tracks->addSymbol("Luftstromungsanlage");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Magnetschienenkontakt_clicked()
+{
+    tracks->addSymbol("Magnetschienenkontakt");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_mehra_clicked()
+{
+
+     if(ui->checkBox_mehraArrow->isChecked() && ui->checkBox_mehraZugoderStellwerksbedient->isChecked()){
+            tracks->addSymbol("mehraZugoderStellwerksbedientArrow");
+        }else if(ui->checkBox_mehraArrow->isChecked() && ui->checkBox_mehrasStellwerksbedient->isChecked()){
+            tracks->addSymbol("mehrasStellwerksbedientArrow");
+        }else if(ui->checkBox_mehraArrow->isChecked() && ui->checkBox_mehraausanderemStellbereich->isChecked()){
+            tracks->addSymbol("mehraausanderemStellbereichArrow");
+     }
+            else if(ui->checkBox_mehraZugoderStellwerksbedient->isChecked()){
+        tracks->addSymbol("mehraZugoderStellwerksbedient");
+    } else if(ui->checkBox_mehrasStellwerksbedient->isChecked()){
+        tracks->addSymbol("mehrasStellwerksbedient");
+    }else if(ui->checkBox_mehraausanderemStellbereich->isChecked()){
+        tracks->addSymbol("mehraausanderemStellbereich");
+
+    }else if(ui->checkBox_mehraArrow->isChecked()){
+        tracks->addSymbol("mehraZugbedientArrow");
+    } else{
+         tracks->addSymbol("mehraZugbedient");
+     }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Merkpfahl_clicked()
+{
+    tracks->addSymbol("Merkpfahl");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_MTafel_clicked()
+{
+    if(ui->checkBox_Richtungsanzeiger->isChecked()){
+        tracks->addSymbol("Richtungsanzeiger");
+    }else if(ui->checkBox_Stumpfgleis->isChecked()){
+        tracks->addSymbol("Stumpfgleis");
+    }else{
+        tracks->addSymbol("MTafel");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Nachbarzentrale_clicked()
+{
+    tracks->addSymbol("Nachbarzentrale");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Nachschieben_clicked()
+{
+    tracks->addSymbol("Nachschieben");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Oberirdischer_clicked()
+{
+    tracks->addSymbol("Oberirdischer");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Rangierhalttafel_clicked()
+{
+    tracks->addSymbol("Rangierhalttafel");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Rautentafel_clicked()
+{
+    tracks->addSymbol("Rautentafel");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_reflektierenden_clicked()
+{
+    if(ui->checkBox_reflektierenden->isChecked()){
+        tracks->addSymbol("aktivengelben");
+    }else{
+        tracks->addSymbol("reflektierenden");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Richtungspfeilmaske_clicked()
+{
+    tracks->addSymbol("Richtungspfeilmaske");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Schachbretttafel_clicked()
+{
+    tracks->addSymbol("Schachbretttafel");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Schrankenantrieb_clicked()
+{
+    tracks->addSymbol("Schrankenantrieb");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_SchrankenbaumRechteck_clicked()
+{
+    tracks->addSymbol("SchrankenbaumRechteck");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Seitenlichtzeichen_clicked()
+{
+    tracks->addSymbol("Seitenlichtzeichen");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_SiBetonschalthaus_clicked()
+{
+    tracks->addSymbol("SiBetonschalthaus");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_SignalElOne_clicked()
+{
+    tracks->addSymbol("SignalElOne");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_SignalElTwo_clicked()
+{
+    tracks->addSymbol("SignalElTwo");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Speisegerat_clicked()
+{
+
+    if(ui->checkBox_Signalhaltmelder->isChecked()){
+        tracks->addSymbol("Signalhaltmelder");
+    }else if(ui->checkBox_Sperrsignal->isChecked()){
+        tracks->addSymbol("Sperrsignal");
+    }else if(ui->checkBox_SperrsignalKennlicht->isChecked()){
+        tracks->addSymbol("SperrsignalKennlicht");
+    }else{
+        tracks->addSymbol("Speisegerat");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_StrasensignalmitBlinklicht_clicked()
+{
+    tracks->addSymbol("StrasensignalmitBlinklicht");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Strassensignal_clicked()
+{
+    tracks->addSymbol("Strassensignal");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Trapeztafel_clicked()
+{
+    tracks->addSymbol("Trapeztafel");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_uberspannteGleise_clicked()
+{
+    tracks->addSymbol("uberspannteGleise");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Uberwachungslampe_clicked()
+{
+    tracks->addSymbol("Uberwachungslampe");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_uberwachungssignal_clicked()
+{
+    tracks->addSymbol("uberwachungssignal");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Verstarker_clicked()
+{
+    tracks->addSymbol("Verstarker");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_VorsichtsignalHauptsignalschirm_clicked()
+{
+    tracks->addSymbol("VorsichtsignalHauptsignalschirm");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_vorstellwerksbedientVorsignalwiederholer_clicked()
+{
+    tracks->addSymbol("vorstellwerksbedientVorsignalwiederholer");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Warntafel_clicked()
+{
+    tracks->addSymbol("Warntafel");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Windmeldeanlage_clicked()
+{
+    tracks->addSymbol("Windmeldeanlage");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Zahlpfeile_clicked()
+{
+    tracks->addSymbol("Zahlpfeile");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Zugdeckungssignal_clicked()
+{
+    tracks->addSymbol("Zugdeckungssignal");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Weichenantrieb_clicked()
+{
+    tracks->addSymbol("Weichenantrieb");
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_Weichensignal_clicked()
+{
+    tracks->addSymbol("Weichensignal");
+}
+
+
+void QGraphicsSymbolContainer::on_pb_VorsignalbakenFive_clicked()
+{
+    if(ui->checkBox_VorsignalbakenOne->isChecked()){
+        tracks->addSymbol("VorsignalbakenOne");
+    }else if(ui->checkBox_VorsignalbakenTwo->isChecked()){
+        tracks->addSymbol("VorsignalbakenTwo");
+    }else if(ui->checkBox_VorsignalbakenThree->isChecked()){
+        tracks->addSymbol("VorsignalbakenThree");
+    }else if(ui->checkBox_VorsignalbakenFour->isChecked()){
+        tracks->addSymbol("VorsignalbakenFour");
+    }else{
+        tracks->addSymbol("VorsignalbakenFive");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pb_Kabelschrank_clicked()
+{
+    if(ui->checkBox_Kabelschrank->isChecked()){
+        tracks->addSymbol("Kabelschrank");
+    }else{
+        tracks->addSymbol("Vorsignaltafel");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushButton_WartezeichenMain_clicked()
+{
+    if(ui->checkBox_Wartezeichenmit->isChecked()){
+        tracks->addSymbol("Wartezeichenmit");
+    }else{
+        tracks->addSymbol("Wartezeichen");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pb_WeitereOne_clicked()
+{
+    if(ui->checkBox_WeitereTwo->isChecked()){
+        tracks->addSymbol("WeitereTwo");
+    }else if(ui->checkBox_WeitereTwo_2->isChecked()){
+        tracks->addSymbol("WeitereThree");
+    }else{
+        tracks->addSymbol("WeitereOne");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pb_zweiAktiven_clicked()
+{
+    if(ui->checkBox_2->isChecked()){
+        tracks->addSymbol("zweiReflektierenden");
+    }else{
+        tracks->addSymbol("zweiAktiven");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_lbl_zugbedient_clicked()
+{
+    if(ui->chb_zug_arrow->isChecked() && ui->chb_zug_filled->isChecked()){
+        tracks->addSymbol("stellwerksbedientArrow");
+    }else if(ui->chb_zug_arrow->isChecked() && ui->chb_zug_partial->isChecked()){
+        tracks->addSymbol("zugOderStellwerksbedientArrow");
+    }else if (ui->chb_zug_arrow->isChecked() && ui->chb_zug_nofill->isChecked()){
+        tracks->addSymbol("zugbedientArrow");
+    }else if (ui->chb_zug_filled->isChecked()){
+        tracks->addSymbol("stellwerksbedient");
+    }else if (ui->chb_zug_partial->isChecked()){
+         tracks->addSymbol("zugOderStellwerksbedient");
+    } else if (ui->chb_zug_nofill->isChecked()){
+             tracks->addSymbol("zugbedient");
+        }
+    else if (ui->chb_zug_arrow->isChecked()){
+                 tracks->addSymbol("zugbedientArrow");
+            }
+    else{
+         tracks->addSymbol("zugbedient");
+    }
+}
+
+
+void QGraphicsSymbolContainer::on_pushbutton_vorZugbedient_clicked()
+{
+    if(ui->checkBox_Arrow->isChecked() && ui->checkBox_vorStellwerksbedient->isChecked()){
+        tracks->addSymbol("vorStellwerksbedientArrow");
+    }else if(ui->checkBox_Arrow->isChecked() && ui->checkBox_vorZugoderStellwerksbedient->isChecked()){
+        tracks->addSymbol("vorZugoderStellwerksbedientArrow");
+    }else if (ui->checkBox_vorZugoderStellwerksbedient->isChecked()){
+        tracks->addSymbol("vorZugoderStellwerksbedient");
+    }else if (ui->checkBox_vorStellwerksbedient->isChecked()){
+        tracks->addSymbol("vorStellwerksbedient");
+    }else if (ui->checkBox_Arrow->isChecked()){
+         tracks->addSymbol("vorZugbedientArrow");
+    }
+    else{
+         tracks->addSymbol("vorZugbedient");
+    }
 }
 
