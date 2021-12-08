@@ -341,6 +341,16 @@
         <file>assets/qgraphics/zweiAktiven.svg</file>
         <file>assets/qgraphics/ZweiBuSchaltkontakt.svg</file>
         <file>assets/qgraphics/zweiReflektierenden.svg</file>
+        <file>assets/qgraphics/mehraausanderemStellbereichArrow.svg</file>
+        <file>assets/qgraphics/mehraZugoderStellwerksbedientArrow.svg</file>
+        <file>assets/qgraphics/mehraZugbedientArrow.svg</file>
+        <file>assets/qgraphics/mehrasStellwerksbedientArrow.svg</file>
+        <file>assets/qgraphics/vorZugoderStellwerksbedientArrow.svg</file>
+        <file>assets/qgraphics/vorZugbedientArrow.svg</file>
+        <file>assets/qgraphics/vorStellwerksbedientArrow.svg</file>
+        <file>assets/qgraphics/zugOderStellwerksbedientArrow.svg</file>
+        <file>assets/qgraphics/zugbedientArrow.svg</file>
+        <file>assets/qgraphics/stellwerksbedientArrow.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>
