@@ -9,6 +9,10 @@
 #include <QPointF>
 #include <QWheelEvent>
 #include <QRegularExpression>
+#include <QSvgRenderer>
+#include <QGraphicsSvgItem>
+
+
 
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
@@ -1322,38 +1326,15 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 void Tracks::addSymbol(QString str)
 {
     defaultObjectName = str;
-    if(str == "stellwerksbedient_arrow"){
 
-        pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/stellwerksbedient.svg"));
-        pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-
-        pixmapItem2 =  new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/hauptSignalbegriffe.svg"));
-        pixmapItem2->setTransformationMode(Qt::SmoothTransformation);
-        pixmapItem2->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        pixmapItem2->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-
-        group = new QGraphicsItemGroup(0);
-        group->setFlags(QGraphicsItemGroup::ItemIsSelectable | QGraphicsItemGroup::ItemIsMovable);
-
-        group->addToGroup(pixmapItem);
-        group->addToGroup(pixmapItem2);
-
-
-        scene()->addItem(group);
-
-
-    }else{
         glbObjectName = str;
-        pixmapItem = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+str+".svg"));
-        pixmapItem->setTransformationMode(Qt::SmoothTransformation);
-        pixmapItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        pixmapItem->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-        //  pixmapItem->setToolTip(str);
-        scene()->addItem(pixmapItem);
-    }
-
+        QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
+        QGraphicsSvgItem *black = new QGraphicsSvgItem();
+        black->setSharedRenderer(renderer);
+       // black->setRotation(-180);
+        black->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+        black->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+        scene()->addItem(black);
 }
 void Tracks :: sceneSelectedItems(int degree){
 
@@ -1476,7 +1457,7 @@ void Tracks::getSegementObjects()
     uhKM_A_KM="";
     uhKM_A_M="";
     uhKM_E_KM="";
-    uhKM_E_M="";
+    uhKM_E_M="0.0000";
 
     //KNOTEN Variables
     knotenID="";
@@ -1487,6 +1468,7 @@ void Tracks::getSegementObjects()
     kntSTATUS="";
     kntKM_KM="";
     kntKM_M="";
+
 
 
 
@@ -1717,9 +1699,11 @@ void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKan
     }
 
 
+
     // qDebug()<< "ID: "<< kantenID <<"LAENGE_ENT: "<<kantenLAENGE_ENT <<"RIKZ: "<< kantenRIKZ <<"RIKZ_L: " << kantenRIKZ_L << "STATUS: " <<kantenSTATUS;
     //qDebug()<< "Keys: "<< keyKanten;
     //qDebug()<< "Values: "<< valKanten;
+
 
 
 
