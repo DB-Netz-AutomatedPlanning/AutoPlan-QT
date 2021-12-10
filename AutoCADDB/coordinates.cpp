@@ -105,7 +105,6 @@ void Coordinates::readCoordinates(QString dataFile, int dataCodeNumber)
             object.insert("KNOTENNAME", KNOTENNAME);
             object.insert("KNOTENBESC", KNOTENBESC);
             object.insert("TYP", QString::number(TYP,'f',0));
-
             object.insert("TYP_L", TYP_L);
             object.insert("STATUS", STATUS);
             object.insert("KM_KM", KM_KM);

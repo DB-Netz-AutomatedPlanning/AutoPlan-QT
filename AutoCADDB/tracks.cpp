@@ -13,7 +13,8 @@
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
-    drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false)
+    drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false),
+    drawGleisknotenDP(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -109,8 +110,10 @@ void Tracks::addGleiskanten()
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
                 gleiskantenDP_Parent = new QGraphicsPathItem(path);
-
                 gleiskantenDP_Parent->setPen(QPen(Qt::blue));
+
+//                gleiskantenDP_Parent->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.2));
+//                gleiskantenDP_Parent->setBrush(QColor(0xFF, 0x55, 0x55));
                 gleiskantenDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
                 gleiskantenDP_Parent->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 scene()->addItem(gleiskantenDP_Parent);
@@ -118,8 +121,11 @@ void Tracks::addGleiskanten()
             } else {
                 QPainterPath path;
                 path.addEllipse(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue(),1,1);
+
                 QGraphicsPathItem *gleiskantenDP = new QGraphicsPathItem(path);
                 gleiskantenDP->setPen(QPen(Qt::blue));
+//                gleiskantenDP->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.15));
+//                gleiskantenDP->setBrush(QBrush(Qt::NoBrush,Qt::Dense7Pattern));  //QColor(0xFF, 0x55, 0x55)
                 gleiskantenDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
                 gleiskantenDP->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 gleiskantenDP->setParentItem(gleiskantenDP_Parent);
@@ -542,6 +548,65 @@ void Tracks::addUberhohung()
     uberhohungDP_Parent->setVisible(getDrawUberhohungDP());
 }
 
+
+void Tracks::addGleisknoten(){
+    QFile file (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
+    if (!file.exists()) return;
+
+    std::vector<float> vec = allVecKnoten(projectPath, projectName, "Gleisknoten.dbahn");
+
+//    int segmentCount =0;
+    // To obtain and add the data object to appropriate section
+    Coordinates *coord = new Coordinates(projectPath, projectName);
+    coord->readCoordinates("Gleisknoten.dbahn");
+    std::vector<QMap<QString, QString>> map = coord->getMap();
+//    int signalKey =0;
+//    int dataSegCount =0;
+
+
+    // Add DataPoints
+    bool isFirstPoint = true;
+    //    foreach (auto val, vec){
+
+    //QPointF point;
+    int count =0;
+    while (count < static_cast<int>(vec.size())){
+        if (isFirstPoint){
+            QPainterPath path;
+            path.addEllipse(vec[count]*getMultiplierValue(), vec[count+1]*getMultiplierValue(),2,2);
+            //                path.addEllipse(val[count], val[count+1],1,1);
+            gleisknotenDP_Parent = new QGraphicsPathItem(path);
+
+//            gleiskantenDP->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.15));
+            //                gleiskantenDP->setBrush(QBrush(Qt::NoBrush,Qt::Dense7Pattern));
+
+            gleisknotenDP_Parent->setPen(QPen(Qt::red,0.7));
+            gleisknotenDP_Parent->setBrush(QBrush(Qt::black));
+            gleisknotenDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            gleisknotenDP_Parent->setToolTip("x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
+            scene()->addItem(gleisknotenDP_Parent);
+            isFirstPoint = !isFirstPoint;
+        } else {
+            QPainterPath path;
+            path.addEllipse(vec[count]*getMultiplierValue(), vec[count+1]*getMultiplierValue(),2,2);
+            //                path.addEllipse(val[count], val[count+1],1,1);
+            QGraphicsPathItem *gleisknotenDP = new QGraphicsPathItem(path);
+//            gleiskantenDP->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.15));
+            //                gleiskantenDP->setBrush(QBrush(Qt::NoBrush,Qt::Dense7Pattern));
+            gleisknotenDP->setPen(QPen(Qt::red, 0.7));
+            gleisknotenDP->setBrush(QBrush(Qt::black));
+            gleisknotenDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
+            gleisknotenDP->setToolTip("x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
+            gleisknotenDP->setParentItem(gleisknotenDP_Parent);
+        }
+        count =  count +2;
+    }
+    //    }
+    if (!parentItems.contains("gleisknotenDP_Parent")) parentItems << "gleisknotenDP_Parent";
+    gleisknotenDP_Parent->setVisible(getDrawGleisknotenDP());
+}
+
+
 void Tracks::setBoolParameters()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
@@ -549,14 +614,14 @@ void Tracks::setBoolParameters()
     QFile file3 (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
     QFile file4 (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
     QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
-    QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
+//    QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
     drawGleiskanten = file.exists() ? true : false;
     drawHoehe = file2.exists() ? true : false;
     drawKmLine = file3.exists() ? true : false;
     drawUberhohung = file4.exists() ? true : false;
     drawLage = file5.exists() ? true : false;
-    //    drawGleisknoten = file6.exists() ? true : false;
+//    drawGleisknoten = file6.exists() ? true : false;
 }
 
 void Tracks::reload()
@@ -641,12 +706,14 @@ void Tracks::updateAll()
     addKMline();
     addLage();
     addUberhohung();
+    addGleisknoten();
 }
 
 
 QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fileName)
 {
     // First get the Directions (RITZ)
+    // Note that Gleisknoten and KmLine cannot have the attribute of directions (RITZ)
     if (fileName != "Gleisknoten.dbahn" && fileName != "Entwurfselement_KM.dbahn" ){
         Coordinates *coord = new Coordinates(pPath, pName);
         coord->readCoordinates(fileName);
@@ -724,6 +791,22 @@ void Tracks::multiplierEffect(float x, float y)
         int finalEffect = 1000000/k;
         this->setMultiplierValue(finalEffect);
         multiplierDone = !multiplierDone;
+    }
+}
+
+bool Tracks::getDrawGleisknotenDP() const
+{
+    return drawGleisknotenDP;
+}
+
+void Tracks::setDrawGleisknotenDP(bool newDrawGleisknotenDP)
+{
+    QFile file (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
+    if (!file.exists()) return;
+
+    if (drawGleisknotenDP != newDrawGleisknotenDP){
+        drawGleisknotenDP = newDrawGleisknotenDP;
+        gleisknotenDP_Parent->setVisible(newDrawGleisknotenDP);
     }
 }
 
