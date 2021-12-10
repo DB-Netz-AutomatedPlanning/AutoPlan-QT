@@ -51,17 +51,7 @@ private slots:
 
     void on_horizontalSlider_valueChanged(int value);
 
-  //  void on_showCoordinates_Knoten_clicked();
-
-  //  void on_showCoordinates_Kanten_clicked();
-
-  //  void on_showCoordinates_KM_clicked();
-
-  //  void on_showCoordinates_HO_clicked();
-
-   // void on_showCoordinates_LA_clicked();
-
-  //  void on_showCoordinates_UH_clicked();
+    void on_checkBoxKnotenDP_toggled(bool checked);
 
 private:
     Ui::QGraphicsMainWindow *ui;

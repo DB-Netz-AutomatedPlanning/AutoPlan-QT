@@ -23,6 +23,7 @@ public:
     void addKMline();
     void addLage();
     void addUberhohung();
+    void addGleisknoten();
     void setBoolParameters();
     void reload();
     void addSymbol(QString str);
@@ -89,6 +90,9 @@ public:
     bool getDrawLageDP() const;
     void setDrawLageDP(bool newDrawLageDP);
 
+    bool getDrawGleisknotenDP() const;
+    void setDrawGleisknotenDP(bool newDrawGleisknotenDP);
+
     bool getDragModeMouse() const;
     void setDragModeMouse();
 
@@ -119,6 +123,7 @@ private:
     QGraphicsPathItem *lageDP_Parent;
     QGraphicsPathItem *uberhohung_Parent;
     QGraphicsPathItem *uberhohungDP_Parent;
+    QGraphicsPathItem *gleisknotenDP_Parent;
 
     void multiplierEffect(float x, float y);
     int multiplierValue = 1;
@@ -138,6 +143,7 @@ private:
     bool drawLageDP;
     bool drawUberhohung;
     bool drawUberhohungDP;
+    bool drawGleisknotenDP;
     bool dragModeMouse;
     double xCoord;
     double yCoord;
@@ -153,6 +159,8 @@ public:
 
     // QWidget interface
     QGraphicsItemGroup *group;
+
+
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;

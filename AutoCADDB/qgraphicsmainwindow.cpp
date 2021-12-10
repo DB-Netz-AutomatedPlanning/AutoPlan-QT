@@ -9,12 +9,10 @@
 QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
    QWidget(parent),
    ui(new Ui::QGraphicsMainWindow)
-
 {
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
     tracks = new Tracks(this);
-
     tracks->setBoolParameters();
     tracks->getUpdateRect();
 
@@ -28,6 +26,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->addKMline();
     tracks->addLage();
     tracks->addUberhohung();
+    tracks->addGleisknoten();
     tracks->addSymbol("");
 
     ui->verticalLayout->addWidget(tracks);
@@ -42,8 +41,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     ui->checkBoxLADP->setChecked(tracks->getDrawLageDP());
     ui->checkBoxUH->setChecked(tracks->getDrawUberhohung());
     ui->checkBoxUHDP->setChecked(tracks->getDrawUberhohungDP());
-
-    qInfo() << "hello";
+    ui->checkBoxKnotenDP->setChecked(tracks->getDrawGleisknotenDP());
 }
 
 QGraphicsMainWindow::~QGraphicsMainWindow()
@@ -51,12 +49,10 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
     delete ui;
 }
 
-
 void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
 {
     tracks->setDrawGrids(checked);
 }
-
 
 void QGraphicsMainWindow::on_checkBoxGridLine2_clicked()
 {
@@ -72,6 +68,7 @@ void QGraphicsMainWindow::on_checkBoxGridLine2_clicked()
     ui->checkBoxLADP->setChecked(tracks->getDrawLageDP());
     ui->checkBoxUH->setChecked(tracks->getDrawUberhohung());
     ui->checkBoxUHDP->setChecked(tracks->getDrawUberhohungDP());
+
     tracks->deleteAll();
     tracks->updateAll();
 }
@@ -81,7 +78,6 @@ void QGraphicsMainWindow::on_checkBoxKanten_toggled(bool checked)
 {
     tracks->setDrawGleiskanten(checked);
 }
-
 
 void QGraphicsMainWindow::on_checkBoxKantenDP_toggled(bool checked)
 {
@@ -94,7 +90,6 @@ void QGraphicsMainWindow::on_checkBoxHO_toggled(bool checked)
     tracks->setDrawHoehe(checked);
 
 }
-
 
 void QGraphicsMainWindow::on_checkBoxHODP_toggled(bool checked)
 {
@@ -113,12 +108,10 @@ void QGraphicsMainWindow::on_checkBoxKMDP_toggled(bool checked)
     tracks->setDrawKmLineDP(checked);
 }
 
-
 void QGraphicsMainWindow::on_checkBoxLA_toggled(bool checked)
 {
     tracks->setDrawLage(checked);
 }
-
 
 void QGraphicsMainWindow::on_checkBoxLADP_toggled(bool checked)
 {
@@ -155,124 +148,8 @@ void QGraphicsMainWindow::on_horizontalSlider_valueChanged(int value)
      tracks->sceneSelectedItems(value);
 }
 
-
-//void QGraphicsMainWindow::on_showCoordinates_Knoten_clicked()
-//{
-    ////Gleisknoten
-
-   // if(ui->showCoordinates_Knoten->isChecked()){
-
-    //    ui->showCoordinates_Kanten->setChecked(false);
-      //  ui->showCoordinates_KM->setChecked(false);
-      //  ui->showCoordinates_HO->setChecked(false);
-      //  ui->showCoordinates_LA->setChecked(false);
-      //  ui->showCoordinates_UH->setChecked(false);
-
-      //  rightPanelTable = 1;
-   // }else{
-      //  rightPanelTable = 0;
-  //  }
-
-//}
-
-
-//void QGraphicsMainWindow::on_showCoordinates_Kanten_clicked()
-//{
-   // //Gleiskanten
-
-  //  if(ui->showCoordinates_Kanten->isChecked()){
-
-     //   ui->showCoordinates_Knoten->setChecked(false);
-     //   ui->showCoordinates_KM->setChecked(false);
-     //   ui->showCoordinates_HO->setChecked(false);
-     //   ui->showCoordinates_LA->setChecked(false);
-     //   ui->showCoordinates_UH->setChecked(false);
-
-     //  rightPanelTable = 2;
-  //  }else{
-     //   rightPanelTable = 0;
-   // }
-//}
-
-
-//void QGraphicsMainWindow::on_showCoordinates_KM_clicked()
-//{
-
-    ////Entwurfselement_KM
-
-  //  if(ui->showCoordinates_KM->isChecked()){
-
-  //      ui->showCoordinates_Knoten->setChecked(false);
-   //     ui->showCoordinates_Kanten->setChecked(false);
-    //    ui->showCoordinates_HO->setChecked(false);
-    //    ui->showCoordinates_LA->setChecked(false);
-    //    ui->showCoordinates_UH->setChecked(false);
-
-    //      rightPanelTable = 4;
-  //  }else{
-  //      rightPanelTable = 0;
-  //  }
-//}
-
-
-//void QGraphicsMainWindow::on_showCoordinates_HO_clicked()
-//{
-
-   ////Entwurfselement_HO
-
-   // if(ui->showCoordinates_HO->isChecked()){
-
-    //    ui->showCoordinates_Knoten->setChecked(false);
-    //    ui->showCoordinates_Kanten->setChecked(false);
-    //    ui->showCoordinates_KM->setChecked(false);
-     //   ui->showCoordinates_LA->setChecked(false);
-     //   ui->showCoordinates_UH->setChecked(false);
-
-     //   rightPanelTable = 3;
-   // }else{
-      //  rightPanelTable = 0;
-   // }
-//}
-
-
-//void QGraphicsMainWindow::on_showCoordinates_LA_clicked()
-//{
-    ////Entwurfselement_LA
-
-   // if(ui->showCoordinates_LA->isChecked()){
-
-    //    ui->showCoordinates_Knoten->setChecked(false);
-    //    ui->showCoordinates_Kanten->setChecked(false);
-    //    ui->showCoordinates_KM->setChecked(false);
-    //    ui->showCoordinates_HO->setChecked(false);
-    //    ui->showCoordinates_UH->setChecked(false);
-
-   //     rightPanelTable = 6;
-   // }else{
-   //     rightPanelTable = 0;
-   // }
-//}
-
-
-//void QGraphicsMainWindow::on_showCoordinates_UH_clicked()
-//{
-
-    ////Entwurfselement_UH
-
-   // if(ui->showCoordinates_UH->isChecked()){
-
-       // ui->showCoordinates_Knoten->setChecked(false);
-       // ui->showCoordinates_Kanten->setChecked(false);
-       // ui->showCoordinates_KM->setChecked(false);
-       // ui->showCoordinates_HO->setChecked(false);
-       // ui->showCoordinates_LA->setChecked(false);
-
-      //  rightPanelTable = 5;
-    //}else{
-      //  rightPanelTable = 0;
-   // }
-//}
-
-
-
+void QGraphicsMainWindow::on_checkBoxKnotenDP_toggled(bool checked)
+{
+    tracks->setDrawGleisknotenDP(checked);
+}
 
