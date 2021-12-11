@@ -49,6 +49,34 @@ extern QString kantenRIKZ;
 extern QString kantenRIKZ_L;
 extern QString kantenSTATUS;
 
+
+// Kanten Variable ("fr")
+extern QString frKantenOBJECTID;
+extern QString frKantenARI_ID;
+extern QString frKantenCODE_LIGNE;
+extern QString frKantenRG_TRONCON;
+extern QString frKantenLIGNE;
+
+extern QString frKantenNOM_VOIE;
+extern QString frKantenCODE_VOIE;
+extern QString frKantenNUMERO_TRO;
+extern QString frKantenNUMERO_TOO;
+extern QString frKantenPK_DEBUT_R;
+
+extern QString frKantenPK_FIN_R;
+extern QString frKantenPK_DEBUT;
+extern QString frKantenPK_FIN;
+extern QString frKantenDDA;
+extern QString frKantenDFA;
+
+extern QString frKantenLOT;
+extern QString frKantenID_SERVICE;
+extern QString frKantenPK_LIGNE_D;
+extern QString frKantenPK_LIGNE_F;
+extern QString frKantenTYPE_VOIE;
+extern QString frKantenSHAPE_LEN;
+
+
 //KM Variables
 extern QString kmID;
 extern QString kmSTRECKENR;

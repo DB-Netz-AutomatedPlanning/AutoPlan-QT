@@ -16,7 +16,8 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->setBoolParameters();
     tracks->getUpdateRect();
 
-    scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
+    scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],
+            tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
 //    scene->setBackgroundBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
 
     tracks->setScene(scene);
@@ -27,7 +28,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->addLage();
     tracks->addUberhohung();
     tracks->addGleisknoten();
-    tracks->addSymbol("");
+//    tracks->addSymbol("");
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());

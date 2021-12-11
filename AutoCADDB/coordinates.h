@@ -16,7 +16,7 @@ class Coordinates : public QObject
     Q_OBJECT
 public:
     Coordinates(QString pPath, QString pName);      //QString station);
-    void readCoordinates(QString dataFile = "", int dataCodeNumber = 0);
+    void readCoordinates(QString dataFile = "", QString countryCode ="", int dataCodeNumber = 0);
 
     const std::vector<float> &getCoordinateLists() const;
     void setCoordinateLists(const std::vector<float> &newCoordinateLists);
