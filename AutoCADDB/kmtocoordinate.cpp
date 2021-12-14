@@ -3,6 +3,7 @@
 #include <QPointF>
 #include<QMap>
 #include<math.h>
+#include "symbolcontainer.h"
 
 
 KmToCoordinate::KmToCoordinate(QString pPath, QString pName)
@@ -11,7 +12,7 @@ KmToCoordinate::KmToCoordinate(QString pPath, QString pName)
     this->pName = pName;
 
     coord = new Coordinates(pPath,pName);
-    coord->readCoordinates("Entwurfselement_KM.dbahn");
+    coord->readCoordinates("Entwurfselement_KM.dbahn", countryCode);
     setSegmentExtremeKmValues(coord->getSegmentExtremeKmValues());
     setSegmentExtremePoints(coord->getSegmentExtremePoints());
 
@@ -191,7 +192,7 @@ void KmToCoordinate::mapKmAndCoord()
         }
     }
     setKmAndCoord(km_And_Coord);
-    qDebug()<< "Total = "<< sum;
+//    qDebug()<< "Total = "<< sum;
 }
 
 // this function return the nearest Km value to the provided Km value

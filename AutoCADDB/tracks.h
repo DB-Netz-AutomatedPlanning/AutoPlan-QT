@@ -38,10 +38,6 @@ public:
     void updateAll();
     QGraphicsPixmapItem *pixmapItem;
     QGraphicsPixmapItem *pixmapItem2;
-//    void itemInteractWithMouse(bool canInteract);
-//    Object getCurrentObject() const;
-//    void setCurrentObject(Object newCurrentObject);
-
     void getMultiplierEffect();   // most inportant function for setting the multiplier
     void getUpdateRect ();
     int getMultiplierValue() const;
@@ -171,7 +167,5 @@ protected:
 //protected:
 //   void mousePressEvent(QMouseEvent *event) override;
 };
-
-
 #endif // TRACKS_H
 

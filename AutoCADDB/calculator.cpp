@@ -1,6 +1,5 @@
 #include "calculator.h"
 #include "calcbutton.h"
-
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QtMath>

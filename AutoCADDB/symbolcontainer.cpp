@@ -32,6 +32,32 @@ QString kantenRIKZ ="rikz";
 QString kantenRIKZ_L ="rikzl";
 QString kantenSTATUS ="status";
 
+// Kanten ("fr")
+QString frKantenOBJECTID ="objectID";
+QString frKantenARI_ID ="ariID";
+QString frKantenCODE_LIGNE ="codeLinge";
+QString frKantenRG_TRONCON ="rgTroncon";
+QString frKantenLIGNE ="linge";
+
+QString frKantenNOM_VOIE ="nom_voie";
+QString frKantenCODE_VOIE ="code_voie";
+QString frKantenNUMERO_TRO ="numero_Tro";
+QString frKantenNUMERO_TOO ="numero_Too";
+QString frKantenPK_DEBUT_R ="pkDebutR";
+
+QString frKantenPK_FIN_R ="pkFinR";
+QString frKantenPK_DEBUT ="pkDebut";
+QString frKantenPK_FIN ="pkFin";
+QString frKantenDDA ="dda";
+QString frKantenDFA ="dfa";
+
+QString frKantenLOT ="lot";
+QString frKantenID_SERVICE ="idService";
+QString frKantenPK_LIGNE_D ="pkLigneD";
+QString frKantenPK_LIGNE_F ="pkLigneF";
+QString frKantenTYPE_VOIE ="type_Voie";
+QString frKantenSHAPE_LEN ="shape_Len";
+
 //KM
 QString kmID ="id";
 QString kmSTRECKENR ="stre";

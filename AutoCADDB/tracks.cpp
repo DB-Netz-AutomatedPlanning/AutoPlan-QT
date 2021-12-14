@@ -12,9 +12,6 @@
 #include <QSvgRenderer>
 #include <QGraphicsSvgItem>
 
-
-
-
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false),
@@ -24,21 +21,19 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scale(1, -1);
     setMouseTracking(true);
-
 }
 
 void Tracks::addGleiskanten()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
     if (!file.exists()) return;
-
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Gleiskanten.dbahn");
     QList<QString> dir = getDirection();
     int segmentCount =0;
 
     // To obtain and add the data object to appropriate section
     Coordinates *coord = new Coordinates(projectPath, projectName);
-    coord->readCoordinates("Gleiskanten.dbahn");
+    coord->readCoordinates("Gleiskanten.dbahn", countryCode);
     std::vector<QMap<QString, QString>> map = coord->getMap();
     int dataSegCount =0;
     int signalKey =0;
@@ -48,7 +43,6 @@ void Tracks::addGleiskanten()
     foreach (auto val, vec){
         QPainterPath path;
         QPolygonF segment;
-
         int count =0;
         while (count < static_cast<int>(val.size())){
             segment << QPointF(val[count]*getMultiplierValue(), val[count+1]*getMultiplierValue());
@@ -58,13 +52,15 @@ void Tracks::addGleiskanten()
 
         if (isFirstSegment){
             gleiskanten_Parent = new QGraphicsPathItem(path);
-            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+            if (countryCode == "de" &&(dir[segmentCount] =="1" || dir[segmentCount] =="2")){
                 gleiskanten_Parent->setPen(QPen(Qt::black, 1));
                 segmentCount++;
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values() );
             } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
                 gleiskanten_Parent->setPen(QPen(Qt::black, 1));
+                gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys());
+                gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values());
             }
             else {
                 gleiskanten_Parent->setPen(QPen(Qt::black, 0.3));
@@ -80,13 +76,15 @@ void Tracks::addGleiskanten()
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *gleiskanten = new QGraphicsPathItem(path);
-            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+            if (countryCode == "de" && (dir[segmentCount] =="1" || dir[segmentCount] =="2")){
                 gleiskanten->setPen(QPen(Qt::black, 1));
                 segmentCount++;
                 gleiskanten->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten->setData(signalKey+1, map[dataSegCount].values() );
             } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
                 gleiskanten->setPen(QPen(Qt::black, 1));
+                gleiskanten->setData(signalKey, map[dataSegCount].keys());
+                gleiskanten->setData(signalKey+1, map[dataSegCount].values());
             } else {
                 gleiskanten->setPen(QPen(Qt::black, 0.3));
                 segmentCount++;
@@ -116,8 +114,8 @@ void Tracks::addGleiskanten()
                 gleiskantenDP_Parent = new QGraphicsPathItem(path);
                 gleiskantenDP_Parent->setPen(QPen(Qt::blue));
 
-//                gleiskantenDP_Parent->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.2));
-//                gleiskantenDP_Parent->setBrush(QColor(0xFF, 0x55, 0x55));
+                //                gleiskantenDP_Parent->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.2));
+                //                gleiskantenDP_Parent->setBrush(QColor(0xFF, 0x55, 0x55));
                 gleiskantenDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
                 gleiskantenDP_Parent->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 scene()->addItem(gleiskantenDP_Parent);
@@ -128,8 +126,6 @@ void Tracks::addGleiskanten()
 
                 QGraphicsPathItem *gleiskantenDP = new QGraphicsPathItem(path);
                 gleiskantenDP->setPen(QPen(Qt::blue));
-//                gleiskantenDP->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.15));
-//                gleiskantenDP->setBrush(QBrush(Qt::NoBrush,Qt::Dense7Pattern));  //QColor(0xFF, 0x55, 0x55)
                 gleiskantenDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
                 gleiskantenDP->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 gleiskantenDP->setParentItem(gleiskantenDP_Parent);
@@ -149,13 +145,12 @@ void Tracks::addHoehe()
     if (!file.exists()) return;
 
     QVector<QVector<float>> vec = allVec(projectPath, projectName, "Entwurfselement_HO.dbahn");
-
     QList<QString> dir = getDirection();
     int segmentCount =0;
 
     // To obtain and add the data object to appropriate section
     Coordinates *coord = new Coordinates(projectPath, projectName);
-    coord->readCoordinates("Entwurfselement_HO.dbahn");
+    coord->readCoordinates("Entwurfselement_HO.dbahn", countryCode);
     std::vector<QMap<QString, QString>> map = coord->getMap();
     int dataSegCount =0;
     int signalKey =0;
@@ -259,7 +254,7 @@ void Tracks::addKMline()
 
     // To obtain and add the data object to appropriate section
     Coordinates *coord = new Coordinates(projectPath, projectName);
-    coord->readCoordinates("Entwurfselement_KM.dbahn");
+    coord->readCoordinates("Entwurfselement_KM.dbahn", countryCode);
     std::vector<QMap<QString, QString>> map = coord->getMap();
     int signalKey =0;
 
@@ -354,7 +349,7 @@ void Tracks::addLage()
 
     // To obtain and add the data object to appropriate section
     Coordinates *coord = new Coordinates(projectPath, projectName);
-    coord->readCoordinates("Entwurfselement_LA.dbahn");
+    coord->readCoordinates("Entwurfselement_LA.dbahn", countryCode);
     std::vector<QMap<QString, QString>> map = coord->getMap();
     int signalKey =0;
     int dataSegCount =0;
@@ -459,7 +454,7 @@ void Tracks::addUberhohung()
     int segmentCount =0;
     // To obtain and add the data object to appropriate section
     Coordinates *coord = new Coordinates(projectPath, projectName);
-    coord->readCoordinates("Entwurfselement_UH.dbahn");
+    coord->readCoordinates("Entwurfselement_UH.dbahn", countryCode);
     std::vector<QMap<QString, QString>> map = coord->getMap();
     int signalKey =0;
     int dataSegCount =0;
@@ -559,53 +554,57 @@ void Tracks::addGleisknoten(){
 
     std::vector<float> vec = allVecKnoten(projectPath, projectName, "Gleisknoten.dbahn");
 
-//    int segmentCount =0;
     // To obtain and add the data object to appropriate section
     Coordinates *coord = new Coordinates(projectPath, projectName);
-    coord->readCoordinates("Gleisknoten.dbahn");
+    coord->readCoordinates("Gleisknoten.dbahn", countryCode);
     std::vector<QMap<QString, QString>> map = coord->getMap();
-//    int signalKey =0;
-//    int dataSegCount =0;
-
+    int signalKey =0;
+    int dataSegCount =0;
 
     // Add DataPoints
     bool isFirstPoint = true;
-    //    foreach (auto val, vec){
 
     //QPointF point;
     int count =0;
+    qDebug()<< static_cast<int>(vec.size());
     while (count < static_cast<int>(vec.size())){
         if (isFirstPoint){
             QPainterPath path;
             path.addEllipse(vec[count]*getMultiplierValue(), vec[count+1]*getMultiplierValue(),2,2);
-            //                path.addEllipse(val[count], val[count+1],1,1);
             gleisknotenDP_Parent = new QGraphicsPathItem(path);
-
-//            gleiskantenDP->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.15));
-            //                gleiskantenDP->setBrush(QBrush(Qt::NoBrush,Qt::Dense7Pattern));
-
             gleisknotenDP_Parent->setPen(QPen(Qt::red,0.7));
             gleisknotenDP_Parent->setBrush(QBrush(Qt::black));
+            gleisknotenDP_Parent->setData(signalKey, map[dataSegCount].keys());
+            gleisknotenDP_Parent->setData(signalKey+1, map[dataSegCount].values());
+            gleisknotenDP_Parent->setToolTip("Gleisknoten_"+QString::number(signalKey));
+//            gleisknotenDP_Parent->setToolTip("Gleisknoten_"+QString::number(signalKey) +
+//                                             "\n x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
+            signalKey +=2;
+            dataSegCount++;
+
             gleisknotenDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
-            gleisknotenDP_Parent->setToolTip("x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
             scene()->addItem(gleisknotenDP_Parent);
             isFirstPoint = !isFirstPoint;
         } else {
             QPainterPath path;
             path.addEllipse(vec[count]*getMultiplierValue(), vec[count+1]*getMultiplierValue(),2,2);
-            //                path.addEllipse(val[count], val[count+1],1,1);
             QGraphicsPathItem *gleisknotenDP = new QGraphicsPathItem(path);
-//            gleiskantenDP->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.15));
-            //                gleiskantenDP->setBrush(QBrush(Qt::NoBrush,Qt::Dense7Pattern));
             gleisknotenDP->setPen(QPen(Qt::red, 0.7));
             gleisknotenDP->setBrush(QBrush(Qt::black));
+
+            gleisknotenDP->setData(signalKey, map[dataSegCount].keys());
+            gleisknotenDP->setData(signalKey+1, map[dataSegCount].values());
+            gleisknotenDP->setToolTip("Gleisknoten_"+QString::number(signalKey));
+//            gleisknotenDP->setToolTip("Gleisknoten_"+QString::number(signalKey) +
+//                                             "\n x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
+            signalKey +=2;
+            dataSegCount++;
+
             gleisknotenDP->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
-            gleisknotenDP->setToolTip("x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
             gleisknotenDP->setParentItem(gleisknotenDP_Parent);
         }
         count =  count +2;
     }
-    //    }
     if (!parentItems.contains("gleisknotenDP_Parent")) parentItems << "gleisknotenDP_Parent";
     gleisknotenDP_Parent->setVisible(getDrawGleisknotenDP());
 }
@@ -618,14 +617,14 @@ void Tracks::setBoolParameters()
     QFile file3 (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
     QFile file4 (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
     QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
-//    QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
+    QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
     drawGleiskanten = file.exists() ? true : false;
     drawHoehe = file2.exists() ? true : false;
     drawKmLine = file3.exists() ? true : false;
     drawUberhohung = file4.exists() ? true : false;
     drawLage = file5.exists() ? true : false;
-//    drawGleisknoten = file6.exists() ? true : false;
+    drawGleisknotenDP = file6.exists() ? true : false;
 }
 
 void Tracks::reload()
@@ -698,6 +697,8 @@ void Tracks::deleteAll()
         delete uberhohungDP_Parent;
         parentItems.remove("uberhohungDP_Parent");
     }
+
+    // TODO: implement for Gleisknoten
 }
 
 
@@ -720,7 +721,7 @@ QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fi
     // Note that Gleisknoten and KmLine cannot have the attribute of directions (RITZ)
     if (fileName != "Gleisknoten.dbahn" && fileName != "Entwurfselement_KM.dbahn" ){
         Coordinates *coord = new Coordinates(pPath, pName);
-        coord->readCoordinates(fileName);
+        coord->readCoordinates(fileName, countryCode);
         setDirection(coord->getDirection());
     }
 
@@ -729,14 +730,13 @@ QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fi
     if (fileName != "Gleisknoten.dbahn"){
 
         Coordinates *coord = new Coordinates(pPath, pName);
-        coord->readCoordinates(fileName);
+        coord->readCoordinates(fileName, countryCode);
         int segmentSize = coord->getSegment().size();
 
         for (int i=0; i<segmentSize-1; i++){
             vec.push_back(QVector<float>());
             for (int j=coord->getSegment()[i]; j< coord->getSegment()[i+1]; j++){
                 vec[i].push_back(coord->getCoordinateLists()[j]);
-
             }
         }
     }
@@ -748,8 +748,7 @@ std::vector<float> Tracks::allVecKnoten(QString pPath, QString pName, QString fi
     std::vector<float> vec;
     if (fileName == "Gleisknoten.dbahn"){
         Coordinates *coord = new Coordinates(pPath, pName);
-        coord->readCoordinates(fileName);
-
+        coord->readCoordinates(fileName, countryCode);
         vec = coord->getCoordinateLists();
     }
     return vec;
@@ -758,12 +757,10 @@ std::vector<float> Tracks::allVecKnoten(QString pPath, QString pName, QString fi
 std::vector<float> Tracks::unsegmentedVec(QString pPath, QString pName, QString fileName)
 {
     std::vector<float> vec;
-
     Coordinates *coord = new Coordinates(pPath, pName);
-    coord->readCoordinates(fileName);
+    coord->readCoordinates(fileName, countryCode);
     vec = coord->getCoordinateLists();
     return vec;
-
 }
 
 //QGraphicsItem *Tracks::getSelectedItem()
@@ -791,7 +788,6 @@ void Tracks::multiplierEffect(float x, float y)
                 value = value / 10;
             }
         }
-
         int finalEffect = 1000000/k;
         this->setMultiplierValue(finalEffect);
         multiplierDone = !multiplierDone;
@@ -831,7 +827,6 @@ bool Tracks::getDragModeMouse() const
 
 void Tracks::setDragModeMouse()
 {
-    //    itemInteractWithMouse(!mouseDragMode);
     if (mouseDragMode){
         setDragMode(QGraphicsView::ScrollHandDrag);
         setInteractive(false);
@@ -853,7 +848,6 @@ bool Tracks::getDrawLageDP() const
 void Tracks::setDrawLageDP(bool newDrawLageDP)
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
-
     if (!file.exists()) return;
     if (drawLageDP != newDrawLageDP){
         drawLageDP = newDrawLageDP;
@@ -870,7 +864,6 @@ void Tracks::setDrawUberhohungDP(bool newDrawUberhohungDP)
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
     if (!file.exists()) return;
-
     if (drawUberhohungDP != newDrawUberhohungDP){
         drawUberhohungDP = newDrawUberhohungDP;
         uberhohungDP_Parent->setVisible(newDrawUberhohungDP);
@@ -886,7 +879,6 @@ void Tracks::setDrawUberhohung(bool newDrawUberhohung)
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
     if (!file.exists()) return;
-
     if (drawUberhohung != newDrawUberhohung){
         drawUberhohung = newDrawUberhohung;
         uberhohung_Parent->setVisible(newDrawUberhohung);
@@ -899,10 +891,9 @@ bool Tracks::getDrawLage() const
 }
 
 void Tracks::setDrawLage(bool newDrawLage)
-{;
+{
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
     if (!file.exists()) return;
-
     if (drawLage != newDrawLage){
         drawLage = newDrawLage;
         lage_Parent->setVisible(newDrawLage);
@@ -918,7 +909,6 @@ void Tracks::setDrawKmLineDP(bool newDrawKmLineDP)
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
     if (!file.exists()) return;
-
     if (drawKmLineDP != newDrawKmLineDP){
         drawKmLineDP = newDrawKmLineDP;
         kmLineDP_Parent->setVisible(newDrawKmLineDP);
@@ -934,7 +924,6 @@ void Tracks::setDrawKmLine(bool newDrawKmLine)
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
     if (!file.exists()) return;
-
     if (drawKmLine != newDrawKmLine){
         drawKmLine = newDrawKmLine;
         kmLine_Parent->setVisible(newDrawKmLine);
@@ -980,7 +969,6 @@ void Tracks::setDrawGleiskanten(bool newDrawGleiskanten)
 {
     QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
     if (!file.exists()) return;
-
     if (drawGleiskanten != newDrawGleiskanten){
         drawGleiskanten = newDrawGleiskanten;
         gleiskanten_Parent->setVisible(newDrawGleiskanten);
@@ -996,7 +984,6 @@ void Tracks::setDrawHoehe(bool newDrawHoehe)
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
     if (!file.exists()) return;
-
     if (drawHoehe != newDrawHoehe){
         drawHoehe = newDrawHoehe;
         hoehe_Parent->setVisible(newDrawHoehe);
@@ -1052,10 +1039,8 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
     update();
 }
 
-
 void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
-    //  getSegementObjects();
     if (drawGrids){
         painter->save();
         painter->setPen(QColor(95,52,21,90));
@@ -1063,25 +1048,20 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
         for (int i = 0; i< getUsedRect()[2]/50; i++) {
             painter->drawLine(getUsedRect()[0]+(50*i),getUsedRect()[1], getUsedRect()[0]+(50*i),
                     getUsedRect()[1]+getUsedRect()[3] );
-
         }
         for(int i =0; i < getUsedRect()[3]/50; i++){
             painter->drawLine(getUsedRect()[0],getUsedRect()[1]+(i*50),
                     getUsedRect()[0]+getUsedRect()[2], getUsedRect()[1]+(i*50));
         }
         painter->restore();
-
     } else {
         QGraphicsView::drawForeground(painter, rect);
     }
-
-
 }
 
 void Tracks::wheelEvent(QWheelEvent *event)
 {
     if (event->modifiers() & Qt::ControlModifier) {
-
         const ViewportAnchor anchor = transformationAnchor();
         setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
         if (mouseDragMode) setTransformationAnchor(QGraphicsView::AnchorViewCenter);
@@ -1114,9 +1094,7 @@ void Tracks::keyPressEvent(QKeyEvent *event)
                 scene()->removeItem(item);
                 delete item;
             }else{
-
             }
-
         }
     }
 }
@@ -1188,7 +1166,6 @@ void Tracks::getMultiplierEffect()
     }
     qDebug()<< "Multiply"<< this->getMultiplierValue();
 }
-
 
 void Tracks::getUpdateRect()
 {
@@ -1327,14 +1304,14 @@ void Tracks::addSymbol(QString str)
 {
     defaultObjectName = str;
 
-        glbObjectName = str;
-        QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
-        QGraphicsSvgItem *black = new QGraphicsSvgItem();
-        black->setSharedRenderer(renderer);
-       // black->setRotation(-180);
-        black->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-        black->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-        scene()->addItem(black);
+    glbObjectName = str;
+    QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
+    QGraphicsSvgItem *black = new QGraphicsSvgItem();
+    black->setSharedRenderer(renderer);
+    // black->setRotation(-180);
+    black->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    black->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+    scene()->addItem(black);
 }
 void Tracks :: sceneSelectedItems(int degree){
 
@@ -1344,27 +1321,15 @@ void Tracks :: sceneSelectedItems(int degree){
     //transform.rotate(degree);
     //transform.translate(-offset.x(),-offset.y());
     //group->setTransform(transform);
-
-    //    foreach (QGraphicsItem *item, scene()->selectedItems()) {
-
-
-
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
         QString toolTip = item->toolTip();
         QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
         qInfo() << breakToolTip[0];
         if(breakToolTip[0].isEmpty()){
             item->setRotation(degree);
-
-
         }else{
-
         }
-
     }
-
-
-    //    }
     // group = scene()->createItemGroup(scene()->selectedItems());
     //QPointF offset = group->sceneBoundingRect().center();
     //QTransform transform;
@@ -1372,18 +1337,18 @@ void Tracks :: sceneSelectedItems(int degree){
     //transform.rotate(degree);
     //transform.translate(-offset.x(),-offset.y());
     //group->setTransform(transform);
-
 }
 
 void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QString type,
                                QString position, QString latDist, QString orientation, QString direction)
 {
-    QGraphicsPixmapItem *signal = new QGraphicsPixmapItem(QPixmap(":/icons/assets/qgraphics/"+name+".svg"));
-    signal->setTransformationMode(Qt::SmoothTransformation);
-    signal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+    QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+name+".svg"));
+    QGraphicsSvgItem *signal = new QGraphicsSvgItem();
+    signal->setSharedRenderer(renderer);
+    signal->setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
+
     signal->setToolTip(" DB Signal Function : " +type+"\n Coordinate: "+QString::number(location.x())+" , "+QString::number(location.y())+
                        "\n Linear Coordinate(Km): "+ position+ "\n Lateral Dist: "+latDist+ "\n Lateral Side: "+orientation+ "\n Direction: "+direction);
-
     signal->setPos(location*getMultiplierValue());
     signal->setRotation(angle);
     scene()->addItem(signal);
@@ -1396,6 +1361,32 @@ void Tracks::getSegementObjects()
     kantenRIKZ = "";
     kantenRIKZ_L="";
     kantenSTATUS="";
+
+    // Kanten ("fr")
+    frKantenOBJECTID ="";
+    frKantenARI_ID ="";
+    frKantenCODE_LIGNE ="";
+    frKantenRG_TRONCON ="";
+    frKantenLIGNE ="";
+
+    frKantenNOM_VOIE ="";
+    frKantenCODE_VOIE ="";
+    frKantenNUMERO_TRO ="";
+    frKantenNUMERO_TOO ="";
+    frKantenPK_DEBUT_R ="";
+
+    frKantenPK_FIN_R ="";
+    frKantenPK_DEBUT ="";
+    frKantenPK_FIN ="";
+    frKantenDDA ="";
+    frKantenDFA ="";
+
+    frKantenLOT ="";
+    frKantenID_SERVICE ="";
+    frKantenPK_LIGNE_D ="";
+    frKantenPK_LIGNE_F ="";
+    frKantenTYPE_VOIE ="";
+    frKantenSHAPE_LEN ="";
 
     kmID ="";
     kmSTRECKENR ="";
@@ -1521,11 +1512,9 @@ bool Tracks::isTrack(QString name)
     return false;
 }
 
-
-
 void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKanten){
     nameOfTrack = name;
-    if(name == "Gleiskanten"){
+    if(name == "Gleiskanten" && countryCode == "de"){
         for(int i = 0; i < keyKanten.count(); i++){
             if(keyKanten[i] == "ID"){
                 kantenID = valKanten[i];
@@ -1540,6 +1529,56 @@ void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKan
             }
         }
     }
+
+    else if(name == "Gleiskanten" && countryCode == "fr"){
+        for(int i = 0; i < keyKanten.count(); i++){
+            if(keyKanten[i] == "OBJECTID"){
+                frKantenOBJECTID = valKanten[i];
+            } else if(keyKanten[i] == "ARI_ID"){
+                frKantenARI_ID = valKanten[i];
+            } else if(keyKanten[i] == "CODE_LIGNE"){
+                frKantenCODE_LIGNE = valKanten[i];
+            } else if(keyKanten[i] == "RG_TRONCON"){
+                frKantenRG_TRONCON = valKanten[i];
+            } else if(keyKanten[i] == "LIGNE"){
+                frKantenLIGNE = valKanten[i];
+            } else if(keyKanten[i] == "NOM_VOIE"){
+                frKantenNOM_VOIE = valKanten[i];
+            } else if(keyKanten[i] == "CODE_VOIE"){
+                frKantenCODE_VOIE = valKanten[i];
+            } else if(keyKanten[i] == "NUMERO_TRO"){
+                frKantenNUMERO_TRO = valKanten[i];
+            } else if(keyKanten[i] == "NUMERO_TOO"){
+                frKantenNUMERO_TOO = valKanten[i];
+            } else if(keyKanten[i] == "PK_DEBUT_R"){
+                frKantenPK_DEBUT_R = valKanten[i];
+            } else if(keyKanten[i] == "PK_FIN_R"){
+                frKantenPK_FIN_R = valKanten[i];
+            } else if(keyKanten[i] == "PK_DEBUT"){
+                frKantenPK_DEBUT = valKanten[i];
+            } else if(keyKanten[i] == "PK_FIN"){
+                frKantenPK_FIN = valKanten[i];
+            } else if(keyKanten[i] == "DDA"){
+                frKantenDDA = valKanten[i];
+            } else if(keyKanten[i] == "DFA"){
+                frKantenDFA = valKanten[i];
+            } else if(keyKanten[i] == "LOT"){
+                frKantenLOT = valKanten[i];
+            } else if(keyKanten[i] == "ID_SERVICE"){
+                frKantenID_SERVICE = valKanten[i];
+            } else if(keyKanten[i] == "PK_LIGNE_D"){
+                frKantenPK_LIGNE_D = valKanten[i];
+            } else if(keyKanten[i] == "PK_LIGNE_F"){
+                frKantenPK_LIGNE_F = valKanten[i];
+            } else if(keyKanten[i] == "TYPE_VOIE"){
+                frKantenTYPE_VOIE = valKanten[i];
+            } else if(keyKanten[i] == "SHAPE_LEN"){
+                frKantenSHAPE_LEN = valKanten[i];
+            }
+        }
+    }
+
+
     else if(name == "KMLine"){
         for(int i = 0; i < keyKanten.count(); i++){
             if(keyKanten[i] == "ID"){
@@ -1697,16 +1736,6 @@ void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKan
             }
         }
     }
-
-
-
-    // qDebug()<< "ID: "<< kantenID <<"LAENGE_ENT: "<<kantenLAENGE_ENT <<"RIKZ: "<< kantenRIKZ <<"RIKZ_L: " << kantenRIKZ_L << "STATUS: " <<kantenSTATUS;
-    //qDebug()<< "Keys: "<< keyKanten;
-    //qDebug()<< "Values: "<< valKanten;
-
-
-
-
 }
 
 

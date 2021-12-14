@@ -12,7 +12,6 @@ void ConnectToCSharp::cSharp()
 {
     QProcess csharp;
     findOS();   //determine the operating system
-
     // replace this with corresponding filepath
     QString filePath = "D:/Users/BKU/SayliArjunPednekar/Desktop/publish/PhelzApp.exe";
     csharp.start(filePath);

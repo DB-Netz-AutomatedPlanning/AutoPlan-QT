@@ -152,7 +152,7 @@ void MyOpenglWidget::paintGL()
     countLoop +=1;
     if(countLoop <=1){
         Coordinates *coord = new Coordinates(projectPath, projectName);
-        coord->readCoordinates(geoJsonFileName,geoJsonCodeNo);
+        coord->readCoordinates(geoJsonFileName,countryCode, geoJsonCodeNo);
 
        int segmentSize = coord->getSegment().size();
 
