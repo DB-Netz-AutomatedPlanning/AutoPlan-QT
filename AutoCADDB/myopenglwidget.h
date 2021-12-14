@@ -18,6 +18,7 @@
 #include <QTime>
 #include <QMap>
 #include <QCoreApplication>
+#include <QTimer>
 
 using namespace std;
 
@@ -81,6 +82,9 @@ protected:
     int power = 0;
     int testPower = 0;
     float compareTestZ = 10000.0f;
+
+    double xForGrid = 3432800.00000000;
+    double yForGrid = 5665700.00000000;
     QMap<QString,QString> segmentInfoFromCoordinate;
 
     const QString PARAMETER = "GLeiskanten.geojson";
@@ -99,6 +103,7 @@ protected:
     void showGleisknoten(QString path, QString projectName);
 
     void setSegmentInfoForCoordinate(double xCoordinate, double yCoordinate);
+    void drawGrid();
 
     QPushButton *btnSender;
 
