@@ -14,6 +14,7 @@ QList<QString> listo ;
 
 #include "coordinates.h"
 #include "symbolcontainer.h"
+#include "symbolinopengl.h"
 
 static int countLoop = 0;
 static int countLoopGleisKanten = 0;
@@ -24,6 +25,9 @@ bool countOkay = false;
 
 MyOpenglWidget::MyOpenglWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
+    QTimer *timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+        timer->start(500);
     setFormat(QSurfaceFormat::defaultFormat());
     setAcceptDrops(true);
 }
@@ -77,7 +81,7 @@ static const char *fragmentShaderSource =
            "out vec4 fColor;\n"
            "void main()\n"
            "{           \n"
-           "   fColor = vec4(0.9, 0.0, 0.0, 1.0);   \n"
+           "   fColor = vec4(0.0, 0.0, 0.0, 1.0);   \n"
            "}";
 
 
@@ -98,7 +102,7 @@ void MyOpenglWidget::initializeGL()
          connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &MyOpenglWidget::cleanup);
 
          initializeOpenGLFunctions(); // obvious
-         glClearColor(0.0, 0.0, 0.0, 1.0);
+         glClearColor(0.9, 0.9, 0.8, 1.0);
 
          shaderProg = new QOpenGLShaderProgram;
 
@@ -146,17 +150,19 @@ void MyOpenglWidget::initializeGL()
 std::vector<std::vector<GLfloat>> vec;
 std::vector<GLfloat> gleischknotenVector;
 std::vector<std::vector<GLfloat>> GleiskantenVector;
+
+
 void MyOpenglWidget::paintGL()
 {
 
     //-------------------------------------------
 
-    aPlanProjectPath = "E:/QT/Meggen";
+    aPlanProjectPath = "D:/Users/BKU/MdSaifKhan/Documents/projectFileForAPlan";
     aPlanProjectName = "Meggen";
 
     countLoop +=1;
     if(countLoop <=1){
-        aPlanFileName = "Entwurfselement_HO.dbahn";
+        aPlanFileName = "Gleiskanten.dbahn";
 
         Coordinates *coord = new Coordinates(aPlanProjectPath, aPlanProjectName);
         coord->readCoordinates(aPlanFileName);
@@ -197,6 +203,8 @@ void MyOpenglWidget::paintGL()
 
     //const std::vector<std::vector<GLfloat>> testVec = vec;
 
+    SymbolInOpengl *symbolinopengl = new SymbolInOpengl();
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -212,15 +220,24 @@ void MyOpenglWidget::paintGL()
 
     shaderProg->setUniformValue(m_MVPMatrixLoc, mvp);
 
+
+    //drawGrid();
+    //symbolinopengl->drawRectangleWithLineWithFilledCornerSquareAtRight(buffer, 3432800.000000, 5665700.0000);
+
+    //symbolinopengl->drawRectangleWithLine(buffer, 3432800.000000, 5665700.0000);
+    //symbolinopengl->drawRectangleWithLineWithFilledCornerSquareAtRight(buffer,3432800.000000, 5665700.0000);
+
       showGleisknoten(aPlanProjectPath, aPlanProjectName);
 
       for(unsigned int i=0;i<vec.size();i++){
-          for(unsigned int j=0;j<vec[i].size();j++){
+          //for(unsigned int j=0;j<vec[i].size();j++){
               buffer.allocate( vec[i].size() *sizeof (GLfloat));
               buffer.write(0, &vec[i][0], vec[i].size() *sizeof (GLfloat));
               glDrawArrays(GL_LINE_STRIP, 0, vec[i].size()/2);
-          }
+          //}
       }
+
+      symbolinopengl-> KsVorsignalZugbedient(buffer, 3432800.000000, 5665700.0000);
 
       viewMatrix.setToIdentity();
       viewMatrix.lookAt(
@@ -626,14 +643,21 @@ void MyOpenglWidget::showGleisknoten(QString path, QString projectName)
     Coordinates *coordinates = new Coordinates(path, projectName);
     coordinates->readCoordinates("Gleisknoten.dbahn");
 
+    SymbolInOpengl *symbolInOopengl = new SymbolInOpengl();
+
     gleischknotenVector = coordinates->getCoordinateLists();
 
-    for(unsigned int i=0;i<gleischknotenVector.size();i++){
-        //for(unsigned int j=0;j<gleischknotenVector.size();j++){
-            buffer.allocate( gleischknotenVector.size() *sizeof (GLfloat));
-            buffer.write(0, &gleischknotenVector[0], gleischknotenVector.size() *sizeof (GLfloat));
-            glDrawArrays(GL_POINTS, 0, gleischknotenVector.size()/2);
-        //}
+//    for(unsigned int i=0;i<gleischknotenVector.size();i++){
+//        //for(unsigned int j=0;j<gleischknotenVector.size();j++){
+//            buffer.allocate( gleischknotenVector.size() *sizeof (GLfloat));
+//            buffer.write(0, &gleischknotenVector[0], gleischknotenVector.size() *sizeof (GLfloat));
+//            glDrawArrays(GL_POINTS, 0, gleischknotenVector.size()/2);
+//        //}
+//    }
+
+    for (unsigned int i=0; i<gleischknotenVector.size() ; i++ ) {
+        symbolInOopengl->drawRectangleWithLineWithFilledCornerSquareAtRight(buffer, gleischknotenVector[i], gleischknotenVector[i+1]);
+        i=i+1;
     }
 
 
@@ -641,7 +665,7 @@ void MyOpenglWidget::showGleisknoten(QString path, QString projectName)
 
 void MyOpenglWidget::setSegmentInfoForCoordinate(double xCoordinate, double yCoordinate)
 {
-    QString projectPath = "E:/QT/Meggen";
+    QString projectPath = "D:/Users/BKU/MdSaifKhan/Documents/projectFileForAPlan";
     QString projectName = "Meggen";
     QString fileName = "Entwurfselement_HO.dbahn";
     Coordinates *coordinates = new Coordinates(projectPath, projectName);
@@ -727,6 +751,40 @@ void MyOpenglWidget::setSegmentInfoForCoordinate(double xCoordinate, double yCoo
 //    qInfo()<<"Segment info: " << map[segmentNumber];
 
     //return mapTrack;
+}
+
+void MyOpenglWidget::drawGrid()
+{
+    vector<vector<GLfloat>> grid = {};
+
+    float numX = xForGrid - 8360;
+    float numY = yForGrid - 4130;
+
+
+    for (int row = 0; row < 1720; row +=20) {
+        // Vector to store column elements
+        vector<float> v1;
+
+        for (int col = 0; col < 4000; col+=20) {
+            v1.push_back(numX);
+            v1.push_back(numY);
+            numX += 100;
+        }
+        numY +=100;
+        numX = xForGrid - 8360;
+
+        // Pushing back above 1D vector
+        // to create the 2D vector
+        grid.push_back(v1);
+    }
+
+    for(unsigned int i=0;i<grid.size();i++){
+            buffer.allocate( grid[i].size() *sizeof (GLfloat));
+            buffer.write(0, &grid[i][0], grid[i].size() *sizeof (GLfloat));
+            glPointSize(1);
+            glDrawArrays(GL_POINTS, 0, grid[i].size()/2);
+
+    }
 }
 
 const QMap<QString, QString> &MyOpenglWidget::getSegmentInfoForCoordinate() const
