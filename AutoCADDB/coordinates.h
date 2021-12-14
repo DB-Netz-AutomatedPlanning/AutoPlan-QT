@@ -2,7 +2,6 @@
 #define COORDINATES_H
 
 #include <QObject>
-
 #include <QFile>
 #include<QDebug>
 #include <QJsonDocument>

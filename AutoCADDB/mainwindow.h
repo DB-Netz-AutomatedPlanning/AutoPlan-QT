@@ -14,7 +14,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 class MyOpenglWidget;
-class MyOpenglWidget;
+//class MyOpenglWidget;
 class Calculator;
 class PlanningTable;
 class QString;
@@ -62,37 +62,21 @@ private slots:
     void exportToPicture();
    // void exportToPdf();
 
-    //Rayhan
     void importShapeFiles();
     void planningFnt();
     void addTab();
     void onNewProjectClicked();
 
-
-
-
-
-//    void on_planBtn_clicked();
-
     void on_actionAdd_Data_triggered();
-
     void on_actionPreview_Data_triggered();
-
     void on_actionRemove_Data_triggered();
-
     void on_actionImport_triggered();
 
-//    void on_exportBtn_clicked();
-
     void on_pushButton_77_clicked();
-
     void on_exportBtnPlan_clicked();
-
     void on_btnSymbol_clicked();
     void closeEvent (QCloseEvent *event);
-
     void on_grabBtn_clicked();
-
     void on_grabBtn_toggled(bool checked);
 
 private:
@@ -107,7 +91,6 @@ private:
     bool saveFile(const QByteArray &fileFormat);
     bool maybeSave();
 
-    //ppview
     QGraphicsView* view;
     QString fileName;
     QString *clickedBtnName ;
@@ -115,7 +98,6 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
-
     void mouseMoveEvent(QMouseEvent *event) override;
 
 };

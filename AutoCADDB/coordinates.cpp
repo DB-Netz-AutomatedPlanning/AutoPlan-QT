@@ -2,10 +2,8 @@
 #include <QPointF>
 #include <QRegularExpression>
 
-
-Coordinates::Coordinates(QString pPath, QString pName )      //QString station)
+Coordinates::Coordinates(QString pPath, QString pName)
 {
-    //this->station = station;
     this->pPath = pPath;
     this->pName = pName;
 }
@@ -44,7 +42,6 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             return;
         }
     }
-
     QFile file (pPath+"/"+pName+"/temp/" + dataFile);
     if (!file.exists()){
         qInfo() << "File Not exist ... Also check that you've entered correct file name";
@@ -55,26 +52,20 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
         qInfo()<< file.errorString();
         return;
     }
-
     QByteArray data = file.readAll();  //&file);
     QByteArray decoded = QByteArray::fromHex(data);
     QString allData;
     allData = QString(decoded);
     file.close();
-
-//    QJsonDocument document = QJsonDocument::fromJson(jsonData.toUtf8());
     QJsonDocument document = QJsonDocument::fromJson(allData.toUtf8());
-
     int count =0;
     while(!document["features"][count].isUndefined()){
         count = count+1;
     }
-
     if (count == 0){
         qInfo() << "Coordinates cannot be found in your prefered data... Please use data preview section";
         return;
     }
-
     int value =0; // assign arbitrary value to data seleceted to be used for switch case statement;
     if (dataFile == "Gleisknoten.dbahn"){
         value = 1;
@@ -85,11 +76,9 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
         qInfo()<< "Please enter a valid data name";
         return;
     }
-
     switch (value) {
 
     case 1:{
-
         int counter1 =0;
         while(counter1 < count){
             QMap<QString, QString> object;
@@ -113,25 +102,18 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             counter1++;
         }
         this->setMap(map);
-
         std::vector<float> arrayOfCoordinates;
         int counter =0;
         while (counter < count){
-            int innerIndex =0;
-            while (innerIndex < 2){
-                arrayOfCoordinates.push_back(document["features"][counter]["geometry"]["coordinates"][0].toDouble());
-                arrayOfCoordinates.push_back(document["features"][counter]["geometry"]["coordinates"][1].toDouble());
-                innerIndex++;
-            }
+            arrayOfCoordinates.push_back(document["features"][counter]["geometry"]["coordinates"][0].toDouble());
+            arrayOfCoordinates.push_back(document["features"][counter]["geometry"]["coordinates"][1].toDouble());
             counter++;
         }
         setCoordinateLists(arrayOfCoordinates);
         break;
     }
 
-
     case 2: {
-
         int counter1 =0;
         if (dataFile == "Gleiskanten.dbahn" && countryCode=="de"){
             QList<QString> dir; //RITZ
@@ -156,7 +138,6 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             this->setMap(map);
             this->setDirection(dir);
         }
-
         else if (dataFile == "Gleiskanten.dbahn" && countryCode=="fr"){
 //            QList<QString> dir; //RITZ
             while(counter1 < count){
@@ -265,7 +246,6 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             this->setMap(map);
             this->setDirection(dir);
         }
-
         else if (dataFile == "Entwurfselement_LA.dbahn"){
             QList<QString> dir; //RITZ
             while(counter1 < count){
@@ -358,7 +338,6 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             this->setMap(map);
             this->setDirection(dir);
         }
-
         else if (dataFile == "Entwurfselement_KM.dbahn"){
             while(counter1 < count){
                 QMap<QString, QString> object;
@@ -384,18 +363,15 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             }
             this->setMap(map);
         }
-
         std::vector<float> arrayOfCoordinates;
         std::vector<int> segmentCount;
         std::vector<QPointF> segmentExtremePoints;
-
         segmentCount.push_back(0);
         int globalCount =0;
         int counter =0;
         while (counter < count){
             int innerCount =0;
             segmentExtremePoints.push_back(QPointF(document["features"][counter]["geometry"]["coordinates"][0][0].toDouble(), document["features"][counter]["geometry"]["coordinates"][0][1].toDouble()));
-
             while(!document["features"][counter]["geometry"]["coordinates"][innerCount].isUndefined()){
                 innerCount++;
             }
@@ -414,8 +390,6 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
         setCoordinateLists(arrayOfCoordinates);
         setSegment(segmentCount);
         setSegmentExtremePoints(segmentExtremePoints);
-
-
         if (dataFile == "Entwurfselement_KM.dbahn"){
             // Set values fot the extreme dataPoints Km that is correcponding to segmentExtremepoints
             std::vector<double> segmentExtremeKmVals;
@@ -436,7 +410,6 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
                 segmentExtremeKmVals.push_back(p1_final);
                 segmentExtremeKmVals.push_back(p2_final);
                 counter++;
-
             }
             setSegmentExtremeKmValues(segmentExtremeKmVals);
         }

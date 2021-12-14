@@ -55,19 +55,7 @@ void Connect2CSharp::cSharp()
         qDebug()<< "Temporary disabled for mdb data";
         csharp.closeWriteChannel();
         return;
-//        if(!mdbFilePath.endsWith(endl.toLatin1())) mdbFilePath.append(endl.toUtf8());
-//        csharp.write(mdbFilePath);
-//        csharp.waitForBytesWritten(1000);
 
-//        csharp.closeWriteChannel();
-//        if(!csharp.waitForFinished(6000)) {
-//            // Giving maximum of 6 seconds to execute the program
-//            qInfo() << "The program is taking too long to close the Channel";
-//            return;
-//        }
-//        QByteArray result = csharp.readAll();
-
-//        this->setAntwort(result);
     } else if(fileFormat == ".json"){
         if(!kmLinePath.endsWith(endl.toLatin1())) kmLinePath.append(endl.toUtf8());
         csharp.write(kmLinePath);
@@ -141,19 +129,14 @@ QStringList Connect2CSharp::solutionsList()
     }
     sol.clear();
     for (int i = count; i< sol1.length(); i++){
-        //if (!sol1[i].isNull() && !sol1[i].isEmpty()){
             sol.append(sol1[i]);
-        //}
-
     }
-
     sol1.clear();
     for (int j =0; j< sol.length(); j++){
         if (!sol[j].isNull() && !sol[j].isEmpty()){
             sol1.append(sol[j]);
         }
     }
-
     return sol1;
 }
 
@@ -162,9 +145,7 @@ void Connect2CSharp::mainSolution()
     QStringList sol = solutionsList();
     int rows = sol.length()/5;
     int cols = 5;
-
     QString** table = new QString*[rows];
-
     for(int i = 0; i<rows; i++){
         table[i] = new QString[cols];
     }
@@ -216,7 +197,6 @@ void Connect2CSharp::findOS()
     // Linux
     this->setApp("bash");
     this->setEndl("\n");
-
 #ifdef Q_OS_WIN
     //Windows
     this->setApp("cmd");
@@ -229,7 +209,6 @@ void Connect2CSharp::findOS()
     this->setEndl("\n");
 #endif
 }
-
 
 const QString &Connect2CSharp::getApp() const
 {

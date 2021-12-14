@@ -59,9 +59,5 @@ private:
     QByteArray outputPath;
     int NumberOfRows;
     int NumberofCols;
-
-
-
 };
-
 #endif // CONNECT2CSHARP_H
