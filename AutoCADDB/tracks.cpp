@@ -11,6 +11,9 @@
 #include <QRegularExpression>
 #include <QSvgRenderer>
 #include <QGraphicsSvgItem>
+#include <QMouseEvent>
+#include <QHoverEvent>
+#include <QGraphicsSceneHoverEvent>
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
@@ -19,8 +22,9 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scale(1, -1);
+    scale(1, -1);   
     setMouseTracking(true);
+
 }
 
 void Tracks::addGleiskanten()
@@ -1032,6 +1036,8 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
     //    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
     //            getUsedRect()[3]);
     getSegementObjects();
+
+
     //qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
@@ -1098,6 +1104,7 @@ void Tracks::keyPressEvent(QKeyEvent *event)
         }
     }
 }
+
 
 //void Tracks::mousePressEvent(QMouseEvent *event)
 //{
@@ -1460,9 +1467,6 @@ void Tracks::getSegementObjects()
     kntKM_KM="";
     kntKM_M="";
 
-
-
-
     if (scene()->selectedItems().count() >0){
         QGraphicsItem *item = scene()->selectedItems()[0];
         // foreach (QGraphicsItem *item, scene()->selectedItems()){
@@ -1737,5 +1741,18 @@ void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKan
         }
     }
 }
+
+//TODO.. Remove this function
+//void Tracks::currentPos(QHoverEvent *hoverEvent)
+//{
+////    QMouseEvent *event = nullptr;
+//    QPointF position = hoverEvent->position().toPoint();
+////    QPointF position = event->pos();
+
+//    qDebug()<< "HMmmmmm";
+//    setXCoord(position.x());
+//    setYCoord(position.y());
+//    qDebug()<< "x: "<<getXCoord() <<" y: "<<getYCoord();
+//}
 
 

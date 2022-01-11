@@ -61,6 +61,7 @@ private:
 //protected slots:
 //     void wheelEvent(QWheelEvent *event);
 //     void keyPressEvent(QKeyEvent *event);
+
 };
 
 #endif // QGRAPHICSMAINWINDOW_H

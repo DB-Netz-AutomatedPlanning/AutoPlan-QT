@@ -230,3 +230,4 @@ build-AutoCADDB-Desktop_Qt_6_2_0_MinGW_64_bit-Debug/ui_symbolcontainer.h
 build-AutoCADDB-Desktop_Qt_6_2_0_MinGW_64_bit-Debug/ui_symboloptions.h
 build-AutoCADDB-Desktop_Qt_6_2_0_MinGW_64_bit-Debug/ui_test.h
 build-AutoCADDB-Desktop_Qt_6_2_0_MinGW_64_bit-Debug/ui_uploadnewdata.h
+*.dll
