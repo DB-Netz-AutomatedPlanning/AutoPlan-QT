@@ -276,8 +276,6 @@ void MainWindow::mouseMoveEvent(QMouseEvent *event)
     Q_UNUSED(event);
 }
 
-
-
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape)

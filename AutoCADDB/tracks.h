@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QGraphicsView>
 #include <QSet>
+#include <QHoverEvent>
 
 class Tracks : public QGraphicsView
 {
@@ -98,6 +99,7 @@ public:
     void sceneSelectedItems(int degree);
 
     void extractData(QString breakToolTip, QStringList keyK, QStringList vakK);
+//    void currentPos();
    // void mousePressEvent(QMouseEvent *event);
 public slots:
     // void mousePressEvent(QMouseEvent *event);
@@ -122,6 +124,8 @@ private:
     QGraphicsPathItem *gleisknotenDP_Parent;
 
     void multiplierEffect(float x, float y);
+//    void currentPos(QHoverEvent *hoverEvent);
+
     int multiplierValue = 1;
     bool multiplierDone;
     QVector <float> boundingRect = {100000000,100000000,1,1};
@@ -160,8 +164,6 @@ public:
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
-//    void mouseMoveEvent(QMouseEvent *event) override;
-
 
     // QWidget interface
 //protected:
