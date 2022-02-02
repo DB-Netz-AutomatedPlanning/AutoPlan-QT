@@ -3,7 +3,7 @@
 #include "ui_mainwindow.h"
 #include "myopenglwidget.h"
 #include "newprojectdialog.h"
-#include "calculator.h"
+//#include "calculator.h"
 #include "planningtable.h"
 #include "constructsvgdialog.h"
 #include "iconslist.h"
@@ -80,26 +80,26 @@ MainWindow::MainWindow(QWidget *parent)
     hideTabView = false;
     ui->f_headerTabs->setGeometry(0,0,100,100);
 
-    ui->comboBox_10->setEditable(true);
-    ui->comboBox_10->lineEdit()->setReadOnly(true);
-    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
+//    ui->comboBox_10->setEditable(true);
+//    ui->comboBox_10->lineEdit()->setReadOnly(true);
+//    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
 
-    ui->comboBox_13->setEditable(true);
-    ui->comboBox_13->lineEdit()->setReadOnly(true);
-    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
+//    ui->comboBox_13->setEditable(true);
+//    ui->comboBox_13->lineEdit()->setReadOnly(true);
+//    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
 
-    ui->comboBox_15->setEditable(true);
-    ui->comboBox_15->lineEdit()->setReadOnly(true);
-    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
-    ui->comboBox_15->lineEdit()->adjustSize();
+//    ui->comboBox_15->setEditable(true);
+//    ui->comboBox_15->lineEdit()->setReadOnly(true);
+//    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
+//    ui->comboBox_15->lineEdit()->adjustSize();
 
-    ui->comboBox_16->setEditable(true);
-    ui->comboBox_16->lineEdit()->setReadOnly(true);
-    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
+//    ui->comboBox_16->setEditable(true);
+//    ui->comboBox_16->lineEdit()->setReadOnly(true);
+//    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
 
-    ui->comboBox_17->setEditable(true);
-    ui->comboBox_17->lineEdit()->setReadOnly(true);
-    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
+//    ui->comboBox_17->setEditable(true);
+//    ui->comboBox_17->lineEdit()->setReadOnly(true);
+//    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
 
     //Close button on Tab bar
     // ui->tabWidget_2->removeTab(2);
@@ -125,15 +125,15 @@ MainWindow::MainWindow(QWidget *parent)
     connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
-    //Home->Properties
-    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
-    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
-    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
-    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
+//    //Home->Properties
+//    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
+//    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
+//    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
+//    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
 
-    //View - Interface
-    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
-    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
+//    //View - Interface
+//    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
+//    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
 
     //MENU actionOpen
@@ -305,13 +305,13 @@ void MainWindow::penWidth()
     //   scribbleArea->setPenWidth(newWidth);
 }
 
-void MainWindow::openCalculator(){
-    disconnect(ui->calculator, SIGNAL(pressed()), this, SLOT(openCalculator()));
-    Calculator *calc;
-    calc = new Calculator();
-    // Calculator calc;
-    calc->show();
-}
+//void MainWindow::openCalculator(){
+//    disconnect(ui->calculator, SIGNAL(pressed()), this, SLOT(openCalculator()));
+//    Calculator *calc;
+//    calc = new Calculator();
+//    // Calculator calc;
+//    calc->show();
+//}
 
 
 //Open dialog box of SVG
@@ -557,22 +557,22 @@ void MainWindow::onNewProjectClicked()
     newProjDialog.exec();
 }
 
-void MainWindow::closeEvent (QCloseEvent *event)
-{
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
-                                                                tr("Do you want to save the changes?\n"),
-                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-                                                                QMessageBox::Yes);
-    if (resBtn == QMessageBox::No) {
-        event->ignore();
-        QCoreApplication::quit();
-    } else if (resBtn == QMessageBox::Yes) {
-        event->accept();
-        QCoreApplication::quit();
-    } else if (resBtn == QMessageBox::Cancel){
-        event->ignore();
-    }
-}
+//void MainWindow::closeEvent (QCloseEvent *event)
+//{
+//    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
+//                                                                tr("Do you want to save the changes?\n"),
+//                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+//                                                                QMessageBox::Yes);
+//    if (resBtn == QMessageBox::No) {
+//        event->ignore();
+//        QCoreApplication::quit();
+//    } else if (resBtn == QMessageBox::Yes) {
+//        event->accept();
+//        QCoreApplication::quit();
+//    } else if (resBtn == QMessageBox::Cancel){
+//        event->ignore();
+//    }
+//}
 
 // this event loads everytime after specific time interval or anything is updated on the screen
 void MainWindow:: paintEvent(QPaintEvent *event) {
@@ -1118,21 +1118,37 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
     }
 }
 
-void MainWindow::on_grabBtn_clicked()
+//// GrabHang in "View" Tab
+//void MainWindow::on_grabBtn_clicked()
+//{
+//    mouseDragMode = isChecked;
+//    tracks->setDragModeMouse();
+//    if(!isChecked){
+//        isChecked = !isChecked;
+//        ui->grabBtn->setStyleSheet("QPushButton { background-color: white; border:none; }");
+//    }else{
+//        isChecked = !isChecked;
+//        ui->grabBtn->setStyleSheet("QPushButton { background-color: green; border:none; }");
+//    }
+//}
+
+// GrabHand in "Planning" Tab
+void MainWindow::on_grabBtn_2_clicked()
 {
     mouseDragMode = isChecked;
     tracks->setDragModeMouse();
     if(!isChecked){
         isChecked = !isChecked;
-        ui->grabBtn->setStyleSheet("QPushButton { background-color: white; border:none; }");
+        ui->grabBtn_2->setStyleSheet("QPushButton { background-color: white; border:none; }");
     }else{
         isChecked = !isChecked;
-        ui->grabBtn->setStyleSheet("QPushButton { background-color: green; border:none; }");
+        ui->grabBtn_2->setStyleSheet("QPushButton { background-color: green; border:none; }");
     }
+
 }
+
 
 void MainWindow::on_grabBtn_toggled(bool checked)
 {
     Q_UNUSED(checked);
 }
-

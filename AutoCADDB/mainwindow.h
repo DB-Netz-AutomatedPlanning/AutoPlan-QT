@@ -15,7 +15,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 class MyOpenglWidget;
 //class MyOpenglWidget;
-class Calculator;
+//class Calculator;
 class PlanningTable;
 class QString;
 class QGraphicsView;
@@ -42,7 +42,7 @@ private slots:
     void closeTab(int);
     void penColor();
     void penWidth();
-    void openCalculator();
+//    void openCalculator();
     void hideFile();
     void hideTab();
     void print();
@@ -75,9 +75,11 @@ private slots:
     void on_pushButton_77_clicked();
     void on_exportBtnPlan_clicked();
     void on_btnSymbol_clicked();
-    void closeEvent (QCloseEvent *event);
-    void on_grabBtn_clicked();
+    //void closeEvent (QCloseEvent *event);
+    //void on_grabBtn_clicked();
     void on_grabBtn_toggled(bool checked);
+
+    void on_grabBtn_2_clicked();
 
 private:
     Ui::MainWindow *ui;
