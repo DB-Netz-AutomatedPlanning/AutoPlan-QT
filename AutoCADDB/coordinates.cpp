@@ -42,6 +42,7 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             return;
         }
     }
+
     QFile file (pPath+"/"+pName+"/temp/" + dataFile);
     if (!file.exists()){
         qInfo() << "File Not exist ... Also check that you've entered correct file name";
@@ -119,16 +120,23 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             QList<QString> dir; //RITZ
             while(counter1 < count){
                 QMap<QString, QString> object;
-                double ID = document["features"][counter1]["properties"]["ID"].toDouble();
-                QString LAENGE_ENT = document["features"][counter1]["properties"]["LAENGE_ENT"].toString();
-                QString STATUS = document["features"][counter1]["properties"]["STATUS"].toString();
+                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
+                QJsonObject::Iterator iter;
+                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+                    QString currentKey = iter.key();
+                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+                    object.insert(currentKey, currentValue);
+                }
+//                double ID = document["features"][counter1]["properties"]["ID"].toDouble();
+//                QString LAENGE_ENT = document["features"][counter1]["properties"]["LAENGE_ENT"].toString();
+//                QString STATUS = document["features"][counter1]["properties"]["STATUS"].toString();
                 double RIKZ = document["features"][counter1]["properties"]["RIKZ"].toDouble();
-                QString RIKZ_L = document["features"][counter1]["properties"]["RIKZ_L"].toString();
-                object.insert("ID", QString::number(ID, 'f',0));
-                object.insert("LAENGE_ENT", LAENGE_ENT);
-                object.insert("STATUS", STATUS);
-                object.insert("RIKZ", QString::number(RIKZ,'f',0));
-                object.insert("RIKZ_L", RIKZ_L);
+//                QString RIKZ_L = document["features"][counter1]["properties"]["RIKZ_L"].toString();
+//                object.insert("ID", QString::number(ID, 'f',0));
+//                object.insert("LAENGE_ENT", LAENGE_ENT);
+//                object.insert("STATUS", STATUS);
+//                object.insert("RIKZ", QString::number(RIKZ,'f',0));
+//                object.insert("RIKZ_L", RIKZ_L);
                 map.push_back(object);
 
                 // Also set the direction

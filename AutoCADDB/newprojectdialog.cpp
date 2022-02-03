@@ -90,6 +90,11 @@ void NewProjectDialog::on_btnBrowseProjectData_clicked()
 
 void NewProjectDialog::on_btnCreateNewProject_clicked()
 {
+    if (ui->leEnterProjectName->text().isEmpty() || ui->leEnterProjectName->text().isNull()){
+        QMessageBox::warning(this, "No Project Name", "Please Enter a Project Name");
+        return;
+    }
+
     if (!QDir(ui->leEnterProjectPath->text()).exists()) {
         ui->btnBrowseProjectData->setEnabled(false);
         QMessageBox::warning(this, "Invalid Path", "Please Enter a valid save path in 'Create in' Section");
