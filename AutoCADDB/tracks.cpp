@@ -1334,8 +1334,8 @@ void Tracks :: sceneSelectedItems(int degree){
         qInfo() << breakToolTip[0];
         if(breakToolTip[0].isEmpty()){
             item->setRotation(degree);
-        }else{
-        }
+        }//else{
+        //}
     }
     // group = scene()->createItemGroup(scene()->selectedItems());
     //QPointF offset = group->sceneBoundingRect().center();
