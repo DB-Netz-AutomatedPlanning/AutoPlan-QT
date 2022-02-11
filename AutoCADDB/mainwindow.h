@@ -92,11 +92,13 @@ private:
 
     bool saveFile(const QByteArray &fileFormat);
     bool maybeSave();
+    bool isFirstTab = true;
 
     QGraphicsView* view;
     QString fileName;
     QString *clickedBtnName ;
     QPushButton *btnSender;
+
 
 protected:
     void keyPressEvent(QKeyEvent *event);

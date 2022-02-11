@@ -83,22 +83,14 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
         int counter1 =0;
         while(counter1 < count){
             QMap<QString, QString> object;
-            double ID = document["features"][counter1]["properties"]["ID"].toDouble();
-            QString KNOTENNAME = document["features"][counter1]["properties"]["KNOTENNAME"].toString();
-            QString KNOTENBESC = document["features"][counter1]["properties"]["KNOTENBESC"].toString();
-            double TYP = document["features"][counter1]["properties"]["TYP"].toDouble();
-            QString TYP_L = document["features"][counter1]["properties"]["TYP_L"].toString();
-            QString STATUS = document["features"][counter1]["properties"]["STATUS"].toString();
-            QString KM_KM = document["features"][counter1]["properties"]["KM_KM"].toString();
-            QString KM_M = document["features"][counter1]["properties"]["KM_M"].toString();
-            object.insert("ID", QString::number(ID, 'f',0));
-            object.insert("KNOTENNAME", KNOTENNAME);
-            object.insert("KNOTENBESC", KNOTENBESC);
-            object.insert("TYP", QString::number(TYP,'f',0));
-            object.insert("TYP_L", TYP_L);
-            object.insert("STATUS", STATUS);
-            object.insert("KM_KM", KM_KM);
-            object.insert("KM_M", KM_M);
+
+            QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
+            QJsonObject::Iterator iter;
+            for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+                QString currentKey = iter.key();
+                QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+                object.insert(currentKey, currentValue);
+            }
             map.push_back(object);
             counter1++;
         }
@@ -117,259 +109,139 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
     case 2: {
         int counter1 =0;
         if (dataFile == "Gleiskanten.dbahn" && countryCode=="de"){
-            QList<QString> dir; //RITZ
-            while(counter1 < count){
-                QMap<QString, QString> object;
-                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
-                QJsonObject::Iterator iter;
-                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
-                    QString currentKey = iter.key();
-                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
-                    object.insert(currentKey, currentValue);
-                }
-//                double ID = document["features"][counter1]["properties"]["ID"].toDouble();
-//                QString LAENGE_ENT = document["features"][counter1]["properties"]["LAENGE_ENT"].toString();
-//                QString STATUS = document["features"][counter1]["properties"]["STATUS"].toString();
-                double RIKZ = document["features"][counter1]["properties"]["RIKZ"].toDouble();
-//                QString RIKZ_L = document["features"][counter1]["properties"]["RIKZ_L"].toString();
-//                object.insert("ID", QString::number(ID, 'f',0));
-//                object.insert("LAENGE_ENT", LAENGE_ENT);
-//                object.insert("STATUS", STATUS);
-//                object.insert("RIKZ", QString::number(RIKZ,'f',0));
-//                object.insert("RIKZ_L", RIKZ_L);
-                map.push_back(object);
 
-                // Also set the direction
-                dir.append(QString::number(RIKZ));
-                counter1++;
-            }
-            this->setMap(map);
-            this->setDirection(dir);
-        }
-        else if (dataFile == "Gleiskanten.dbahn" && countryCode=="fr"){
+            setupData(count, document);
+
 //            QList<QString> dir; //RITZ
-            while(counter1 < count){
-                QMap<QString, QString> object;
-                double OBJECTID = document["features"][counter1]["properties"]["OBJECTID"].toDouble();
-                QString ARI_ID = document["features"][counter1]["properties"]["ARI_ID"].toString();
-                QString CODE_LIGNE = document["features"][counter1]["properties"]["CODE_LIGNE"].toString();
-                double RG_TRONCON = document["features"][counter1]["properties"]["RG_TRONCON"].toDouble();
-                QString LIGNE = document["features"][counter1]["properties"]["LIGNE"].toString();
+//            while(counter1 < count){
+//                QMap<QString, QString> object;
+//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
+//                QJsonObject::Iterator iter;
+//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+//                    QString currentKey = iter.key();
+//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+//                    object.insert(currentKey, currentValue);
+//                }
+//                double RIKZ = document["features"][counter1]["properties"]["RIKZ"].toDouble();
+//                map.push_back(object);
 
-                QString NOM_VOIE = document["features"][counter1]["properties"]["NOM_VOIE"].toString();
-                QString CODE_VOIE = document["features"][counter1]["properties"]["CODE_VOIE"].toString();
-                double NUMERO_TRO = document["features"][counter1]["properties"]["NUMERO_TRO"].toDouble();
-                double NUMERO_TOO = document["features"][counter1]["properties"]["NUMERO_TOO"].toDouble();
-                QString PK_DEBUT_R = document["features"][counter1]["properties"]["PK_DEBUT_R"].toString();
-
-                QString PK_FIN_R = document["features"][counter1]["properties"]["PK_FIN_R"].toString();
-                double PK_DEBUT = document["features"][counter1]["properties"]["PK_DEBUT"].toDouble();
-                double PK_FIN = document["features"][counter1]["properties"]["PK_FIN"].toDouble();
-                QString DDA = document["features"][counter1]["properties"]["DDA"].toString();
-                QString DFA = document["features"][counter1]["properties"]["DFA"].toString();
-
-                QString LOT = document["features"][counter1]["properties"]["LOT"].toString();
-                QString ID_SERVICE = document["features"][counter1]["properties"]["ID_SERVICE"].toString();
-                double PK_LIGNE_D = document["features"][counter1]["properties"]["PK_LIGNE_D"].toDouble();
-                double PK_LIGNE_F = document["features"][counter1]["properties"]["PK_LIGNE_F"].toDouble();
-                QString TYPE_VOIE = document["features"][counter1]["properties"]["TYPE_VOIE"].toString();
-                double SHAPE_LEN = document["features"][counter1]["properties"]["SHAPE_LEN"].toDouble();
-
-                object.insert("OBJECTID", QString::number(OBJECTID, 'f',0));
-                object.insert("ARI_ID", ARI_ID);
-                object.insert("CODE_LIGNE", CODE_LIGNE);
-                object.insert("RG_TRONCON", QString::number(RG_TRONCON,'f',0));
-                object.insert("LIGNE", LIGNE);
-
-                object.insert("NOM_VOIE", NOM_VOIE);
-                object.insert("CODE_VOIE", CODE_VOIE);
-                object.insert("NUMERO_TRO", QString::number(NUMERO_TRO, 'f',0));
-                object.insert("NUMERO_TOO", QString::number(NUMERO_TOO,'f',0));
-                object.insert("PK_DEBUT_R", PK_DEBUT_R);
-
-                object.insert("PK_FIN_R", PK_FIN_R);
-                object.insert("PK_DEBUT", QString::number(PK_DEBUT,'f',0));
-                object.insert("PK_FIN", QString::number(PK_FIN,'f',0));
-                object.insert("DDA", DDA);
-                object.insert("DFA", DFA);
-
-                object.insert("LOT", LOT);
-                object.insert("ID_SERVICE", ID_SERVICE);
-                object.insert("PK_LIGNE_D", QString::number(PK_LIGNE_D, 'f',0) );
-                object.insert("PK_LIGNE_F", QString::number(PK_LIGNE_F, 'f',0) );
-                object.insert("TYPE_VOIE", TYPE_VOIE);
-                object.insert("SHAPE_LEN", QString::number(SHAPE_LEN, 'f',0));
-
-                map.push_back(object);
-
-                // Also set the direction
+//                // Also set the direction
 //                dir.append(QString::number(RIKZ));
-                counter1++;
-            }
-            this->setMap(map);
+//                counter1++;
+//            }
+//            this->setMap(map);
 //            this->setDirection(dir);
         }
-        else if (dataFile == "Entwurfselement_HO.dbahn"){
-            QList<QString> dir; //RITZ
-            while (counter1 < count){
-                QMap<QString, QString> object;
-                double ID = document["features"][counter1]["properties"]["ID"].toDouble();
-                QString PAD_A = document["features"][counter1]["properties"]["PAD_A"].toString();
-                QString ELTYP = document["features"][counter1]["properties"]["ELTYP"].toString();
-                QString ELTYP_L = document["features"][counter1]["properties"]["ELTYP_L"].toString();
-                double PARAM1 = document["features"][counter1]["properties"]["PARAM1"].toDouble();
-                double PARAM2 = document["features"][counter1]["properties"]["PARAM2"].toDouble();
-                double PARAM3 = document["features"][counter1]["properties"]["PARAM3"].toDouble();
-                double PARAM4 = document["features"][counter1]["properties"]["PARAM4"].toDouble();
-                QString RIKZ = document["features"][counter1]["properties"]["RIKZ"].toString();
-                QString RIKZ_L = document["features"][counter1]["properties"]["RIKZ_L"].toString();
-                double KM_A_KM = document["features"][counter1]["properties"]["KM_A_KM"].toDouble();
-                double KM_A_M = document["features"][counter1]["properties"]["KM_A_M"].toDouble();
-                double KM_E_KM = document["features"][counter1]["properties"]["KM_E_KM"].toDouble();
-                double KM_E_M = document["features"][counter1]["properties"]["KM_E_M"].toDouble();
-                double HOEHE_A = document["features"][counter1]["properties"]["HOEHE_A"].toDouble();
-                double HOEHE_E = document["features"][counter1]["properties"]["HOEHE_E"].toDouble();
-                object.insert("ID", QString::number(ID,'f',0));
-                object.insert("PAD_A", PAD_A);
-                object.insert("ELTYP", ELTYP);
-                object.insert("ELTYP_L",ELTYP_L);
-                object.insert("PARAM1", QString::number(PARAM1,'f') );
-                object.insert("PARAM2", QString::number(PARAM2,'f'));
-                object.insert("PARAM3", QString::number(PARAM3,'f'));
-                object.insert("PARAM4", QString::number(PARAM4,'f'));
-                object.insert("RIKZ", RIKZ);
-                object.insert("RIKZ_L", RIKZ_L);
-                object.insert("KM_A_KM", QString::number(KM_A_KM,'f') );
-                object.insert("KM_A_M", QString::number(KM_A_M,'f')  );
-                object.insert("KM_E_KM", QString::number(KM_E_KM,'f'));
-                object.insert("KM_E_M", QString::number(KM_E_M,'f'));
-                object.insert("HOEHE_A", QString::number(HOEHE_A,'f'));
-                object.insert("HOEHE_E", QString::number(HOEHE_E,'f'));
-                map.push_back(object);
+        else if (dataFile == "Gleiskanten.dbahn" && countryCode=="fr"){
+            setupData(count, document);
 
-                // Also set the direction
-                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
-                counter1++;
-            }
-            this->setMap(map);
-            this->setDirection(dir);
+////            QList<QString> dir; //RITZ
+//            while(counter1 < count){
+//                QMap<QString, QString> object;
+
+//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
+//                QJsonObject::Iterator iter;
+//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+//                    QString currentKey = iter.key();
+//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+//                    object.insert(currentKey, currentValue);
+//                }
+//                map.push_back(object);
+
+//                // Also set the direction
+////                dir.append(QString::number(RIKZ));
+//                counter1++;
+//            }
+//            this->setMap(map);
+////            this->setDirection(dir);
+        }
+        else if (dataFile == "Entwurfselement_HO.dbahn"){
+            setupData(count, document);
+//            QList<QString> dir; //RITZ
+//            while (counter1 < count){
+//                QMap<QString, QString> object;
+
+//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
+//                QJsonObject::Iterator iter;
+//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+//                    QString currentKey = iter.key();
+//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+//                    object.insert(currentKey, currentValue);
+//                }
+//                map.push_back(object);
+
+//                // Also set the direction
+//                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
+//                counter1++;
+//            }
+//            this->setMap(map);
+//            this->setDirection(dir);
         }
         else if (dataFile == "Entwurfselement_LA.dbahn"){
-            QList<QString> dir; //RITZ
-            while(counter1 < count){
-                QMap<QString, QString> object;
-                double ID = document["features"][counter1]["properties"]["ID"].toDouble();
-                QString PAD_A = document["features"][counter1]["properties"]["PAD_A"].toString();
-                QString PAD_E = document["features"][counter1]["properties"]["PAD_E"].toString();
-                QString ELTYP = document["features"][counter1]["properties"]["ELTYP"].toString();
-                QString ELTYP_L = document["features"][counter1]["properties"]["ELTYP_L"].toString();
-                double PARAM1 = document["features"][counter1]["properties"]["PARAM1"].toDouble();
-                double PARAM2 = document["features"][counter1]["properties"]["PARAM2"].toDouble();
-                double PARAM3 = document["features"][counter1]["properties"]["PARAM3"].toDouble();
-                double PARAM4 = document["features"][counter1]["properties"]["PARAM4"].toDouble();
-                QString PARAM4_L = document["features"][counter1]["properties"]["PARAM4_L"].toString();
-                double WINKEL_ANF = document["features"][counter1]["properties"]["WINKEL_ANF"].toDouble();
-                QString RIKZ = document["features"][counter1]["properties"]["RIKZ"].toString();
-                QString RIKZ_L = document["features"][counter1]["properties"]["RIKZ_L"].toString();
-                double KM_A_KM = document["features"][counter1]["properties"]["KM_A_KM"].toDouble();
-                double KM_A_M = document["features"][counter1]["properties"]["KM_A_M"].toDouble();
-                double KM_E_KM = document["features"][counter1]["properties"]["KM_E_KM"].toDouble();
-                double KM_E_M = document["features"][counter1]["properties"]["KM_E_M"].toDouble();
+            setupData(count, document);
 
-                object.insert("ID", QString::number( ID,'f',0));
-                object.insert("PAD_A", PAD_A);
-                object.insert("PAD_E", PAD_E);
-                object.insert("ELTYP",ELTYP);
-                object.insert("ELTYP_L",ELTYP_L);
-                object.insert("PARAM1", QString::number( PARAM1,'f'));
-                object.insert("PARAM2", QString::number( PARAM2,'f'));
-                object.insert("PARAM3", QString::number( PARAM3,'f'));
-                object.insert("PARAM4", QString::number( PARAM4,'f'));
-                object.insert("PARAM4_L",  PARAM4_L);
-                object.insert("WINKEL_ANF", QString::number( WINKEL_ANF,'f'));
-                object.insert("RIKZ", RIKZ);
-                object.insert("RIKZ_L", RIKZ_L);
-                object.insert("KM_A_KM", QString::number( KM_A_KM,'f') );
-                object.insert("KM_A_M", QString::number( KM_A_M,'f') );
-                object.insert("KM_E_KM", QString::number( KM_E_KM,'f') );
-                object.insert("KM_E_M", QString::number( KM_E_M,'f') );
-                map.push_back(object);
+//            QList<QString> dir; //RITZ
+//            while(counter1 < count){
+//                QMap<QString, QString> object;
 
-                // Also set the direction
-                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
-                counter1++;
-            }
-            this->setMap(map);
-            this->setDirection(dir);
+//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
+//                QJsonObject::Iterator iter;
+//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+//                    QString currentKey = iter.key();
+//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+//                    object.insert(currentKey, currentValue);
+//                }
+
+
+//                map.push_back(object);
+
+//                // Also set the direction
+//                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
+//                counter1++;
+//            }
+//            this->setMap(map);
+//            this->setDirection(dir);
         }
         else if(dataFile == "Entwurfselement_UH.dbahn"){
-            QList<QString> dir; //RITZ
-            while (counter1 < count){
-                QMap<QString, QString> object;
-                double ID = document["features"][counter1]["properties"]["ID"].toDouble();
-                QString PAD_A = document["features"][counter1]["properties"]["PAD_A"].toString();
-                QString PAD_E = document["features"][counter1]["properties"]["PAD_E"].toString();
-                QString ELTYP = document["features"][counter1]["properties"]["ELTYP"].toString();
-                QString ELTYP_L = document["features"][counter1]["properties"]["ELTYP_L"].toString();
-                double PARAM1 = document["features"][counter1]["properties"]["PARAM1"].toDouble();
-                double PARAM2 = document["features"][counter1]["properties"]["PARAM2"].toDouble();
-                double PARAM3 = document["features"][counter1]["properties"]["PARAM3"].toDouble();
-                double PARAM4 = document["features"][counter1]["properties"]["PARAM4"].toDouble();
-                QString RIKZ = document["features"][counter1]["properties"]["RIKZ"].toString();
-                QString RIKZ_L = document["features"][counter1]["properties"]["RIKZ_L"].toString();
-                double KM_A_KM = document["features"][counter1]["properties"]["KM_A_KM"].toDouble();
-                double KM_A_M = document["features"][counter1]["properties"]["KM_A_M"].toDouble();
-                double KM_E_KM = document["features"][counter1]["properties"]["KM_E_KM"].toDouble();
-                double KM_E_M = document["features"][counter1]["properties"]["KM_E_M"].toDouble();
+            setupData(count, document);
 
-                object.insert("ID", QString::number( ID,'f',0));
-                object.insert("PAD_A", PAD_A);
-                object.insert("PAD_E", PAD_E);
-                object.insert("ELTYP",ELTYP);
-                object.insert("ELTYP_L",ELTYP_L);
-                object.insert("PARAM1", QString::number( PARAM1,'f'));
-                object.insert("PARAM2", QString::number( PARAM2,'f'));
-                object.insert("PARAM3", QString::number( PARAM3,'f'));
-                object.insert("PARAM4", QString::number( PARAM4,'f'));
-                object.insert("RIKZ", RIKZ);
-                object.insert("RIKZ_L", RIKZ_L);
-                object.insert("KM_A_KM", QString::number( KM_A_KM,'f') );
-                object.insert("KM_A_M", QString::number( KM_A_M,'f') );
-                object.insert("KM_E_KM", QString::number( KM_E_KM,'f') );
-                object.insert("KM_E_M", QString::number( KM_E_M,'f') );
-                map.push_back(object);
+//            QList<QString> dir; //RITZ
+//            while (counter1 < count){
+//                QMap<QString, QString> object;
 
-                // Also set the direction
-                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
-                counter1++;
-            }
-            this->setMap(map);
-            this->setDirection(dir);
+//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
+//                QJsonObject::Iterator iter;
+//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+//                    QString currentKey = iter.key();
+//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+//                    object.insert(currentKey, currentValue);
+//                }
+//                map.push_back(object);
+
+//                // Also set the direction
+//                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
+//                counter1++;
+//            }
+//            this->setMap(map);
+//            this->setDirection(dir);
         }
         else if (dataFile == "Entwurfselement_KM.dbahn"){
-            while(counter1 < count){
-                QMap<QString, QString> object;
-                double ID = document["features"][counter1]["properties"]["ID"].toDouble();
-                QString STRECKENR = document["features"][counter1]["properties"]["STRECKENR"].toString();
-                QString EELK_ELTYP = document["features"][counter1]["properties"]["EELK_ELTYP"].toString();
-                double EELK_PARAM = document["features"][counter1]["properties"]["EELK_PARAM"].toDouble();
-                double EELK_PAR_1 = document["features"][counter1]["properties"]["EELK_PAR_1"].toDouble();
-                double EELK_PAR_2 = document["features"][counter1]["properties"]["EELK_PAR_2"].toDouble();
-                QString KM_A_TEXT = document["features"][counter1]["properties"]["KM_A_TEXT"].toString();
-                QString KM_E_TEXT = document["features"][counter1]["properties"]["KM_E_TEXT"].toString();
-                //QString::number(ID);
-                object.insert("ID", QString::number(ID,'f',0));
-                object.insert("STRECKENR", STRECKENR);
-                object.insert("EELK_ELTYP", EELK_ELTYP);
-                object.insert("EELK_PARAM", QString::number(EELK_PARAM,'f',0));
-                object.insert("EELK_PAR_1", QString::number(EELK_PAR_1,'f',0));
-                object.insert("EELK_PAR_2", QString::number(EELK_PAR_2,'f',0));
-                object.insert("KM_A_TEXT", KM_A_TEXT);
-                object.insert("KM_E_TEXT", KM_E_TEXT);
-                map.push_back(object);
-                counter1++;
-            }
-            this->setMap(map);
+            setupData(count, document);
+
+//            while(counter1 < count){
+//                QMap<QString, QString> object;
+
+//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
+//                QJsonObject::Iterator iter;
+//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+//                    QString currentKey = iter.key();
+//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+//                    object.insert(currentKey, currentValue);
+//                }
+//                map.push_back(object);
+//                counter1++;
+//            }
+//            this->setMap(map);
         }
         std::vector<float> arrayOfCoordinates;
         std::vector<int> segmentCount;
@@ -487,4 +359,31 @@ const QList<QString> &Coordinates::getDirection() const
 void Coordinates::setDirection(const QList<QString> &newDirection)
 {
     direction = newDirection;
+}
+
+void Coordinates::setupData(int to, QJsonDocument document )
+{
+    int fro =0;
+    QList<QString> dir; //RITZ
+    while(fro < to){
+        QMap<QString, QString> object;
+        QJsonObject currentObj = document["features"][fro]["properties"].toObject();
+        QJsonObject::Iterator iter;
+        for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
+            QString currentKey = iter.key();
+            QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
+            object.insert(currentKey, currentValue);
+        }
+        map.push_back(object);
+
+        // Also set the direction
+        if (!document["features"][fro]["properties"]["RIKZ"].isUndefined() && document["features"][fro]["properties"]["RIKZ"].isString()){
+            dir.append(document["features"][fro]["properties"]["RIKZ"].toString());
+        }else{
+            dir.append(QString::number(document["features"][fro]["properties"]["RIKZ"].toDouble()));
+        }
+        fro++;
+    }
+    this->setMap(map);
+    this->setDirection(dir);
 }

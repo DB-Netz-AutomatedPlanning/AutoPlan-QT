@@ -798,6 +798,26 @@ void Tracks::multiplierEffect(float x, float y)
     }
 }
 
+const QStringList &Tracks::getDataValues() const
+{
+    return dataValues;
+}
+
+void Tracks::setDataValues(const QStringList &newDataValues)
+{
+    dataValues = newDataValues;
+}
+
+const QStringList &Tracks::getDataKeys() const
+{
+    return dataKeys;
+}
+
+void Tracks::setDataKeys(const QStringList &newDataKeys)
+{
+    dataKeys = newDataKeys;
+}
+
 bool Tracks::getDrawGleisknotenDP() const
 {
     return drawGleisknotenDP;
@@ -1331,7 +1351,7 @@ void Tracks :: sceneSelectedItems(int degree){
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
         QString toolTip = item->toolTip();
         QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
-        qInfo() << breakToolTip[0];
+//        qInfo() << breakToolTip[0];
         if(breakToolTip[0].isEmpty()){
             item->setRotation(degree);
         }//else{
@@ -1363,109 +1383,7 @@ void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QSt
 
 void Tracks::getSegementObjects()
 {
-    kantenID = "";
-    kantenLAENGE_ENT = "";
-    kantenRIKZ = "";
-    kantenRIKZ_L="";
-    kantenSTATUS="";
-
-    // Kanten ("fr")
-    frKantenOBJECTID ="";
-    frKantenARI_ID ="";
-    frKantenCODE_LIGNE ="";
-    frKantenRG_TRONCON ="";
-    frKantenLIGNE ="";
-
-    frKantenNOM_VOIE ="";
-    frKantenCODE_VOIE ="";
-    frKantenNUMERO_TRO ="";
-    frKantenNUMERO_TOO ="";
-    frKantenPK_DEBUT_R ="";
-
-    frKantenPK_FIN_R ="";
-    frKantenPK_DEBUT ="";
-    frKantenPK_FIN ="";
-    frKantenDDA ="";
-    frKantenDFA ="";
-
-    frKantenLOT ="";
-    frKantenID_SERVICE ="";
-    frKantenPK_LIGNE_D ="";
-    frKantenPK_LIGNE_F ="";
-    frKantenTYPE_VOIE ="";
-    frKantenSHAPE_LEN ="";
-
-    kmID ="";
-    kmSTRECKENR ="";
-    kmEELK_ELTYP ="";
-    kmEELK_PARAM ="";
-    kmEELK_PAR_1 ="";
-    kmEELK_PAR_2 = "";
-    kmKM_A_TEXT ="";
-    kmKM_E_TEXT ="";
-
-    hoID ="";
-    hoPAD_A ="";
-    hoELTYP ="";
-    hoELTYP_L ="";
-    hoPARAM1 ="";
-    hoPARAM2 ="";
-    hoPARAM3 ="";
-    hoPARAM4 ="";
-    hoRIKZ="";
-    hoRIKZ_L="";
-    hoKM_A_KM="";
-    hoKM_A_M="";
-    hoKM_E_KM="";
-    hoKM_E_M="";
-    hoHOEHE_A="";
-    hoHOEHE_E="";
-
-    //LA Variables
-    laID="";
-    laPAD_A="";
-    laPAD_E="";
-    laELTYP="";
-    laELTYP_L="";
-    laPARAM1="";
-    laPARAM2="";
-    laPARAM3="";
-    laPARAM4="";
-    laPARAM4_L="";
-    laWINKEL_ANF="";
-    laRIKZ="";
-    laRIKZ_L="";
-    laKM_A_KM="";
-    laKM_A_M="";
-    laKM_E_KM="";
-    laKM_E_M="";
-
-    //UH Variables
-    uhID="";
-    uhPAD_A="";
-    uhPAD_E="";
-    uhELTYP="";
-    uhELTYP_L="";
-    uhPARAM1="";
-    uhPARAM2="";
-    uhPARAM3="";
-    uhPARAM4="";
-    uhRIKZ="";
-    uhRIKZ_L="";
-    uhKM_A_KM="";
-    uhKM_A_M="";
-    uhKM_E_KM="";
-    uhKM_E_M="0.0000";
-
-    //KNOTEN Variables
-    knotenID="";
-    kntKNOTENNAME="";
-    kntKNOTENBESC="";
-    kntTYP="";
-    kntTYP_L="";
-    kntSTATUS="";
-    kntKM_KM="";
-    kntKM_M="";
+    rightPanelTable =0;
 
     if (scene()->selectedItems().count() >0){
         QGraphicsItem *item = scene()->selectedItems()[0];
@@ -1474,273 +1392,34 @@ void Tracks::getSegementObjects()
         QStringList breakToolTip;
         if (!toolTip.isNull() || !toolTip.isEmpty()){
             breakToolTip = toolTip.split(QRegularExpression("_"));
-
             if (breakToolTip.length()==2 && isTrack(breakToolTip[0])){
                 QList keyKanten = item->data(breakToolTip[1].toInt()).toStringList();
                 QList valKanten = item->data(breakToolTip[1].toInt()+1).toStringList();
                 QString name = breakToolTip[0];
-                extractData(name, keyKanten, valKanten);
+                // new Implementation
+                nameOfTrack = name;
+                setDataKeys(keyKanten);
+                setDataValues(valKanten);
             }
-
         }
-
-        // }
     }
 }
 
 bool Tracks::isTrack(QString name)
 {
-    nameOfTrack = name;
-    if (name == "Gleiskanten" ){
-        rightPanelTable = 2;
-        return true;
-    }else if (name == "Gleisknoten"){
-        rightPanelTable = 1;
-        return true;
-    }else if(name == "KMLine"){
-        rightPanelTable = 4;
-
-        return true;
-    }else if(name == "Lage"){
-        rightPanelTable = 6;
-        return true;
-    }else if(name == "Uberhohung"){
-        rightPanelTable = 5;
-        return true;
-    }else if(name == "Hoehe"){
-        rightPanelTable = 3;
-        return true;
-    }else{
-
-    }
-    return false;
+    Q_UNUSED(name);
+    rightPanelTable = !rightPanelTable;
+    return rightPanelTable;
+//    if (name == "Gleiskanten" || name == "Gleisknoten" || name == "KMLine"
+//            || name == "Lage" || name == "Uberhohung" || name == "Hoehe"){
+////        rightPanelTable = !rightPanelTable;
+//        return rightPanelTable;
+//    } else {
+////        rightPanelTable = !rightPanelTable;
+//        return rightPanelTable;
+//    }
 }
 
-void Tracks::extractData(QString name, QStringList keyKanten, QStringList valKanten){
-    nameOfTrack = name;
-    if(name == "Gleiskanten" && countryCode == "de"){
-        for(int i = 0; i < keyKanten.count(); i++){
-            if(keyKanten[i] == "ID"){
-                kantenID = valKanten[i];
-            } else if(keyKanten[i] == "LAENGE_ENT"){
-                kantenLAENGE_ENT = valKanten[i];
-            } else if(keyKanten[i] == "RIKZ"){
-                kantenRIKZ = valKanten[i];
-            } else if(keyKanten[i] == "RIKZ_L"){
-                kantenRIKZ_L = valKanten[i];
-            } else if(keyKanten[i] == "STATUS"){
-                kantenSTATUS = valKanten[i];
-            }
-        }
-    }
-
-    else if(name == "Gleiskanten" && countryCode == "fr"){
-        for(int i = 0; i < keyKanten.count(); i++){
-            if(keyKanten[i] == "OBJECTID"){
-                frKantenOBJECTID = valKanten[i];
-            } else if(keyKanten[i] == "ARI_ID"){
-                frKantenARI_ID = valKanten[i];
-            } else if(keyKanten[i] == "CODE_LIGNE"){
-                frKantenCODE_LIGNE = valKanten[i];
-            } else if(keyKanten[i] == "RG_TRONCON"){
-                frKantenRG_TRONCON = valKanten[i];
-            } else if(keyKanten[i] == "LIGNE"){
-                frKantenLIGNE = valKanten[i];
-            } else if(keyKanten[i] == "NOM_VOIE"){
-                frKantenNOM_VOIE = valKanten[i];
-            } else if(keyKanten[i] == "CODE_VOIE"){
-                frKantenCODE_VOIE = valKanten[i];
-            } else if(keyKanten[i] == "NUMERO_TRO"){
-                frKantenNUMERO_TRO = valKanten[i];
-            } else if(keyKanten[i] == "NUMERO_TOO"){
-                frKantenNUMERO_TOO = valKanten[i];
-            } else if(keyKanten[i] == "PK_DEBUT_R"){
-                frKantenPK_DEBUT_R = valKanten[i];
-            } else if(keyKanten[i] == "PK_FIN_R"){
-                frKantenPK_FIN_R = valKanten[i];
-            } else if(keyKanten[i] == "PK_DEBUT"){
-                frKantenPK_DEBUT = valKanten[i];
-            } else if(keyKanten[i] == "PK_FIN"){
-                frKantenPK_FIN = valKanten[i];
-            } else if(keyKanten[i] == "DDA"){
-                frKantenDDA = valKanten[i];
-            } else if(keyKanten[i] == "DFA"){
-                frKantenDFA = valKanten[i];
-            } else if(keyKanten[i] == "LOT"){
-                frKantenLOT = valKanten[i];
-            } else if(keyKanten[i] == "ID_SERVICE"){
-                frKantenID_SERVICE = valKanten[i];
-            } else if(keyKanten[i] == "PK_LIGNE_D"){
-                frKantenPK_LIGNE_D = valKanten[i];
-            } else if(keyKanten[i] == "PK_LIGNE_F"){
-                frKantenPK_LIGNE_F = valKanten[i];
-            } else if(keyKanten[i] == "TYPE_VOIE"){
-                frKantenTYPE_VOIE = valKanten[i];
-            } else if(keyKanten[i] == "SHAPE_LEN"){
-                frKantenSHAPE_LEN = valKanten[i];
-            }
-        }
-    }
-
-
-    else if(name == "KMLine"){
-        for(int i = 0; i < keyKanten.count(); i++){
-            if(keyKanten[i] == "ID"){
-                kmID = valKanten[i];
-            } else if(keyKanten[i] == "STRECKENR"){
-                kmSTRECKENR = valKanten[i];
-            } else if(keyKanten[i] == "EELK_ELTYP"){
-                kmEELK_ELTYP = valKanten[i];
-            } else if(keyKanten[i] == "EELK_PARAM"){
-                kmEELK_PARAM = valKanten[i];
-            } else if(keyKanten[i] == "EELK_PAR_1"){
-                kmEELK_PAR_1 = valKanten[i];
-            } else if(keyKanten[i] == "EELK_PAR_2"){
-                kmEELK_PAR_2 = valKanten[i];
-            } else if(keyKanten[i] == "KM_A_TEXT"){
-                kmKM_A_TEXT = valKanten[i];
-            } else if(keyKanten[i] == "KM_E_TEXT"){
-                kmKM_E_TEXT = valKanten[i];
-            }
-        }
-    }
-    else if(name == "Hoehe"){
-        for(int i = 0; i < keyKanten.count(); i++){
-            if(keyKanten[i] == "ID"){
-                hoID = valKanten[i];
-            } else if(keyKanten[i] == "PAD_A"){
-                hoPAD_A = valKanten[i];
-            } else if(keyKanten[i] == "ELTYP"){
-                hoELTYP = valKanten[i];
-            } else if(keyKanten[i] == "ELTYP_L"){
-                hoELTYP_L = valKanten[i];
-            } else if(keyKanten[i] == "PARAM1"){
-                hoPARAM1 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM2"){
-                hoPARAM2 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM3"){
-                hoPARAM3 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM4"){
-                hoPARAM4 = valKanten[i];
-            } else if(keyKanten[i] == "RIKZ"){
-                hoRIKZ = valKanten[i];
-            } else if(keyKanten[i] == "RIKZ_L"){
-                hoRIKZ_L = valKanten[i];
-            } else if(keyKanten[i] == "KM_A_KM"){
-                hoKM_A_KM = valKanten[i];
-            } else if(keyKanten[i] == "KM_A_M"){
-                hoKM_A_M = valKanten[i];
-            } else if(keyKanten[i] == "KM_E_KM"){
-                hoKM_E_KM = valKanten[i];
-            } else if(keyKanten[i] == "KM_E_M"){
-                hoKM_E_M = valKanten[i];
-            } else if(keyKanten[i] == "HOEHE_A"){
-                hoHOEHE_A = valKanten[i];
-            } else if(keyKanten[i] == "HOEHE_E"){
-                hoHOEHE_E = valKanten[i];
-            }
-        }
-    }
-
-
-    else if(name == "Lage"){
-        for(int i = 0; i < keyKanten.count(); i++){
-            if(keyKanten[i] == "ID"){
-                laID = valKanten[i];
-            } else if(keyKanten[i] == "PAD_A"){
-                laPAD_A = valKanten[i];
-            } else if(keyKanten[i] == "PAD_E"){
-                laPAD_E = valKanten[i];
-            } else if(keyKanten[i] == "ELTYP"){
-                laELTYP = valKanten[i];
-            } else if(keyKanten[i] == "ELTYP_L"){
-                laELTYP_L = valKanten[i];
-            } else if(keyKanten[i] == "PARAM1"){
-                laPARAM1 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM2"){
-                laPARAM2 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM3"){
-                laPARAM3 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM4"){
-                laPARAM4 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM4_L"){
-                laPARAM4_L = valKanten[i];
-            }else if(keyKanten[i] == "WINKEL_ANF"){
-                laWINKEL_ANF = valKanten[i];
-            } else if(keyKanten[i] == "RIKZ"){
-                laRIKZ = valKanten[i];
-            } else if(keyKanten[i] == "RIKZ_L"){
-                laRIKZ_L = valKanten[i];
-            } else if(keyKanten[i] == "KM_A_KM"){
-                laKM_A_KM = valKanten[i];
-            } else if(keyKanten[i] == "KM_A_M"){
-                laKM_A_M = valKanten[i];
-            } else if(keyKanten[i] == "KM_E_KM"){
-                laKM_E_KM = valKanten[i];
-            } else if(keyKanten[i] == "KM_E_M"){
-                laKM_E_M = valKanten[i];
-            }
-        }
-    }
-
-    else if(name == "Uberhohung"){
-        for(int i = 0; i < keyKanten.count(); i++){
-            if(keyKanten[i] == "ID"){
-                uhID = valKanten[i];
-            } else if(keyKanten[i] == "PAD_A"){
-                uhPAD_A = valKanten[i];
-            } else if(keyKanten[i] == "ELTYP"){
-                uhPAD_E = valKanten[i];
-            } else if(keyKanten[i] == "ELTYP_L"){
-                uhELTYP = valKanten[i];
-            } else if(keyKanten[i] == "PARAM1"){
-                uhELTYP_L = valKanten[i];
-            } else if(keyKanten[i] == "PARAM2"){
-                uhPARAM1 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM3"){
-                uhPARAM2 = valKanten[i];
-            } else if(keyKanten[i] == "PARAM4"){
-                uhPARAM3 = valKanten[i];
-            } else if(keyKanten[i] == "RIKZ"){
-                uhPARAM4 = valKanten[i];
-            } else if(keyKanten[i] == "RIKZ_L"){
-                uhRIKZ = valKanten[i];
-            } else if(keyKanten[i] == "KM_A_KM"){
-                uhRIKZ_L = valKanten[i];
-            } else if(keyKanten[i] == "KM_A_M"){
-                uhKM_A_KM = valKanten[i];
-            } else if(keyKanten[i] == "KM_E_KM"){
-                uhKM_A_M = valKanten[i];
-            } else if(keyKanten[i] == "KM_E_M"){
-                uhKM_E_KM = valKanten[i];
-            } else if(keyKanten[i] == "HOEHE_A"){
-                uhKM_E_M = valKanten[i];
-            }
-        }
-    }
-
-    else if(name == "Gleisknoten"){
-        for(int i = 0; i < keyKanten.count(); i++){
-            if(keyKanten[i] == "ID"){
-                knotenID = valKanten[i];
-            } else if(keyKanten[i] == "KNOTENNAME"){
-                kntKNOTENNAME = valKanten[i];
-            } else if(keyKanten[i] == "KNOTENBESC"){
-                kntKNOTENBESC = valKanten[i];
-            } else if(keyKanten[i] == "TYP"){
-                kntTYP = valKanten[i];
-            } else if(keyKanten[i] == "PATYP_LRAM1"){
-                kntTYP_L = valKanten[i];
-            } else if(keyKanten[i] == "STATUS"){
-                kntSTATUS = valKanten[i];
-            } else if(keyKanten[i] == "KM_KM"){
-                kntKM_KM = valKanten[i];
-            } else if(keyKanten[i] == "KM_M"){
-                kntKM_M = valKanten[i];
-            }
-        }
-    }
-}
 
 //TODO.. Remove this function
 //void Tracks::currentPos(QHoverEvent *hoverEvent)

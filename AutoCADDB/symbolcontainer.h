@@ -40,7 +40,7 @@ extern QString fileFormat;
 extern Tracks *tracks;
 extern QString projectName;
 
-extern int rightPanelTable;
+extern bool rightPanelTable;
 
 //Kanten variables
 extern QString kantenID ;

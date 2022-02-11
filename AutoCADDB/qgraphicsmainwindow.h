@@ -47,7 +47,7 @@ private slots:
 
     void on_rortatebtn_clicked();
 
-    void on_horizontalSlider_actionTriggered(int action);
+//    void on_horizontalSlider_actionTriggered(int action);
 
     void on_horizontalSlider_valueChanged(int value);
 

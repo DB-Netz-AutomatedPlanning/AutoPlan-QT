@@ -34,6 +34,7 @@ public:
 
     const QList<QString> &getDirection() const;
     void setDirection(const QList<QString> &newDirection);
+    void setupData (int to, QJsonDocument document);
 
 signals:
 

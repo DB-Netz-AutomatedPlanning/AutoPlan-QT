@@ -138,12 +138,6 @@ void QGraphicsMainWindow::on_rortatebtn_clicked()
 }
 
 
-void QGraphicsMainWindow::on_horizontalSlider_actionTriggered(int action)
-{
-
-}
-
-
 void QGraphicsMainWindow::on_horizontalSlider_valueChanged(int value)
 {
      tracks->sceneSelectedItems(value);

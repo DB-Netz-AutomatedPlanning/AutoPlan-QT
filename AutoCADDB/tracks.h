@@ -99,6 +99,7 @@ public:
     void sceneSelectedItems(int degree);
 
     void extractData(QString breakToolTip, QStringList keyK, QStringList vakK);
+
 //    void currentPos();
    // void mousePressEvent(QMouseEvent *event);
 public slots:
@@ -148,6 +149,8 @@ private:
     double xCoord;
     double yCoord;
     int ttt = 0;
+    QStringList dataKeys;
+    QStringList dataValues;
 
 
 
@@ -160,6 +163,12 @@ public:
     // QWidget interface
     QGraphicsItemGroup *group;
 
+
+    const QStringList &getDataKeys() const;
+    void setDataKeys(const QStringList &newDataKeys);
+
+    const QStringList &getDataValues() const;
+    void setDataValues(const QStringList &newDataValues);
 
 protected:
     void wheelEvent(QWheelEvent *event) override;
