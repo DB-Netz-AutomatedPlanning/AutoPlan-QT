@@ -1,4 +1,4 @@
-# AutoPlan
+# A-Plan
 
 ### Steps to checkout new branch:
 
