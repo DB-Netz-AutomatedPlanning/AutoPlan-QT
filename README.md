@@ -1,6 +1,6 @@
 # A-Plan
 
-###### A-Plan intends to create an open-source, powerful, and sustainable planning tool which can be used inside or outside the organization by providing European standards data exchange format based on EULYNX!
+#### A-Plan intends to create an open-source, powerful, and sustainable planning tool which can be used inside or outside the organization by providing European standards data exchange format based on EULYNX!
 
 ![Conda](https://img.shields.io/conda/pn/conda-forge/python?color=green)
 
