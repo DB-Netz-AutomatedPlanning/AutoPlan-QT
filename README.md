@@ -60,7 +60,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ### Installation
 
 1. Access the downloadable .exe file with all dependencies [Here](https://github.com/DB-Netz-AutomatedPlanning/AutoPlan-QT/releases)
-2. **Click** on "Assets" and download the APlan folder only
+2. **Click** on "Assets" and download the **"APlan v1.0.0"** folder only
 3. Unzip the downloaded folder; locate and launch "AutoCADDB.exe" 
 
 ---
