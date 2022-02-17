@@ -621,7 +621,6 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
     }
 }
 
-
 //// GrabHang in "View" Tab
 //void MainWindow::on_grabBtn_clicked()
 //{

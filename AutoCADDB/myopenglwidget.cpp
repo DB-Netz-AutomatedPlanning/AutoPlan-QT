@@ -14,8 +14,10 @@ QList<QString> listo ;
 
 #include "coordinates.h"
 #include "symbolcontainer.h"
+#include "symbolinopengl.h"
 
 static int countLoop = 0;
+static int countLoopGleisKanten = 0;
 bool countOkay = false;
 
 
@@ -23,6 +25,9 @@ bool countOkay = false;
 
 MyOpenglWidget::MyOpenglWidget(QWidget *parent) : QOpenGLWidget(parent)
 {
+    QTimer *timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(update()));
+        timer->start(500);
     setFormat(QSurfaceFormat::defaultFormat());
     setAcceptDrops(true);
 }
@@ -76,7 +81,7 @@ static const char *fragmentShaderSource =
            "out vec4 fColor;\n"
            "void main()\n"
            "{           \n"
-           "   fColor = vec4(0.9, 0.0, 0.0, 1.0);   \n"
+           "   fColor = vec4(0.0, 0.0, 0.0, 1.0);   \n"
            "}";
 
 
@@ -93,11 +98,11 @@ void MyOpenglWidget::initializeGL()
 
 
     //------------------------------------------
-    qDebug()<< "initialize start";
+    //qDebug()<< "initialize start";
          connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &MyOpenglWidget::cleanup);
 
          initializeOpenGLFunctions(); // obvious
-         glClearColor(1.0, 1.0, 1.0, 1.0);
+         glClearColor(0.9, 0.9, 0.8, 1.0);
 
          shaderProg = new QOpenGLShaderProgram;
 
@@ -138,16 +143,22 @@ void MyOpenglWidget::initializeGL()
 
          shaderProg->release();
 
-       qDebug()<< "initialize end";
+      // qDebug()<< "initialize end";
 
 
 }
 std::vector<std::vector<GLfloat>> vec;
+std::vector<GLfloat> gleischknotenVector;
+std::vector<std::vector<GLfloat>> GleiskantenVector;
+
+
 void MyOpenglWidget::paintGL()
 {
-    if(isActive){
 
     //-------------------------------------------
+
+    aPlanProjectPath = "D:/Users/BKU/MdSaifKhan/Documents/projectFileForAPlan";
+    aPlanProjectName = "Meggen";
 
     countLoop +=1;
     if(countLoop <=1){
@@ -156,13 +167,13 @@ void MyOpenglWidget::paintGL()
 
        int segmentSize = coord->getSegment().size();
 
-       for (int i=0; i<segmentSize; i++){
+       for (int i=0; i<segmentSize-1; i++){
            vec.push_back(std::vector<GLfloat>());
            for (int j=coord->getSegment()[i]; j< coord->getSegment()[i+1]; j++){
                vec[i].push_back(coord->getCoordinateLists()[j]);
            }
        }
-       qDebug()<< "Inside the if statement end";
+      // qDebug()<< "Inside the if statement end";
     }
 
 
@@ -186,9 +197,11 @@ void MyOpenglWidget::paintGL()
 
 
     //-------------------------------------------
-    qDebug()<< "start";
+   // qDebug()<< "start";
 
     //const std::vector<std::vector<GLfloat>> testVec = vec;
+
+    SymbolInOpengl *symbolinopengl = new SymbolInOpengl();
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
@@ -205,13 +218,24 @@ void MyOpenglWidget::paintGL()
 
     shaderProg->setUniformValue(m_MVPMatrixLoc, mvp);
 
+
+    //drawGrid();
+    //symbolinopengl->drawRectangleWithLineWithFilledCornerSquareAtRight(buffer, 3432800.000000, 5665700.0000);
+
+    //symbolinopengl->drawRectangleWithLine(buffer, 3432800.000000, 5665700.0000);
+    //symbolinopengl->drawRectangleWithLineWithFilledCornerSquareAtRight(buffer,3432800.000000, 5665700.0000);
+
+      showGleisknoten(aPlanProjectPath, aPlanProjectName);
+
       for(unsigned int i=0;i<vec.size();i++){
-          for(unsigned int j=0;j<vec[i].size();j++){
+          //for(unsigned int j=0;j<vec[i].size();j++){
               buffer.allocate( vec[i].size() *sizeof (GLfloat));
               buffer.write(0, &vec[i][0], vec[i].size() *sizeof (GLfloat));
               glDrawArrays(GL_LINE_STRIP, 0, vec[i].size()/2);
-          }
+          //}
       }
+
+      symbolinopengl-> KsVorsignalZugbedient(buffer, 3432800.000000, 5665700.0000);
 
       viewMatrix.setToIdentity();
       viewMatrix.lookAt(
@@ -224,8 +248,7 @@ void MyOpenglWidget::paintGL()
       projectionMatrix.perspective(45.0f, (float)width()/(float)height(), z, z/1000);
 
       shaderProg->release();
-      qDebug()<< "end";
-    }
+     // qDebug()<< "end";
 }
 
 
@@ -237,16 +260,18 @@ void MyOpenglWidget::openGLUpdate()
 
 void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
 {
+    //---------------- saif start -----------------
     if(event->button() == Qt::LeftButton){
         mouseLeftButtonPressed = true;
     }else if(event->button() == Qt::RightButton){
         mouseRightButtonPressed = true;
-        scaleSpeed = scaleSpeed*1.1;
-        qDebug()<< "Scale Speed : " <<scaleSpeed;
     }else if(event->button() == Qt::MiddleButton){
         scaleSpeed = scaleSpeed/1.1;
         qDebug()<< "Scale Speed : " <<scaleSpeed;
     }
+    update();
+
+    //----------------------------- saif end =------------
 
     QLabel *child = static_cast<QLabel*>(childAt(event->position().toPoint()));
     if (!child)
@@ -306,6 +331,9 @@ void MyOpenglWidget::mousePressEvent(QMouseEvent *event)
 
     testingFnt(child);
 
+
+
+
 }
 void MyOpenglWidget::testingFnt(QLabel *lbl) {
 qInfo() << lbl;
@@ -320,68 +348,200 @@ void MyOpenglWidget::ctxMenu(const QPoint &pos) {
 
 void MyOpenglWidget::mouseReleaseEvent(QMouseEvent *event)
 {
-    Q_UNUSED(event);
-    mouseLeftButtonPressed = false;
-    mouseRightButtonPressed = false;
+    //--------------------- saif start -------------------------
+        update();
+        double currentX = event->position().x();
+        double currentY = (height()-1) - event->position().y();
+        minToCenterChangeValueX = (8360*powerValueOfTwo);
+        minToCenterChangeValueY = (4130*powerValueOfTwo);
+
+        getLowestCoordinateX = (x-minToCenterChangeValueX);
+        getLowestCoordinateY = (y-minToCenterChangeValueY);
+
+
+        double getCoordinateX =getLowestCoordinateX + (((double)minToCenterChangeValueX/(((double)width())/2)) * currentX);
+        double getCoordinateY =getLowestCoordinateY + (((double)minToCenterChangeValueY/(double)(height()/2)) * currentY);
+
+       // qDebug()<<"(" <<currentX<<","<<currentY<<")";
+        //qDebug() << qSetRealNumberPrecision( 15 ) << "x = " << x<< " y=" <<y<< " z= "<<z;
+        //qDebug()<< qSetRealNumberPrecision( 15 ) <<"X Coordinate = "<< getCoordinateX;
+        //qDebug()<< qSetRealNumberPrecision( 15 ) <<"Y Coordinate = "<< getCoordinateY;
+        //qDebug()<< qSetRealNumberPrecision( 15 ) <<"Z Coordinate = "<< z;
+
+        Q_UNUSED(event);
+        mouseLeftButtonPressed = false;
+        mouseRightButtonPressed = false;
+
+
+        setSegmentInfoForCoordinate(getCoordinateX, getCoordinateY);
+        QMap<QString, QString> map = getSegmentInfoForCoordinate();
+       // setCoordinateinRightTable(map);
+        // qInfo()<< getSegmentInfoForCoordinate();
+      //  qInfo() << "count of" << getSegmentInfoForCoordinate().count();
+        //countOfQmapCoordinates = getSegmentInfoForCoordinate().count();
+         ELTYP = map["ELTYP"];
+         ELTYP_L = map["ELTYP_L"];
+         HOEHE_A = map["HOEHE_A"];
+         HOEHE_E = map["HOEHE_E"];
+         ID = map["ID"];
+         KM_A_KM = map["KM_A_KM"];
+         KM_A_M = map["KM_A_M"];
+         KM_E_KM = map["KM_E_KM"];
+         KM_E_M = map["KM_E_M"];
+         PAD_A = map["PAD_A"];
+         PARAM1 = map["PARAM1"];
+         PARAM2 = map["PARAM2"];
+         PARAM3 = map["PARAM3"];
+         PARAM4 = map["PARAM4"];
+         RIKZ = map["RIKZ"];
+         RIKZ_L = map["RIKZ_L"];
+
+
+
+
+        qInfo()<< map["ELTYP"];
+        qInfo()<< map["ELTYP_L"];
+        qInfo()<< map["HOEHE_A"];
+        qInfo()<< map["HOEHE_E"];
+        qInfo()<< map["ID"];
+        qInfo()<< map["KM_A_KM"];
+        qInfo()<< map["KM_A_M"];
+        qInfo()<< map["KM_E_KM"];
+        qInfo()<< map["KM_E_M"];
+        qInfo()<< map["PAD_A"];
+        qInfo()<< map["PARAM1"];
+        qInfo()<< map["PARAM2"];
+        qInfo()<< map["PARAM3"];
+        qInfo()<< map["PARAM4"];
+        qInfo()<< map["RIKZ"];
+        qInfo()<< map["RIKZ_L"];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        double mouseX = event->position().rx();
+//        double mouseY = (height()-1) - event->position().ry();
+
+//        QMatrix4x4 inverseProjectionMatrix = projectionMatrix.inverted();
+//        QMatrix4x4 inverseViewMatrix = viewMatrix.inverted();
+//        QMatrix4x4 inverseModelMatrix = modelMatrix.inverted();
+//        QMatrix4x4 inverseMVP = inverseProjectionMatrix * inverseViewMatrix * inverseModelMatrix;
+
+
+
+
+
+
+
+//        double presentX, presentY;
+//        presentX = (mouseX/ (float)width())*2.0f -1.0f;
+//        presentY = (mouseY/ (float)height())*2.0f -1.0f;
+
+//        QVector4D tmp = QVector4D(presentX, 0, 0, 1);
+//        QVector4D xResult = tmp*inverseProjectionMatrix*inverseViewMatrix*inverseModelMatrix;
+//        presentX = xResult.x();
+
+
+//        //qDebug()<<  presentX;
+
+        //-------------------------- saif end ------------------------------
 }
 
 void MyOpenglWidget::mouseMoveEvent(QMouseEvent *event)
 {
-
+    //----------------------- saif start --------------------------
     double currentX = event->position().x();
     double currentY = event->position().y();
+
+    //qDebug()<< currentX;
 
     if(mouseLeftButtonPressed == true){
         if(dx < currentX){
             dx = currentX;
             x = x - scaleSpeed;
-            qDebug()<< "X increased value: "<< x;
+           // qDebug()<< "X increased value: "<< x;
         }else if(dx == currentX){
             dx = currentX;
-            qDebug()<< "X equal value: "<< x;
+           // qDebug()<< "X equal value: "<< x;
         }else{
             dx = currentX;
             x = x + scaleSpeed;
-            qDebug()<< "X decreased value: "<< x;
+           // qDebug()<< "X decreased value: "<< x;
         }
 
         if(dy <currentY){
             dy = currentY;
             y = y + scaleSpeed;
-            qDebug()<< "Y increased value: "<< y;
+           // qDebug()<< "Y increased value: "<< y;
         }else if(dy == currentY){
             dy = currentY;
-            qDebug()<< "Y equal value: "<< y;
+           // qDebug()<< "Y equal value: "<< y;
         }else{
             dy = currentY;
             y = y - scaleSpeed;
-            qDebug()<< "Y decreased value: "<< y;
+           // qDebug()<< "Y decreased value: "<< y;
         }
     }
-
-
     update();
+
+    // ------------------------ saif end ------------------------
 }
 
 void MyOpenglWidget::wheelEvent(QWheelEvent *event)
 {
+    // ------------------ saif start ---------------------
     QPoint numDegrees = event->angleDelta();
-
     if(numDegrees.y()>0){
-            z = z/1.1;
+        if(z>lowestZoomScale){
+            z = z/zoomScale;
+            if(z < compareTestZ){
+                power = power -1;
+                powerValueOfTwo = pow(2,power);
+            }
+          //  qDebug() << "Power Value: "<< powerValueOfTwo;
+           // qDebug()<< "Z value: "<< z;
+           // qDebug() << "CompareTestZ" << compareTestZ;
+            compareTestZ = z;
+        }
+        update();
     }else if(numDegrees.y()<0){
         if(z<highestZoomScale){
-            z = z*1.1;
+            z = z*zoomScale;
+            if(z > compareTestZ){
+                power = power + 1;
+                powerValueOfTwo = pow(2,power);
+            }
+          //  qDebug() << "PowerValue of 2 : "<< powerValueOfTwo;
+           // qDebug()<< "Z value: "<< z;
+           // qDebug() << "CompareTestZ" << compareTestZ;
+            compareTestZ = z;
         }
+        update();
     }
-    qDebug()<< "Z value: "<<z;
 
-    update();
+    // ---------------------- saif end -----------------------------
 }
 
 void MyOpenglWidget::resizeGL(int w, int h)
 {
       Q_UNUSED(w); Q_UNUSED(h);
+    setMaximumHeight(558);
+    setMaximumWidth(1128);
+
+    setMinimumHeight(558);
+    setMinimumWidth(1128);
       //glViewport(0, 0, (GLint)width(), (GLint)height());
       //projectionMatrix.perspective(45.0f, (float)width()/(float)height(), z, z/1000);
 
@@ -474,14 +634,170 @@ void MyOpenglWidget::dropEvent(QDropEvent *event)
 
 }
 
+// showGleisknoten
+void MyOpenglWidget::showGleisknoten(QString path, QString projectName)
+{
+
+    Coordinates *coordinates = new Coordinates(path, projectName);
+    coordinates->readCoordinates("Gleisknoten.dbahn");
+
+    SymbolInOpengl *symbolInOopengl = new SymbolInOpengl();
+
+    gleischknotenVector = coordinates->getCoordinateLists();
+
+//    for(unsigned int i=0;i<gleischknotenVector.size();i++){
+//        //for(unsigned int j=0;j<gleischknotenVector.size();j++){
+//            buffer.allocate( gleischknotenVector.size() *sizeof (GLfloat));
+//            buffer.write(0, &gleischknotenVector[0], gleischknotenVector.size() *sizeof (GLfloat));
+//            glDrawArrays(GL_POINTS, 0, gleischknotenVector.size()/2);
+//        //}
+//    }
+
+    for (unsigned int i=0; i<gleischknotenVector.size() ; i++ ) {
+        symbolInOopengl->drawRectangleWithLineWithFilledCornerSquareAtRight(buffer, gleischknotenVector[i], gleischknotenVector[i+1]);
+        i=i+1;
+    }
+
+
+}
+
+void MyOpenglWidget::setSegmentInfoForCoordinate(double xCoordinate, double yCoordinate)
+{
+    QString projectPath = "D:/Users/BKU/MdSaifKhan/Documents/projectFileForAPlan";
+    QString projectName = "Meggen";
+    QString fileName = "Entwurfselement_HO.dbahn";
+    Coordinates *coordinates = new Coordinates(projectPath, projectName);
+    coordinates->readCoordinates(fileName);
+
+    std::vector<QMap<QString,QString>> map = coordinates->getMap();
+    QMap<QString, QString> mapTrack;
+
+    vector<int> segmentNumberX;
+    vector<int> segmentNumberY;
+    int segmentNumber;
+
+
+
+    int segmentSize = coordinates->getSegment().size()-1;
+
+
+
+//    for (int i=0; i<segmentSize; i++){
+//        for (int j=coordinates->getSegment()[i]; j< coordinates->getSegment()[i+1]; j++){
+////              if(j%2 != 0){
+////                 if(coordinates->getCoordinateLists()[j]>lessYYYY && coordinates->getCoordinateLists()[j]<greaterYYYY){
+////                     segmentNumberY = i;
+////                     qInfo()<< "Segment For Y: " <<segmentNumberY;
+//////                     if(coordinates->getCoordinateLists()[j-1]>lessXXXX && coordinates->getCoordinateLists()[j-1]<greaterXXXX){
+//////                         mapTrack = map[i];
+//////                     }
+////                     //qInfo()<< "Segment number: " <<i;
+////                 }
+////            }
+//              if(j%2==0){
+//                  if(coordinates->getCoordinateLists()[j]>lessXXXX && coordinates->getCoordinateLists()[j]<greaterXXXX){
+//                      //mapTrack = map[i];
+//                      segmentNumberX.push_back(i);
+//                      //qInfo()<<"Segment for X: "<<segmentNumberX;
+//                  }
+//              }else{
+//                  if(coordinates->getCoordinateLists()[j]>lessYYYY && coordinates->getCoordinateLists()[j]<greaterYYYY){
+//                      segmentNumberY.push_back(i);
+//                      //qInfo()<< "Segment For Y: " <<segmentNumberY;
+// //                     if(coordinates->getCoordinateLists()[j-1]>lessXXXX && coordinates->getCoordinateLists()[j-1]<greaterXXXX){
+// //                         mapTrack = map[i];
+// //                     }
+//                      //qInfo()<< "Segment number: " <<i;
+//                  }
+//              }
+
+//        }
+//    }
+
+    for(int i=0; i<segmentSize; i++){
+        for(int j=coordinates->getSegment()[i]; j<coordinates->getSegment()[i+1]; j++){
+            if( j%2 == 0){
+                if(xCoordinate>coordinates->getCoordinateLists()[j]-5 && xCoordinate < coordinates->getCoordinateLists()[j]+5 ){
+                    segmentNumberX.push_back(i);
+                }
+            }else{
+                if(yCoordinate>coordinates->getCoordinateLists()[j]-5 && yCoordinate < coordinates->getCoordinateLists()[j]+5 ){
+                    segmentNumberY.push_back(i);
+                }
+            }
+        }
+    }
+
+
+   // qInfo()<<"Segment X"<<segmentNumberX;
+
+   // qInfo()<<"Segment Y"<<segmentNumberY;
+
+    for(unsigned int i=0; i<segmentNumberX.size();i++){
+        for(unsigned int j=0; j<segmentNumberY.size();j++){
+            if(segmentNumberX[i] == segmentNumberY[j]){
+                segmentNumber = segmentNumberX[i];
+                   segmentInfoFromCoordinate = map[segmentNumber];
+                return;
+            }
+        }
+    }
+    segmentInfoFromCoordinate = {};
+
+
+
+//    qInfo()<<"Segment info: " << map[segmentNumber];
+
+    //return mapTrack;
+}
+
+void MyOpenglWidget::drawGrid()
+{
+    vector<vector<GLfloat>> grid = {};
+
+    float numX = xForGrid - 8360;
+    float numY = yForGrid - 4130;
+
+
+    for (int row = 0; row < 1720; row +=20) {
+        // Vector to store column elements
+        vector<float> v1;
+
+        for (int col = 0; col < 4000; col+=20) {
+            v1.push_back(numX);
+            v1.push_back(numY);
+            numX += 100;
+        }
+        numY +=100;
+        numX = xForGrid - 8360;
+
+        // Pushing back above 1D vector
+        // to create the 2D vector
+        grid.push_back(v1);
+    }
+
+    for(unsigned int i=0;i<grid.size();i++){
+            buffer.allocate( grid[i].size() *sizeof (GLfloat));
+            buffer.write(0, &grid[i][0], grid[i].size() *sizeof (GLfloat));
+            glPointSize(1);
+            glDrawArrays(GL_POINTS, 0, grid[i].size()/2);
+
+    }
+}
+
+const QMap<QString, QString> &MyOpenglWidget::getSegmentInfoForCoordinate() const
+{
+    return segmentInfoFromCoordinate;
+}
+
 void MyOpenglWidget::sendObjectProperties(QString str){
     glb = str;
     listo.append(glb);
 }
 
 void MyOpenglWidget::assignObjectName(QString str){
-    qInfo() << "Symbol Name :"+str;
-     qInfo() << "--------------------------";
+   // qInfo() << "Symbol Name :"+str;
+     //qInfo() << "--------------------------";
 
     if(str== "radsensor"){
              newIcon = new QLabel(this);
@@ -539,4 +855,27 @@ void MyOpenglWidget::assignObjectName(QString str){
               newIcon = new QLabel(this);
               newIcon->setObjectName("lbl_mehra");
     }
+}
+
+void setCoordinateinRightTable(QMap<QString, QString> map){
+
+
+
+   // qInfo()<< map["ELTYP"];
+    // qInfo()<< map["ELTYP_L"];
+    // qInfo()<< map["HOEHE_A"];
+    // qInfo()<< map["HOEHE_E"];
+    // qInfo()<< map["ID"];
+    // qInfo()<< map["KM_A_KM"];
+    // qInfo()<< map["KM_A_M"];
+    // qInfo()<< map["KM_E_KM"];
+    //qInfo()<< map["KM_E_M"];
+    //qInfo()<< map["PAD_A"];
+    //qInfo()<< map["PARAM1"];
+    //qInfo()<< map["PARAM2"];
+    //qInfo()<< map["PARAM3"];
+    //qInfo()<< map["PARAM4"];
+    //qInfo()<< map["RIKZ"];
+    //qInfo()<< map["RIKZ_L"];
+
 }
