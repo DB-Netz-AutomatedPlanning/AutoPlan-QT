@@ -4,6 +4,9 @@
 
 ![Conda](https://img.shields.io/conda/pn/conda-forge/python?color=green)
 
+### Objective
+_The main objective of A-Plan software (tool) is to help potential users of EULYNX DP explore the benefits of the model. EULYNX DP supports digital railway asset engineering, and this tool ensures new users can visualize, convert and validate data based on the EULYNX DP Schema._
+
 
 
 
