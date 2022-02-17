@@ -26,6 +26,7 @@ SOURCES += \
     dropwidget.cpp \
     iconslist.cpp \
     importfolder.cpp \
+    kmtocoordinate.cpp \
     main.cpp \
     mainwindow.cpp \
     myopenglwidget.cpp \
@@ -34,12 +35,15 @@ SOURCES += \
     openglclass.cpp \
     planningtable.cpp \
     previeweulynxxml.cpp \
+    qgraphicsmainwindow.cpp \
+    qgraphicssymbolcontainer.cpp \
     removedata.cpp \
     svgdialogview.cpp \
     symbolcontainer.cpp \
     symbolinformation.cpp \
     symboloptions.cpp \
     test.cpp \
+    tracks.cpp \
     uploadnewdata.cpp \
     exportdialog.cpp
 
@@ -54,6 +58,7 @@ HEADERS += \
     dropwidget.h \
     iconslist.h \
     importfolder.h \
+    kmtocoordinate.h \
     mainwindow.h \
     myopenglwidget.h \
     newprojectdialog.h \
@@ -61,12 +66,15 @@ HEADERS += \
     openglclass.h \
     planningtable.h \
     previeweulynxxml.h \
+    qgraphicsmainwindow.h \
+    qgraphicssymbolcontainer.h \
     removedata.h \
     svgdialogview.h \
     symbolcontainer.h \
     symbolinformation.h \
     symboloptions.h \
     test.h \
+    tracks.h \
     uploadnewdata.h \
     exportdialog.h
 
@@ -79,6 +87,8 @@ FORMS += \
     nopreviewdelete.ui \
     planningtable.ui \
     previeweulynxxml.ui \
+    qgraphicsmainwindow.ui \
+    qgraphicssymbolcontainer.ui \
     removedata.ui \
     symbolcontainer.ui \
     symbolinformation.ui \
@@ -96,4 +106,5 @@ RESOURCES += \
     resources.qrc
 
 DISTFILES += \
-    assets/Plan/import.png
+    assets/Plan/import.png \
+    assets/view/hand.png

@@ -162,10 +162,8 @@ void MyOpenglWidget::paintGL()
 
     countLoop +=1;
     if(countLoop <=1){
-        aPlanFileName = "Gleiskanten.dbahn";
-
-        Coordinates *coord = new Coordinates(aPlanProjectPath, aPlanProjectName);
-        coord->readCoordinates(aPlanFileName);
+        Coordinates *coord = new Coordinates(projectPath, projectName);
+        coord->readCoordinates(geoJsonFileName,countryCode, geoJsonCodeNo);
 
        int segmentSize = coord->getSegment().size();
 

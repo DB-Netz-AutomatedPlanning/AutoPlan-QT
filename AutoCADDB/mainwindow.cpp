@@ -3,7 +3,7 @@
 #include "ui_mainwindow.h"
 #include "myopenglwidget.h"
 #include "newprojectdialog.h"
-#include "calculator.h"
+//#include "calculator.h"
 #include "planningtable.h"
 #include "constructsvgdialog.h"
 #include "iconslist.h"
@@ -13,6 +13,8 @@
 #include "removedata.h"
 #include "nopreviewdelete.h"
 #include "exportdialog.h"
+#include "qgraphicsmainwindow.h"
+#include "qgraphicssymbolcontainer.h"
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -61,7 +63,7 @@
 #include <QtGui/qpageranges.h>
 
 #include <QTableView>
-
+bool isChecked = true;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -70,10 +72,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     scribbleArea= new MyOpenglWidget(this);
     setCentralWidget(scribbleArea);
-
-
-
-
     ui->setupUi(this);
     ui->toolBar->setIconSize(QSize(16, 16));
 
@@ -82,30 +80,29 @@ MainWindow::MainWindow(QWidget *parent)
     hideTabView = false;
     ui->f_headerTabs->setGeometry(0,0,100,100);
 
-    ui->comboBox_10->setEditable(true);
-    ui->comboBox_10->lineEdit()->setReadOnly(true);
-    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
+//    ui->comboBox_10->setEditable(true);
+//    ui->comboBox_10->lineEdit()->setReadOnly(true);
+//    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
 
-    ui->comboBox_13->setEditable(true);
-    ui->comboBox_13->lineEdit()->setReadOnly(true);
-    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
+//    ui->comboBox_13->setEditable(true);
+//    ui->comboBox_13->lineEdit()->setReadOnly(true);
+//    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
 
-    ui->comboBox_15->setEditable(true);
-    ui->comboBox_15->lineEdit()->setReadOnly(true);
-    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
-    ui->comboBox_15->lineEdit()->adjustSize();
+//    ui->comboBox_15->setEditable(true);
+//    ui->comboBox_15->lineEdit()->setReadOnly(true);
+//    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
+//    ui->comboBox_15->lineEdit()->adjustSize();
 
+//    ui->comboBox_16->setEditable(true);
+//    ui->comboBox_16->lineEdit()->setReadOnly(true);
+//    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
 
-    ui->comboBox_16->setEditable(true);
-    ui->comboBox_16->lineEdit()->setReadOnly(true);
-    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
-
-    ui->comboBox_17->setEditable(true);
-    ui->comboBox_17->lineEdit()->setReadOnly(true);
-    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
-
+//    ui->comboBox_17->setEditable(true);
+//    ui->comboBox_17->lineEdit()->setReadOnly(true);
+//    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
 
     //Close button on Tab bar
+    // ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(1);
 
@@ -123,22 +120,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget_2->setTabsClosable(true);
     ui->tabWidget_2->setMovable(true);
 
-
-
     setStyleSheet("QToolButton { border: none; }");
 
     connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
-    //Home->Properties
-    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
-    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
-    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
-    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
+//    //Home->Properties
+//    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
+//    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
+//    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
+//    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
 
-    //View - Interface
-    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
-    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
+//    //View - Interface
+//    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
+//    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
 
     //MENU actionOpen
@@ -149,37 +144,23 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
     connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
 
-
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
 
-
-
+    // ui->widget_147->hide();
+    ui->widget_146->hide();
 
     ui->tabWidget_2->setCurrentIndex(0);
 
     //Left area for symbol information
     ui->tableWidget->setRowCount(2);
 
-
-    //Left panel for symbol
-     QTableWidgetItem *newItem = new QTableWidgetItem(tr("%0").arg("Symbol"));
-     ui->tableWidget->setItem(0, 0, newItem);
-     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
-     ui->tableWidget->setItem(0, 1, newItem1);
-     QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
-     ui->tableWidget->setItem(1, 0, newItem2);
-
-
-     //Right panel for co ordinates
-     ui->tableWidget_2->setRowCount(16);
-
-
-
-
-     //HIDE RIGHT PANEL ON FIRST LOAD
-     //ui->widget_147->setVisible(false);
+    QTableWidgetItem *newItem = new QTableWidgetItem(tr("%0").arg("Symbol"));
+    ui->tableWidget->setItem(0, 0, newItem);
+    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
+    ui->tableWidget->setItem(0, 1, newItem1);
+    QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
+    ui->tableWidget->setItem(1, 0, newItem2);
 }
-
 
 
 MainWindow::~MainWindow()
@@ -194,180 +175,156 @@ void MainWindow::setObjNameTW(QString str){
     ui->tableWidget->setItem(0, 1, newItem1);
 
     ui->tableWidget->show();
-qInfo() << "in ui"+str;
-ui->tableWidget->item(0, 1)->setText(str);
+    qInfo() << "in ui"+str;
+    ui->tableWidget->item(0, 1)->setText(str);
 
-update();
-
-
-
-   // tableWidget->setFixedSize(217,87);
-  //  ui->tableWidget->show();
-
+    update();
 }
-
 
 void MainWindow::hideFile()
 {
-        hideFileTab =! hideFileTab;
-        if(hideFileTab){
-          ui->menubar->hide();
-        }else{
-          ui->menubar->show();
-        }
+    hideFileTab =! hideFileTab;
+    if(hideFileTab){
+        ui->menubar->hide();
+    }else{
+        ui->menubar->show();
+    }
 }
-
-
-
 
 void MainWindow::hideTab()
 {
-
     QTabBar *tabBar = ui->tabWidget_2->findChild<QTabBar *>();
 
-
-        hideTabView =! hideTabView;
-        if(hideTabView){
-
-            tabBar->hide();
-        }else{
-            qInfo() << "pressed1";
-              tabBar->show();
-        }
+    hideTabView =! hideTabView;
+    if(hideTabView){
+        tabBar->hide();
+    }else{
+        qInfo() << "pressed1";
+        tabBar->show();
+    }
 }
-
-
-
 
 void MainWindow::fetchObjectProps()
 {
     btnSender = qobject_cast<QPushButton*>(sender()); // retrieve the button you have clicked
     QString buttonText = btnSender->objectName(); // retrive the object name from the clicked button
-    qDebug() << buttonText;
 }
 
 bool MainWindow::writeFooBar()
 {
     QSaveFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-      return false;
+        return false;
     if (-1 == file.write("foo bar"))
-      return false;
+        return false;
     return file.commit();
-
 }
 
 //Add new tab
 void MainWindow::addTab()
 {
-     ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new MyOpenglWidget(),QString("Tab %0").arg(ui->tabWidget_2->count() + 1));
-     ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->count() - 2);
-
+    ui->tabWidget_2->insertTab(ui->tabWidget_2->count() - 1,new QGraphicsMainWindow(),QString(projectName).arg(ui->tabWidget_2->count() + 1));
+    ui->tabWidget_2->setCurrentIndex(ui->tabWidget_2->count() - 2);
 }
 
 void MainWindow::closeTab(int index)
 {
-    delete ui->tabWidget_2->widget(index);
+    if (index ==0 && isFirstTab){
+        isFirstTab = false;
+        delete ui->tabWidget_2->widget(index);
+        return;
+    }
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Attempt!", "Are you sure? ... \n Unsaved progress would be lost");
+    if (reply == QMessageBox::No){
+        return;
+    } else if (reply == QMessageBox::Yes) delete ui->tabWidget_2->widget(index);
 }
-
 
 void MainWindow::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
-        QFile file(fileName);
-        readFile = fileName;
-        if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-           // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
-            return;
-        }
-        setWindowTitle(fileName);
-        QTextStream in(&file);
-        QString text = in.readAll();
-        //ui->textEdit->setText(text);
-        file.close();
+    QFile file(fileName);
+    readFile = fileName;
+    if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
+        // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+        return;
+    }
+    setWindowTitle(fileName);
+    QTextStream in(&file);
+    QString text = in.readAll();
+    //ui->textEdit->setText(text);
+    file.close();
 }
-
-
 
 void MainWindow::on_actionSave_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, "Save as");
-      QFile file(fileName);
+    QFile file(fileName);
 
-     // if (!file.open(QFile::WriteOnly | QFile::Text)) {
-       //   QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
-         // return;
-      //}
-      readFile = fileName;
-      setWindowTitle(fileName);
-      QTextStream out(&file);
-      //QString text = ui->textEdit->toPlainText();
-     // out << text;
-      file.close();
+    // if (!file.open(QFile::WriteOnly | QFile::Text)) {
+    //   QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
+    // return;
+    //}
+    readFile = fileName;
+    setWindowTitle(fileName);
+    QTextStream out(&file);
+    //QString text = ui->textEdit->toPlainText();
+    // out << text;
+    file.close();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-
-
+    Q_UNUSED(event);
 }
 
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)
 {
-
-
+    Q_UNUSED(event);
 }
-
-
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-
     if (e->key() == Qt::Key_Escape)
         close();
     else
         QWidget::keyPressEvent(e);
 }
 
-
 //Home -> Properties
 void MainWindow::penColor()
 //! [7] //! [8]
 {   glClearColor(1,0,0,1);
     //QColor newColor = QColorDialog::getColor(scribbleArea->penColor());
-//    if (newColor.isValid())
-      // scribbleArea->setPenColor(newColor);
+    //    if (newColor.isValid())
+    // scribbleArea->setPenColor(newColor);
 }
 
 
 void MainWindow::penWidth()
 //! [9] //! [10]
 {
-   // int newWidth = QInputDialog::getInt(this, tr("Scribble"),
-                                        //tr("Select pen width:"),
-                                        //scribbleArea->penWidth(),
-                                        //1, 50, 1, &ok);
+    // int newWidth = QInputDialog::getInt(this, tr("Scribble"),
+    //tr("Select pen width:"),
+    //scribbleArea->penWidth(),
+    //1, 50, 1, &ok);
     //if (ok)
-     //   scribbleArea->setPenWidth(newWidth);
+    //   scribbleArea->setPenWidth(newWidth);
 }
 
-void MainWindow::openCalculator(){
-
-    disconnect(ui->calculator, SIGNAL(pressed()), this, SLOT(openCalculator()));
-      Calculator *calc;
-    calc = new Calculator();
-   // Calculator calc;
-    calc->show();
-    //calc->show();
-
-}
+//void MainWindow::openCalculator(){
+//    disconnect(ui->calculator, SIGNAL(pressed()), this, SLOT(openCalculator()));
+//    Calculator *calc;
+//    calc = new Calculator();
+//    // Calculator calc;
+//    calc->show();
+//}
 
 
 //Open dialog box of SVG
 void MainWindow::openSvgDialog(){
     disconnect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
-
     IconsList *svgDialog;
     svgDialog = new IconsList();
     svgDialog->show();
@@ -387,13 +344,11 @@ void MainWindow::open()
 {
     if (maybeSave()) {
         QString fileName = QFileDialog::getOpenFileName(this,
-                                   tr("Open File"), QDir::currentPath());
+                                                        tr("Open File"), QDir::currentPath());
         if (!fileName.isEmpty())
             //scribbleArea->openImage(fileName);
             qInfo() << "hello";
     }
-
-
 }
 
 //! [19]
@@ -401,24 +356,21 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
 //! [19] //! [20]
 {
     QString initialPath = QDir::currentPath() + "/untitled." + fileFormat;
-
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
-                               initialPath,
-                               tr("%1 Files (*.%2);;All Files (*)")
-                               .arg(QString::fromLatin1(fileFormat.toUpper()))
-                               .arg(QString::fromLatin1(fileFormat)));
-
+                                                    initialPath,
+                                                    tr("%1 Files (*.%2);;All Files (*)")
+                                                    .arg(QString::fromLatin1(fileFormat.toUpper()))
+                                                    .arg(QString::fromLatin1(fileFormat)));
     return true;
     //if (fileName.isEmpty())
-      //  return false;
+    //  return false;
     //return scribbleArea->saveImage(fileName, fileFormat.constData());
 }
-
 
 bool MainWindow::maybeSave()
 //! [17] //! [18]
 {
-       return true;
+    return true;
 }
 //! [18]
 
@@ -426,37 +378,32 @@ bool MainWindow::maybeSave()
 void MainWindow::save()
 //! [5] //! [6]
 {
-   // QAction *action = qobject_cast<QAction *>(sender());
+    // QAction *action = qobject_cast<QAction *>(sender());
     QByteArray fileFormat = ui->actionSave_As->data().toByteArray();
     saveFile(fileFormat);
 }
 
 void MainWindow::print()
 {
+#if defined(QT_PRINTSUPPORT_LIB) && QT_CONFIG(printdialog)
+    QPrinter printer(QPrinter::HighResolution);
 
-    #if defined(QT_PRINTSUPPORT_LIB) && QT_CONFIG(printdialog)
-        QPrinter printer(QPrinter::HighResolution);
-
-        QPrintDialog printDialog(&printer, this);
+    QPrintDialog printDialog(&printer, this);
     //! [21] //! [22]
-        if (printDialog.exec() == QDialog::Accepted) {
-            QPainter painter(&printer);
+    if (printDialog.exec() == QDialog::Accepted) {
+        QPainter painter(&printer);
+    }
+#endif // QT_CONFIG(printdialog)
 
-        }
-    #endif // QT_CONFIG(printdialog)
-
-
-
-
-////          QPainter painter(&printer);
-////            painter.begin(&printer);
-////          double xscale = printer.pageRect().width() / double(minWidth);
-//////           double yscale = printer.pageRect().height() / double(minHeight);
-//////           double scale = qMin(xscale, yscale);
-//////           painter.translate(printer.paperRect().center());
-//////           painter.scale(scale, scale);
-////         painter.translate(-minWidth/ 2, -minHeight/ 2);
-////           ui->widget_152->render(&painter);
+    ////          QPainter painter(&printer);
+    ////            painter.begin(&printer);
+    ////          double xscale = printer.pageRect().width() / double(minWidth);
+    //////           double yscale = printer.pageRect().height() / double(minHeight);
+    //////           double scale = qMin(xscale, yscale);
+    //////           painter.translate(printer.paperRect().center());
+    //////           painter.scale(scale, scale);
+    ////         painter.translate(-minWidth/ 2, -minHeight/ 2);
+    ////           ui->widget_152->render(&painter);
 }
 
 void MainWindow::exit()
@@ -469,35 +416,35 @@ void MainWindow::exit()
 
 void MainWindow::importShapeFiles()
 {
-//    FileChooser fileChooser = new FileChooser();
-//            fileChooser.setTitle("Import Multiple Files");
-//            fileChooser.getExtensionFilters().addAll(
-//                    new FileChooser.ExtensionFilter("All Shapefiles", "*.*"),
-//                    new FileChooser.ExtensionFilter("DBF", "*.dbf"),
-//                    new FileChooser.ExtensionFilter("CPG", "*.cpg"),
-//                    new FileChooser.ExtensionFilter("SHX", "*.shx"),
-//                    new FileChooser.ExtensionFilter("PRJ", "*.prj"),
-//                    new FileChooser.ExtensionFilter("QPJ", "*.qpj"),
-//                    new FileChooser.ExtensionFilter("SHP", "*.shp")
-//            );
-//            Stage stage = (Stage) gridPane.getScene().getWindow();
+    //    FileChooser fileChooser = new FileChooser();
+    //            fileChooser.setTitle("Import Multiple Files");
+    //            fileChooser.getExtensionFilters().addAll(
+    //                    new FileChooser.ExtensionFilter("All Shapefiles", "*.*"),
+    //                    new FileChooser.ExtensionFilter("DBF", "*.dbf"),
+    //                    new FileChooser.ExtensionFilter("CPG", "*.cpg"),
+    //                    new FileChooser.ExtensionFilter("SHX", "*.shx"),
+    //                    new FileChooser.ExtensionFilter("PRJ", "*.prj"),
+    //                    new FileChooser.ExtensionFilter("QPJ", "*.qpj"),
+    //                    new FileChooser.ExtensionFilter("SHP", "*.shp")
+    //            );
+    //            Stage stage = (Stage) gridPane.getScene().getWindow();
 
-//            files = fileChooser.showOpenMultipleDialog(stage);
-//            db.setFiles(files);
-//            db.copyData();
+    //            files = fileChooser.showOpenMultipleDialog(stage);
+    //            db.setFiles(files);
+    //            db.copyData();
 
-            QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
-                QFile file(fileName);
-                readFile = fileName;
-                if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-                   // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
-                    return;
-                }
-                setWindowTitle(fileName);
-                QTextStream in(&file);
-                QString text = in.readAll();
-                //ui->textEdit->setText(text);
-                file.close();
+    QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
+    QFile file(fileName);
+    readFile = fileName;
+    if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
+        // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+        return;
+    }
+    setWindowTitle(fileName);
+    QTextStream in(&file);
+    QString text = in.readAll();
+    //ui->textEdit->setText(text);
+    file.close();
 }
 
 void MainWindow::exportToPicture()
@@ -507,51 +454,56 @@ void MainWindow::exportToPicture()
     //defaultFileName = defaultFileName.left(index);
     //defaultFileName += ".png";
     //QString s = QFileDialog::getSaveFileName(
-      //  this, tr("Export to PNG"), defaultFileName,
-        //tr("Portable Network Graphics (*.png)"));
+    //  this, tr("Export to PNG"), defaultFileName,
+    //tr("Portable Network Graphics (*.png)"));
 
     //if (!s.isEmpty())
     //{
-      //QImage image(view->width(), view->height(), QImage::Format_RGB32);
-      //image.fill(QColor(Qt::white));
-      //QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-      //QPainter painter(&image);
-      //view->render(&painter);
-      //image.save(s, "PNG");
-      //QApplication::restoreOverrideCursor();
+    //QImage image(view->width(), view->height(), QImage::Format_RGB32);
+    //image.fill(QColor(Qt::white));
+    //QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    //QPainter painter(&image);
+    //view->render(&painter);
+    //image.save(s, "PNG");
+    //QApplication::restoreOverrideCursor();
     //}
 
 
     //------------------------------------------------------------
 
     // Condition needs to be modified as soon as other version is available
-   // if (ui->comboBox_30->currentText() != "Eulynx"){
-     //   QMessageBox::warning(this, "File Format", "Selected format '"+ui->comboBox_30->currentText()+"' is currently not available");
+    // if (ui->comboBox_30->currentText() != "Eulynx"){
+    //   QMessageBox::warning(this, "File Format", "Selected format '"+ui->comboBox_30->currentText()+"' is currently not available");
 
     //}
     //else{
-      //  ExportDialog exportDialog;
-        //exportDialog.setModal(true);
-        //exportDialog.exec();
+    //  ExportDialog exportDialog;
+    //exportDialog.setModal(true);
+    //exportDialog.exec();
     //}
-
-
 }
 
 void MainWindow::planningFnt()
 {
-    PlanningTable *plan;
-    plan = new PlanningTable();
-    plan->show();
+    if (fileFormat == ".mdb"){
+        QMessageBox::warning(this, "File Format", "Planning of .mdb data source/file was temporarily disabled");
+    }else{
+        PlanningTable *plan;
+        plan = new PlanningTable();
+        plan->show();
+    }
 }
 
 void MainWindow::on_actionAdd_Data_triggered()
 {
+    if (fileFormat == ".mdb"){
+        QMessageBox::information(this, "Information", "You cannot change/modify .mdb file after uploading");
+        return;
+    }
     UploadNewData uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();
 }
-
 
 void MainWindow::on_actionPreview_Data_triggered()
 {
@@ -560,7 +512,6 @@ void MainWindow::on_actionPreview_Data_triggered()
     removeData.exec();
 }
 
-
 void MainWindow::on_actionRemove_Data_triggered()
 {
     NoPreviewDelete noPreviewDelete;
@@ -568,37 +519,30 @@ void MainWindow::on_actionRemove_Data_triggered()
     noPreviewDelete.exec();
 }
 
-
 void MainWindow::on_actionImport_triggered()
 {
     ImportFolder uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();
-//    UploadNewData uploadNewData;
-//    uploadNewData.setModal(true);
-//    uploadNewData.exec();
+    //    UploadNewData uploadNewData;
+    //    uploadNewData.setModal(true);
+    //    uploadNewData.exec();
 }
-
 
 void MainWindow::on_pushButton_77_clicked()
 {
-//    ImportFolder uploadNewData;
-//    uploadNewData.setModal(true);
-//    uploadNewData.exec();
-
+    //    ImportFolder uploadNewData;
+    //    uploadNewData.setModal(true);
+    //    uploadNewData.exec();
     UploadNewData uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();
-//    writeFooBar();
-
 }
-
 
 void MainWindow::on_exportBtnPlan_clicked()
 {
     if (ui->cmbExport->currentText() != "Eulynx"){
         QMessageBox::warning(this, "File Format", "Selected format '"+ui->cmbExport->currentText()+"' is currently not available");
-
     }
     else{
         ExportDialog exportDialog;
@@ -607,11 +551,10 @@ void MainWindow::on_exportBtnPlan_clicked()
     }
 }
 
-
 void MainWindow::on_btnSymbol_clicked()
 {
-    IconsList *svgDialog;
-    svgDialog = new IconsList();
+    QGraphicsSymbolContainer *svgDialog;
+    svgDialog = new QGraphicsSymbolContainer();
     svgDialog->show();
 }
 
@@ -620,140 +563,95 @@ void MainWindow::onNewProjectClicked()
     NewProjectDialog newProjDialog;
     newProjDialog.setModal(true);
     newProjDialog.exec();
-
 }
 
-void MainWindow::closeEvent (QCloseEvent *event)
-{
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
-                                                                    tr("Do you want to save the changes?\n"),
-                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-                                                                    QMessageBox::Yes);
-        if (resBtn != QMessageBox::Yes) {
-            event->ignore();
-            QCoreApplication::quit();
-        } else {
-            event->accept();
-        }
-
-}
+//void MainWindow::closeEvent (QCloseEvent *event)
+//{
+//    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
+//                                                                tr("Do you want to save the changes?\n"),
+//                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+//                                                                QMessageBox::Yes);
+//    if (resBtn == QMessageBox::No) {
+//        event->ignore();
+//        QCoreApplication::quit();
+//    } else if (resBtn == QMessageBox::Yes) {
+//        event->accept();
+//        QCoreApplication::quit();
+//    } else if (resBtn == QMessageBox::Cancel){
+//        event->ignore();
+//    }
+//}
 
 // this event loads everytime after specific time interval or anything is updated on the screen
 void MainWindow:: paintEvent(QPaintEvent *event) {
-    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
-    ui->tableWidget->setItem(0, 1, newItem1);
+    Q_UNUSED(event);
+    if(!rightPanelTable){
+        ui->tableWidget_2->setRowCount(0);
+        ui->widget_147->hide();
+    }
+    else{
+        ui->lblTrackName->setText(nameOfTrack);
+        int rows = tracks->getDataKeys().length();
+        ui->tableWidget_2->setRowCount(rows);
+
+        ui->widget_147->show();
+        QStringList keys = tracks->getDataKeys();
+        QStringList values = tracks->getDataValues();
+
+        //int rows = tracks->getDataKeys().length();
+        for (int i=0; i< rows; i++){
+
+            QTableWidgetItem *itemKey = new QTableWidgetItem(keys.at(i));
+            itemKey->setTextAlignment(Qt::AlignCenter);
+            ui->tableWidget_2->setItem(i,0, itemKey);
+
+            QTableWidgetItem *itemValue = new QTableWidgetItem(values.at(i));
+            itemValue->setTextAlignment(Qt::AlignCenter);
+            ui->tableWidget_2->setItem(i,1, itemValue);
+        }
+    }
+    //    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName    ));
+    //    ui->tableWidget->setItem(0, 1, newItem1);
 
 
-
+    // Add new tab while creating New Project
     if(createNewProject){
         createNewProject = false;
         addTab();
     }
+}
 
-   //if (ui->tabWidget_2->currentIndex() == 0 || ui->tabWidget_2->currentIndex() == 3) {
-     //  ui->widget_147->setVisible(false);
-   //} else{
-     //  ui->widget_147->setVisible(true);
-   //}
+//// GrabHang in "View" Tab
+//void MainWindow::on_grabBtn_clicked()
+//{
+//    mouseDragMode = isChecked;
+//    tracks->setDragModeMouse();
+//    if(!isChecked){
+//        isChecked = !isChecked;
+//        ui->grabBtn->setStyleSheet("QPushButton { background-color: white; border:none; }");
+//    }else{
+//        isChecked = !isChecked;
+//        ui->grabBtn->setStyleSheet("QPushButton { background-color: green; border:none; }");
+//    }
+//}
 
+// GrabHand in "Planning" Tab
+void MainWindow::on_grabBtn_2_clicked()
+{
+    mouseDragMode = isChecked;
+    tracks->setDragModeMouse();
+    if(!isChecked){
+        isChecked = !isChecked;
+        ui->grabBtn_2->setStyleSheet("QPushButton { background-color: white; border:none; }");
+    }else{
+        isChecked = !isChecked;
+        ui->grabBtn_2->setStyleSheet("QPushButton { background-color: green; border:none; }");
+    }
 
-    //right panel
-
-    QTableWidgetItem *rp = new QTableWidgetItem(tr("%0").arg("ELTYP"));
-    ui->tableWidget_2->setItem(0, 0, rp);
-
-    QTableWidgetItem *rp1 = new QTableWidgetItem(tr("%0").arg(ELTYP));
-    ui->tableWidget_2->setItem(0, 1, rp1);
-
-    QTableWidgetItem *rp2 = new QTableWidgetItem(tr("%1").arg("ELTYP_L"));
-    ui->tableWidget_2->setItem(1, 0, rp2);
-
-    QTableWidgetItem *rp3 = new QTableWidgetItem(tr("%1").arg(ELTYP_L));
-    ui->tableWidget_2->setItem(1, 1, rp3);
-
-    QTableWidgetItem *rp4 = new QTableWidgetItem(tr("%2").arg("HOEHE_A"));
-    ui->tableWidget_2->setItem(2, 0, rp4);
-
-    QTableWidgetItem *rp5 = new QTableWidgetItem(tr("%2").arg(HOEHE_A));
-    ui->tableWidget_2->setItem(2, 1, rp5);
-
-    QTableWidgetItem *rp6 = new QTableWidgetItem(tr("%3").arg("HOEHE_E"));
-    ui->tableWidget_2->setItem(3, 0, rp6);
-
-    QTableWidgetItem *rp7 = new QTableWidgetItem(tr("%3").arg(HOEHE_E));
-    ui->tableWidget_2->setItem(3, 1, rp7);
-
-    QTableWidgetItem *rp8 = new QTableWidgetItem(tr("%4").arg("ID"));
-    ui->tableWidget_2->setItem(4, 0, rp8);
-
-    QTableWidgetItem *rp9 = new QTableWidgetItem(tr("%4").arg(ID));
-    ui->tableWidget_2->setItem(4, 1, rp9);
-
-    QTableWidgetItem *rp10 = new QTableWidgetItem(tr("%5").arg("KM_A_KM"));
-    ui->tableWidget_2->setItem(5, 0, rp10);
-
-    QTableWidgetItem *rp11 = new QTableWidgetItem(tr("%5").arg(KM_A_KM));
-    ui->tableWidget_2->setItem(5, 1, rp11);
-
-    QTableWidgetItem *rp12 = new QTableWidgetItem(tr("%6").arg("KM_A_M"));
-    ui->tableWidget_2->setItem(6, 0, rp12);
-
-    QTableWidgetItem *rp13 = new QTableWidgetItem(tr("%6").arg(KM_A_M));
-    ui->tableWidget_2->setItem(6, 1, rp13);
-
-    QTableWidgetItem *rp14 = new QTableWidgetItem(tr("%7").arg("KM_E_KM"));
-    ui->tableWidget_2->setItem(7, 0, rp14);
-
-    QTableWidgetItem *rp15 = new QTableWidgetItem(tr("%7").arg(KM_E_KM));
-    ui->tableWidget_2->setItem(7, 1, rp15);
-
-    QTableWidgetItem *rp16 = new QTableWidgetItem(tr("%9").arg("KM_E_M"));
-    ui->tableWidget_2->setItem(8, 0, rp16);
-
-    QTableWidgetItem *rp17 = new QTableWidgetItem(tr("%9").arg(KM_E_M));
-    ui->tableWidget_2->setItem(8, 1, rp17);
-
-    QTableWidgetItem *rp18 = new QTableWidgetItem(tr("%10").arg("PAD_A"));
-    ui->tableWidget_2->setItem(9, 0, rp18);
-
-    QTableWidgetItem *rp19 = new QTableWidgetItem(tr("%10").arg(PAD_A));
-    ui->tableWidget_2->setItem(9, 1, rp19);
-
-    QTableWidgetItem *rp20 = new QTableWidgetItem(tr("%11").arg("PARAM1"));
-    ui->tableWidget_2->setItem(10, 0, rp20);
-
-    QTableWidgetItem *rp21 = new QTableWidgetItem(tr("%11").arg(PARAM1));
-    ui->tableWidget_2->setItem(10, 1, rp21);
-
-    QTableWidgetItem *rp22 = new QTableWidgetItem(tr("%12").arg("PARAM2"));
-    ui->tableWidget_2->setItem(11, 0, rp22);
-
-    QTableWidgetItem *rp23 = new QTableWidgetItem(tr("%12").arg(PARAM2));
-    ui->tableWidget_2->setItem(11, 1, rp23);
-
-    QTableWidgetItem *rp24 = new QTableWidgetItem(tr("%13").arg("PARAM3"));
-    ui->tableWidget_2->setItem(12, 0, rp24);
-
-    QTableWidgetItem *rp25 = new QTableWidgetItem(tr("%13").arg(PARAM3));
-    ui->tableWidget_2->setItem(12, 1, rp25);
-
-    QTableWidgetItem *rp26 = new QTableWidgetItem(tr("%14").arg("PARAM4"));
-    ui->tableWidget_2->setItem(13, 0, rp26);
-
-    QTableWidgetItem *rp27 = new QTableWidgetItem(tr("%14").arg(PARAM4));
-    ui->tableWidget_2->setItem(13, 1, rp27);
-
-    QTableWidgetItem *rp28 = new QTableWidgetItem(tr("%15").arg("RIKZ"));
-    ui->tableWidget_2->setItem(14, 0, rp28);
-
-    QTableWidgetItem *rp29 = new QTableWidgetItem(tr("%15").arg(RIKZ));
-    ui->tableWidget_2->setItem(14, 1, rp29);
-
-    QTableWidgetItem *rp30 = new QTableWidgetItem(tr("%16").arg("RIKZ_L"));
-    ui->tableWidget_2->setItem(15, 0, rp30);
-
-    QTableWidgetItem *rp31 = new QTableWidgetItem(tr("%16").arg(RIKZ_L));
-    ui->tableWidget_2->setItem(15, 1, rp31);
+}
 
 
+void MainWindow::on_grabBtn_toggled(bool checked)
+{
+    Q_UNUSED(checked);
 }

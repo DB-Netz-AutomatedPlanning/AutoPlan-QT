@@ -58,6 +58,10 @@ void RemoveData::on_btnLoad_clicked()
 
 void RemoveData::on_btnPreview_clicked()
 {
+    if (fileFormat == ".mdb"){
+        QMessageBox::information(this, "Fatal", "No Preview available!");
+        return;
+    }
     QString fileName = ui->comboFiles->currentText();
     QString location = ui->comboAllFolder->currentText();
     QFile file (projectPath+"/"+location+"/temp/" +fileName+".dbahn");

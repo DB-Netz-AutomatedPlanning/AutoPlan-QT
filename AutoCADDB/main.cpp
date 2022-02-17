@@ -6,6 +6,7 @@
 
 #include<QSurfaceFormat>
 #include "coordinates.h"
+#include "kmtocoordinate.h"
 
 
 int main(int argc, char *argv[])
@@ -13,10 +14,11 @@ int main(int argc, char *argv[])
 
    // qlutInit(&argc, argv);
    QApplication a(argc, argv);
-//   QFile styleFile("./Medize.qss");
-//   styleFile.open(QFile::ReadOnly);
-//   QString styleSheet = QLatin1String(styleFile.readAll());
-//   a.setStyleSheet(styleSheet);
+   QFile styleFile(":/icons/assets/stylesheet/HackBook.qss"); //
+   //QFile styleFile("./HackBook.qss");  //./Medize.qss, ./Gravira.qss, ./Filmovio.qss, ./Dtor.qss, ./MailSy.qss
+   styleFile.open(QFile::ReadOnly);
+   QString styleSheet = QLatin1String(styleFile.readAll());
+   a.setStyleSheet(styleSheet);
 
    MainWindow w;
    w.setWindowState(Qt::WindowMaximized);
@@ -25,8 +27,9 @@ int main(int argc, char *argv[])
 
 
 
+
 //   std::vector<std::vector<float>> vec;
-//   Coordinates *coord = new Coordinates("C:/Users/DR-PHELZ/Documents/Zoom","Meggen");
+//   Coordinates *coord = new Coordinates("C:/Users/DR-PHELZ/Documents/pdf","Meggen");
 //   coord->readCoordinates("Gleiskanten.dbahn");
 
 //   int segmentSize = coord->getSegment().size();
@@ -49,6 +52,17 @@ int main(int argc, char *argv[])
 
 
 
+//   foreach (auto val, vec){
+//       qInfo()<< "{";
+//       int count =0;
+//       while (count < static_cast<int>(val.size())){
+//           qInfo()<< val[count] << "  ,  "<< val[count+1];
+//           count =  count +2;
+//       }
+//       //counter++;
+//       qInfo()<< "}";
+//   }
+
 
 //   foreach (auto val, vec){
 //       qInfo()<< "{";
@@ -61,3 +75,5 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+
+
