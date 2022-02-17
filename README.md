@@ -76,7 +76,8 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ---
 
 ### User Guide
-From the Release folder "A-Plan" >> doc >> User Guide
+- Locating New User Documentation
+From the Release folder "APlan v1.0.0" >> doc >> User Guide
 
 <img width="416" alt="userGuideLocation" src="https://user-images.githubusercontent.com/56730691/154340143-861c6e7f-e9f0-4d8b-81d1-3ebcfac3bad9.PNG">
 
