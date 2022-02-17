@@ -14,15 +14,15 @@ int main(int argc, char *argv[])
 
    // qlutInit(&argc, argv);
    QApplication a(argc, argv);
-//   QFile styleFile("./Medize.qss");
-//   styleFile.open(QFile::ReadOnly);
-//   QString styleSheet = QLatin1String(styleFile.readAll());
-//   a.setStyleSheet(styleSheet);
+   QFile styleFile(":/icons/assets/stylesheet/HackBook.qss"); //
+   //QFile styleFile("./HackBook.qss");  //./Medize.qss, ./Gravira.qss, ./Filmovio.qss, ./Dtor.qss, ./MailSy.qss
+   styleFile.open(QFile::ReadOnly);
+   QString styleSheet = QLatin1String(styleFile.readAll());
+   a.setStyleSheet(styleSheet);
 
    MainWindow w;
    w.setWindowState(Qt::WindowMaximized);
    w.show();
-
 
 
 

@@ -351,6 +351,12 @@
         <file>assets/qgraphics/zugOderStellwerksbedientArrow.svg</file>
         <file>assets/qgraphics/zugbedientArrow.svg</file>
         <file>assets/qgraphics/stellwerksbedientArrow.svg</file>
+        <file>assets/stylesheet/Dtor.qss</file>
+        <file>assets/stylesheet/Filmovio.qss</file>
+        <file>assets/stylesheet/Gravira.qss</file>
+        <file>assets/stylesheet/HackBook.qss</file>
+        <file>assets/stylesheet/MailSy.qss</file>
+        <file>assets/stylesheet/TCobra.qss</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>

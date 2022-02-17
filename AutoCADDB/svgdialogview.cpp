@@ -118,9 +118,6 @@ void SvgDialogView::paintEvent(QPaintEvent *event)
 
 void SvgDialogView::displaySymbol(QString &selectedOption){
 
-
-
-
     if(selectedOption == "Filled"){
         imgFilled = new QGraphicsPixmapItem(QPixmap(":/icons/assets/svg/halfrect.svg"));
         imgScene->addItem(imgFilled);
@@ -150,9 +147,6 @@ void SvgDialogView::displaySymbol(QString &selectedOption){
             //halfrect,rectangle , arrow
             imgScene->removeItem(imgArrow);
         }
-
-
-
 
 }
 

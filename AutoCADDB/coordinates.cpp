@@ -107,142 +107,32 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
     }
 
     case 2: {
-        int counter1 =0;
+
         if (dataFile == "Gleiskanten.dbahn" && countryCode=="de"){
 
             setupData(count, document);
-
-//            QList<QString> dir; //RITZ
-//            while(counter1 < count){
-//                QMap<QString, QString> object;
-//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
-//                QJsonObject::Iterator iter;
-//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
-//                    QString currentKey = iter.key();
-//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
-//                    object.insert(currentKey, currentValue);
-//                }
-//                double RIKZ = document["features"][counter1]["properties"]["RIKZ"].toDouble();
-//                map.push_back(object);
-
-//                // Also set the direction
-//                dir.append(QString::number(RIKZ));
-//                counter1++;
-//            }
-//            this->setMap(map);
-//            this->setDirection(dir);
         }
+
         else if (dataFile == "Gleiskanten.dbahn" && countryCode=="fr"){
             setupData(count, document);
-
-////            QList<QString> dir; //RITZ
-//            while(counter1 < count){
-//                QMap<QString, QString> object;
-
-//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
-//                QJsonObject::Iterator iter;
-//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
-//                    QString currentKey = iter.key();
-//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
-//                    object.insert(currentKey, currentValue);
-//                }
-//                map.push_back(object);
-
-//                // Also set the direction
-////                dir.append(QString::number(RIKZ));
-//                counter1++;
-//            }
-//            this->setMap(map);
-////            this->setDirection(dir);
         }
+
         else if (dataFile == "Entwurfselement_HO.dbahn"){
             setupData(count, document);
-//            QList<QString> dir; //RITZ
-//            while (counter1 < count){
-//                QMap<QString, QString> object;
 
-//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
-//                QJsonObject::Iterator iter;
-//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
-//                    QString currentKey = iter.key();
-//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
-//                    object.insert(currentKey, currentValue);
-//                }
-//                map.push_back(object);
-
-//                // Also set the direction
-//                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
-//                counter1++;
-//            }
-//            this->setMap(map);
-//            this->setDirection(dir);
         }
         else if (dataFile == "Entwurfselement_LA.dbahn"){
             setupData(count, document);
-
-//            QList<QString> dir; //RITZ
-//            while(counter1 < count){
-//                QMap<QString, QString> object;
-
-//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
-//                QJsonObject::Iterator iter;
-//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
-//                    QString currentKey = iter.key();
-//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
-//                    object.insert(currentKey, currentValue);
-//                }
-
-
-//                map.push_back(object);
-
-//                // Also set the direction
-//                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
-//                counter1++;
-//            }
-//            this->setMap(map);
-//            this->setDirection(dir);
         }
+
         else if(dataFile == "Entwurfselement_UH.dbahn"){
             setupData(count, document);
-
-//            QList<QString> dir; //RITZ
-//            while (counter1 < count){
-//                QMap<QString, QString> object;
-
-//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
-//                QJsonObject::Iterator iter;
-//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
-//                    QString currentKey = iter.key();
-//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
-//                    object.insert(currentKey, currentValue);
-//                }
-//                map.push_back(object);
-
-//                // Also set the direction
-//                dir.append(document["features"][counter1]["properties"]["RIKZ"].toString());
-//                counter1++;
-//            }
-//            this->setMap(map);
-//            this->setDirection(dir);
         }
+
         else if (dataFile == "Entwurfselement_KM.dbahn"){
             setupData(count, document);
-
-//            while(counter1 < count){
-//                QMap<QString, QString> object;
-
-//                QJsonObject currentObj = document["features"][counter1]["properties"].toObject();
-//                QJsonObject::Iterator iter;
-//                for (iter = currentObj.begin(); iter != currentObj.end(); ++iter){
-//                    QString currentKey = iter.key();
-//                    QString currentValue = iter.value().isString() ? iter.value().toString() : QString::number(iter.value().toDouble(), 'f', 0);
-//                    object.insert(currentKey, currentValue);
-//                }
-//                map.push_back(object);
-//                counter1++;
-//            }
-//            this->setMap(map);
         }
+
         std::vector<float> arrayOfCoordinates;
         std::vector<int> segmentCount;
         std::vector<QPointF> segmentExtremePoints;
@@ -271,7 +161,7 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
         setSegment(segmentCount);
         setSegmentExtremePoints(segmentExtremePoints);
         if (dataFile == "Entwurfselement_KM.dbahn"){
-            // Set values fot the extreme dataPoints Km that is correcponding to segmentExtremepoints
+            // Set values for the extreme dataPoints Km that is correcponding to segmentExtremepoints
             std::vector<double> segmentExtremeKmVals;
             counter =0;
             while (counter < count){
