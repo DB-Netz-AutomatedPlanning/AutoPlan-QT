@@ -16,9 +16,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QTime>
-#include <QMap>
 #include <QCoreApplication>
-#include <QTimer>
 
 using namespace std;
 
@@ -37,17 +35,13 @@ public:
 // void delay();
  void testingFnt(QLabel *lbl);
 
- QString aPlanProjectName;
- QString aPlanProjectPath;
- QString aPlanFileName;
-
 
  QString* s;
 
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
-    QOpenGLVertexArrayObject  m_vao;
+    QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer buffer;
     GLuint m_MVPMatrixLoc;
     QMatrix4x4 modelMatrix;
@@ -56,54 +50,29 @@ protected:
     QMatrix4x4 mvp;
     QOpenGLShaderProgram *shaderProg;
 
-    int m_normalMatrixLoc = 0;
 
-    double x = 3432800.00000000;
-    double y = 5665700.00000000;
+    double x = 3432800;
+    double y = 5665700;
     float z = 10000.0f;
-    float highestZoomScale  = 25000.0f;
-    float lowestZoomScale  = 200.0f;
+    float highestZoomScale  = 62000.0f;
+    float lowestZoomScale  = 4200.0f;
 
     bool mouseLeftButtonPressed;
     bool mouseRightButtonPressed;
     int temp = 0;
     double dx = 0;
     double dy = 0;
-    double scaleSpeed = 500.0;
-    double zoomScale = 2;
-    double testZ = 0.0;
-    double testX = x;
-    double testY = y;
-    double getLowestCoordinateX;
-    double getLowestCoordinateY;
-    double minToCenterChangeValueX;
-    double minToCenterChangeValueY;
-    double powerValueOfTwo = 1;
-    int power = 0;
-    int testPower = 0;
-    float compareTestZ = 10000.0f;
-
-    double xForGrid = 3432800.00000000;
-    double yForGrid = 5665700.00000000;
-    QMap<QString,QString> segmentInfoFromCoordinate;
-
-    const QString PARAMETER = "GLeiskanten.geojson";
-
+    double scaleSpeed = 556.0;
 
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
 
+
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
-
-
-    void showGleisknoten(QString path, QString projectName);
-
-    void setSegmentInfoForCoordinate(double xCoordinate, double yCoordinate);
-    void drawGrid();
 
     QPushButton *btnSender;
 
@@ -113,9 +82,7 @@ protected:
     QString str;
     QLabel *newIcon;
 
-public:
-    const QMap<QString,QString> &getSegmentInfoForCoordinate() const;
-    void setCoordinateinRightTable(QMap<QString, QString>);
+
 
 
 public slots:
@@ -128,3 +95,9 @@ public slots:
 };
 
 #endif // MYOPENGLWIDGET_H
+
+
+
+
+
+
