@@ -12,34 +12,13 @@ PlanningTable::PlanningTable(QWidget *parent) :
 {
     ui->setupUi(this);
 
-//    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-//    while(iter.hasNext())
-//    {
-//        QString val = iter.next();
-//        ui->comboBoxStations->addItem(val.remove("Data/"));
-//    }
     ui->comboBoxStations->addItem(projectName);
-
-//    if (!ui->comboBoxStations->currentText().isEmpty() || !ui->comboBoxStations->currentText().isNull()){
-//        QString location = ui->comboBoxStations->currentText();
-//        QString path = "Data/"+location;
-//        QDir dir (path);
-//        QFileInfoList files = dir.entryInfoList(QDir::Files);
-//        if  (files.length() ==0) {
-//            QMessageBox::information(this, "No Data", "No Existing Data for the selected Station");
-//            return;
-//        }
-//        foreach(QFileInfo fi, files){
-//            ui->comboBoxSelectFile->addItem(fi.fileName());
-//        }
-//    }
 }
 
 PlanningTable::~PlanningTable()
 {
     delete ui;
 }
-
 
 void PlanningTable::on_btnAutoPLAN_clicked()
 {
@@ -112,8 +91,8 @@ void PlanningTable::on_btnAutoPLAN_clicked()
             QByteArray data = file.readAll();
             QByteArray decoded = QByteArray::fromHex(data);
 
-    //        QString allData;
-    //        allData = QString(decoded);
+            //        QString allData;
+            //        allData = QString(decoded);
             file.close();
 
             fileToSave.write(decoded);
@@ -147,9 +126,9 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         UH_Path = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_UH.geojson";
         LA_Path = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_LA.geojson";
 
-//        gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
-//        gleisknotenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleisknoten.geojson";
-//        hoehePath = projectName.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_HO.geojson";
+        //        gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
+        //        gleisknotenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleisknoten.geojson";
+        //        hoehePath = projectName.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_HO.geojson";
 
         std::vector<QString> paths;
         paths.push_back(kmLinePath);
@@ -168,14 +147,27 @@ void PlanningTable::on_btnAutoPLAN_clicked()
                                                   "Please contact your administrator");
             return;
         }
+
+        //TOdo :: Try n Catch need to be implemented here to handle some exception errors
+
         csharp->mainSolution();
         this->table = csharp->getMainAntwort();
         this->rows = csharp->getNumberOfRows();
         this->cols = csharp->getNumberofCols();
-//        qDebug()<< "table: "<< csharp->getMainAntwort();
-//        qDebug()<< "Rows: " <<csharp->getNumberOfRows();
-//        qDebug()<< "Cols: " <<csharp->getNumberofCols();
 
+        /*Check the first row (Lateral Distance, and Positioning ) to know if there are output error
+        from the C# appllication. Also, this is used to handle "fail fast Exception"*/
+        bool ok1;
+        bool ok2;
+        table[0][1].toFloat(&ok1);
+        table[0][2].toFloat(&ok2);
+
+        if (!(ok1 && ok2)){
+            QMessageBox::information(this, "Planning Aborted !", "Process aborted mid-way, "
+                                      "Please ensure \n compliance with the input data specification.");
+            close();
+            return;
+        }
 
         ui->lblLocation->hide();
         ui->lblLocation->setText(location.toUpper());
@@ -188,12 +180,12 @@ void PlanningTable::on_btnAutoPLAN_clicked()
     QStringList rows;
 
     headers <<"DB Signal Function" << "Linear Coordinate (Km)"<< "Lateral Distance(Km)" << "Lateral Side" << "Direction";
-//    headers <<"Type" << "Position(Km)"<< "Lateral Distance(Km)" << "Orientation" << "Belogs To";
+    //    headers <<"Type" << "Position(Km)"<< "Lateral Distance(Km)" << "Orientation" << "Belogs To";
     ui->tableWidget->setColumnCount(5);
     ui->tableWidget->setHorizontalHeaderLabels(headers);
     ui->tableWidget->horizontalHeader()->frameStyle();
 
-//    output();
+    //    output();
     ui->tableWidget->setRowCount(this->rows);
     for (int i = 0; i< this->rows; i++){
         rows.append(QString::number(i+1));
@@ -217,6 +209,8 @@ void PlanningTable::on_btnAutoPLAN_clicked()
 
 
     // Add Symbols/Signals -- only if KmLine data is available (Json)
+
+
     KmToCoordinate *kmToCoord = new KmToCoordinate(projectPath,projectName);
     kmToCoord->mapKmAndCoord();
     kmToCoord->calculateAngles();
