@@ -1325,8 +1325,6 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 }
 
 
-
-
 void Tracks::addSymbol(QString str)
 {
     defaultObjectName = str;
@@ -1340,6 +1338,8 @@ void Tracks::addSymbol(QString str)
     black->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
     scene()->addItem(black);
 }
+
+
 void Tracks :: sceneSelectedItems(int degree){
 
     //QPointF offset = group->sceneBoundingRect().center();

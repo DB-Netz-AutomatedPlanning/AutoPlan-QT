@@ -165,21 +165,35 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             std::vector<double> segmentExtremeKmVals;
             counter =0;
             while (counter < count){
-                QString KM_A_TEXT = document["features"][counter]["properties"]["KM_A_TEXT"].toString();
-                QString KM_E_TEXT = document["features"][counter]["properties"]["KM_E_TEXT"].toString();
-                QList<QString> KM_A_SPLIT = KM_A_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
-                QList<QString> KM_E_SPLIT = KM_E_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
-                double p1_km,p1_m, p2_km, p2_m, p1_final, p2_final;
-                p1_km = KM_A_SPLIT[0].replace(",",".").toDouble();
-                p1_m = KM_A_SPLIT[1].replace(",",".").toDouble();
-                p1_final = p1_km + p1_m/1000;
+                /* usually, the KM value from geojson is expected to be in form of text, and need to be
+                processed differently from the normal floating points expected from euxml processed data*/
+                if (!document["features"][counter]["properties"]["KM_A_TEXT"].isUndefined() && !document["features"][counter]["properties"]["KM_E_TEXT"].isUndefined()){
+                    QString KM_A_TEXT = document["features"][counter]["properties"]["KM_A_TEXT"].toString();
+                    QString KM_E_TEXT = document["features"][counter]["properties"]["KM_E_TEXT"].toString();
+                    QList<QString> KM_A_SPLIT = KM_A_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
+                    QList<QString> KM_E_SPLIT = KM_E_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
+                    double p1_km,p1_m, p2_km, p2_m, p1_final, p2_final;
+                    p1_km = KM_A_SPLIT[0].replace(",",".").toDouble();
+                    p1_m = KM_A_SPLIT[1].replace(",",".").toDouble();
+                    p1_final = p1_km + p1_m/1000;
 
-                p2_km = KM_E_SPLIT[0].replace(",",".").toDouble();
-                p2_m = KM_E_SPLIT[1].replace(",",".").toDouble();
-                p2_final = p2_km + p2_m/1000;
-                segmentExtremeKmVals.push_back(p1_final);
-                segmentExtremeKmVals.push_back(p2_final);
+                    p2_km = KM_E_SPLIT[0].replace(",",".").toDouble();
+                    p2_m = KM_E_SPLIT[1].replace(",",".").toDouble();
+                    p2_final = p2_km + p2_m/1000;
+                    segmentExtremeKmVals.push_back(p1_final);
+                    segmentExtremeKmVals.push_back(p2_final);
+
+                }
+                else if (!document["features"][counter]["properties"]["KM_A"].isUndefined() && !document["features"][counter]["properties"]["KM_E"].isUndefined()){
+                    double p1, p2 ;// Point 1 and 2
+                    p1 = document["features"][counter]["properties"]["KM_A"].toDouble();
+                    p2 = document["features"][counter]["properties"]["KM_E"].toDouble();
+                    segmentExtremeKmVals.push_back(p1);
+                    segmentExtremeKmVals.push_back(p2);
+
+                }
                 counter++;
+
             }
             setSegmentExtremeKmValues(segmentExtremeKmVals);
         }

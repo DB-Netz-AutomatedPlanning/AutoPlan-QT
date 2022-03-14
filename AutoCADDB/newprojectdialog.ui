@@ -332,6 +332,11 @@
              <string>.mdb</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>.euxml</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>

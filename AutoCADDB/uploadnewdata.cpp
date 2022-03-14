@@ -161,7 +161,6 @@ void UploadNewData::on_btnHoehe_clicked()
         ui->lineEditHoehe->clear();
         QMessageBox::warning(this, "Warning", "No file selected");
     }
-
     else{
         QFileInfo file (fileName);
         QString file_extension = file.completeSuffix();
@@ -180,9 +179,7 @@ void UploadNewData::on_btnHoehe_clicked()
     }
     else{
         ui->btnOK->setEnabled(false);
-
     }
-
 }
 
 
@@ -193,7 +190,6 @@ void UploadNewData::on_btnKMLine_clicked()
         ui->lineEditKMLine->clear();
         QMessageBox::warning(this, "Warning", "No file selected");
     }
-
     else{
         QFileInfo file (fileName);
         QString file_extension = file.completeSuffix();
@@ -212,7 +208,6 @@ void UploadNewData::on_btnKMLine_clicked()
     }
     else{
         ui->btnOK->setEnabled(false);
-
     } 
 }
 
@@ -224,7 +219,6 @@ void UploadNewData::on_btnGleiskanten_clicked()
         ui->lineEditGleiskanten->clear();
         QMessageBox::warning(this, "Warning", "No file selected");
     }
-
     else{
         QFileInfo file (fileName);
         QString file_extension = file.completeSuffix();
@@ -243,7 +237,6 @@ void UploadNewData::on_btnGleiskanten_clicked()
     }
     else{
         ui->btnOK->setEnabled(false);
-
     }
 }
 
@@ -255,7 +248,6 @@ void UploadNewData::on_btnLage_clicked()
         ui->lineEditLage->clear();
         QMessageBox::warning(this, "Warning", "No file selected");
     }
-
     else{
         QFileInfo file (fileName);
         QString file_extension = file.completeSuffix();
@@ -274,9 +266,7 @@ void UploadNewData::on_btnLage_clicked()
     }
     else{
         ui->btnOK->setEnabled(false);
-
     }
-
 }
 
 
@@ -306,7 +296,6 @@ void UploadNewData::on_btnUberhohung_clicked()
     }
     else{
         ui->btnOK->setEnabled(false);
-
     }
 
 }

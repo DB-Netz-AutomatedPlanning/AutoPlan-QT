@@ -395,12 +395,6 @@ void QGraphicsSymbolContainer::on_pb_FDurchGuterzuge_clicked()
 }
 
 
-
-
-
-
-
-
 void QGraphicsSymbolContainer::on_btn_zugbedient_clicked()
 {
     if(zugCutomiseBtn){
@@ -431,7 +425,6 @@ void QGraphicsSymbolContainer::on_chb_zug_filled_clicked()
 
 void QGraphicsSymbolContainer::on_chb_zug_partial_clicked()
 {
-
     ui->chb_zug_nofill->setChecked(false);
     ui->chb_zug_filled->setChecked(false);
     ui->chb_zug_arrow->setChecked(false);
@@ -521,9 +514,6 @@ void QGraphicsSymbolContainer::on_checkBox_vorStellwerksbedient_clicked()
 }
 
 
-
-
-
 void QGraphicsSymbolContainer::on_checkBox_vorZugoderStellwerksbedient_clicked()
 {
     ui->checkBox_vorStellwerksbedient->setChecked(false);
@@ -546,8 +536,6 @@ void QGraphicsSymbolContainer::on_checkBox_Arrow_clicked()
         if(ui->checkBox_vorStellwerksbedient->isChecked()){
              ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorStellwerksbedientArrow.svg"));
         }
-
-
     } else {
          ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugbedient.svg"));
         if(ui->checkBox_vorZugoderStellwerksbedient->isChecked()){
@@ -556,7 +544,6 @@ void QGraphicsSymbolContainer::on_checkBox_Arrow_clicked()
         if(ui->checkBox_vorStellwerksbedient->isChecked()){
              ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorStellwerksbedien.svg"));
         }
-
     }
 }
 
@@ -693,7 +680,6 @@ void QGraphicsSymbolContainer::on_checkBox_BuBuTafel_clicked()
 
 void QGraphicsSymbolContainer::on_pushButton_balisengruppeLinks_clicked()
 {
-
             if(balisengruppeLinksCustomiseBtn){
                 balisengruppeLinksCustomiseBtn = false;
                 ui->frame_balisengruppeLinks->hide();
@@ -739,7 +725,6 @@ void QGraphicsSymbolContainer::on_checkBox_BalisengruppeGesteuertTri_clicked()
 
 void QGraphicsSymbolContainer::on_pushButton_Bereichskennungswechsel_clicked()
 {
-
         if(BereichskennungswechselCustomiseBtn){
             BereichskennungswechselCustomiseBtn = false;
             ui->frame_Bereichskennungswechsel->hide();

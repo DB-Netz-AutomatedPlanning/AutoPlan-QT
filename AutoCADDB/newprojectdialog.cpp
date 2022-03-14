@@ -141,7 +141,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
                 QByteArray encoded = bytes.toHex();
                 fileToSave.write(encoded);
                 fileToSave.close();
-                msg.append(current +"successfully updated \n");
+                msg.append(current +" successfully updated \n");
             }
         }
     }

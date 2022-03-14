@@ -541,6 +541,10 @@ void MainWindow::on_pushButton_77_clicked()
 
 void MainWindow::on_exportBtnPlan_clicked()
 {
+    if (fileFormat == ".euxml" && ui->cmbExport->currentText() == "Eulynx"){
+        QMessageBox::warning(this, "Nothing to Convert!", "The input data is already Eulynx xml");
+        return;
+    }
     if (ui->cmbExport->currentText() != "Eulynx"){
         QMessageBox::warning(this, "File Format", "Selected format '"+ui->cmbExport->currentText()+"' is currently not available");
     }
