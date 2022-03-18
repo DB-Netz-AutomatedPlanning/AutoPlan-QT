@@ -24,9 +24,14 @@ SOURCES += \
     coordinates.cpp \
     dragwidget.cpp \
     dropwidget.cpp \
+    gleiskantenfromunprocessedjson.cpp \
+    gleisknotenfromunprocessedjson.cpp \
+    hofromunprocessedjson.cpp \
     iconslist.cpp \
     importfolder.cpp \
+    kmliniefromunprocessedjson.cpp \
     kmtocoordinate.cpp \
+    lagefromunprocessedjson.cpp \
     main.cpp \
     mainwindow.cpp \
     myopenglwidget.cpp \
@@ -44,6 +49,7 @@ SOURCES += \
     symboloptions.cpp \
     test.cpp \
     tracks.cpp \
+    uberhohungfromunprocessedjson.cpp \
     uploadnewdata.cpp \
     exportdialog.cpp
 
@@ -56,9 +62,14 @@ HEADERS += \
     coordinates.h \
     dragwidget.h \
     dropwidget.h \
+    gleiskantenfromunprocessedjson.h \
+    gleisknotenfromunprocessedjson.h \
+    hofromunprocessedjson.h \
     iconslist.h \
     importfolder.h \
+    kmliniefromunprocessedjson.h \
     kmtocoordinate.h \
+    lagefromunprocessedjson.h \
     mainwindow.h \
     myopenglwidget.h \
     newprojectdialog.h \
@@ -75,6 +86,7 @@ HEADERS += \
     symboloptions.h \
     test.h \
     tracks.h \
+    uberhohungfromunprocessedjson.h \
     uploadnewdata.h \
     exportdialog.h
 

@@ -75,7 +75,6 @@ void NoPreviewDelete::on_checkBoxEntireStation_toggled(bool checked)
     }
     else{
         on_btnLoad_6_clicked();
-
     }
 }
 
@@ -111,7 +110,7 @@ void NoPreviewDelete::on_btnDelete_6_clicked()
         if (ui->checkBoxGleiskanten_6->isChecked() && ui->checkBoxGleiskanten_6->isEnabled()){
             ui->btnDelete_6->setEnabled(true);
             QString fileName = "Gleiskanten.dbahn";
-            QFile file (projectPath+"/"+location+"/temp/" +fileName);
+            QFile file (projectPath+"/"+location+"/temp/"+fileName);
             if (!file.remove()){
                 QMessageBox::information(this, "Fatal", file.errorString());
             }
