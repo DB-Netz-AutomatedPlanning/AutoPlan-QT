@@ -489,9 +489,9 @@ void MainWindow::planningFnt()
         QMessageBox::warning(this, "File Format", "Planning of .mdb data source/file was temporarily disabled");
         return;
     }
-
-    if (fileFormat == ".eulynx") {
-        QMessageBox::warning(this, "File Format", "Planning of .eulynx data source/file was temporarily disabled");
+    if (fileFormat == ".euxml") {
+        QMessageBox::warning(this, "File Format", "Planning of .euxml data source/file was temporarily disabled");
+        return;
     }
     else{
         PlanningTable *plan;
