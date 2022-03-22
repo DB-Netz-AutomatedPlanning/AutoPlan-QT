@@ -92,8 +92,8 @@ From the Release folder "APlan v1.0.0" >> doc >> User Guide
 
 ### Release Version
 
-* v.1.0.0
-* Date: 02.18.2022
+* v.1.0.0    Date: 02.18.2022
+* v.1.0.1     Date: 03.22.2022
 * To access the last available release (installation) file, Click [Here](https://github.com/DB-Netz-AutomatedPlanning/AutoPlan-QT/releases)
 
 ---
