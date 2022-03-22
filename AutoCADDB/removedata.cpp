@@ -16,15 +16,12 @@ RemoveData::RemoveData(QWidget *parent) :
 //        ui->comboAllFolder->addItem(val.remove("Data/"));
 //    }
     ui->comboAllFolder->addItem(projectName);
-
 }
 
 RemoveData::~RemoveData()
 {
     delete ui;
 }
-
-
 
 
 void RemoveData::on_btnLoad_clicked()
@@ -38,21 +35,15 @@ void RemoveData::on_btnLoad_clicked()
         close();
         return;
     }
-
-
-
     if (files.length() ==0) {
         QMessageBox::information(this, "No Data", "No Existing Data for the selected Station");
         return;
     }
-
     foreach(QFileInfo fi, files){
         ui->comboFiles->addItem(fi.fileName().remove("."+fi.completeSuffix()));
     }
-
     ui->comboFiles->setEnabled(true);
     ui->btnPreview->setEnabled(true);
-
 }
 
 
@@ -95,7 +86,6 @@ void RemoveData::on_comboFiles_currentTextChanged()
     ui->btnDelete->setEnabled(false);
     ui->textBrowserPreview->clear();
     ui->textBrowserPreview->setEnabled(false);
-
 }
 
 

@@ -10,13 +10,15 @@ ExportDialog::ExportDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Export file");
-    //QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-    //    QDirIterator iter( projectPath+"/"+projectName, QDir::Dirs | QDir::NoDotAndDotDot);  //+"/temp"
-    //    while(iter.hasNext() )
-    //    {
-    //        QString val = iter.next();
-    //        ui->cmbStation->addItem(val.remove(projectPath+"/"+projectName+"/"));  //temp/
-    //    }
+
+//    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
+//    QDirIterator iter( projectPath+"/"+projectName, QDir::Dirs | QDir::NoDotAndDotDot);  //+"/temp"
+//    while(iter.hasNext() )
+//    {
+//        QString val = iter.next();
+//        ui->cmbStation->addItem(val.remove(projectPath+"/"+projectName+"/"));  //temp/
+//    }
+
     ui->cmbStation->addItem(projectName);
     ui->cmbStation->setCurrentText(projectName);
     if(!ui->cmbStation->currentText().isNull() && !ui->cmbStation->currentText().isEmpty()){
@@ -129,7 +131,7 @@ void ExportDialog::on_btnExport_clicked()
         csharp.write(outputPath);
         csharp.waitForBytesWritten(1000);
 
-//        waitToFinish(10000);
+//        waitToFinish(15000);
 
         csharp.closeWriteChannel();
         if(!csharp.waitForFinished(15000)) {
