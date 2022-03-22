@@ -356,31 +356,24 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
             if (!file.open(QIODevice::ReadOnly)){
                 QMessageBox::warning(this, "Warning", file.errorString());
                 return;
-//                qDebug()<<  "Warning1 : "+ file.errorString();
-
             }
             QString current = file_name.remove(".json");
-//            qDebug()<< "Current : "+ current;
             if (current == "Entwurfselement_HO" || current == "Entwurfselement_KM" || current == "Entwurfselement_LA" ||
                      current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"){
-
                 QString allData = file.readAll();
-                file.close();
 
                 // create a .dbahn file corresponding to the json file into the saving folder
                 QFile fileToSave  (ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text() +"/temp/" + current+".dbahn");
-
                 if (!fileToSave.open(QIODevice::WriteOnly)){
                     QMessageBox::warning(this, "Warning", fileToSave.errorString());
                     return;
-//                    qDebug()<<  "Warning2 :"+ current +" "+ fileToSave.errorString();
                 }
                 QByteArray bytes(allData.toUtf8());
                 QByteArray encoded = bytes.toHex();
                 fileToSave.write(encoded);
                 fileToSave.close();
             }
-
+            file.close();
         }
 
 
