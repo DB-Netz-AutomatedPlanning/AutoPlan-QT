@@ -1,4 +1,5 @@
 #include "uberhohungfromunprocessedjson.h"
+#include "symbolcontainer.h"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -153,6 +154,14 @@ std::vector<std::vector<double> > UberhohungFromUnprocessedJson::arrayOfCoordina
     qDebug()<< "Entering -- Uberhohung . ";
     qDebug()<< "Look up -- for Uberhohung . . . ";
     std::vector<std::vector<double> > allCoord;
+
+//    int segmentCount=0;
+//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesAlignmentCantSegment"][segmentCount].isUndefined()){
+//        segmentCount++;
+//    }
+//    totalValue+=segmentCount;
+//    qDebug()<< "TOTALFROM_UH" << totalValue;
+
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesAlignmentCantSegment"][i].isUndefined()){
         std::vector<double> segmentData;
@@ -167,7 +176,9 @@ std::vector<std::vector<double> > UberhohungFromUnprocessedJson::arrayOfCoordina
             segmentData.push_back(coordValue[2].toDouble());
             j++;
         }
-        qDebug()<< "Processing Uberhohung . . . "<< i << " of 72";
+//        progressValue++;
+//        qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
+//        qDebug()<< "Processing Uberhohung . . . "<< i << " of "<<segmentCount;
         allCoord.push_back(segmentData);
         i++;
     }
@@ -304,13 +315,16 @@ void UberhohungFromUnprocessedJson::createJson()
 
     /* If there is no Topology data (coordinate(s)), there is nothing to
     view, Hence, no need of creating internal json document*/
-    if (allFeatures.isEmpty()) return;
+    if (allFeatures.isEmpty()) {
+        progressValue++; // increment the progress bar counter and exit
+        qDebug()<< "Progress : "<< progressValue;
+        return;
+    }
 
     QJsonObject content;
     content.insert("type", "FeatureCollection");
     content.insert("name", "Entwurfselement_Ueberhoehung");
     content.insert("features", allFeatures);
-
 
     QJsonDocument document;
     document.setObject( content );
@@ -328,4 +342,6 @@ void UberhohungFromUnprocessedJson::createJson()
     {
         qDebug()<< "File opening failed: " << file.errorString();
     }
+    progressValue++;   // increment the progress bar counter and exit
+    qDebug()<< "Progress : "<< progressValue;
 }

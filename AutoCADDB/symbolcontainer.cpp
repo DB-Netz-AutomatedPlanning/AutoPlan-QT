@@ -3,8 +3,8 @@
 
 // OpenGl variables
 bool isActive = false;
-QString stationName = "Sayli";
-QString geoJsonFileName = "Saif";
+QString stationName = "";
+QString geoJsonFileName = "";
 int geoJsonCodeNo = 0;
 
 // Preview Eulynx variables
@@ -24,6 +24,13 @@ bool createNewProject = false;
 
 Tracks *tracks = nullptr;
 bool rightPanelTable = false;
+
+// Open Progress Bar Dialogue for euxml
+bool isEuXml = false;
+int totalValue =0;
+int progressValue =1; // out of 7
+
+
 
 //name
 QString nameOfTrack = "";

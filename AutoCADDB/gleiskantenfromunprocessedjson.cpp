@@ -1,4 +1,5 @@
 #include "gleiskantenfromunprocessedjson.h"
+#include "symbolcontainer.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -195,6 +196,14 @@ std::vector<std::vector<double> > GleiskantenFromUnprocessedJson::arrayOfCoordin
     qDebug()<< "Look up -- Gleiskanten . ";
     qDebug()<< "Look up -- for Gleiskanten . . . ";
     std::vector<std::vector<double> > allCoord;
+
+//    int segmentCount=0;
+//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][segmentCount].isUndefined()){
+//        segmentCount++;
+//    }
+//    totalValue+=segmentCount;
+//    qDebug()<< "TOTALFROMKANTEN" << totalValue;
+
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i].isUndefined()){
         QString name = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i]["name"].toString();
@@ -216,7 +225,9 @@ std::vector<std::vector<double> > GleiskantenFromUnprocessedJson::arrayOfCoordin
                 segmentData.push_back(coordValue[2].toDouble());
                 j++;
             }
-            qDebug()<< "Processing Gleiskanten . . . "<< i << " of 23";
+//            progressValue++;
+//            qDebug()<< " KANTEN Progress Bar "<< progressValue<< " of " <<totalValue;
+//            qDebug()<< "Processing Gleiskanten . . . "<< i << " of " <<segmentCount;
             allCoord.push_back(segmentData);
             i++;
         }
@@ -340,8 +351,6 @@ QJsonObject GleiskantenFromUnprocessedJson::Features(QJsonObject properties, QJs
     return eachFeature;
 }
 
-
-
 void GleiskantenFromUnprocessedJson::createJson()
 {
     searchNameAndID();
@@ -368,13 +377,16 @@ void GleiskantenFromUnprocessedJson::createJson()
     }
     /* If there is no Topology data (coordinate(s)), there is nothing to
     view, Hence, no need of creating internal json document*/
-    if (allFeatures.isEmpty()) return;
+    if (allFeatures.isEmpty()) {
+        progressValue++;
+        qDebug()<< "Progress : " << progressValue;
+        return;
+    }
 
     QJsonObject content;
     content.insert("type", "FeatureCollection");
     content.insert("name", "Gleiskanten");
     content.insert("features", allFeatures);
-
 
     QJsonDocument document;
     document.setObject( content );
@@ -387,12 +399,12 @@ void GleiskantenFromUnprocessedJson::createJson()
         //iStream.setCodec( "utf-8" );
         iStream << bytes;
         file.close();
-
     }
     else
     {
         qDebug()<< "File opening failed: " << file.errorString();
         //        std::cout << "file open failed: " << path.toStdString() << std::endl;
     }
-
+    progressValue++;
+    qDebug()<< "Progress : " << progressValue;
 }

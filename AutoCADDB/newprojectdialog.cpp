@@ -1,5 +1,6 @@
 #include "newprojectdialog.h"
 #include "ui_newprojectdialog.h"
+#include "mainwindow.h"
 #include "symbolcontainer.h"
 #include "gleiskantenfromunprocessedjson.h"
 #include "gleisknotenfromunprocessedjson.h"
@@ -7,12 +8,16 @@
 #include "hofromunprocessedjson.h"
 #include "uberhohungfromunprocessedjson.h"
 #include "lagefromunprocessedjson.h"
+#include "progressdialogues.h"
 #include <QPushButton>
 #include<QSysInfo>
 #include<QProcess>
 #include <QTime>
 #include <QDir>
 #include <QDirIterator>
+#include <QtConcurrent>
+#include <QFuture>
+#include <QProgressDialog>
 
 
 NewProjectDialog::NewProjectDialog(QWidget *parent) :
@@ -21,7 +26,14 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Create New Project");
-//    connect (ui->btnBrowseProjectPath , & QPushButton::clicked, this, & NewProjectDialog::btnBrowseProjectPath_clicked);
+
+
+
+
+    //    connect (ui->btnBrowseProjectPath , & QPushButton::clicked, this, & NewProjectDialog::btnBrowseProjectPath_clicked);
+
+    progress = new QProgressDialog("Operation in progress ...", "Cancel", 0, 7, this);
+    progress->move(-10000,-10000);
 }
 
 NewProjectDialog::~NewProjectDialog()
@@ -194,7 +206,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
                 QMessageBox::warning(this, "Warning", file.errorString());
                 return;
             }
-//            file.close();
+            //            file.close();
             //if (file.open(QIODevice::ReadOnly)){
             QString current = each.back().remove("."+info.completeSuffix());
             if (current == "Entwurfselement_HO" || current == "Entwurfselement_KM" || current == "Entwurfselement_LA" ||
@@ -243,6 +255,15 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
     }
 
     else if (ui->fileFormatComboBox->currentText() == ".euxml"){
+        progress->move(550,275);
+//        progress->move(550,400);
+        progress->setValue(progressValue);
+
+        progress->setWindowModality(Qt::WindowModal);
+        progress->setWindowTitle("Please wait ...");
+//        isEuXml = true;
+//        ProgressDialogues *pd = new ProgressDialogues();
+
 
         QStringList each = fileName.split(QRegularExpression("/"));
         QFile file (fileName);
@@ -307,13 +328,19 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
             return;
         }
 
-        QString unprocessedFilePath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/UnprocessedJson.json";
+        unprocessedFilePath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/UnprocessedJson.json";
 
         if (!QFile::exists(unprocessedFilePath)){
             QMessageBox::information(this, "Missing File", "Process Aborted !! ");
             return;
         }
-//        QFile unprocessedFile (unprocessedFilePath);
+//        pd->setInitialValue();
+
+
+        /* Running all the six classes on seperate Thread with the help of QtConcurrent. Similarly
+        QFuture allow the output to be stored and give flexibility to asking the main thread to wait
+        for output from the other running thread*/
+
         // Create paths to store the internally-used generated files
         QString kantenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleiskanten.json";
         QString lagePath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_LA.json";
@@ -322,28 +349,33 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         QString knotenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleisknoten.json";
         QString kmPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_KM.json";
 
-        GleiskantenFromUnprocessedJson *tryKanten = new GleiskantenFromUnprocessedJson(nullptr, unprocessedFilePath, kantenPath);
-        LageFromUnprocessedJson * tryLage = new LageFromUnprocessedJson (nullptr, unprocessedFilePath, lagePath);
-        HOFromUnprocessedJson * tryHO = new HOFromUnprocessedJson(nullptr, unprocessedFilePath, hoPath);
-        UberhohungFromUnprocessedJson * tryUH = new UberhohungFromUnprocessedJson(nullptr, unprocessedFilePath, uhPath);
-        GleisknotenFromUnprocessedJson *tryKnoten = new GleisknotenFromUnprocessedJson(nullptr, unprocessedFilePath, knotenPath);
-        KmLinieFromUnprocessedJson *tryKmLinie = new KmLinieFromUnprocessedJson (nullptr, unprocessedFilePath, kmPath);
+        QFuture<void> kanten = QtConcurrent::run(runKanten, unprocessedFilePath, kantenPath);
+        QFuture<void> lage = QtConcurrent::run(runLage, unprocessedFilePath, lagePath);
+        QFuture<void> ho = QtConcurrent::run(runHO, unprocessedFilePath, hoPath);
+        QFuture<void> uh = QtConcurrent::run(runUH, unprocessedFilePath, uhPath);
+        QFuture<void> knoten = QtConcurrent::run(runKnoten, unprocessedFilePath, knotenPath);
+        QFuture<void> km = QtConcurrent::run(runKMLinie, unprocessedFilePath, kmPath);
 
-        qDebug() << "Start : " << QTime::currentTime();
-        tryKanten->createJson();
-        qDebug() << "KantenDone : " << QTime::currentTime();
-        tryLage->createJson();
-        qDebug() << "LageDone : " << QTime::currentTime();
-        tryHO->createJson();
-        qDebug() << "HODone : " << QTime::currentTime();
-        tryUH->createJson();
-        qDebug() << "UHDone : " << QTime::currentTime();
-        tryKnoten->createJson();
-        qDebug() << "KnotenDone : " << QTime::currentTime();
-        tryKmLinie->createJson();
-        qDebug() << "KMDone : " << QTime::currentTime();
-
-
+        progress->setValue(progressValue);
+        qDebug() << "1";
+        kanten.waitForFinished();
+        progress->setValue(progressValue);
+        qDebug() << "1";
+        lage.waitForFinished();
+        progress->setValue(progressValue);
+        qDebug() << "1";
+        ho.waitForFinished();
+        progress->setValue(progressValue);
+        qDebug() << "1";
+        uh.waitForFinished();
+        progress->setValue(progressValue);
+        qDebug() << "1";
+        knoten.waitForFinished();
+        progress->setValue(progressValue);
+        qDebug() << "1";
+        km.waitForFinished();
+        progress->setValue(progressValue);
+        qDebug() << "1";
 
         QString tempFolder = ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text()+"/temp2";
         QDir dir (tempFolder);
@@ -359,7 +391,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
             }
             QString current = file_name.remove(".json");
             if (current == "Entwurfselement_HO" || current == "Entwurfselement_KM" || current == "Entwurfselement_LA" ||
-                     current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"){
+                    current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"){
                 QString allData = file.readAll();
 
                 // create a .dbahn file corresponding to the json file into the saving folder
@@ -377,38 +409,38 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         }
 
 
-//        QString tempFolder = ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text()+"/temp2";
-//        QDir dir (tempFolder);
-//        QFileInfoList files = dir.entryInfoList(QDir::Files);
+        //        QString tempFolder = ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text()+"/temp2";
+        //        QDir dir (tempFolder);
+        //        QFileInfoList files = dir.entryInfoList(QDir::Files);
 
-//        foreach(QFileInfo fi, files){
-//            QString file = fi.fileName();
-//            QString current = file.remove(".json");
-//            QFile file1 (ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text()+"/temp2/"+file);
-//            if (!file1.open(QIODevice::ReadOnly)){
-//                QMessageBox::warning(this, "Warning", file1.errorString());
-//                return;
-//            }
-//            if (current == "Entwurfselement_HO" || current == "Entwurfselement_KM" || current == "Entwurfselement_LA" ||
-//                    current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"){
+        //        foreach(QFileInfo fi, files){
+        //            QString file = fi.fileName();
+        //            QString current = file.remove(".json");
+        //            QFile file1 (ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text()+"/temp2/"+file);
+        //            if (!file1.open(QIODevice::ReadOnly)){
+        //                QMessageBox::warning(this, "Warning", file1.errorString());
+        //                return;
+        //            }
+        //            if (current == "Entwurfselement_HO" || current == "Entwurfselement_KM" || current == "Entwurfselement_LA" ||
+        //                    current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"){
 
-//                QString allData = file1.readAll();
-//                file1.close();
+        //                QString allData = file1.readAll();
+        //                file1.close();
 
-//                // create a .dbahn file corresponding to the json file into the saving folder
-//                QFile fileToSave (ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text() +"/temp/" + current+".dbahn");
+        //                // create a .dbahn file corresponding to the json file into the saving folder
+        //                QFile fileToSave (ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text() +"/temp/" + current+".dbahn");
 
-//                if (!fileToSave.open(QIODevice::WriteOnly)){
-//                    QMessageBox::warning(this, "Warning", fileToSave.errorString());
-//                    return;
-//                }
-//                QByteArray bytes(allData.toUtf8());
-//                QByteArray encoded = bytes.toHex();
-//                fileToSave.write(encoded);
-//                fileToSave.close();
-//            }
+        //                if (!fileToSave.open(QIODevice::WriteOnly)){
+        //                    QMessageBox::warning(this, "Warning", fileToSave.errorString());
+        //                    return;
+        //                }
+        //                QByteArray bytes(allData.toUtf8());
+        //                QByteArray encoded = bytes.toHex();
+        //                fileToSave.write(encoded);
+        //                fileToSave.close();
+        //            }
 
-//        }
+        //        }
         msg.append(current +" successfully updated \n");
     }
 
@@ -434,6 +466,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
     }
 
     projectName = ui->leEnterProjectName->text();
+
 }
 
 void NewProjectDialog::on_btnCancel_clicked()
@@ -450,6 +483,81 @@ void NewProjectDialog::setEndl(const QString &newEndl)
 {
     endl = newEndl;
 }
+
+void NewProjectDialog::setProgressValue()
+{
+    if(progressValue <= 7){
+        progress->setValue(progressValue);
+    }
+    else {
+        qDebug()<< "PROGRESS Complete";
+        return;
+    }
+    setProgressValue();
+}
+
+//void NewProjectDialog::getProgressValue(bool is_EuXml, int progress_Value)
+//{
+//    QProgressDialog * progress1 = new QProgressDialog("Operation in progress ...", "Cancel", 0, 7);
+//    progress1->setWindowModality(Qt::WindowModal);
+
+//    while(is_EuXml && progressValue <= 7){
+//        progress1->setValue(progress_Value);
+//        if (progress1->wasCanceled()) break;
+//    }
+//    qDebug()<< "PROGRESS Complete";
+//    //progress.setValue(7);
+//}
+
+void NewProjectDialog::runKanten(QString unprocessed_File_Path, QString kanten_Path)
+{
+    //QString kantenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleiskanten.json";
+    //GleiskantenFromUnprocessedJson *tryKanten = new GleiskantenFromUnprocessedJson(nullptr, unprocessedFilePath, kantenPath);
+    GleiskantenFromUnprocessedJson *tryKanten = new GleiskantenFromUnprocessedJson(nullptr, unprocessed_File_Path, kanten_Path);
+    qDebug() << "Start : " << QTime::currentTime();
+    tryKanten->createJson();
+}
+
+void NewProjectDialog::runLage(QString unprocessed_File_Path, QString lage_Path)
+{
+    //QString lagePath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_LA.json";
+    LageFromUnprocessedJson * tryLage = new LageFromUnprocessedJson (nullptr, unprocessed_File_Path, lage_Path);
+    qDebug() << "Start : " << QTime::currentTime();
+    tryLage->createJson();
+}
+
+void NewProjectDialog::runHO(QString unprocessed_File_Path, QString ho_Path)
+{
+    //QString hoPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_HO.json";
+    HOFromUnprocessedJson * tryHO = new HOFromUnprocessedJson(nullptr, unprocessed_File_Path, ho_Path);
+    qDebug() << "Start : " << QTime::currentTime();
+    tryHO->createJson();
+}
+
+void NewProjectDialog::runUH(QString unprocessed_File_Path, QString uh_Path)
+{
+    //QString uhPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_UH.json";
+    UberhohungFromUnprocessedJson * tryUH = new UberhohungFromUnprocessedJson(nullptr, unprocessed_File_Path, uh_Path);
+    qDebug() << "Start : " << QTime::currentTime();
+    tryUH->createJson();
+}
+
+void NewProjectDialog::runKnoten(QString unprocessed_File_Path, QString knoten_Path)
+{
+    //QString knotenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleisknoten.json";
+    GleisknotenFromUnprocessedJson *tryKnoten = new GleisknotenFromUnprocessedJson(nullptr, unprocessed_File_Path, knoten_Path);
+    qDebug() << "Start : " << QTime::currentTime();
+    tryKnoten->createJson();
+}
+
+void NewProjectDialog::runKMLinie(QString unprocessed_File_Path, QString km_Path)
+{
+    //QString kmPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_KM.json";
+    KmLinieFromUnprocessedJson *tryKmLinie = new KmLinieFromUnprocessedJson (nullptr, unprocessed_File_Path, km_Path);
+    qDebug() << "Start : " << QTime::currentTime();
+    tryKmLinie->createJson();
+}
+
 
 const QString &NewProjectDialog::getApp() const
 {

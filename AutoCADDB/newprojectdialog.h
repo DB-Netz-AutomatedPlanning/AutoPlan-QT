@@ -6,6 +6,7 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QRegularExpression>
+#include <QProgressDialog>
 
 
 namespace Ui {
@@ -26,6 +27,16 @@ public:
 
     const QString &getEndl() const;
     void setEndl(const QString &newEndl);
+    void setProgressValue();
+//    static void getProgressValue(bool is_EuXml, int progress_Value);
+
+    // Prepare functions for Concurrent running
+    static void runKanten(QString unprocessed_File_Path, QString kanten_Path);
+    static void runLage(QString unprocessed_File_Path, QString lage_Path);
+    static void runHO(QString unprocessed_File_Path, QString ho_Path);
+    static void runUH(QString unprocessed_File_Path, QString uh_Path);
+    static void runKnoten(QString unprocessed_File_Path, QString knoten_Path);
+    static void runKMLinie(QString unprocessed_File_Path, QString km_Path);
 
 private slots:
     void on_btnBrowseProjectPath_clicked();
@@ -41,9 +52,13 @@ private:
     QStringList msg;
     QStringList fileNames;
     QString fileName;
+    QString unprocessedFilePath;
+//    bool isEuXml;
 
     QString app;
     QString endl;
+
+    QProgressDialog *progress;
 };
 
 #endif // NEWPROJECTDIALOG_H

@@ -1,4 +1,5 @@
 #include "kmliniefromunprocessedjson.h"
+#include "symbolcontainer.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -168,6 +169,14 @@ std::vector<std::vector<double> > KmLinieFromUnprocessedJson::arrayOfCoordinates
     qDebug()<< "Look up -- KMLinie . ";
     qDebug()<< "Look up -- for KMLinie . . . ";
     std::vector<std::vector<double> > allCoord;
+
+//    int segmentCount=0;
+//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][segmentCount].isUndefined()){
+//        segmentCount++;
+//    }
+//    totalValue+=segmentCount;
+//    qDebug()<< "TOTALFROM_KM" << totalValue;
+
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i].isUndefined()){
         QString name = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i]["name"].toString();
@@ -187,6 +196,9 @@ std::vector<std::vector<double> > KmLinieFromUnprocessedJson::arrayOfCoordinates
                 segmentData.push_back(coordValue[2].toDouble());
                 j++;
             }
+//            progressValue++;
+//            qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
+//            qDebug()<< "KMLinie processing. . . "<< i << " of "<<segmentCount;
 
             allCoord.push_back(segmentData);
         }
@@ -325,7 +337,11 @@ void KmLinieFromUnprocessedJson::createJson()  //const QString &path
 
     /* If there is no Topology data (coordinate(s)), there is nothing to
     view, Hence, no need of creating internal json document*/
-    if (allFeatures.isEmpty()) return;
+    if (allFeatures.isEmpty()) {
+        progressValue++;
+        qDebug()<< "Progress : "<< progressValue;
+        return;
+    }
 
     QJsonObject content;
     content.insert("type", "FeatureCollection");
@@ -349,4 +365,6 @@ void KmLinieFromUnprocessedJson::createJson()  //const QString &path
     {
         qDebug()<< "File opening failed: " << file.errorString();
     }
+    progressValue++;
+    qDebug()<< "Progress : " << progressValue;
 }
