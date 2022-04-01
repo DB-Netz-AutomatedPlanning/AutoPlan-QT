@@ -126,15 +126,74 @@ std::vector<QString> GleiskantenFromUnprocessedJson::lookForCoord(QString curren
 {
     std::vector <QString> values;
 
-    int j =0;
 
+//    for (int i=0; i<50; i++){
+//        int k =i;
+//        while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//               ["usesPositioningSystemCoordinate"][k].isUndefined()){
+//            QString current = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                    ["usesPositioningSystemCoordinate"][k]["id"].toString();
+//            if (current == currentRef){
+//                if(!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        ["usesPositioningSystemCoordinate"][k]["measure"].isUndefined()){
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["measure"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["measure"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["measure"].toDouble()));
+//                    }
+//                } else {
+//                    // x- axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["x"].isString()){
+//                        //                    qDebug() <<"String:"<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        //                            ["usesPositioningSystemCoordinate"][j]["x"].toString();
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["x"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["x"].toDouble(), 'f', 8));
+//                        //                    qDebug()<< "Double: "<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        //                            ["usesPositioningSystemCoordinate"][j]["x"].toDouble();
+//                    }
+
+//                    // y-axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["y"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["y"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["y"].toDouble(), 'f', 8));
+//                    }
+
+//                    // z-axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["z"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["z"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["z"].toDouble(), 'f', 8));
+//                    }
+//                }
+//                return values;
+
+//            }
+//        k = k+50;
+//        }
+//    }
+//    return values;
+
+
+    int j =0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
            ["usesPositioningSystemCoordinate"][j].isUndefined()) {
-
         QString current = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                 ["usesPositioningSystemCoordinate"][j]["id"].toString();
         //        qDebug() << "CURRENT"<< current;
-
         if (current == currentRef){
             if(!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                     ["usesPositioningSystemCoordinate"][j]["measure"].isUndefined()){
@@ -146,7 +205,6 @@ std::vector<QString> GleiskantenFromUnprocessedJson::lookForCoord(QString curren
                     values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                             ["usesPositioningSystemCoordinate"][j]["measure"].toDouble()));
                 }
-
             } else {
                 // x- axis
                 if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]

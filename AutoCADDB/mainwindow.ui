@@ -128,10 +128,25 @@
               <kerning>true</kerning>
              </font>
             </property>
+            <property name="mouseTracking">
+             <bool>true</bool>
+            </property>
             <property name="currentIndex">
              <number>0</number>
             </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="tabsClosable">
+             <bool>false</bool>
+            </property>
             <property name="movable">
+             <bool>false</bool>
+            </property>
+            <property name="tabBarAutoHide">
              <bool>false</bool>
             </property>
             <widget class="QWidget" name="f_planning">
@@ -991,14 +1006,29 @@ QPushButton:enabled { background-color: green; }</string>
               <height>16777215</height>
              </size>
             </property>
+            <property name="mouseTracking">
+             <bool>false</bool>
+            </property>
             <property name="focusPolicy">
              <enum>Qt::NoFocus</enum>
+            </property>
+            <property name="autoFillBackground">
+             <bool>false</bool>
+            </property>
+            <property name="tabPosition">
+             <enum>QTabWidget::North</enum>
             </property>
             <property name="tabShape">
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
              <number>0</number>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
             </property>
             <property name="tabsClosable">
              <bool>false</bool>
@@ -1359,15 +1389,15 @@ QPushButton:enabled { background-color: green; }</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyOpenglWidget</class>
-   <extends>QWidget</extends>
-   <header>myopenglwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>QGraphicsMainWindow</class>
    <extends>QWidget</extends>
    <header location="global">qgraphicsmainwindow.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MyOpenglWidget</class>
+   <extends>QWidget</extends>
+   <header>myopenglwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

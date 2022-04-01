@@ -165,7 +165,7 @@ void NewProjectDialog::on_btnBrowseProjectData_clicked()
     }
     // euxml format
     else if (ui->fileFormatComboBox->currentText() == ".euxml"){
-        fileName = QFileDialog::getOpenFileName(this, "Add File", "", "(*.euxml)" );
+        fileName = QFileDialog::getOpenFileName(this, "Add File", "", "(*.euxml *.xml)" );
         if (fileName.isEmpty()){
             ui->leImportProjectData->clear();
             QMessageBox::warning(this, "Warning", "No file selected");
@@ -262,12 +262,9 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
     else if (ui->fileFormatComboBox->currentText() == ".euxml"){
         progress->move(550,275);
 
-        progress->setValue(progressValue);
-
         progress->setWindowModality(Qt::WindowModal);
         progress->setWindowTitle("Please wait ...");
-
-
+        progress->setValue(progressValue);
 
         QStringList each = fileName.split(QRegularExpression("/"));
         QFile file (fileName);
@@ -285,7 +282,6 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
             QMessageBox::information(this, "Fatal!", "Problem accessing your input file");
             return;
         }
-
         if (!QFile::exists(fileToSave)){
             QMessageBox::information(this, "Missing File", "Required file Missing... \n Please import appropriate file");
             return;
@@ -308,7 +304,6 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
                                                   "some linking file(s) are missing. Please contact your administrator");
             return;
         }
-
         // write data(each parameter) to the terminal, followed by Enter key
         if(!state.endsWith(endl.toLatin1())) state.append(endl.toUtf8());
         csharp.write(state);
@@ -330,14 +325,12 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
                                                   "the channel has been terminated");
             return;
         }
-
         unprocessedFilePath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/UnprocessedJson.json";
 
         if (!QFile::exists(unprocessedFilePath)){
             QMessageBox::information(this, "Missing File", "Process Aborted !! ");
             return;
         }
-
         /*timer.start();*/ // Start the timer, so as to fire on the timeout() slot at every intervals as declared in the constructor
 
         /* Running all the six classes on seperate Thread with the aid of QtConcurrent, based on the
@@ -512,6 +505,7 @@ int NewProjectDialog::numberOfFileProduces()
 //    qDebug()<< "PROGRESS Complete";
 //    //progress.setValue(7);
 //}
+
 
 void NewProjectDialog::runKanten(QString unprocessed_File_Path, QString kanten_Path)
 {

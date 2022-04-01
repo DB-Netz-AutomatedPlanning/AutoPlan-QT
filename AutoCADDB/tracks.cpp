@@ -141,7 +141,6 @@ void Tracks::addGleiskanten()
     gleiskantenDP_Parent->setVisible(getDrawGleiskantenDP());
 }
 
-
 void Tracks::addHoehe()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
@@ -337,7 +336,6 @@ void Tracks::addKMline()
     kmLineDP_Parent->setVisible(getDrawKmLineDP());
 }
 
-
 void Tracks::addLage()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
@@ -440,8 +438,6 @@ void Tracks::addLage()
     lage_Parent->setVisible(getDrawLage());
     lageDP_Parent->setVisible(getDrawLageDP());
 }
-
-
 
 void Tracks::addUberhohung()
 {
@@ -546,7 +542,6 @@ void Tracks::addUberhohung()
     uberhohungDP_Parent->setVisible(getDrawUberhohungDP());
 }
 
-
 void Tracks::addGleisknoten(){
     QFile file (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
     if (!file.exists()) return;
@@ -609,6 +604,7 @@ void Tracks::addGleisknoten(){
 }
 
 
+
 void Tracks::setBoolParameters()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
@@ -631,7 +627,6 @@ void Tracks::reload()
     setBoolParameters();
     deleteAll();
     updateAll();
-
 }
 
 
@@ -663,7 +658,6 @@ void Tracks::deleteAll()
         delete hoeheDP_Parent;
         parentItems.remove("hoeheDP_Parent");
     }
-
     if (parentItems.contains("kmLine_Parent")){
         scene()->removeItem(kmLine_Parent);
         delete kmLine_Parent;
@@ -674,7 +668,6 @@ void Tracks::deleteAll()
         delete kmLineDP_Parent;
         parentItems.remove("kmLineDP_Parent");
     }
-
     if (parentItems.contains("lage_Parent")){
         scene()->removeItem(lage_Parent);
         delete lage_Parent;
@@ -685,7 +678,6 @@ void Tracks::deleteAll()
         delete lageDP_Parent;
         parentItems.remove("lageDP_Parent");
     }
-
     if (parentItems.contains("uberhohung_Parent")){
         scene()->removeItem(uberhohung_Parent);
         delete uberhohung_Parent;
@@ -696,7 +688,6 @@ void Tracks::deleteAll()
         delete uberhohungDP_Parent;
         parentItems.remove("uberhohungDP_Parent");
     }
-
     // TODO: implement for Gleisknoten
 }
 
@@ -1106,8 +1097,18 @@ void Tracks::keyPressEvent(QKeyEvent *event)
 
     if((event->key() == Qt::Key_Delete))
     {
+//        foreach (QGraphicsItem *item, scene()->items()) {
+//            QString toolTip = item->toolTip();
+//            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+//            qInfo() << breakToolTip[0];
+//            if(breakToolTip[0].isEmpty()){
+//                qDebug()<< "Position: "<< item->pos();
+//                item->moveBy(30,30);
+//            }
+//        }
         foreach (QGraphicsItem *item, scene()->selectedItems()) {
             QString toolTip = item->toolTip();
+
             QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
             qInfo() << breakToolTip[0];
             if(breakToolTip[0].isEmpty()){

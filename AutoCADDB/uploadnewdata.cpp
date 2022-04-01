@@ -131,8 +131,6 @@ void UploadNewData::on_btnGleisknoten_clicked()
             ui->btnOK->setEnabled(true);
         }
     }
-
-
     if (!ui->lineEditGleiskanten->text().isEmpty() || !ui->lineEditGleisknoten->text().isEmpty() || !ui->lineEditHoehe->text().isEmpty() ||
             !ui->lineEditKMLine->text().isEmpty() || !ui->lineEditLage->text().isEmpty() || !ui->lineEditUberhohung->text().isEmpty()){
 
@@ -142,17 +140,13 @@ void UploadNewData::on_btnGleisknoten_clicked()
         ui->btnOK->setEnabled(false);
 
     }
-
 }
-
 
 
 void UploadNewData::on_btnCancel_clicked()
 {
     close();
 }
-
-
 
 void UploadNewData::on_btnHoehe_clicked()
 {
@@ -369,7 +363,6 @@ void UploadNewData::on_btnOK_clicked()
                 else QMessageBox::warning(this, "Warning", "Error: Problem updating Entwurfselement_HO");
             }
         }
-
         else{
             if(modifyData(fileName, resourcefileName, false)){
                 msg.append("Entwurfselement_HO successfully updated \n");
@@ -394,7 +387,6 @@ void UploadNewData::on_btnOK_clicked()
             }
         }
         else{
-
             if(modifyData(fileName, resourcefileName, false)){
                 msg.append("Entwurfselement_KM successfully updated \n");
             }

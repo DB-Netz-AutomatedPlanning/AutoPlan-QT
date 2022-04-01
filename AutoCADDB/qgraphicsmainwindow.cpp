@@ -7,8 +7,8 @@
 //#include <QKeyEvent>
 
 QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
-   QWidget(parent),
-   ui(new Ui::QGraphicsMainWindow)
+    QWidget(parent),
+    ui(new Ui::QGraphicsMainWindow)
 {
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
@@ -16,9 +16,9 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->setBoolParameters();
     tracks->getUpdateRect();
 
-        scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],
-                tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
-//    scene->setBackgroundBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
+    scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],
+            tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
+    //    scene->setBackgroundBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
 
     tracks->setScene(scene);
     tracks->getMultiplierEffect();
@@ -28,7 +28,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->addLage();
     tracks->addUberhohung();
     tracks->addGleisknoten();
-//    tracks->addSymbol("");
+    //    tracks->addSymbol("");
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
@@ -57,7 +57,7 @@ void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
 
 void QGraphicsMainWindow::on_checkBoxGridLine2_clicked()
 {
-//    scene->update();
+    //    scene->update();
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
     ui->checkBoxKanten->setChecked(tracks->getDrawGleiskanten());
     ui->checkBoxKantenDP->setChecked(tracks->getDrawGleiskantenDP());
@@ -139,7 +139,7 @@ void QGraphicsMainWindow::on_rortatebtn_clicked()
 
 void QGraphicsMainWindow::on_horizontalSlider_valueChanged(int value)
 {
-     tracks->sceneSelectedItems(value);
+    tracks->sceneSelectedItems(value);
 }
 
 void QGraphicsMainWindow::on_checkBoxKnotenDP_toggled(bool checked)
