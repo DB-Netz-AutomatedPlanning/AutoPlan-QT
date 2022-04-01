@@ -24,7 +24,6 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scale(1, -1);   
     setMouseTracking(true);
-
 }
 
 void Tracks::addGleiskanten()
@@ -56,7 +55,7 @@ void Tracks::addGleiskanten()
 
         if (isFirstSegment){
             gleiskanten_Parent = new QGraphicsPathItem(path);
-            if (countryCode == "de" &&(dir[segmentCount] =="1" || dir[segmentCount] =="2")){
+            if ((countryCode == "de" &&(dir[segmentCount] =="1" || dir[segmentCount] =="2")) || (countryCode == "de" && fileFormat == ".euxml")){
                 gleiskanten_Parent->setPen(QPen(Qt::black, 1));
                 segmentCount++;
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
@@ -80,7 +79,7 @@ void Tracks::addGleiskanten()
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *gleiskanten = new QGraphicsPathItem(path);
-            if (countryCode == "de" && (dir[segmentCount] =="1" || dir[segmentCount] =="2")){
+            if ((countryCode == "de" && (dir[segmentCount] =="1" || dir[segmentCount] =="2")) || (countryCode == "de" && fileFormat == ".euxml")){
                 gleiskanten->setPen(QPen(Qt::black, 1));
                 segmentCount++;
                 gleiskanten->setData(signalKey, map[dataSegCount].keys() );
@@ -142,7 +141,6 @@ void Tracks::addGleiskanten()
     gleiskantenDP_Parent->setVisible(getDrawGleiskantenDP());
 }
 
-
 void Tracks::addHoehe()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_HO.dbahn");
@@ -174,7 +172,7 @@ void Tracks::addHoehe()
 
         if (isFirstSegment){
             hoehe_Parent = new QGraphicsPathItem(path);
-            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+            if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
                 hoehe_Parent->setPen(QPen(Qt::black, 1));
                 segmentCount++;
 
@@ -193,7 +191,7 @@ void Tracks::addHoehe()
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *hoehe = new QGraphicsPathItem(path);
-            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+            if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
                 hoehe->setPen(QPen(Qt::black, 1));
                 segmentCount++;
             } else {
@@ -248,7 +246,6 @@ void Tracks::addHoehe()
 
 void Tracks::addKMline()
 {
-
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
 
     if (!file.exists()) return;
@@ -339,8 +336,6 @@ void Tracks::addKMline()
     kmLineDP_Parent->setVisible(getDrawKmLineDP());
 }
 
-
-
 void Tracks::addLage()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
@@ -371,10 +366,9 @@ void Tracks::addLage()
             count =  count +2;
         }
         path.addPolygon(segment);
-
         if (isFirstSegment){
             lage_Parent = new QGraphicsPathItem(path);
-            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+            if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
                 lage_Parent->setPen(QPen(Qt::black, 1));
                 segmentCount++;
             } else {
@@ -393,7 +387,7 @@ void Tracks::addLage()
         } else {
             QGraphicsPathItem *lage = new QGraphicsPathItem(path);
 
-            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+            if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
                 lage->setPen(QPen(Qt::black, 1));
                 segmentCount++;
             } else {
@@ -410,7 +404,6 @@ void Tracks::addLage()
             lage->setParentItem(lage_Parent);
         }
     }
-
     if (!parentItems.contains("lage_Parent")) parentItems << "lage_Parent";
 
     // Add DataPoints
@@ -446,8 +439,6 @@ void Tracks::addLage()
     lageDP_Parent->setVisible(getDrawLageDP());
 }
 
-
-
 void Tracks::addUberhohung()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Entwurfselement_UH.dbahn");
@@ -479,7 +470,7 @@ void Tracks::addUberhohung()
 
         if (isFirstSegment){
             uberhohung_Parent = new QGraphicsPathItem(path);
-            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+            if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
                 uberhohung_Parent->setPen(QPen(Qt::black, 1));
                 segmentCount++;
             } else {
@@ -496,7 +487,7 @@ void Tracks::addUberhohung()
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *uberhohung = new QGraphicsPathItem(path);
-            if (dir[segmentCount] =="1" || dir[segmentCount] =="2"){
+            if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
                 uberhohung->setPen(QPen(Qt::black, 1));
                 segmentCount++;
             } else {
@@ -550,7 +541,6 @@ void Tracks::addUberhohung()
     uberhohung_Parent->setVisible(getDrawUberhohung());
     uberhohungDP_Parent->setVisible(getDrawUberhohungDP());
 }
-
 
 void Tracks::addGleisknoten(){
     QFile file (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
@@ -614,6 +604,7 @@ void Tracks::addGleisknoten(){
 }
 
 
+
 void Tracks::setBoolParameters()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn");
@@ -636,7 +627,6 @@ void Tracks::reload()
     setBoolParameters();
     deleteAll();
     updateAll();
-
 }
 
 
@@ -668,7 +658,6 @@ void Tracks::deleteAll()
         delete hoeheDP_Parent;
         parentItems.remove("hoeheDP_Parent");
     }
-
     if (parentItems.contains("kmLine_Parent")){
         scene()->removeItem(kmLine_Parent);
         delete kmLine_Parent;
@@ -679,7 +668,6 @@ void Tracks::deleteAll()
         delete kmLineDP_Parent;
         parentItems.remove("kmLineDP_Parent");
     }
-
     if (parentItems.contains("lage_Parent")){
         scene()->removeItem(lage_Parent);
         delete lage_Parent;
@@ -690,7 +678,6 @@ void Tracks::deleteAll()
         delete lageDP_Parent;
         parentItems.remove("lageDP_Parent");
     }
-
     if (parentItems.contains("uberhohung_Parent")){
         scene()->removeItem(uberhohung_Parent);
         delete uberhohung_Parent;
@@ -701,7 +688,6 @@ void Tracks::deleteAll()
         delete uberhohungDP_Parent;
         parentItems.remove("uberhohungDP_Parent");
     }
-
     // TODO: implement for Gleisknoten
 }
 
@@ -1057,7 +1043,6 @@ void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
     //            getUsedRect()[3]);
     getSegementObjects();
 
-
     //qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
 
     painter->restore();
@@ -1112,8 +1097,18 @@ void Tracks::keyPressEvent(QKeyEvent *event)
 
     if((event->key() == Qt::Key_Delete))
     {
+//        foreach (QGraphicsItem *item, scene()->items()) {
+//            QString toolTip = item->toolTip();
+//            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+//            qInfo() << breakToolTip[0];
+//            if(breakToolTip[0].isEmpty()){
+//                qDebug()<< "Position: "<< item->pos();
+//                item->moveBy(30,30);
+//            }
+//        }
         foreach (QGraphicsItem *item, scene()->selectedItems()) {
             QString toolTip = item->toolTip();
+
             QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
             qInfo() << breakToolTip[0];
             if(breakToolTip[0].isEmpty()){

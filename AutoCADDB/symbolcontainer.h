@@ -42,6 +42,11 @@ extern QString projectName;
 
 extern bool rightPanelTable;
 
+extern bool isEuXml;
+extern int totalValue;
+extern int progressValue;
+
+
 ////Kanten variables
 //extern QString kantenID ;
 //extern QString kantenLAENGE_ENT;

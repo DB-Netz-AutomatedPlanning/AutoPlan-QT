@@ -1,4 +1,5 @@
 #include "kmliniefromunprocessedjson.h"
+#include "symbolcontainer.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -98,8 +99,68 @@ std::vector<QString> KmLinieFromUnprocessedJson::lookForCoord(QString currentRef
 {
     std::vector <QString> values;
 
-    int j =0;
+//    for (int i=0; i<50; i++){
+//        int k =i;
+//        while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//               ["usesPositioningSystemCoordinate"][k].isUndefined()){
+//            QString current = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                    ["usesPositioningSystemCoordinate"][k]["id"].toString();
+//            if (current == currentRef){
+//                if(!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        ["usesPositioningSystemCoordinate"][k]["measure"].isUndefined()){
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["measure"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["measure"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["measure"].toDouble()));
+//                    }
+//                } else {
+//                    // x- axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["x"].isString()){
+//                        //                    qDebug() <<"String:"<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        //                            ["usesPositioningSystemCoordinate"][j]["x"].toString();
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["x"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["x"].toDouble(), 'f', 8));
+//                        //                    qDebug()<< "Double: "<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        //                            ["usesPositioningSystemCoordinate"][j]["x"].toDouble();
+//                    }
 
+//                    // y-axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["y"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["y"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["y"].toDouble(), 'f', 8));
+//                    }
+
+//                    // z-axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["z"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["z"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["z"].toDouble(), 'f', 8));
+//                    }
+//                }
+//                return values;
+
+//            }
+//        k = k+50;
+//        }
+//    }
+//    return values;
+
+
+    int j =0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
            ["usesPositioningSystemCoordinate"][j].isUndefined()) {
 
@@ -168,6 +229,14 @@ std::vector<std::vector<double> > KmLinieFromUnprocessedJson::arrayOfCoordinates
     qDebug()<< "Look up -- KMLinie . ";
     qDebug()<< "Look up -- for KMLinie . . . ";
     std::vector<std::vector<double> > allCoord;
+
+//    int segmentCount=0;
+//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][segmentCount].isUndefined()){
+//        segmentCount++;
+//    }
+//    totalValue+=segmentCount;
+//    qDebug()<< "TOTALFROM_KM" << totalValue;
+
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i].isUndefined()){
         QString name = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i]["name"].toString();
@@ -187,6 +256,9 @@ std::vector<std::vector<double> > KmLinieFromUnprocessedJson::arrayOfCoordinates
                 segmentData.push_back(coordValue[2].toDouble());
                 j++;
             }
+//            progressValue++;
+//            qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
+//            qDebug()<< "KMLinie processing. . . "<< i << " of "<<segmentCount;
 
             allCoord.push_back(segmentData);
         }
@@ -325,7 +397,11 @@ void KmLinieFromUnprocessedJson::createJson()  //const QString &path
 
     /* If there is no Topology data (coordinate(s)), there is nothing to
     view, Hence, no need of creating internal json document*/
-    if (allFeatures.isEmpty()) return;
+    if (allFeatures.isEmpty()) {
+        progressValue++;
+        qDebug()<< "Progress : "<< progressValue;
+        return;
+    }
 
     QJsonObject content;
     content.insert("type", "FeatureCollection");
@@ -349,4 +425,6 @@ void KmLinieFromUnprocessedJson::createJson()  //const QString &path
     {
         qDebug()<< "File opening failed: " << file.errorString();
     }
+    progressValue++;
+    qDebug()<< "Progress : " << progressValue;
 }

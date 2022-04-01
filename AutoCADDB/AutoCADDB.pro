@@ -1,4 +1,4 @@
-QT       += core gui openglwidgets sql printsupport widgets svg svgwidgets
+QT       += core gui openglwidgets sql printsupport widgets svg svgwidgets concurrent
 requires(qtConfig(tableview))
 requires(qtConfig(fontdialog))
 
@@ -40,6 +40,7 @@ SOURCES += \
     openglclass.cpp \
     planningtable.cpp \
     previeweulynxxml.cpp \
+    progressdialogues.cpp \
     qgraphicsmainwindow.cpp \
     qgraphicssymbolcontainer.cpp \
     removedata.cpp \
@@ -77,6 +78,7 @@ HEADERS += \
     openglclass.h \
     planningtable.h \
     previeweulynxxml.h \
+    progressdialogues.h \
     qgraphicsmainwindow.h \
     qgraphicssymbolcontainer.h \
     removedata.h \

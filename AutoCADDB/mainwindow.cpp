@@ -122,7 +122,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setStyleSheet("QToolButton { border: none; }");
 
-    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
+//    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
 //    //Home->Properties
@@ -242,35 +242,106 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
-    QFile file(fileName);
-    readFile = fileName;
-    if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-        // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+    QString selectedFile = QFileDialog::getOpenFileName(this, "Open the file");
+    if(selectedFile.isNull() || selectedFile.isEmpty() || selectedFile == "") return;
+    QFile file(selectedFile);
+    if(!file.exists()) {
+        QMessageBox::warning(this, "File Not Exists", "Cannot open file: " + file.errorString());
         return;
     }
-    setWindowTitle(fileName);
-    QTextStream in(&file);
-    QString text = in.readAll();
-    //ui->textEdit->setText(text);
-    file.close();
+    QFileInfo info (selectedFile);
+    if(info.completeSuffix() != "aplan"){
+        QMessageBox::warning(this, "Wrong File Selected ! ", "Please open your project with '.aplan' file");
+        return;
+    }
+    QString completePath = info.absolutePath();
+    qDebug()<< "Complete Path: "+ completePath;
+    QStringList regEx = completePath.split(QRegularExpression("/"));
+    projectPath = completePath.remove("/"+regEx.back());
+    projectName = regEx.back();
+    qDebug() << "ProjectPath : "+projectPath;
+    qDebug()<< "projectName : "+ projectName;
+    // Check if the temp folder exists in the selected directory
+    QDir dir (info.path() +"/temp");
+    if (!dir.exists()){
+        QMessageBox::warning(this, "Missing files", "Important directory missing ");
+        return;
+    }
+
+    QString iniFile =  info.filePath().remove(info.suffix()) + "ini";
+    qDebug()<< "iniFile: " << iniFile;
+    QFile file2(iniFile);
+    if(!file2.exists()) {
+        QMessageBox::warning(this, "File Not Exists", "Important file missing from your directory \n" + file2.errorString());
+//        qDebug() << "Missing File2: " + file2.errorString();
+        return;
+    }
+    if(!file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "Failed !", "Cannot open file: \n" + file.errorString());
+        return;
+    }
+    QByteArray data = file2.readAll();
+    QByteArray decoded = QByteArray::fromHex(data);
+    QString allData;
+    allData = QString(decoded);
+    file2.close();
+
+    QStringList getOtherData = allData.split(QRegularExpression("\n"));
+    fileFormat = getOtherData.at(0);
+    countryCode = getOtherData.at(1);
+    qDebug()<< "format: " << getOtherData.at(0);
+    qDebug()<< "countryCode: " << getOtherData.at(1);
+    addTab();
 }
+
 
 void MainWindow::on_actionSave_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "Save as");
-    QFile file(fileName);
-
-    // if (!file.open(QFile::WriteOnly | QFile::Text)) {
-    //   QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
-    // return;
-    //}
-    readFile = fileName;
-    setWindowTitle(fileName);
-    QTextStream out(&file);
-    //QString text = ui->textEdit->toPlainText();
-    // out << text;
+    QString savePath = projectPath + "/"+ projectName +"/"+ projectName + ".aplan";
+    QFile file(savePath);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        if (projectPath == "" || projectName == ""){
+            QMessageBox::information(this, "No Project Detected", "Please create a project");
+            return;
+        }
+        QMessageBox::warning(this, "Warning", "Cannot save file: /n" + file.errorString());
+        return;
+    }
     file.close();
+
+    QString savePath2 = projectPath + "/"+ projectName +"/"+ projectName + ".ini";
+    QFile file2(savePath2);
+    if (!file2.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, "Failed !", "Cannot save file: /n" + file.errorString());
+        return;
+    }
+    QString data;
+    data.append(fileFormat+"\n"+countryCode);
+    QByteArray bytes (data.toUtf8().toHex());
+
+    file2.write(bytes);
+    file2.close();
+//    ui->statusbar->setStyleSheet("Color: red");
+    ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:rgba(0,185,0,150);color:black;font-weight:bold;}");
+    ui->statusbar->showMessage("Project saving in progress. . . ", 5000);
+//    QTimer::singleShot(5000, [this]{ui->statusbar->setStyleSheet("color: black");});
+    QTimer::singleShot(4500, [this]{ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:"
+                                                                 "rgba(0,0,0,0);color:black;font-weight:bold;}");});
+
+
+//    QString fileName = QFileDialog::getSaveFileName(this, "Save as");
+//    QFile file1(fileName);
+
+//    // if (!file.open(QFile::WriteOnly | QFile::Text)) {
+//    //   QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
+//    // return;
+//    //}
+//    readFile = fileName;
+//    setWindowTitle(fileName);
+//    QTextStream out(&file1);
+//    //QString text = ui->textEdit->toPlainText();
+//    // out << text;
+//    file1.close();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
@@ -622,7 +693,6 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
     }
     //    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName    ));
     //    ui->tableWidget->setItem(0, 1, newItem1);
-
 
     // Add new tab while creating New Project
     if(createNewProject){

@@ -1,4 +1,5 @@
 #include "gleisknotenfromunprocessedjson.h"
+#include "symbolcontainer.h"
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -16,18 +17,14 @@ GleisknotenFromUnprocessedJson::GleisknotenFromUnprocessedJson(QObject *parent, 
         qInfo() << "File Not exist ... Also check that you've entered correct file name";
         return;
     }
-
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qInfo()<< file.errorString();
         return;
     }
     QString allData = file.readAll();
     file.close();
-
     document = QJsonDocument::fromJson(allData.toUtf8());
 }
-
-
 
 void GleisknotenFromUnprocessedJson::searchNameAndID()
 {
@@ -87,7 +84,7 @@ void GleisknotenFromUnprocessedJson::searchStartRefAndStartKm()
         }
         std::vector <QString> coordValue = lookForCoord(usesLocationRef);
 
-        qDebug()<< "0 :"<< coordValue[0].toDouble() ;
+        //qDebug()<< "0 :"<< coordValue[0].toDouble() ;
         kmValues.push_back(coordValue[0]);
         i++;
     }
@@ -116,7 +113,7 @@ void GleisknotenFromUnprocessedJson::searchStartRefAndStartKm()
         }
         std::vector <QString> coordValue = lookForCoord(usesLocationRef);
 
-        qDebug()<< "0 :"<< coordValue[0].toDouble();
+        //qDebug()<< "0 :"<< coordValue[0].toDouble();
         kmValues.push_back(coordValue[0]);
         j++;
     }
@@ -124,15 +121,74 @@ void GleisknotenFromUnprocessedJson::searchStartRefAndStartKm()
 }
 
 
-
 // ToDo: This function needs to be optimized
 std::vector<QString> GleisknotenFromUnprocessedJson::lookForCoord(QString currentRef)
 {
     std::vector <QString> values;
 
+
+//    for (int i=0; i<50; i++){
+//        int k =i;
+//        while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//               ["usesPositioningSystemCoordinate"][k].isUndefined()){
+//            QString current = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                    ["usesPositioningSystemCoordinate"][k]["id"].toString();
+//            if (current == currentRef){
+//                if(!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        ["usesPositioningSystemCoordinate"][k]["measure"].isUndefined()){
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["measure"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["measure"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["measure"].toDouble()));
+//                    }
+//                } else {
+//                    // x- axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["x"].isString()){
+//                        //                    qDebug() <<"String:"<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        //                            ["usesPositioningSystemCoordinate"][j]["x"].toString();
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["x"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["x"].toDouble(), 'f', 8));
+//                        //                    qDebug()<< "Double: "<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        //                            ["usesPositioningSystemCoordinate"][j]["x"].toDouble();
+//                    }
+
+//                    // y-axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["y"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["y"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["y"].toDouble(), 'f', 8));
+//                    }
+
+//                    // z-axis
+//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][k]["z"].isString()){
+//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["z"].toString());
+//                    } else {
+//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                                ["usesPositioningSystemCoordinate"][k]["z"].toDouble(), 'f', 8));
+//                    }
+//                }
+//                return values;
+
+//            }
+//        k = k+50;
+//        }
+//    }
+//    return values;
+
+
     int j =0;
-
-
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
            ["usesPositioningSystemCoordinate"][j].isUndefined()) {
 
@@ -197,6 +253,21 @@ std::vector<std::vector<double> > GleisknotenFromUnprocessedJson::arrayOfCoordin
     qDebug()<< "Entering -- Knoten . ";
     qDebug()<< "Look up -- for knoten . . . ";
     std::vector<std::vector<double> > allCoord;
+
+//    int segmentCount=0;
+//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsPoint"][segmentCount].isUndefined()){
+//        segmentCount++;
+//    }
+//    totalValue+=segmentCount;
+//    qDebug()<< "TOTALFROMKNO1" << totalValue;
+
+//    int segmentCount1=0;
+//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsVehicleStop"][segmentCount1].isUndefined()){
+//        segmentCount1++;
+//    }
+//    totalValue+=segmentCount1;
+//    qDebug()<< "TOTALFROMKNO2" << totalValue;
+
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsPoint"][i].isUndefined()){
         std::vector<double> segmentData;
@@ -219,14 +290,14 @@ std::vector<std::vector<double> > GleisknotenFromUnprocessedJson::arrayOfCoordin
         }
         std::vector <QString> coordValue = lookForCoord(usesLocationRef);
 
-        qDebug()<< "0 :"<< coordValue[0].toDouble() << "   1 :  "<< coordValue[1]<< "     2 :   " << coordValue[2];
+        //qDebug()<< "0 :"<< coordValue[0].toDouble() << "   1 :  "<< coordValue[1]<< "     2 :   " << coordValue[2];
         segmentData.push_back(coordValue[0].toDouble());
         segmentData.push_back(coordValue[1].toDouble());
         segmentData.push_back(coordValue[2].toDouble());
         allCoord.push_back(segmentData);
-
-        qDebug()<< "Processing Knoten . . . "<< i << " of 18";
-
+//        progressValue++;
+//        qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
+//        qDebug()<< "Processing Knoten . . . "<< i << " of "<< segmentCount + segmentCount1;
         i++;
     }
 
@@ -255,13 +326,14 @@ std::vector<std::vector<double> > GleisknotenFromUnprocessedJson::arrayOfCoordin
         }
         std::vector <QString> coordValue = lookForCoord(usesLocationRef);
 
-        qDebug()<< "0 :"<< coordValue[0].toDouble() << "   1 :  "<< coordValue[1]<< "     2 :   " << coordValue[2];
+        //qDebug()<< "0 :"<< coordValue[0].toDouble() << "   1 :  "<< coordValue[1]<< "     2 :   " << coordValue[2];
         segmentData.push_back(coordValue[0].toDouble());
         segmentData.push_back(coordValue[1].toDouble());
         segmentData.push_back(coordValue[2].toDouble());
         allCoord.push_back(segmentData);
-
-        qDebug()<< "Processing Knoten . . . "<< (i + j+1) << " of 18";
+//        progressValue++;
+//        qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
+//        qDebug()<< "Processing Knoten . . . "<< (i + j+1) << " of " << segmentCount+segmentCount1;
 
         j++;
     }
@@ -399,13 +471,15 @@ void GleisknotenFromUnprocessedJson::createJson()
 
     /* If there is no Topology data (coordinate(s)), there is nothing to
     view, Hence, no need of creating internal json document*/
-    if (allFeatures.isEmpty()) return;
-
+    if (allFeatures.isEmpty()) {
+        progressValue++;
+        qDebug()<< "Progress : " << progressValue;
+        return;
+    }
     QJsonObject content;
     content.insert("type", "FeatureCollection");
     content.insert("name", "Entwurfselement_Ueberhoehung");
     content.insert("features", allFeatures);
-
 
     QJsonDocument document;
     document.setObject( content );
@@ -424,4 +498,6 @@ void GleisknotenFromUnprocessedJson::createJson()
         qDebug()<< "File opening failed: " << file.errorString();
         //        std::cout << "file open failed: " << path.toStdString() << std::endl;
     }
+    progressValue++;
+    qDebug()<< "Progress : " << progressValue;
 }
