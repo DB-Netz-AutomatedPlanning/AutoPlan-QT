@@ -136,6 +136,8 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
 
+
+
     //MENU actionOpen
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(onNewProjectClicked()));
@@ -234,6 +236,7 @@ void MainWindow::closeTab(int index)
         delete ui->tabWidget_2->widget(index);
         return;
     }
+//    ui->tabWidget_2->currentIndex();
     QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Attempt!", "Are you sure? ... \n Unsaved progress would be lost");
     if (reply == QMessageBox::No){
         return;
@@ -242,6 +245,27 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::on_actionOpen_triggered()
 {
+    qDebug()<< "TAB_TEXT: " + ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex());
+    qDebug()<< ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isNull();
+    qDebug()<< ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty();
+    qDebug()<<(ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) == "");
+    if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
+             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){ //     ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != ""){
+        //QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
+        //                                                                tr("Do you want to save the changes?\n"),
+        //                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
+        //                                                                QMessageBox::Yes);
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Attempt!", "Did you want to save previous project ? ... \n  Unsaved progress would be lost",
+                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+
+        if (reply == QMessageBox::Yes){
+            on_actionSave_triggered();
+//            delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+//        } else if (reply == QMessageBox::No) delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+        }else if (reply == QMessageBox::Cancel ) return;
+    }
+//    else if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) == "Welcome" ||
+//            ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()) delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     QString selectedFile = QFileDialog::getOpenFileName(this, "Open the file");
     if(selectedFile.isNull() || selectedFile.isEmpty() || selectedFile == "") return;
     QFile file(selectedFile);
@@ -291,6 +315,9 @@ void MainWindow::on_actionOpen_triggered()
     countryCode = getOtherData.at(1);
     qDebug()<< "format: " << getOtherData.at(0);
     qDebug()<< "countryCode: " << getOtherData.at(1);
+    delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+    delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+    delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     addTab();
 }
 
@@ -727,7 +754,6 @@ void MainWindow::on_grabBtn_2_clicked()
         isChecked = !isChecked;
         ui->grabBtn_2->setStyleSheet("QPushButton { background-color: green; border:none; }");
     }
-
 }
 
 

@@ -1243,6 +1243,9 @@ QPushButton:enabled { background-color: green; }</string>
    <property name="text">
     <string>New</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
    <property name="visible">
     <bool>false</bool>
    </property>
@@ -1254,6 +1257,9 @@ QPushButton:enabled { background-color: green; }</string>
    </property>
    <property name="text">
     <string>Open</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
@@ -1267,6 +1273,9 @@ QPushButton:enabled { background-color: green; }</string>
    </property>
    <property name="text">
     <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionNew_2">
