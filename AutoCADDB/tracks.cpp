@@ -10,10 +10,10 @@
 #include <QWheelEvent>
 #include <QRegularExpression>
 #include <QSvgRenderer>
-#include <QGraphicsSvgItem>
 #include <QMouseEvent>
 #include <QHoverEvent>
 #include <QGraphicsSceneHoverEvent>
+#include <QFlags>
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
@@ -753,14 +753,6 @@ std::vector<float> Tracks::unsegmentedVec(QString pPath, QString pName, QString 
     return vec;
 }
 
-//QGraphicsItem *Tracks::getSelectedItem()
-//{
-//    if (scene()->selectedItems().count() >0){
-//        return scene()->selectedItems().at(0);
-//    }
-//    return nullptr;
-//}
-
 void Tracks::multiplierEffect(float x, float y)
 {
     if (!multiplierDone){
@@ -1054,7 +1046,13 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
     if (drawGrids){
         painter->save();
-        painter->setPen(QColor(95,52,21,90));
+        QPen pen;
+        pen.setCosmetic(true);
+        pen.setWidthF(0.6);
+        pen.setColor(QColor(95,52,21,90));
+        painter->setPen(pen);
+
+//        painter->setPen(QColor(95,52,21,90));
 
         for (int i = 0; i< getUsedRect()[2]/50; i++) {
             painter->drawLine(getUsedRect()[0]+(50*i),getUsedRect()[1], getUsedRect()[0]+(50*i),
@@ -1326,12 +1324,14 @@ void Tracks::addSymbol(QString str)
 
     glbObjectName = str;
     QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
-    QGraphicsSvgItem *black = new QGraphicsSvgItem();
-    black->setSharedRenderer(renderer);
-    // black->setRotation(-180);
-    black->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    black->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
-    scene()->addItem(black);
+    QGraphicsSvgItem *otherSignal = new QGraphicsSvgItem();
+    otherSignal->setSharedRenderer(renderer);
+    otherSignal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+//    QFlags tr = otherSignal->flags();
+    otherSignal->setData(0, "OtherSignal");
+    otherSignal->setData(1, str);
+    otherSignal->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+    scene()->addItem(otherSignal);
 }
 
 
@@ -1345,8 +1345,8 @@ void Tracks :: sceneSelectedItems(int degree){
     //group->setTransform(transform);
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
         QString toolTip = item->toolTip();
+
         QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
-//        qInfo() << breakToolTip[0];
         if(breakToolTip[0].isEmpty()){
             item->setRotation(degree);
         }//else{
@@ -1360,6 +1360,97 @@ void Tracks :: sceneSelectedItems(int degree){
     //transform.translate(-offset.x(),-offset.y());
     //group->setTransform(transform);
 }
+// Write Data (Only for signals/Symbols)
+bool Tracks::writeOperator(QString fileName)
+{
+    QFile file (fileName);
+    if (!file.open(QIODevice::WriteOnly)){
+        return false;
+    }
+    QDataStream out (&file);
+    out.setVersion(QDataStream::Qt_6_1);
+
+    foreach (QGraphicsItem *item, scene()->items()){
+        QVariant data = item->data(0);
+        if((data.isValid() && data == "AutomatedSignal") ||
+                (data.isValid() && data == "OtherSignal")){
+
+            // get all relevant data from the item to enhance storage
+            QString type = (item->data(0)).toString();
+            QString name = (item->data(1)).toString();
+            QString toolTip = item->toolTip();
+            qreal angle = item->rotation();
+            QPointF position = item->pos();
+//            QFlags flags = item->flags();
+            out << type << name << toolTip << angle << position;
+        }
+    }
+    if(!file.flush()){
+        file.close();
+        return false;
+    }
+    qDebug()<< "File Written";
+    return true;
+}
+
+// Read Data
+bool Tracks::ReadOperator(QString fileName)
+{
+    QFile file (fileName);
+    if (!file.open(QIODevice::ReadOnly)){
+        return false;
+    }
+    if (file.size() == 0) return false;
+
+    QDataStream in (&file);
+    if (in.version() != QDataStream::Qt_6_1){
+        qDebug()<< "Wrong File Version";
+        file.close();
+        return false;
+    }
+    while (!in.atEnd()){
+        QString type;
+        QString name;
+        QString toolTip;
+        qreal angle;
+        QPointF position;
+        in >> type;
+        in >> name;
+        in >> toolTip;
+        in >> angle;
+        in >> position;
+
+        if (type == "AutomatedSignal"){
+            QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+name+".svg"));
+            QGraphicsSvgItem *signal = new QGraphicsSvgItem();
+            signal->setSharedRenderer(renderer);
+            signal->setData(0, "AutomatedSignal");
+            signal->setData(1, name);
+            signal->setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
+            signal->setToolTip(toolTip);
+            signal->setPos(position);
+            signal->setRotation(angle);
+            scene()->addItem(signal);
+        }
+        else if (type == "OtherSignal"){
+            defaultObjectName = name;
+
+            glbObjectName = name;
+            QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+name+".svg"));
+            QGraphicsSvgItem *otherSignal = new QGraphicsSvgItem();
+            otherSignal->setSharedRenderer(renderer);
+            otherSignal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
+            otherSignal->setData(0, "OtherSignal");
+            otherSignal->setData(1, name);
+            otherSignal->setPos(position);
+            otherSignal->setRotation(angle);
+            scene()->addItem(otherSignal);
+        }
+
+//        qDebug() << name << " toolTip " << toolTip << " angle " << angle << " position " << position
+//                 << " Type " << type;
+    } return true;
+}
 
 void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QString type,
                                QString position, QString latDist, QString orientation, QString direction)
@@ -1367,8 +1458,9 @@ void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QSt
     QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+name+".svg"));
     QGraphicsSvgItem *signal = new QGraphicsSvgItem();
     signal->setSharedRenderer(renderer);
+    signal->setData(0, "AutomatedSignal");
+    signal->setData(1, name);
     signal->setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
-
     signal->setToolTip(" DB Signal Function : " +type+"\n Coordinate: "+QString::number(location.x())+" , "+QString::number(location.y())+
                        "\n Linear Coordinate(Km): "+ position+ "\n Lateral Dist: "+latDist+ "\n Lateral Side: "+orientation+ "\n Direction: "+direction);
     signal->setPos(location*getMultiplierValue());

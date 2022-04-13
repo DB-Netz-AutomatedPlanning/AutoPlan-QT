@@ -22,6 +22,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
 
     tracks->setScene(scene);
     tracks->getMultiplierEffect();
+
     tracks->addGleiskanten();
     tracks->addHoehe();
     tracks->addKMline();
@@ -53,6 +54,8 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
 void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
 {
     tracks->setDrawGrids(checked);
+    qDebug()<< tracks->screen()->geometry();
+//    tracks->grab(scene->sceneRect().toRect());
 }
 
 void QGraphicsMainWindow::on_checkBoxGridLine2_clicked()

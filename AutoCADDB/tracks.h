@@ -5,6 +5,8 @@
 #include <QGraphicsView>
 #include <QSet>
 #include <QHoverEvent>
+#include <QGraphicsSvgItem>
+#include <QDataStream>
 
 class Tracks : public QGraphicsView
 {
@@ -100,6 +102,9 @@ public:
 
     void extractData(QString breakToolTip, QStringList keyK, QStringList vakK);
 
+    bool writeOperator(QString fileName);
+    bool ReadOperator(QString fileName);
+
 //    void currentPos();
    // void mousePressEvent(QMouseEvent *event);
 public slots:
@@ -178,5 +183,7 @@ protected:
 //protected:
 //   void mousePressEvent(QMouseEvent *event) override;
 };
+
+
 #endif // TRACKS_H
 
