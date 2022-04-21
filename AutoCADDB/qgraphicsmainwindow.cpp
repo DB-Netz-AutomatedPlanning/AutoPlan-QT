@@ -54,7 +54,10 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
 void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
 {
     tracks->setDrawGrids(checked);
-    qDebug()<< tracks->screen()->geometry();
+    qDebug()<< "SceneGeometry: "<<tracks->screen()->geometry();
+    qDebug()<< "SceneRect: "<<tracks->sceneRect();
+    qDebug()<< "SceneHeight: "<<tracks->scene()->height();
+    qDebug()<< "SceneWidth: "<<tracks->scene()->width();
 //    tracks->grab(scene->sceneRect().toRect());
 }
 

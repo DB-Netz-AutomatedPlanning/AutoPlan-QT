@@ -46,7 +46,7 @@ private:
     QString newFilePath = "";
     std::vector<QString> name;
     std::vector<QString> id;
-    std::vector<QString> elementLength;
+//    std::vector<QString> elementLength;
     std::vector<QString> startRef;
     std::vector<QString> endRef;
     std::vector<QString> startValues;

@@ -75,7 +75,7 @@ private slots:
     void on_pushButton_77_clicked();
     void on_exportBtnPlan_clicked();
     void on_btnSymbol_clicked();
-    //void closeEvent (QCloseEvent *event);
+    void closeEvent (QCloseEvent *event);
     //void on_grabBtn_clicked();
     void on_grabBtn_toggled(bool checked);
 

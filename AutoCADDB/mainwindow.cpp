@@ -37,6 +37,8 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QSvgGenerator>
+#include <QPainterPath>
 
 #include <QPainter>
 #include <QPrinter>
@@ -78,6 +80,12 @@ MainWindow::MainWindow(QWidget *parent)
     hideMenuBar = false;
     hideFileTab = false;
     hideTabView = false;
+
+    ui->actionSave->setEnabled(false);
+    ui->actionSave_As->setEnabled(false);
+    ui->actionPrint->setEnabled(false);
+
+
 //    ui->f_headerTabs->setGeometry(0,0,100,100);
 
 //    ui->comboBox_10->setEditable(true);
@@ -213,7 +221,6 @@ void MainWindow::fetchObjectProps()
 
 bool MainWindow::writeFooBar()
 {
-    qDebug()<< "We are here 5:";
     QSaveFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
@@ -245,16 +252,8 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::on_actionOpen_triggered()
 {
-//    qDebug()<< "TAB_TEXT: " + ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex());
-//    qDebug()<< ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isNull();
-//    qDebug()<< ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty();
-//    qDebug()<<(ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) == "");
     if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
              !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){ //     ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != ""){
-        //QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
-        //                                                                tr("Do you want to save the changes?\n"),
-        //                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-        //                                                                QMessageBox::Yes);
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Attempt!", "Did you want to save your project ? ... \n  Unsaved progress would be lost",
                                                                     QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
 
@@ -283,8 +282,6 @@ void MainWindow::on_actionOpen_triggered()
     QStringList regEx = completePath.split(QRegularExpression("/"));
     projectPath = completePath.remove("/"+regEx.back());
     projectName = regEx.back();
-    qDebug() << "ProjectPath : "+projectPath;
-    qDebug()<< "projectName : "+ projectName;
     // Check if the temp folder exists in the selected directory
     QDir dir (info.path() +"/temp");
     if (!dir.exists()){
@@ -292,7 +289,6 @@ void MainWindow::on_actionOpen_triggered()
         return;
     }
     QString iniFile =  info.filePath().remove(info.suffix()) + "ini";
-    qDebug()<< "iniFile: " << iniFile;
     QFile file2(iniFile);
     if(!file2.exists()) {
         QMessageBox::warning(this, "File Not Exists", "Important file missing from your directory \n" + file2.errorString());
@@ -312,13 +308,16 @@ void MainWindow::on_actionOpen_triggered()
     QStringList getOtherData = allData.split(QRegularExpression("\n"));
     fileFormat = getOtherData.at(0);
     countryCode = getOtherData.at(1);
-    qDebug()<< "format: " << getOtherData.at(0);
-    qDebug()<< "countryCode: " << getOtherData.at(1);
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
-    addTab();
-    tracks->ReadOperator(selectedFile);
+    addTab();   // for legacy data
+    tracks->ReadOperator(selectedFile); // for symbols
+
+    // Enable Save, SaveAs, and Print button
+    ui->actionSave->setEnabled(true);
+    ui->actionSave_As->setEnabled(true);
+    ui->actionPrint->setEnabled(true);
 }
 
 
@@ -367,21 +366,6 @@ void MainWindow::on_actionSave_triggered()
 //    QTimer::singleShot(5000, [this]{ui->statusbar->setStyleSheet("color: black");});
     QTimer::singleShot(4500, [this]{ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:"
                                                                  "rgba(0,0,0,0);color:black;font-weight:bold;}");});
-
-
-//    QString fileName = QFileDialog::getSaveFileName(this, "Save as");
-//    QFile file1(fileName);
-
-//    // if (!file.open(QFile::WriteOnly | QFile::Text)) {
-//    //   QMessageBox::warning(this, "Warning", "Cannot save file: " + file.errorString());
-//    // return;
-//    //}
-//    readFile = fileName;
-//    setWindowTitle(fileName);
-//    QTextStream out(&file1);
-//    //QString text = ui->textEdit->toPlainText();
-//    // out << text;
-//    file1.close();
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
@@ -467,7 +451,6 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
 //! [19] //! [20]
 {
     QString initialPath = QDir::currentPath() + "/untitled." + fileFormat;
-    qDebug()<< "We are here 1:";
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
                                                     initialPath,
                                                     tr("%1 Files (*.%2);;All Files (*)")
@@ -482,27 +465,56 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
 bool MainWindow::maybeSave()
 //! [17] //! [18]
 {
-    qDebug()<< "We are here 2:";
     return true;
 }
 //! [18]
 
-
+// SaveAs
 void MainWindow::save()
-//! [5] //! [6]
 {
-    // QAction *action = qobject_cast<QAction *>(sender());
-    qDebug()<< "We are here 3:";
-    QByteArray fileFormat = ui->actionSave_As->data().toByteArray();
-    saveFile(fileFormat);
+    if (projectPath == "" || projectName == ""){
+        QMessageBox::information(this, "No Project Detected", "Please create a project");
+        ui->actionSave->setEnabled(false);
+        ui->actionSave_As->setEnabled(false);
+        ui->actionPrint->setEnabled(false);
+        return;
+    }
+    QString fileName = QFileDialog::getSaveFileName(this, "Save As", "", "Windows Bitmap(*.BMP);;Joint Photographic Experts Group(*.JPG);;Joint Photographic Experts Group(*.JPEG);;"
+                                                                         "Portable Network Graphics(*.PNG);;Portable Bitmap(*.PBM);;"
+                                                                         "Portable Graymap(*.PGM);;Portable Pixmap(*.PPM);;"
+                                                                         "X11 Bitmap(*.XBM);;X11 Pixmap(*.XPM);;Scalable Vector Graphics(*.SVG)" );
+    if (fileName.isEmpty()) return;
+    QFileInfo info(fileName);
+    if(info.completeSuffix() == "SVG"){
+        QSvgGenerator svgGenerator;
+        svgGenerator.setFileName(fileName);
+        int width = qCeil(qreal(tracks->scene()->width()/1.25));
+        int height = qCeil(qreal(tracks->scene()->height()/1.25));
+        svgGenerator.setSize(QSize(width, height));
+        svgGenerator.setViewBox(QRect(0,0,width, height));
+        svgGenerator.setTitle(info.completeBaseName());
+        svgGenerator.setDescription("File created from APlan Tool");
+
+        QPainter painter;
+        painter.begin(&svgGenerator);
+        painter.setRenderHint(QPainter::Antialiasing);
+        tracks->scene()->render(&painter);
+        painter.end();
+    } else {
+        QPixmap pixmap = tracks->grab();
+        pixmap.save(fileName); //Automatically detect the format
+    }
+
+
+//    // QAction *action = qobject_cast<QAction *>(sender());
+//    QByteArray fileFormat = ui->actionSave_As->data().toByteArray();
+//    saveFile(fileFormat);
 }
 
 void MainWindow::print()
 {
 #if defined(QT_PRINTSUPPORT_LIB) && QT_CONFIG(printdialog)
     QPrinter printer(QPrinter::HighResolution);
-    qDebug()<< "We are here 22:";
-
     QPrintDialog printDialog(&printer, this);
     //! [21] //! [22]
     if (printDialog.exec() == QDialog::Accepted) {
@@ -619,7 +631,11 @@ void MainWindow::planningFnt()
 void MainWindow::on_actionAdd_Data_triggered()
 {
     if (fileFormat == ".mdb"){
-        QMessageBox::information(this, "Information", "You cannot change/modify .mdb file after uploading");
+        QMessageBox::information(this, "Information", "Cannot change/modify .mdb file after uploading");
+        return;
+    }
+    if (fileFormat == ".euxml"){
+        QMessageBox::information(this, "Information", "Cannot change/modify .euxml file after uploading");
         return;
     }
     UploadNewData uploadNewData;
@@ -686,27 +702,46 @@ void MainWindow::on_btnSymbol_clicked()
 
 void MainWindow::onNewProjectClicked()
 {
+    if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
+             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
+        QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Current Project?", "You are trying to open a new project. . . \n\t Save ongoing project ? ",
+                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+        if (reply == QMessageBox::Yes){
+            on_actionSave_triggered();
+        }else if (reply == QMessageBox::Cancel ) return;
+    }
+    delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+    delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+    delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+
     NewProjectDialog newProjDialog;
     newProjDialog.setModal(true);
     newProjDialog.exec();
 }
 
-//void MainWindow::closeEvent (QCloseEvent *event)
-//{
-//    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
-//                                                                tr("Do you want to save the changes?\n"),
-//                                                                QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes,
-//                                                                QMessageBox::Yes);
-//    if (resBtn == QMessageBox::No) {
-//        event->ignore();
-//        QCoreApplication::quit();
-//    } else if (resBtn == QMessageBox::Yes) {
-//        event->accept();
-//        QCoreApplication::quit();
-//    } else if (resBtn == QMessageBox::Cancel){
-//        event->ignore();
-//    }
-//}
+void MainWindow::closeEvent (QCloseEvent *event)
+{
+    if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
+             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
+        QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
+                                                                    tr("Do you want to save the changes?\n"),
+                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+        if (resBtn == QMessageBox::No) {
+            event->ignore();
+            QCoreApplication::quit();
+        } else if (resBtn == QMessageBox::Yes) {
+            on_actionSave_triggered();
+            event->accept();
+            QCoreApplication::quit();
+        } else if (resBtn == QMessageBox::Cancel){
+            event->ignore();
+        }
+    }
+    else {
+        event->ignore();
+        QCoreApplication::quit();
+    }
+}
 
 // this event loads everytime after specific time interval or anything is updated on the screen
 void MainWindow:: paintEvent(QPaintEvent *event) {
@@ -736,13 +771,16 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
             ui->tableWidget_2->setItem(i,1, itemValue);
         }
     }
-    //    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName    ));
-    //    ui->tableWidget->setItem(0, 1, newItem1);
 
     // Add new tab while creating New Project
     if(createNewProject){
         createNewProject = false;
         addTab();
+
+        // Enable Save, SaveAs, and Print button
+        ui->actionSave->setEnabled(true);
+        ui->actionSave_As->setEnabled(true);
+        ui->actionPrint->setEnabled(true);
     }
 }
 

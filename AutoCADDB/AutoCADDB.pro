@@ -41,6 +41,7 @@ SOURCES += \
     qgraphicsmainwindow.cpp \
     qgraphicssymbolcontainer.cpp \
     removedata.cpp \
+    signalfromunprocessedjson.cpp \
     svgdialogview.cpp \
     symbolcontainer.cpp \
     symbolinformation.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
     qgraphicsmainwindow.h \
     qgraphicssymbolcontainer.h \
     removedata.h \
+    signalfromunprocessedjson.h \
     svgdialogview.h \
     symbolcontainer.h \
     symbolinformation.h \

@@ -1240,6 +1240,9 @@ QPushButton:enabled { background-color: green; }</string>
    <addaction name="separator"/>
   </widget>
   <action name="actionNew">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>New</string>
    </property>
@@ -1289,6 +1292,9 @@ QPushButton:enabled { background-color: green; }</string>
    </property>
   </action>
   <action name="actionSave_As">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normalon>:/icons/assets/menubar/saveas.png</normalon>
