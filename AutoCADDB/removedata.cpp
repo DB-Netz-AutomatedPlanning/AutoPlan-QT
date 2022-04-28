@@ -9,12 +9,6 @@ RemoveData::RemoveData(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Preview Data");
-//    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-//    while(iter.hasNext() )
-//    {
-//        QString val = iter.next();
-//        ui->comboAllFolder->addItem(val.remove("Data/"));
-//    }
     ui->comboAllFolder->addItem(projectName);
 }
 

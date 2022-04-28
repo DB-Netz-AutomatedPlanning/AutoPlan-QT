@@ -29,7 +29,7 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->addLage();
     tracks->addUberhohung();
     tracks->addGleisknoten();
-    //    tracks->addSymbol("");
+    tracks->addSignals(); // if using euxml and it's available
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
@@ -136,7 +136,6 @@ void QGraphicsMainWindow::on_checkBoxUHDP_toggled(bool checked)
 {
     tracks->setDrawUberhohungDP(checked);
 }
-
 
 void QGraphicsMainWindow::on_rortatebtn_clicked()
 {

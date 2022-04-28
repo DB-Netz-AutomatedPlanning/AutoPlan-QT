@@ -15,7 +15,6 @@ KmToCoordinate::KmToCoordinate(QString pPath, QString pName)
     coord->readCoordinates("Entwurfselement_KM.dbahn", countryCode);
     setSegmentExtremeKmValues(coord->getSegmentExtremeKmValues());
     setSegmentExtremePoints(coord->getSegmentExtremePoints());
-
 }
 
 const std::vector<double> &KmToCoordinate::getSegmentExtremeKmValues() const
@@ -203,12 +202,16 @@ double KmToCoordinate::searchNearestKmValue(double value)
     std::sort(keys.begin(),keys.end(), std::less<>());
     std::vector<std::vector<double>> real_Km_Values = getRealKmValues();
 
+    qDebug() <<" Key1 " << keys[0]<< "  Key1 " << keys[keys.size()-1];
+
+
     for (int i=0; i< (int)realKmValues.size(); i++){
+        qDebug()<< "VALUE: " << value;
+
         if (value < keys[0] || value > keys[keys.size()-1]){
             qDebug()<< "Your input km value is not within your considered track range \n"
                        "ensure you have input correct value" ;
             break;
-
         }
         else if((value >= real_Km_Values[i][0] && value <= realKmValues[i][real_Km_Values[i].size() -1]) ||
                 (value <= real_Km_Values[i][0] && value >= realKmValues[i][real_Km_Values[i].size() -1])){

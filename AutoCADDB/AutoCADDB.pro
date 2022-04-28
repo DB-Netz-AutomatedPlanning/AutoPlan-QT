@@ -37,9 +37,9 @@ SOURCES += \
     openglclass.cpp \
     planningtable.cpp \
     previeweulynxxml.cpp \
-    progressdialogues.cpp \
     qgraphicsmainwindow.cpp \
     qgraphicssymbolcontainer.cpp \
+    readeulynxsignals.cpp \
     removedata.cpp \
     signalfromunprocessedjson.cpp \
     svgdialogview.cpp \
@@ -76,9 +76,9 @@ HEADERS += \
     openglclass.h \
     planningtable.h \
     previeweulynxxml.h \
-    progressdialogues.h \
     qgraphicsmainwindow.h \
     qgraphicssymbolcontainer.h \
+    readeulynxsignals.h \
     removedata.h \
     signalfromunprocessedjson.h \
     svgdialogview.h \

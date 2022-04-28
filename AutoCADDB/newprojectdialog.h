@@ -38,6 +38,7 @@ public:
     static void runUH(QString unprocessed_File_Path, QString uh_Path);
     static void runKnoten(QString unprocessed_File_Path, QString knoten_Path);
     static void runKMLinie(QString unprocessed_File_Path, QString km_Path);
+    static void runSignal(QString unprocessed_File_Path, QString sig_Path);
 
 public slots:
 //    void cancelProgressDialog();

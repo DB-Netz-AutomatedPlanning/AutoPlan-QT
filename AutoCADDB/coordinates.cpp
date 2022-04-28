@@ -185,8 +185,11 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
                 }
                 else if (!document["features"][counter]["properties"]["KM_A"].isUndefined() && !document["features"][counter]["properties"]["KM_E"].isUndefined()){
                     double p1, p2 ;// Point 1 and 2
-                    p1 = document["features"][counter]["properties"]["KM_A"].toDouble();
-                    p2 = document["features"][counter]["properties"]["KM_E"].toDouble();
+//                    p1 = document["features"][counter]["properties"]["KM_A"].toDouble();
+                    p1 = (document["features"][counter]["properties"]["KM_A"].toString()).toDouble();
+                    qDebug()<< "Point1 : " <<p1;
+                    p2 = (document["features"][counter]["properties"]["KM_E"].toString()).toDouble();
+                    qDebug()<< "Point2 : " <<p2;
                     segmentExtremeKmVals.push_back(p1);
                     segmentExtremeKmVals.push_back(p2);
                 }

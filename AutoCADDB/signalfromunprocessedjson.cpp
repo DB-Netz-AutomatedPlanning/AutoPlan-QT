@@ -30,8 +30,8 @@ void SignalFromUnprocessedJson::searchName()
     std::vector<QString> name;
     //    std::vector<QString> id;
     int i=0;
-
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][i].isUndefined()){
+        qDebug()<< "NAME: " << document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][i]["name"].toString();
         name.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][i]["name"].toString());
         i+=1;
     }
@@ -41,12 +41,12 @@ void SignalFromUnprocessedJson::searchName()
 void SignalFromUnprocessedJson::searchLocation()
 {
     std::vector<QString> kmValues;
-
     int j=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][j].isUndefined()){
 
         // first get the ref of the location
         QString locationRef = document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][j]["locations"][0]["ref"].toString();
+        qDebug()<< "Location ref: "<< locationRef;
         QString usesLocationRef;
 
         // Match current locationRef with usesLocationRef;
@@ -55,16 +55,26 @@ void SignalFromUnprocessedJson::searchLocation()
             QString locationID = document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["id"].toString();
 
             if(locationRef == locationID){
+                qDebug()<< "Same with ID: "<< locationID;
                 usesLocationRef = document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["coordinates"][0]["ref"].toString();
+                qDebug()<< "UsesLocationRef: "<< usesLocationRef;
                 break;
             }
             l++;
         }
-        std::vector <QString> coordValue = lookForCoord(usesLocationRef);
-        qDebug()<< "0 :"<< coordValue[0].toDouble();
-        kmValues.push_back(coordValue[0]);
+        qDebug()<< "UsesLocationRef: "<< usesLocationRef;
+        if (usesLocationRef != ""){
+            std::vector <QString> coordValue = lookForCoord(usesLocationRef);
+    //        qDebug()<< "Entering...";
+    //        qDebug()<< "0000 :";
+    //        qDebug()<< "0 :"<< coordValue[0].toDouble();
+
+            kmValues.push_back(coordValue[0]);
+
+        }
         j++;
     }
+    qDebug()<< "FEL";
     setLocation(kmValues);
 }
 
@@ -72,7 +82,6 @@ void SignalFromUnprocessedJson::searchLateralSideAndDirection()
 {
     std::vector<QString> side;
     std::vector<QString> direction;
-
     int j=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][j].isUndefined()){
 
@@ -90,12 +99,14 @@ void SignalFromUnprocessedJson::searchLateralSideAndDirection()
                 QString tempSide = "";
                 QString tempDir = "";
                 tempSide = QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["isLocatedToSide"].toDouble());
+                qDebug()<< "TempSide: " << tempSide;
                 if (tempSide == "1"){
-                    lateralSide = "right";
-                } else if (tempSide == "2") {
                     lateralSide = "left";
+                } else if (tempSide == "2") {
+                    lateralSide = "right";
                 } else lateralSide = "null";
                 tempDir = QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["appliesInDirection"].toDouble());
+                qDebug()<< "TempDir "<< tempDir;
                 side.push_back(lateralSide);
                 direction.push_back(tempDir);
                 break;
@@ -119,8 +130,12 @@ void SignalFromUnprocessedJson::createSignalJson()
     std::vector<QString> sides = getLateralSide();
     std::vector<QString> directions = getDirection();
 
+    if ((name.size() != locations.size()) || (name.size() != sides.size()) || (name.size() != directions.size())) {
+        progressValue++;  // increment the progress bar counter and exit
+        qDebug()<< "Progress : " << progressValue;
+        return;
+    }
     QJsonArray allFeatures;
-
     for (int i=0; i< (int)names.size(); i++){
         QJsonObject prop = properties (names, locations, sides,directions, i);
         allFeatures.append(prop);
@@ -133,7 +148,6 @@ void SignalFromUnprocessedJson::createSignalJson()
         qDebug()<< "Progress : " << progressValue;
         return;
     }
-
     QJsonObject content;
     content.insert("type", "FeatureCollection");
     content.insert("name", "Signal_Contents");
@@ -151,16 +165,15 @@ void SignalFromUnprocessedJson::createSignalJson()
         iStream << bytes;
         file.close();
     }
-    else
-    {
-        qDebug()<< "File opening failed: " << file.errorString();
-    }
+    else qDebug()<< "File opening failed: " << file.errorString();
     progressValue++;
     qDebug()<< "Progress : " << progressValue;
 
 }
 
-QJsonObject SignalFromUnprocessedJson::properties(std::vector<QString> name, std::vector<QString> location, std::vector<QString> side, std::vector<QString> direction, int index)
+QJsonObject SignalFromUnprocessedJson::properties(std::vector<QString> name,
+                                std::vector<QString> location, std::vector<QString> side,
+                                                  std::vector<QString> direction, int index)
 {
     QJsonObject prop;
 
@@ -198,7 +211,6 @@ std::vector<QString> SignalFromUnprocessedJson::lookForCoord(QString currentRef)
                     values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                             ["usesPositioningSystemCoordinate"][j]["measure"].toDouble()));
                 }
-
             } else {
                 // x- axis
                 if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]

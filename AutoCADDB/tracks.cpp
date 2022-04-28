@@ -1,7 +1,9 @@
 #include "tracks.h"
 #include "coordinates.h"
+#include "readeulynxsignals.h"
 #include "symbolcontainer.h"
 #include "mainwindow.h"
+#include "kmtocoordinate.h"
 #include "qgraphicsmainwindow.h"
 #include <QGraphicsPathItem>
 #include <QPainter>
@@ -15,7 +17,7 @@
 #include <QGraphicsSceneHoverEvent>
 #include <QFlags>
 
-Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
+Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false),
     drawGleisknotenDP(false)
@@ -604,6 +606,73 @@ void Tracks::addGleisknoten(){
 }
 
 
+// This function is only used when signal parameter is extracted from the EULYNX XML
+void Tracks::addSignals()
+{
+    QFile file (projectPath+"/"+projectName+"/temp/Signal.dbahn");
+    if (!file.exists()) return;
+    qDebug()<< "signal1";
+
+    // Add Symbols/Signals -- only if KmLine data is available (Json)
+    QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
+    if (!km_file.exists()) return;
+    qDebug()<< "signal2";
+
+    KmToCoordinate *kmToCoord = new KmToCoordinate(projectPath,projectName);
+    kmToCoord->mapKmAndCoord();
+    kmToCoord->calculateAngles();
+
+    // Get main signal data
+    ReadEulnxSignals *euSignal = new ReadEulnxSignals(projectPath, projectName);
+    euSignal->readMainSignals();
+    std::vector<QMap<QString, QString>> each = euSignal->getParameters();
+
+    qDebug()<< static_cast<int>(each.size());
+
+    for (int i=0; i< static_cast<int>(each.size()); i++){
+//        qInfo()<< "DB Signal " << each.at(i)["DB Signal Function"];
+//        qInfo()<< "Dir " << each.at(i)["Direction"];
+//        qInfo()<< "Lat. Dist " << each.at(i)["Lateral Distance"];
+//        qInfo()<< "Lat Side " << each.at(i)["Lateral Side"];
+//        qInfo()<< "Linear Coord " << each.at(i)["Linear Coordinate"];
+
+        double val = (each.at(i)["Linear Coordinate"]).toDouble(); //    table[i][1].toDouble();
+        qDebug()<< "signal3 "<< val;
+        double lateralDistance = (each.at(i)["Lateral Distance"]).toDouble();
+        qDebug()<< "signal4 "<< lateralDistance;
+        QString lateralSide =(each.at(i)["Lateral Side"]);
+        qDebug()<< "signal5 "<< lateralSide;
+
+        // getFinalPosition(value, lateralDist, orientation)
+        QPointF position = kmToCoord->getFinalPosition(val,lateralDistance,lateralSide);  //getNearestCoordFromKmValue(val);
+        qDebug()<< "signal6 "<< position;
+        double angle = kmToCoord->getAngleFromKmValue(val);
+        if (each.at(i)["DB Signal Function"] == "Entry Signal" && each.at(i)["Direction"] == "1"){
+            qDebug()<< "signal8 ";
+            addAutomateSignal("Ankundigungsbake", position, angle, each.at(i)["DB Signal Function"],
+                    each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
+        }
+        else if (each.at(i)["DB Signal Function"] == "Entry Signal" && each.at(i)["Direction"] == "2"){
+            qDebug()<< "signal9 ";
+            //Then add 180 to the angle (to make symbol rotate/turn to other direction
+            addAutomateSignal("Ankundigungsbake",position, angle+180,  each.at(i)["DB Signal Function"],
+                 each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
+        }
+        else if (each.at(i)["DB Signal Function"] == "Exit Signal" && each.at(i)["Direction"] == "1"){
+            qDebug()<< "signal_10 ";
+            addAutomateSignal("Abfahrsignal",position, angle, each.at(i)["DB Signal Function"],
+                    each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
+        }
+        else if (each.at(i)["DB Signal Function"] == "Exit Signal" && each.at(i)["Direction"] == "2"){
+            qDebug()<< "signal11 ";
+            //Then add 180 to the angle (to make symbol rotate/turn to other direction
+            addAutomateSignal("Abfahrsignal",position, angle+180, each.at(i)["DB Signal Function"],
+                    each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
+        }
+        else qDebug()<< "None";
+    }
+}
+
 
 void Tracks::setBoolParameters()
 {
@@ -714,11 +783,9 @@ QVector<QVector<float> > Tracks::allVec(QString pPath, QString pName, QString fi
         coord->readCoordinates(fileName, countryCode);
         setDirection(coord->getDirection());
     }
-
     // Then get all the coordinates to be used for each segment plot
     QVector<QVector<float>> vec;
     if (fileName != "Gleisknoten.dbahn"){
-
         Coordinates *coord = new Coordinates(pPath, pName);
         coord->readCoordinates(fileName, countryCode);
         int segmentSize = coord->getSegment().size();
@@ -1446,10 +1513,9 @@ bool Tracks::ReadOperator(QString fileName)
             otherSignal->setRotation(angle);
             scene()->addItem(otherSignal);
         }
-
-//        qDebug() << name << " toolTip " << toolTip << " angle " << angle << " position " << position
-//                 << " Type " << type;
-    } return true;
+    }
+    file.close();
+    return true;
 }
 
 void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QString type,

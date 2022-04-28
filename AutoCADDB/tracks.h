@@ -27,6 +27,7 @@ public:
     void addLage();
     void addUberhohung();
     void addGleisknoten();
+    void addSignals();
     void setBoolParameters();
     void reload();
     void addSymbol(QString str);

@@ -8,7 +8,8 @@
 #include "hofromunprocessedjson.h"
 #include "uberhohungfromunprocessedjson.h"
 #include "lagefromunprocessedjson.h"
-#include "progressdialogues.h"
+#include "signalfromunprocessedjson.h"
+#include "readeulynxsignals.h"
 #include <QPushButton>
 #include<QSysInfo>
 #include<QProcess>
@@ -28,12 +29,9 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
 
 //    timer.setInterval(3000);
 
-
-
-
     //    connect (ui->btnBrowseProjectPath , & QPushButton::clicked, this, & NewProjectDialog::btnBrowseProjectPath_clicked);
 
-    progress = new QProgressDialog("Operation in progress ...", "Cancel", 0, 7, this);
+    progress = new QProgressDialog("Operation in progress ...", "Cancel", 0, 8, this);
     progressValue =1;
     progress->move(-10000,-10000);
 
@@ -73,9 +71,7 @@ void NewProjectDialog::on_btnBrowseProjectPath_clicked()
         QMessageBox::warning(this, "No Project Name", "Please Enter a Project Name");
         return;
     }
-
     QString filePath = QFileDialog::getExistingDirectory(this, ("Select Output Folder"), QDir::currentPath());
-
     if (QDir(filePath+"/"+ui->leEnterProjectName->text()).exists()){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Already Exist", "Project Name Already Exist... \n Did you want to override the project?");
         if (reply == QMessageBox::No){
@@ -87,7 +83,6 @@ void NewProjectDialog::on_btnBrowseProjectPath_clicked()
         }
     }
     ui->leEnterProjectPath->setText(filePath);
-
     if (ui->leEnterProjectPath->text().isNull() || ui->leEnterProjectPath->text().isEmpty()){
         ui->btnBrowseProjectData->setEnabled(false);
     }
@@ -345,6 +340,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         QString uhPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_UH.json";
         QString knotenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleisknoten.json";
         QString kmPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_KM.json";
+//        QString sigPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Signal.json";
 
         QFuture<void> kanten = QtConcurrent::run(runKanten, unprocessedFilePath, kantenPath);
         QFuture<void> lage = QtConcurrent::run(runLage, unprocessedFilePath, lagePath);
@@ -352,7 +348,6 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
 
         progress->setValue(progressValue);
         kanten.waitForFinished();
-
         progress->setValue(progressValue);
         lage.waitForFinished();
         progress->setValue(progressValue);
@@ -367,10 +362,13 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
                 return;
             }
         }
+//        QFuture<void> sig = QtConcurrent::run(runSignal, unprocessedFilePath, sigPath);
         QFuture<void> uh = QtConcurrent::run(runUH, unprocessedFilePath, uhPath);
         QFuture<void> knoten = QtConcurrent::run(runKnoten, unprocessedFilePath, knotenPath);
         QFuture<void> km = QtConcurrent::run(runKMLinie, unprocessedFilePath, kmPath);
         progress->setValue(progressValue);
+//        sig.waitForFinished();
+//        progress->setValue(progressValue);
         uh.waitForFinished();
         progress->setValue(progressValue);
         knoten.waitForFinished();
@@ -401,7 +399,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
             }
             QString current = file_name.remove(".json");
             if (current == "Entwurfselement_HO" || current == "Entwurfselement_KM" || current == "Entwurfselement_LA" ||
-                    current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"){
+                    current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"  || current == "Signal"){
                 QString allData = file.readAll();
 
                 // create a .dbahn file corresponding to the json file into the saving folder
@@ -509,8 +507,6 @@ int NewProjectDialog::numberOfFileProduces()
 
 void NewProjectDialog::runKanten(QString unprocessed_File_Path, QString kanten_Path)
 {
-    //QString kantenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleiskanten.json";
-    //GleiskantenFromUnprocessedJson *tryKanten = new GleiskantenFromUnprocessedJson(nullptr, unprocessedFilePath, kantenPath);
     GleiskantenFromUnprocessedJson *tryKanten = new GleiskantenFromUnprocessedJson(nullptr, unprocessed_File_Path, kanten_Path);
     qDebug() << "Start : " << QTime::currentTime();
     tryKanten->createJson();
@@ -518,7 +514,6 @@ void NewProjectDialog::runKanten(QString unprocessed_File_Path, QString kanten_P
 
 void NewProjectDialog::runLage(QString unprocessed_File_Path, QString lage_Path)
 {
-    //QString lagePath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_LA.json";
     LageFromUnprocessedJson * tryLage = new LageFromUnprocessedJson (nullptr, unprocessed_File_Path, lage_Path);
     qDebug() << "Start : " << QTime::currentTime();
     tryLage->createJson();
@@ -526,7 +521,6 @@ void NewProjectDialog::runLage(QString unprocessed_File_Path, QString lage_Path)
 
 void NewProjectDialog::runHO(QString unprocessed_File_Path, QString ho_Path)
 {
-    //QString hoPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_HO.json";
     HOFromUnprocessedJson * tryHO = new HOFromUnprocessedJson(nullptr, unprocessed_File_Path, ho_Path);
     qDebug() << "Start : " << QTime::currentTime();
     tryHO->createJson();
@@ -534,7 +528,6 @@ void NewProjectDialog::runHO(QString unprocessed_File_Path, QString ho_Path)
 
 void NewProjectDialog::runUH(QString unprocessed_File_Path, QString uh_Path)
 {
-    //QString uhPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_UH.json";
     UberhohungFromUnprocessedJson * tryUH = new UberhohungFromUnprocessedJson(nullptr, unprocessed_File_Path, uh_Path);
     qDebug() << "Start : " << QTime::currentTime();
     tryUH->createJson();
@@ -542,7 +535,6 @@ void NewProjectDialog::runUH(QString unprocessed_File_Path, QString uh_Path)
 
 void NewProjectDialog::runKnoten(QString unprocessed_File_Path, QString knoten_Path)
 {
-    //QString knotenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleisknoten.json";
     GleisknotenFromUnprocessedJson *tryKnoten = new GleisknotenFromUnprocessedJson(nullptr, unprocessed_File_Path, knoten_Path);
     qDebug() << "Start : " << QTime::currentTime();
     tryKnoten->createJson();
@@ -550,16 +542,22 @@ void NewProjectDialog::runKnoten(QString unprocessed_File_Path, QString knoten_P
 
 void NewProjectDialog::runKMLinie(QString unprocessed_File_Path, QString km_Path)
 {
-    //QString kmPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_KM.json";
     KmLinieFromUnprocessedJson *tryKmLinie = new KmLinieFromUnprocessedJson (nullptr, unprocessed_File_Path, km_Path);
     qDebug() << "Start : " << QTime::currentTime();
     tryKmLinie->createJson();
 }
 
+void NewProjectDialog::runSignal(QString unprocessed_File_Path, QString sig_Path)
+{
+    SignalFromUnprocessedJson *trySignal = new SignalFromUnprocessedJson(nullptr, unprocessed_File_Path, sig_Path);
+    qDebug() << "Start : " << QTime::currentTime();
+    trySignal->createSignalJson();
+}
+
 // Update progress value every 5000 milliseconds
 void NewProjectDialog::timeout()
 {
-    if(progressValue <= 7){
+    if(progressValue <= 8){
         progress->setValue(progressValue);
         qDebug() << "Progress : "<< progressValue;
     }
