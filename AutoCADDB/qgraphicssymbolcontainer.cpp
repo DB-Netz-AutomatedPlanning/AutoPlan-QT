@@ -464,11 +464,7 @@ ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedientArrow.svg"
          if((ui->chb_zug_partial->isChecked())){
              ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugOderStellwerksbedient.svg"));
          }
-
     }
-
-
-
 }
 
 
@@ -478,13 +474,11 @@ void QGraphicsSymbolContainer::on_chb_zug_nofill_clicked()
     ui->chb_zug_filled->setChecked(false);
     ui->chb_zug_arrow->setChecked(false);
 
-
     if (ui->chb_zug_nofill->isChecked()) {
         ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedient.svg"));
     } else {
          painter->drawPixmap(0, 0, QPixmap(":/icons/assets/qgraphics/zugbedient.svg"));
     }
-
 }
 
 
@@ -502,7 +496,6 @@ void QGraphicsSymbolContainer::on_pushButton_vorStellwerksbedient_clicked()
 
 void QGraphicsSymbolContainer::on_checkBox_vorStellwerksbedient_clicked()
 {
-
     ui->checkBox_vorZugoderStellwerksbedient->setChecked(false);
     ui->checkBox_Arrow->setChecked(false);
 
@@ -512,7 +505,6 @@ void QGraphicsSymbolContainer::on_checkBox_vorStellwerksbedient_clicked()
          ui->pushbutton_vorZugbedient->setIcon(QIcon(":/icons/assets/qgraphics/vorZugbedient.svg"));
     }
 }
-
 
 void QGraphicsSymbolContainer::on_checkBox_vorZugoderStellwerksbedient_clicked()
 {
@@ -572,7 +564,6 @@ void QGraphicsSymbolContainer::on_checkBox_Wartezeichenmit_clicked()
 
 void QGraphicsSymbolContainer::on_pushButton_Achszahlkontakt_clicked()
 {
-
         if(AchszahlkontaktCustomiseBtn){
             AchszahlkontaktCustomiseBtn = false;
             ui->frame_Achszahlkontakt->hide();
@@ -586,8 +577,6 @@ void QGraphicsSymbolContainer::on_pushButton_Achszahlkontakt_clicked()
 void QGraphicsSymbolContainer::on_checkBox_ZweiBuSchaltkontakt_clicked()
 {
     ui->checkBox_Schaltkontakt->setChecked(false);
-
-
     if (ui->checkBox_ZweiBuSchaltkontakt->isChecked()) {
         ui->pb2->setIcon(QIcon(":/icons/assets/qgraphics/ZweiBuSchaltkontakt.svg"));
     } else {
@@ -595,12 +584,9 @@ void QGraphicsSymbolContainer::on_checkBox_ZweiBuSchaltkontakt_clicked()
     }
 }
 
-
 void QGraphicsSymbolContainer::on_checkBox_Schaltkontakt_clicked()
 {
     ui->checkBox_ZweiBuSchaltkontakt->setChecked(false);
-
-
     if (ui->checkBox_Schaltkontakt->isChecked()) {
         ui->pb2->setIcon(QIcon(":/icons/assets/qgraphics/Schaltkontakt.svg"));
     } else {

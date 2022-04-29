@@ -4,9 +4,6 @@ requires(qtConfig(fontdialog))
 
 LIBS +=  -lopengl32 -lglu32 -lgdi32
 
-
-
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -40,10 +37,11 @@ SOURCES += \
     openglclass.cpp \
     planningtable.cpp \
     previeweulynxxml.cpp \
-    progressdialogues.cpp \
     qgraphicsmainwindow.cpp \
     qgraphicssymbolcontainer.cpp \
+    readeulynxsignals.cpp \
     removedata.cpp \
+    signalfromunprocessedjson.cpp \
     svgdialogview.cpp \
     symbolcontainer.cpp \
     symbolinformation.cpp \
@@ -78,10 +76,11 @@ HEADERS += \
     openglclass.h \
     planningtable.h \
     previeweulynxxml.h \
-    progressdialogues.h \
     qgraphicsmainwindow.h \
     qgraphicssymbolcontainer.h \
+    readeulynxsignals.h \
     removedata.h \
+    signalfromunprocessedjson.h \
     svgdialogview.h \
     symbolcontainer.h \
     symbolinformation.h \

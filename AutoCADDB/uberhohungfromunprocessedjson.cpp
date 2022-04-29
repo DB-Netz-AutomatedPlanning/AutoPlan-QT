@@ -1,7 +1,6 @@
 #include "uberhohungfromunprocessedjson.h"
 #include "symbolcontainer.h"
 #include <QDebug>
-#include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QFile>

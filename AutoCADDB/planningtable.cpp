@@ -11,7 +11,6 @@ PlanningTable::PlanningTable(QWidget *parent) :
     ui(new Ui::PlanningTable)
 {
     ui->setupUi(this);
-
     ui->comboBoxStations->addItem(projectName);
 }
 
@@ -26,14 +25,11 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         QMessageBox::warning(this, "Warning", "Planning of .mdb data source/file was temporarily disabled");
         return;
     }
-
     if (!QDir(ui->lineEdit->text()).exists()){
         QMessageBox::warning(this, "Information", "Invalid folder selected... \n Please use a valid folder");
         ui->btnAutoPLAN->setEnabled(false);
         return;
     }
-
-
     if (ui->comboBoxStations->currentText().isNull() || ui->comboBoxStations->currentText().isEmpty()) {
         QMessageBox::warning(this, "Warning", "Unable to process ... \n Please create a project");
         ui->tableWidget->setEnabled(false);
@@ -77,7 +73,6 @@ void PlanningTable::on_btnAutoPLAN_clicked()
                 QMessageBox::information(this, "info", file.errorString());
                 return;
             }
-
             QString current = fi.remove(projectPath+"/"+projectName+"/temp/");
             current = current.remove("."+ info.completeSuffix());
 
@@ -87,7 +82,6 @@ void PlanningTable::on_btnAutoPLAN_clicked()
                 QMessageBox::warning(this, "Warning", fileToSave.errorString());
                 return;
             }
-
             QByteArray data = file.readAll();
             QByteArray decoded = QByteArray::fromHex(data);
 
@@ -118,7 +112,6 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         csharp->cSharp();
 
         // remove all the input files
-
         kmLinePath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_KM.geojson";
         gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
         gleisknotenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleisknoten.geojson";
@@ -147,9 +140,6 @@ void PlanningTable::on_btnAutoPLAN_clicked()
                                                   "Please contact your administrator");
             return;
         }
-
-        //TOdo :: Try n Catch need to be implemented here to handle some exception errors
-
         csharp->mainSolution();
         this->table = csharp->getMainAntwort();
         this->rows = csharp->getNumberOfRows();
@@ -196,20 +186,14 @@ void PlanningTable::on_btnAutoPLAN_clicked()
     ui->tableWidget->setColumnWidth(0, 150);
     ui->tableWidget->setEnabled(true);
     ui->lblLocation->show();
-
-
     for (int i =0; i< this->rows; i++){
         for (int j=0; j<5; j++){
             QTableWidgetItem *item = new QTableWidgetItem(this->table[i][j]);
             item->setTextAlignment(Qt::AlignCenter);
-
             ui->tableWidget->setItem(i,j, item);
         }
     }
-
-
     // Add Symbols/Signals -- only if KmLine data is available (Json)
-
 
     KmToCoordinate *kmToCoord = new KmToCoordinate(projectPath,projectName);
     kmToCoord->mapKmAndCoord();
@@ -246,8 +230,6 @@ void PlanningTable::setHoehePath(const QString &newHoehePath)
 {
     hoehePath = newHoehePath;
 }
-
-
 
 const QString &PlanningTable::getGleisknotenPath() const
 {

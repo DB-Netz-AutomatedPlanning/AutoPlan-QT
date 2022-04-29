@@ -14,13 +14,11 @@ GleiskantenFromUnprocessedJson::GleiskantenFromUnprocessedJson(QObject *parent, 
     this->filePath = filePath;
     this->newFilePath = newFilePath;
 
-
     QFile file (filePath);
     if (!file.exists()){
         qInfo() << "File Not exist ... Also check that you've entered correct file name";
         return;
     }
-
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qInfo()<< file.errorString();
         return;
@@ -53,7 +51,6 @@ void GleiskantenFromUnprocessedJson::searchNameAndID()
 
         i+=1;
     }
-
     setName(name);
     setId(id);
 }
@@ -100,7 +97,6 @@ void GleiskantenFromUnprocessedJson::searchStartRefAndStartKm()
                     ["usesNetElement"][i]["associatedPositioning"][0]["intrinsicCoordinates"][0]
                     ["coordinates"][0]["ref"].toString();
             startRef.push_back(refStart);
-
             QString refEnd = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"]
                     [i]["associatedPositioning"][0]["intrinsicCoordinates"][1]["coordinates"][0]["ref"].toString();
             endRef.push_back(refEnd);
@@ -108,7 +104,6 @@ void GleiskantenFromUnprocessedJson::searchStartRefAndStartKm()
             // Search for the actual value
             std::vector<QString> startValue = lookForCoord(refStart);
             std::vector<QString> endValue = lookForCoord(refEnd);
-
             startValues.push_back(startValue[0]);
             endValues.push_back(endValue[0]);
         }

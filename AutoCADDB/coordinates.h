@@ -7,7 +7,6 @@
 #include <QJsonDocument>
 #include<QJsonArray>
 #include<QJsonObject>
-#include <QDataStream>
 #include <QPointF>
 
 class Coordinates : public QObject

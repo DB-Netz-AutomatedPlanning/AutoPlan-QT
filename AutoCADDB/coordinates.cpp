@@ -2,6 +2,7 @@
 #include <QPointF>
 #include <QRegularExpression>
 
+
 Coordinates::Coordinates(QString pPath, QString pName)
 {
     this->pPath = pPath;
@@ -132,7 +133,6 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
         else if (dataFile == "Entwurfselement_KM.dbahn"){
             setupData(count, document);
         }
-
         std::vector<float> arrayOfCoordinates;
         std::vector<int> segmentCount;
         std::vector<QPointF> segmentExtremePoints;
@@ -182,18 +182,18 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
                     p2_final = p2_km + p2_m/1000;
                     segmentExtremeKmVals.push_back(p1_final);
                     segmentExtremeKmVals.push_back(p2_final);
-
                 }
                 else if (!document["features"][counter]["properties"]["KM_A"].isUndefined() && !document["features"][counter]["properties"]["KM_E"].isUndefined()){
                     double p1, p2 ;// Point 1 and 2
-                    p1 = document["features"][counter]["properties"]["KM_A"].toDouble();
-                    p2 = document["features"][counter]["properties"]["KM_E"].toDouble();
+//                    p1 = document["features"][counter]["properties"]["KM_A"].toDouble();
+                    p1 = (document["features"][counter]["properties"]["KM_A"].toString()).toDouble();
+                    qDebug()<< "Point1 : " <<p1;
+                    p2 = (document["features"][counter]["properties"]["KM_E"].toString()).toDouble();
+                    qDebug()<< "Point2 : " <<p2;
                     segmentExtremeKmVals.push_back(p1);
                     segmentExtremeKmVals.push_back(p2);
-
                 }
                 counter++;
-
             }
             setSegmentExtremeKmValues(segmentExtremeKmVals);
         }

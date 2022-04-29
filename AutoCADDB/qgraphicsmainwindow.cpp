@@ -22,13 +22,14 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
 
     tracks->setScene(scene);
     tracks->getMultiplierEffect();
+
     tracks->addGleiskanten();
     tracks->addHoehe();
     tracks->addKMline();
     tracks->addLage();
     tracks->addUberhohung();
     tracks->addGleisknoten();
-    //    tracks->addSymbol("");
+    tracks->addSignals(); // if using euxml and it's available
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
@@ -53,6 +54,11 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
 void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
 {
     tracks->setDrawGrids(checked);
+    qDebug()<< "SceneGeometry: "<<tracks->screen()->geometry();
+    qDebug()<< "SceneRect: "<<tracks->sceneRect();
+    qDebug()<< "SceneHeight: "<<tracks->scene()->height();
+    qDebug()<< "SceneWidth: "<<tracks->scene()->width();
+//    tracks->grab(scene->sceneRect().toRect());
 }
 
 void QGraphicsMainWindow::on_checkBoxGridLine2_clicked()
@@ -130,7 +136,6 @@ void QGraphicsMainWindow::on_checkBoxUHDP_toggled(bool checked)
 {
     tracks->setDrawUberhohungDP(checked);
 }
-
 
 void QGraphicsMainWindow::on_rortatebtn_clicked()
 {
