@@ -80,6 +80,7 @@ private slots:
     void on_grabBtn_toggled(bool checked);
 
     void on_grabBtn_2_clicked();
+    void onClicked_xml_json();
 
 private:
     Ui::MainWindow *ui;

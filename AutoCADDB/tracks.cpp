@@ -611,7 +611,6 @@ void Tracks::addSignals()
 {
     QFile file (projectPath+"/"+projectName+"/temp/Signal.dbahn");
     if (!file.exists()) return;
-    qDebug()<< "signal1";
 
     // Add Symbols/Signals -- only if KmLine data is available (Json)
     QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");

@@ -1204,8 +1204,15 @@ QPushButton:enabled { background-color: green; }</string>
     </widget>
     <addaction name="menuAccess_Data"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionXML_Json"/>
+   </widget>
    <addaction name="menuNew"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
    <addaction name="menuTools"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -1399,6 +1406,11 @@ QPushButton:enabled { background-color: green; }</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Y</string>
+   </property>
+  </action>
+  <action name="actionXML_Json">
+   <property name="text">
+    <string>XML_Json</string>
    </property>
   </action>
  </widget>
