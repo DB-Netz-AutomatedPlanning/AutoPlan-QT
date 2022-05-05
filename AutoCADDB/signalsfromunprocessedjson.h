@@ -1,23 +1,26 @@
-#ifndef SIGNALFROMUNPROCESSEDJSON_H
-#define SIGNALFROMUNPROCESSEDJSON_H
+#ifndef SIGNALSFROMUNPROCESSEDJSON_H
+#define SIGNALSFROMUNPROCESSEDJSON_H
 
 #include <QObject>
 #include <QJsonDocument>
 
-class SignalFromUnprocessedJson : public QObject
+class SignalsFromUnprocessedJson : public QObject
 {
     Q_OBJECT
 public:
-    explicit SignalFromUnprocessedJson(QObject *parent = nullptr, QString filePath = "", const QString &newFilePath= "");
+    explicit SignalsFromUnprocessedJson(QObject *parent = nullptr, QString filePath="", const QString &newFilePath ="");
     std::vector<QString> lookForCoord(QString currentRef);
-    void searchName();
+
+    std::vector<QString> searchID();
+    std::vector<QString> ownSignalTypes();
+    std::vector<QString> ownSignalFunction();
     void searchLocation();
     void searchLateralSideAndDirection();
     void createSignalJson();
     QJsonObject properties(std::vector<QString> name, std::vector<QString> direction, std::vector<QString> side, std::vector<QString> location, int index);
 
-    const std::vector<QString> &getName() const;
-    void setName(const std::vector<QString> &newName);
+//    const std::vector<QString> &getName() const;
+//    void setName(const std::vector<QString> &newName);
 
     const std::vector<QString> &getLocation() const;
     void setLocation(const std::vector<QString> &newLocation);
@@ -34,7 +37,7 @@ signals:
 private:
     QString filePath ="";
     QString newFilePath = "";
-    std::vector<QString> name;
+//    std::vector<QString> name;
     std::vector<QString> lateralSide;
     std::vector<QString> direction;
 //    std::vector<QString> endRef;
@@ -42,6 +45,7 @@ private:
 //    std::vector<QString> endValues;
 
     QJsonDocument document;
+
 };
 
-#endif // SIGNALFROMUNPROCESSEDJSON_H
+#endif // SIGNALSFROMUNPROCESSEDJSON_H

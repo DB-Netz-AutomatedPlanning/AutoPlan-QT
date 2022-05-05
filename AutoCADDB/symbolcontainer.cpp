@@ -28,7 +28,7 @@ bool rightPanelTable = false;
 // Open Progress Bar Dialogue for euxml
 bool isEuXml = false;
 int totalValue =0;
-int progressValue =2; // out of 8
+int progressValue =1; // out of 8
 
 
 

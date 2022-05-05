@@ -91,35 +91,6 @@ void NewProjectDialog::on_btnBrowseProjectPath_clicked()
 
 
 
-//void NewProjectDialog::btnBrowseProjectPath_clicked()
-//{
-//    if (ui->leEnterProjectName->text().isEmpty() || ui->leEnterProjectName->text().isNull()){
-//        QMessageBox::warning(this, "No Project Name", "Please Enter a Project Name");
-//        return;
-//    }
-
-//    QString filePath = QFileDialog::getExistingDirectory(this, ("Select Output Folder"), QDir::currentPath());
-
-//    if (QDir(filePath+"/"+ui->leEnterProjectName->text()).exists()){
-//        QMessageBox::StandardButton reply = QMessageBox::question(this, "Already Exist", "Project Name Already Exist... \n Did you want to override the project?");
-//        if (reply == QMessageBox::No){
-//            return;
-//        }
-//        else{
-//            QDir dir(filePath+"/"+ui->leEnterProjectName->text());
-//            dir.removeRecursively();
-//        }
-//    }
-//    ui->leEnterProjectPath->setText(filePath);
-
-//    if (ui->leEnterProjectPath->text().isNull() || ui->leEnterProjectPath->text().isEmpty()){
-//        ui->btnBrowseProjectData->setEnabled(false);
-//    }
-//    else  ui->btnBrowseProjectData->setEnabled(true);
-
-//}
-
-
 void NewProjectDialog::on_btnBrowseProjectData_clicked()
 {
     if (!QDir(ui->leEnterProjectPath->text()).exists()) {
@@ -340,7 +311,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         QString uhPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_UH.json";
         QString knotenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleisknoten.json";
         QString kmPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Entwurfselement_KM.json";
-//        QString sigPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Signal.json";
+        QString sigPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Signal.json";
 
         QFuture<void> kanten = QtConcurrent::run(runKanten, unprocessedFilePath, kantenPath);
         QFuture<void> lage = QtConcurrent::run(runLage, unprocessedFilePath, lagePath);
@@ -362,13 +333,13 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
                 return;
             }
         }
-//        QFuture<void> sig = QtConcurrent::run(runSignal, unprocessedFilePath, sigPath);
+        QFuture<void> sig = QtConcurrent::run(runSignal, unprocessedFilePath, sigPath);
         QFuture<void> uh = QtConcurrent::run(runUH, unprocessedFilePath, uhPath);
         QFuture<void> knoten = QtConcurrent::run(runKnoten, unprocessedFilePath, knotenPath);
         QFuture<void> km = QtConcurrent::run(runKMLinie, unprocessedFilePath, kmPath);
         progress->setValue(progressValue);
-//        sig.waitForFinished();
-//        progress->setValue(progressValue);
+        sig.waitForFinished();
+        progress->setValue(progressValue);
         uh.waitForFinished();
         progress->setValue(progressValue);
         knoten.waitForFinished();

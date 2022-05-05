@@ -15,6 +15,8 @@
 #include "exportdialog.h"
 #include "qgraphicsmainwindow.h"
 #include "qgraphicssymbolcontainer.h"
+#include "qjsonmodel.h"
+#include <QTreeView>
 #include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
@@ -84,6 +86,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionSave->setEnabled(false);
     ui->actionSave_As->setEnabled(false);
     ui->actionPrint->setEnabled(false);
+    ui->actionXML_Json->setEnabled(false);
+
 
 
 //    ui->f_headerTabs->setGeometry(0,0,100,100);
@@ -153,12 +157,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
     connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
     connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
-
+    connect(ui->actionXML_Json, SIGNAL(triggered()), this, SLOT(onClicked_xml_json()));
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
 
     // ui->widget_147->hide();
     ui->widget_146->hide();
-
     ui->tabWidget_2->setCurrentIndex(0);
 
     //Left area for symbol information
@@ -179,7 +182,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::setObjNameTW(QString str){
-
 
     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(str));
     ui->tableWidget->setItem(0, 1, newItem1);
@@ -318,6 +320,8 @@ void MainWindow::on_actionOpen_triggered()
     ui->actionSave->setEnabled(true);
     ui->actionSave_As->setEnabled(true);
     ui->actionPrint->setEnabled(true);
+    if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
+    else ui->actionXML_Json->setEnabled(false);   // to fix the condition if .euxml has previously been opened
 }
 
 
@@ -360,7 +364,7 @@ void MainWindow::on_actionSave_triggered()
 
     file2.write(bytes);
     file2.close();
-    // Interraction: Display an indicator ro the user on statuc bar to show that file is being saved
+    // Interraction: Display an indicator to the user on status bar to show that file is being saved
     ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:rgba(0,185,0,150);color:black;font-weight:bold;}");
     ui->statusbar->showMessage("Project saving in progress. . . ", 5000);
 //    QTimer::singleShot(5000, [this]{ui->statusbar->setStyleSheet("color: black");});
@@ -781,6 +785,8 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         ui->actionSave->setEnabled(true);
         ui->actionSave_As->setEnabled(true);
         ui->actionPrint->setEnabled(true);
+        if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
+        else ui->actionXML_Json->setEnabled(false);
     }
 }
 
@@ -810,6 +816,32 @@ void MainWindow::on_grabBtn_2_clicked()
         isChecked = !isChecked;
         ui->grabBtn_2->setStyleSheet("QPushButton { background-color: green; border:none; }");
     }
+}
+
+void MainWindow::onClicked_xml_json()
+{
+    QTreeView * view   = new QTreeView;
+    QJsonModel * model = new QJsonModel;
+
+    view->setModel(model);
+//    view->setColumnWidth(0, 100);
+    view->setFont(QFont("Helvetica [Cronyx]", 10));
+    view->header()->setDefaultAlignment(Qt::AlignHCenter);
+    QFile file (projectPath +"/"+ projectName + "/temp2/UnprocessedJson.json");
+    if (!file.exists()){
+        qInfo() << "XML_JSON: File Not exist ... Also check that you've entered correct file name";
+        QMessageBox::information(this, "EULYNX Object Not Found", "EULYNX XML to be converted Not Found !");
+        return;
+    }
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        qInfo()<< "XML_JSON: " << file.errorString();
+        return;
+    }
+    QByteArray json = file.readAll();
+    model->loadJson(json);
+    view->show();
+//    QByteArray mjson = model->json();
+//    qDebug() << mjson;
 }
 
 

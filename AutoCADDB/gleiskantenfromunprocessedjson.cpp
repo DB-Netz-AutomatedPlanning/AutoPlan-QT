@@ -34,7 +34,6 @@ void GleiskantenFromUnprocessedJson::searchNameAndID()
     std::vector<QString> name;
     std::vector<QString> id;
     int i=0;
-
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i].isUndefined()){
 
         QString currentName = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i]["name"].toString();
@@ -435,7 +434,6 @@ void GleiskantenFromUnprocessedJson::createJson()
         qDebug()<< "Progress : " << progressValue;
         return;
     }
-
     QJsonObject content;
     content.insert("type", "FeatureCollection");
     content.insert("name", "Gleiskanten");

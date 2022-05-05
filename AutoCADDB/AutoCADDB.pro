@@ -39,9 +39,11 @@ SOURCES += \
     previeweulynxxml.cpp \
     qgraphicsmainwindow.cpp \
     qgraphicssymbolcontainer.cpp \
+    qjsonmodel.cpp \
     readeulynxsignals.cpp \
     removedata.cpp \
     signalfromunprocessedjson.cpp \
+    signalsfromunprocessedjson.cpp \
     svgdialogview.cpp \
     symbolcontainer.cpp \
     symbolinformation.cpp \
@@ -78,9 +80,11 @@ HEADERS += \
     previeweulynxxml.h \
     qgraphicsmainwindow.h \
     qgraphicssymbolcontainer.h \
+    qjsonmodel.h \
     readeulynxsignals.h \
     removedata.h \
     signalfromunprocessedjson.h \
+    signalsfromunprocessedjson.h \
     svgdialogview.h \
     symbolcontainer.h \
     symbolinformation.h \
