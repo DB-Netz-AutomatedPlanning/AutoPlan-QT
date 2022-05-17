@@ -1132,8 +1132,21 @@ QPushButton:enabled { background-color: green; }</string>
           </size>
          </property>
          <layout class="QGridLayout" name="gridLayout_70">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblTrackName">
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0">
            <widget class="QTableWidget" name="tableWidget_2">
+            <property name="dragEnabled">
+             <bool>true</bool>
+            </property>
+            <property name="dragDropMode">
+             <enum>QAbstractItemView::DragDrop</enum>
+            </property>
             <column>
              <property name="text">
               <string>Object</string>
@@ -1144,13 +1157,6 @@ QPushButton:enabled { background-color: green; }</string>
               <string>Properties</string>
              </property>
             </column>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="lblTrackName">
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
            </widget>
           </item>
          </layout>
@@ -1189,6 +1195,8 @@ QPushButton:enabled { background-color: green; }</string>
     </property>
     <addaction name="actionUndo_2"/>
     <addaction name="actionRedo_2"/>
+    <addaction name="actionDelete_Items"/>
+    <addaction name="actionSelection_Mode"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -1411,6 +1419,22 @@ QPushButton:enabled { background-color: green; }</string>
   <action name="actionXML_Json">
    <property name="text">
     <string>XML_Json</string>
+   </property>
+  </action>
+  <action name="actionDelete_Items">
+   <property name="text">
+    <string>Delete Items</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Delete all selected items&lt;br/&gt;Note: Track elements cannot be removed &lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionSelection_Mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Selection Mode</string>
    </property>
   </action>
  </widget>

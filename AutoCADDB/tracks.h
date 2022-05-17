@@ -7,6 +7,9 @@
 #include <QHoverEvent>
 #include <QGraphicsSvgItem>
 #include <QDataStream>
+#include <QGraphicsTextItem>
+#include <QTextCursor>
+
 
 class Tracks : public QGraphicsView
 {
@@ -36,6 +39,7 @@ public:
                            QString orientation, QString direction);
     void getSegementObjects();
     bool isTrack(QString name);
+    void deleteSelectedItems();
 
 
     void deleteAll();
@@ -130,6 +134,10 @@ private:
     QGraphicsPathItem *uberhohungDP_Parent;
     QGraphicsPathItem *gleisknotenDP_Parent;
 
+    QGraphicsTextItem *textItem;
+//    QGraphicsTextItem *textItem;
+    QTextCursor cursor;
+
     void multiplierEffect(float x, float y);
 //    void currentPos(QHoverEvent *hoverEvent);
 
@@ -178,11 +186,9 @@ public:
 
 protected:
     void wheelEvent(QWheelEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event)override;
+//    void keyPressEvent(QKeyEvent *event) override;
 
-    // QWidget interface
-//protected:
-//   void mousePressEvent(QMouseEvent *event) override;
 };
 
 

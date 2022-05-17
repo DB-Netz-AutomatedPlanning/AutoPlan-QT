@@ -99,67 +99,6 @@ std::vector<QString> KmLinieFromUnprocessedJson::lookForCoord(QString currentRef
 {
     std::vector <QString> values;
 
-//    for (int i=0; i<50; i++){
-//        int k =i;
-//        while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//               ["usesPositioningSystemCoordinate"][k].isUndefined()){
-//            QString current = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                    ["usesPositioningSystemCoordinate"][k]["id"].toString();
-//            if (current == currentRef){
-//                if(!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                        ["usesPositioningSystemCoordinate"][k]["measure"].isUndefined()){
-//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                            ["usesPositioningSystemCoordinate"][k]["measure"].isString()){
-//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                                ["usesPositioningSystemCoordinate"][k]["measure"].toString());
-//                    } else {
-//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                                ["usesPositioningSystemCoordinate"][k]["measure"].toDouble()));
-//                    }
-//                } else {
-//                    // x- axis
-//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                            ["usesPositioningSystemCoordinate"][k]["x"].isString()){
-//                        //                    qDebug() <<"String:"<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                        //                            ["usesPositioningSystemCoordinate"][j]["x"].toString();
-//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                                ["usesPositioningSystemCoordinate"][k]["x"].toString());
-//                    } else {
-//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                                ["usesPositioningSystemCoordinate"][k]["x"].toDouble(), 'f', 8));
-//                        //                    qDebug()<< "Double: "<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                        //                            ["usesPositioningSystemCoordinate"][j]["x"].toDouble();
-//                    }
-
-//                    // y-axis
-//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                            ["usesPositioningSystemCoordinate"][k]["y"].isString()){
-//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                                ["usesPositioningSystemCoordinate"][k]["y"].toString());
-//                    } else {
-//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                                ["usesPositioningSystemCoordinate"][k]["y"].toDouble(), 'f', 8));
-//                    }
-
-//                    // z-axis
-//                    if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                            ["usesPositioningSystemCoordinate"][k]["z"].isString()){
-//                        values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                                ["usesPositioningSystemCoordinate"][k]["z"].toString());
-//                    } else {
-//                        values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-//                                ["usesPositioningSystemCoordinate"][k]["z"].toDouble(), 'f', 8));
-//                    }
-//                }
-//                return values;
-
-//            }
-//        k = k+50;
-//        }
-//    }
-//    return values;
-
-
     int j =0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
            ["usesPositioningSystemCoordinate"][j].isUndefined()) {
@@ -179,20 +118,15 @@ std::vector<QString> KmLinieFromUnprocessedJson::lookForCoord(QString currentRef
                     values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                             ["usesPositioningSystemCoordinate"][j]["measure"].toDouble()));
                 }
-
             } else {
                 // x- axis
                 if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                         ["usesPositioningSystemCoordinate"][j]["x"].isString()){
-                    //                    qDebug() <<"String:"<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-                    //                            ["usesPositioningSystemCoordinate"][j]["x"].toString();
                     values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                             ["usesPositioningSystemCoordinate"][j]["x"].toString());
                 } else {
                     values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                             ["usesPositioningSystemCoordinate"][j]["x"].toDouble(), 'f', 8));
-                    //                    qDebug()<< "Double: "<< document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-                    //                            ["usesPositioningSystemCoordinate"][j]["x"].toDouble();
                 }
 
                 // y-axis
@@ -230,13 +164,6 @@ std::vector<std::vector<double> > KmLinieFromUnprocessedJson::arrayOfCoordinates
     qDebug()<< "Look up -- for KMLinie . . . ";
     std::vector<std::vector<double> > allCoord;
 
-//    int segmentCount=0;
-//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][segmentCount].isUndefined()){
-//        segmentCount++;
-//    }
-//    totalValue+=segmentCount;
-//    qDebug()<< "TOTALFROM_KM" << totalValue;
-
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i].isUndefined()){
         QString name = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i]["name"].toString();
@@ -256,10 +183,6 @@ std::vector<std::vector<double> > KmLinieFromUnprocessedJson::arrayOfCoordinates
                 segmentData.push_back(coordValue[2].toDouble());
                 j++;
             }
-//            progressValue++;
-//            qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
-//            qDebug()<< "KMLinie processing. . . "<< i << " of "<<segmentCount;
-
             allCoord.push_back(segmentData);
         }
         i++;

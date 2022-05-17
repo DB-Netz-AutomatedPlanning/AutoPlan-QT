@@ -23,7 +23,6 @@ HOFromUnprocessedJson::HOFromUnprocessedJson(QObject *parent, QString filePath, 
     }
     QString allData = file.readAll();
     file.close();
-
     document = QJsonDocument::fromJson(allData.toUtf8());
 }
 
@@ -33,7 +32,6 @@ void HOFromUnprocessedJson::searchNameAndID()
     std::vector<QString> name;
     std::vector<QString> id;
     int i=0;
-
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesVerticalAlignmentSegment"][i].isUndefined()){
         try {
             id.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesVerticalAlignmentSegment"][i]["id"].toString());
