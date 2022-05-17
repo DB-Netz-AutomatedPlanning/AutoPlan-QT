@@ -849,3 +849,18 @@ void MainWindow::on_grabBtn_toggled(bool checked)
 {
     Q_UNUSED(checked);
 }
+
+void MainWindow::on_actionDelete_Items_triggered()
+{
+    if (projectName.isNull() || projectPath.isNull() || ui->tabWidget_2->tabBar()->count() <1)QMessageBox::warning(this, "Project Not Found", "No active projet found !!");
+    else tracks->deleteSelectedItems();
+}
+
+
+void MainWindow::on_actionSelection_Mode_toggled(bool arg1)
+{
+    if (arg1) tracks->setDragMode(QGraphicsView::RubberBandDrag);
+    else tracks->setDragMode(QGraphicsView::NoDrag);
+    tracks->setInteractive(true);
+}
+

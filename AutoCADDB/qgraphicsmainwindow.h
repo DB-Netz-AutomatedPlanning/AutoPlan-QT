@@ -53,15 +53,17 @@ private slots:
 
     void on_checkBoxKnotenDP_toggled(bool checked);
 
+    void on_spinBox_RotateView_valueChanged(int arg1);
+
 private:
     Ui::QGraphicsMainWindow *ui;
     QGraphicsScene *scene;
+    int rotation_angle;
 
 
 //protected slots:
 //     void wheelEvent(QWheelEvent *event);
 //     void keyPressEvent(QKeyEvent *event);
-
 };
 
 #endif // QGRAPHICSMAINWINDOW_H

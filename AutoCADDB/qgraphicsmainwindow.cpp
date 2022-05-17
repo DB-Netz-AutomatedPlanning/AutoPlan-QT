@@ -8,13 +8,14 @@
 
 QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::QGraphicsMainWindow)
+    ui(new Ui::QGraphicsMainWindow), rotation_angle(0)
 {
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
     tracks = new Tracks(this);
     tracks->setBoolParameters();
     tracks->getUpdateRect();
+
 
     scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],
             tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
@@ -152,3 +153,11 @@ void QGraphicsMainWindow::on_checkBoxKnotenDP_toggled(bool checked)
     tracks->setDrawGleisknotenDP(checked);
 }
 
+void QGraphicsMainWindow::on_spinBox_RotateView_valueChanged(int arg1)
+{
+
+    if((arg1 - rotation_angle) > 0) tracks->rotate(10);
+    else if((arg1 - rotation_angle) < 0) tracks->rotate(-10);
+
+    rotation_angle = arg1;
+}

@@ -75,12 +75,16 @@ private slots:
     void on_pushButton_77_clicked();
     void on_exportBtnPlan_clicked();
     void on_btnSymbol_clicked();
-    void closeEvent (QCloseEvent *event);
+    void closeEvent (QCloseEvent *event) override;
     //void on_grabBtn_clicked();
     void on_grabBtn_toggled(bool checked);
 
     void on_grabBtn_2_clicked();
     void onClicked_xml_json();
+
+    void on_actionDelete_Items_triggered();
+
+    void on_actionSelection_Mode_toggled(bool arg1);
 
 private:
     Ui::MainWindow *ui;

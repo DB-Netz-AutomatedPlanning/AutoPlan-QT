@@ -271,7 +271,6 @@ bool QJsonModel::load(QIODevice *device)
 bool QJsonModel::loadJson(const QByteArray &json)
 {
     auto const& jdoc = QJsonDocument::fromJson(json);
-
     if (!jdoc.isNull())
     {
         beginResetModel();

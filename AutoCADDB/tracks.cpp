@@ -16,6 +16,8 @@
 #include <QHoverEvent>
 #include <QGraphicsSceneHoverEvent>
 #include <QFlags>
+#include <QInputDialog>
+//#include <QGraphicsTextItem>
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
@@ -24,7 +26,7 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    scale(1, -1);   
+    scale(1, -1);
     setMouseTracking(true);
 }
 
@@ -899,7 +901,6 @@ void Tracks::setDragModeMouse()
         setDragMode(QGraphicsView::ScrollHandDrag);
         setInteractive(false);
         setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-
     }
     else {
         setDragMode(QGraphicsView::NoDrag);
@@ -1154,35 +1155,47 @@ void Tracks::wheelEvent(QWheelEvent *event)
     }
 }
 
-void Tracks::keyPressEvent(QKeyEvent *event)
-{
-    if(event->key() == Qt::Key_Left) rotate(1);
-    else if(event->key() == Qt::Key_Right) rotate(-1);
+//void Tracks::keyPressEvent(QKeyEvent *event)
+//{
+//    if(event->key() == Qt::Key_Left) rotate(1);
+//    else if(event->key() == Qt::Key_Right) rotate(-1);
 
-    if((event->key() == Qt::Key_Delete))
-    {
-//        foreach (QGraphicsItem *item, scene()->items()) {
+//    if((event->key() == Qt::Key_Delete))
+//    {
+//        foreach (QGraphicsItem *item, scene()->selectedItems()) {
 //            QString toolTip = item->toolTip();
+
 //            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
 //            qInfo() << breakToolTip[0];
 //            if(breakToolTip[0].isEmpty()){
-//                qDebug()<< "Position: "<< item->pos();
-//                item->moveBy(30,30);
+//                scene()->removeItem(item);
+//                delete item;
 //            }
 //        }
-        foreach (QGraphicsItem *item, scene()->selectedItems()) {
-            QString toolTip = item->toolTip();
+//    }
+//}
 
-            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
-            qInfo() << breakToolTip[0];
-            if(breakToolTip[0].isEmpty()){
-                scene()->removeItem(item);
-                delete item;
-            }else{
-            }
-        }
-    }
+void Tracks::mouseDoubleClickEvent(QMouseEvent *event)
+{
+    const QPointF &pos = mapToScene(event->pos());
+    bool ok;
+    QString enteredText = QInputDialog::getText(this, tr("APlan"),
+                           tr("Please enter your text"), QLineEdit::Normal, "Text Here", &ok);
+    if (!ok || enteredText.isEmpty() || enteredText == "Text Here") return;
+
+    textItem = scene()->addText(enteredText);
+    QTransform transform;
+    transform.scale(1,-1);
+
+    textItem->setPos(pos);
+    textItem->setTransform(transform);
+    textItem->setDefaultTextColor("blue");
+//    textItem = scene()->addText("");
+//    textItem->setPos(pos);
+    textItem->setTextInteractionFlags(Qt::TextEditorInteraction | Qt::TextEditable );
+    textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable | textItem->flags());
 }
+
 
 
 //void Tracks::mousePressEvent(QMouseEvent *event)
@@ -1203,8 +1216,6 @@ void Tracks::keyPressEvent(QKeyEvent *event)
 
 //    qDebug()<< "X : " << getXCoord();
 //    qDebug()<< "Y : " << getYCoord();
-
-
 //}
 
 const QVector<float> &Tracks::getUsedRect() const
@@ -1569,7 +1580,21 @@ bool Tracks::isTrack(QString name)
 //    } else {
 ////        rightPanelTable = !rightPanelTable;
 //        return rightPanelTable;
-//    }
+    //    }
+}
+
+// Only items that is not from the data can be deleted.
+void Tracks::deleteSelectedItems()
+{
+    foreach (QGraphicsItem *item, scene()->selectedItems()) {
+        QString toolTip = item->toolTip();
+        scene()->itemsBoundingRect();
+        QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+        if(breakToolTip[0].isEmpty()){
+            scene()->removeItem(item);
+            delete item;
+        }
+    }
 }
 
 
