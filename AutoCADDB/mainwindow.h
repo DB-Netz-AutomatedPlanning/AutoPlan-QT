@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "qgraphicsmainwindow.h"
+#include "qgraphicssymbolcontainer.h"
 #include <QMainWindow>
 #include <QWidget>
 #include <QSlider>
@@ -10,6 +11,7 @@
 #include <QPrinter>
 #include <QPushButton>
 #include <QMouseEvent>
+#include <QTableWidget>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -66,6 +68,9 @@ private slots:
     void planningFnt();
     void addTab();
     void onNewProjectClicked();
+    void setActionMenus(bool activate);
+    void writeSettings();
+    void readSettings();
 
     void on_actionAdd_Data_triggered();
     void on_actionPreview_Data_triggered();
@@ -86,6 +91,14 @@ private slots:
 
     void on_actionSelection_Mode_toggled(bool arg1);
 
+    // Right click (Context Menu)
+    void showContextMenu(QPoint pos);
+
+    void createDock();
+    void createSignalObjects();
+
+    void on_actionPlanning_Tab_toggled(bool arg1);
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;
@@ -94,6 +107,7 @@ private:
     QString readFile;
     MyOpenglWidget *scribbleArea;
     MyOpenglWidget *sc;
+    QMenu *viewDockSubMenu;
 
     bool saveFile(const QByteArray &fileFormat);
     bool maybeSave();
@@ -103,6 +117,11 @@ private:
     QString fileName;
     QString *clickedBtnName ;
     QPushButton *btnSender;
+    QTableWidget *table;
+    QDockWidget *dock1;
+    QDockWidget *dock2;
+    bool dockWidgetCreated;
+    QGraphicsSymbolContainer *svgDialog;
 
 
 protected:

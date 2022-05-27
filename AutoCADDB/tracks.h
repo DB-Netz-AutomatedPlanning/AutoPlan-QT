@@ -40,6 +40,7 @@ public:
     void getSegementObjects();
     bool isTrack(QString name);
     void deleteSelectedItems();
+//    void darkMode();
 
 
     void deleteAll();
@@ -49,6 +50,7 @@ public:
     void getMultiplierEffect();   // most inportant function for setting the multiplier
     void getUpdateRect ();
     int getMultiplierValue() const;
+//    void showContextMenu(QPoint pos);
 
     void setMultiplierValue(int newMultiplierValue);
 
@@ -113,6 +115,9 @@ public:
 //    void currentPos();
    // void mousePressEvent(QMouseEvent *event);
 public slots:
+    void darkMode();
+    void showContextMenu(QPoint pos);
+
     // void mousePressEvent(QMouseEvent *event);
 
 signals:
@@ -187,8 +192,12 @@ public:
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event)override;
-//    void keyPressEvent(QKeyEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
+
+    // QWidget interface
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
 };
 
 

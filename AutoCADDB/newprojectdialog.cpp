@@ -284,13 +284,14 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         csharp.waitForBytesWritten(1000);
 
         csharp.closeWriteChannel();
-        if(!csharp.waitForFinished(10000)) {
-            // Giving maximum of 10 seconds to execute the program
-            qInfo() << "The program is taking too long to close the Channel";
-            QMessageBox::warning(this, "Warning", "The program is taking too long to execute\n ... "
-                                                  "the channel has been terminated");
-            return;
-        }
+        csharp.waitForFinished();
+//        if(!csharp.waitForFinished(10000)) {
+//            // Giving maximum of 10 seconds to execute the program
+//            qInfo() << "The program is taking too long to close the Channel";
+//            QMessageBox::warning(this, "Warning", "The program is taking too long to execute\n ... "
+//                                                  "the channel has been terminated");
+//            return;
+//        }
         unprocessedFilePath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/UnprocessedJson.json";
 
         if (!QFile::exists(unprocessedFilePath)){

@@ -16,6 +16,7 @@
 #include "qgraphicsmainwindow.h"
 #include "qgraphicssymbolcontainer.h"
 #include "qjsonmodel.h"
+#include "signalsfromunprocessedjson.h"
 #include <QTreeView>
 #include <QComboBox>
 #include<QDebug>
@@ -28,7 +29,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-#include <QTableWidget>
 #include <QOpenGLWidget>
 #include <QColorDialog>
 #include <QInputDialog>
@@ -41,6 +41,7 @@
 #include <QCloseEvent>
 #include <QSvgGenerator>
 #include <QPainterPath>
+#include <QHeaderView>
 
 #include <QPainter>
 #include <QPrinter>
@@ -72,22 +73,26 @@ bool isChecked = true;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-
 {
     scribbleArea= new MyOpenglWidget(this);
     setCentralWidget(scribbleArea);
     ui->setupUi(this);
     ui->toolBar->setIconSize(QSize(16, 16));
 
+    //Context Menu
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(showContextMenu(QPoint)));
+    viewDockSubMenu = ui->menuView->addMenu(tr("Object Parameters"));
+
     hideMenuBar = false;
     hideFileTab = false;
     hideTabView = false;
+    dockWidgetCreated = false;
 
-    ui->actionSave->setEnabled(false);
-    ui->actionSave_As->setEnabled(false);
-    ui->actionPrint->setEnabled(false);
-    ui->actionXML_Json->setEnabled(false);
-
+    setActionMenus(false);
+    readSettings();
+    createDock();
 
 
 //    ui->f_headerTabs->setGeometry(0,0,100,100);
@@ -159,6 +164,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
     connect(ui->actionXML_Json, SIGNAL(triggered()), this, SLOT(onClicked_xml_json()));
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
+
+//    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
 
     // ui->widget_147->hide();
     ui->widget_146->hide();
@@ -243,14 +250,23 @@ void MainWindow::closeTab(int index)
     if (index ==0 && isFirstTab){
         isFirstTab = false;
         delete ui->tabWidget_2->widget(index);
+        setActionMenus(false);
         return;
     }
-//    ui->tabWidget_2->currentIndex();
     QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Attempt!", "Are you sure? ... \n Unsaved progress would be lost");
     if (reply == QMessageBox::No){
         return;
-    } else if (reply == QMessageBox::Yes) delete ui->tabWidget_2->widget(index);
+    } else if (reply == QMessageBox::Yes) {
+        delete ui->tabWidget_2->widget(index);
+        setActionMenus(false);
+    }
+    if (dockWidgetCreated) {
+        viewDockSubMenu->removeAction(dock1->toggleViewAction());
+        viewDockSubMenu->removeAction(dock2->toggleViewAction());
+        dockWidgetCreated = !dockWidgetCreated;
+    }
 }
+
 
 void MainWindow::on_actionOpen_triggered()
 {
@@ -258,7 +274,6 @@ void MainWindow::on_actionOpen_triggered()
              !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){ //     ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != ""){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Attempt!", "Did you want to save your project ? ... \n  Unsaved progress would be lost",
                                                                     QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
-
         if (reply == QMessageBox::Yes){
             on_actionSave_triggered();
 //            delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
@@ -315,6 +330,7 @@ void MainWindow::on_actionOpen_triggered()
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     addTab();   // for legacy data
     tracks->ReadOperator(selectedFile); // for symbols
+    readSettings();
 
     // Enable Save, SaveAs, and Print button
     ui->actionSave->setEnabled(true);
@@ -322,6 +338,15 @@ void MainWindow::on_actionOpen_triggered()
     ui->actionPrint->setEnabled(true);
     if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
     else ui->actionXML_Json->setEnabled(false);   // to fix the condition if .euxml has previously been opened
+    // Create dock widget
+    if (dockWidgetCreated) {
+        viewDockSubMenu->removeAction(dock1->toggleViewAction());
+        viewDockSubMenu->removeAction(dock2->toggleViewAction());
+        dock2->close();
+        dock1->close();
+        dockWidgetCreated = !dockWidgetCreated;
+    }
+    createDock();
 }
 
 
@@ -364,10 +389,10 @@ void MainWindow::on_actionSave_triggered()
 
     file2.write(bytes);
     file2.close();
+    writeSettings();
     // Interraction: Display an indicator to the user on status bar to show that file is being saved
     ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:rgba(0,185,0,150);color:black;font-weight:bold;}");
     ui->statusbar->showMessage("Project saving in progress. . . ", 5000);
-//    QTimer::singleShot(5000, [this]{ui->statusbar->setStyleSheet("color: black");});
     QTimer::singleShot(4500, [this]{ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:"
                                                                  "rgba(0,0,0,0);color:black;font-weight:bold;}");});
 }
@@ -599,20 +624,6 @@ void MainWindow::exportToPicture()
     //image.save(s, "PNG");
     //QApplication::restoreOverrideCursor();
     //}
-
-
-    //------------------------------------------------------------
-
-    // Condition needs to be modified as soon as other version is available
-    // if (ui->comboBox_30->currentText() != "Eulynx"){
-    //   QMessageBox::warning(this, "File Format", "Selected format '"+ui->comboBox_30->currentText()+"' is currently not available");
-
-    //}
-    //else{
-    //  ExportDialog exportDialog;
-    //exportDialog.setModal(true);
-    //exportDialog.exec();
-    //}
 }
 
 void MainWindow::planningFnt()
@@ -717,10 +728,41 @@ void MainWindow::onNewProjectClicked()
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
-
+    if (dockWidgetCreated) {
+        viewDockSubMenu->removeAction(dock1->toggleViewAction());
+        dock1->close();
+        viewDockSubMenu->removeAction(dock2->toggleViewAction());
+        dock2->close();
+        dockWidgetCreated = !dockWidgetCreated;
+    }
     NewProjectDialog newProjDialog;
     newProjDialog.setModal(true);
     newProjDialog.exec();
+    readSettings();
+    createDock();
+}
+
+void MainWindow::setActionMenus(bool activate)
+{
+    ui->actionSave->setEnabled(activate);
+    ui->actionSave_As->setEnabled(activate);
+    ui->actionPrint->setEnabled(activate);
+    ui->actionXML_Json->setEnabled(activate);
+    viewDockSubMenu->setEnabled(activate);
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings ("DB_Netz", "APlan");
+    settings.setValue("geometry",saveGeometry());
+    settings.setValue("windowState", saveState());
+}
+
+void MainWindow::readSettings()
+{
+    QSettings settings ("DB_Netz", "APlan");
+    restoreGeometry(settings.value("geometry").toByteArray());
+    restoreState(settings.value("windowState").toByteArray());
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
@@ -736,6 +778,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
         } else if (resBtn == QMessageBox::Yes) {
             on_actionSave_triggered();
             event->accept();
+            writeSettings();
             QCoreApplication::quit();
         } else if (resBtn == QMessageBox::Cancel){
             event->ignore();
@@ -780,6 +823,7 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
     if(createNewProject){
         createNewProject = false;
         addTab();
+        createDock();
 
         // Enable Save, SaveAs, and Print button
         ui->actionSave->setEnabled(true);
@@ -862,5 +906,119 @@ void MainWindow::on_actionSelection_Mode_toggled(bool arg1)
     if (arg1) tracks->setDragMode(QGraphicsView::RubberBandDrag);
     else tracks->setDragMode(QGraphicsView::NoDrag);
     tracks->setInteractive(true);
+}
+
+void MainWindow::showContextMenu(QPoint pos)
+{
+    QMenu contextMenu(tr("Context menu"), this);
+
+    QAction action1("Save", this);
+    connect(&action1, SIGNAL(triggered()), this, SLOT(on_actionSave_triggered()));
+    contextMenu.addAction(&action1);
+
+    QAction action2("Open", this);
+    connect(&action2, SIGNAL(triggered()), this, SLOT(on_actionOpen_triggered()));
+    contextMenu.addAction(&action2);
+
+    contextMenu.exec(mapToGlobal(pos));
+}
+
+void MainWindow::createDock()
+{
+//    if (dockWidgetCreated) {
+//        createSignalObjects();
+//        return;
+//    }
+//    QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
+//    QFile file (filePath);
+//    if(!file.exists()) {
+//        qDebug()<< "UnprocessedJson not exist";
+//        viewDockSubMenu->setEnabled(false);
+//        return;
+//    }
+    createSignalObjects();
+    dock1 = new QDockWidget(tr("Signal Object Info ("+projectName.toLocal8Bit()+")"), this);
+    dock1->setObjectName("Signal Object Info");
+    dock1->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+    dock1->setWidget(table);
+
+    svgDialog = new QGraphicsSymbolContainer(this);
+    dock2 = new QDockWidget(tr("Symbols"));
+    dock2->setObjectName("Signal Symbols");
+    dock2->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    dock2->setWidget(svgDialog);
+
+    if (!dockWidgetCreated) {
+        addDockWidget(Qt::BottomDockWidgetArea,dock1);
+        viewDockSubMenu->addAction(dock1->toggleViewAction());
+        addDockWidget(Qt::RightDockWidgetArea, dock2);
+        viewDockSubMenu->addAction(dock2->toggleViewAction());
+        dockWidgetCreated = !dockWidgetCreated;
+    }
+    viewDockSubMenu->setEnabled(true);
+}
+
+void MainWindow::createSignalObjects()
+{
+    QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
+    QFile file (filePath);
+    if(!file.exists()) {
+//        viewDockSubMenu->setEnabled(false);
+        table = new QTableWidget(this);
+        table->setColumnCount(8);
+        table->setRowCount(2);
+
+        QStringList horizontalLabel;
+    //    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
+        horizontalLabel << "DB Signal Type" << "DB Signal Function" << "Lateral Side" << "Direction" << "Linear Coordinate" << "XCoord" << "YCoord " << "ZCoord";
+        table->setHorizontalHeaderLabels(horizontalLabel);
+        for (int i=0; i< 2; i++){
+            for (int j=0; j < 8; j++){
+                QTableWidgetItem *itemKey = new QTableWidgetItem(0);
+                itemKey->setTextAlignment(Qt::AlignCenter);
+                table->setItem(i,j, itemKey);
+            }
+        }
+        return;
+    }
+    SignalsFromUnprocessedJson *signal = new SignalsFromUnprocessedJson(nullptr, filePath); //D:/Users/BKU/OlatunjiAjala/Documents/pdf/new2/temp2/UnprocessedJson.json  ; D:/Users/BKU/OlatunjiAjala/Documents/pdf/ETCS/temp2/UnprocessedJson.json
+    std::vector< std::vector<QString>> allSignals = signal->signalInfos();
+
+    table = new QTableWidget(this);
+    table->setColumnCount(8);
+    table->setRowCount((int)allSignals.size());
+
+    QStringList horizontalLabel;
+//    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
+    horizontalLabel << "DB Signal Type" << "DB Signal Function" << "Lateral Side" << "Direction" << "Linear Coordinate" << "XCoord" << "YCoord " << "ZCoord";
+    table->setHorizontalHeaderLabels(horizontalLabel);
+
+    for (int i=0; i< (int)allSignals.size(); i++){
+        for (int j=0; j < 8; j++){
+            QTableWidgetItem *itemKey = new QTableWidgetItem(allSignals.at(i)[j]);
+            itemKey->setTextAlignment(Qt::AlignCenter);
+            table->setItem(i,j, itemKey);
+        }
+    }
+    table->horizontalHeader()->setVisible(true);
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    table->setAlternatingRowColors(true);
+    table->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    table->setTextElideMode(Qt::ElideRight);
+
+    table->setShowGrid(true);
+    table->setGridStyle(Qt::DotLine);
+    table->setSortingEnabled(true);
+    table->setCornerButtonEnabled(true);
+//    table->horizontalHeader()->setStretchLastSection(true);
+}
+
+// Function to show/hide entire tabWidget
+void MainWindow::on_actionPlanning_Tab_toggled(bool arg1)
+{
+    if (!arg1) ui->tabWidget->hide();
+    else ui->tabWidget->show();
 }
 

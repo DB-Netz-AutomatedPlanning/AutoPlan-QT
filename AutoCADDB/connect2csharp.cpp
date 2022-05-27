@@ -86,11 +86,13 @@ void Connect2CSharp::cSharp()
         csharp.waitForBytesWritten(1000);
 
         csharp.closeWriteChannel();
-        if(!csharp.waitForFinished(15000)) {
+
+        if(!csharp.waitForFinished(25000)) {
             // Giving maximum of 15 seconds to execute the program
             qInfo() << "The program is taking too long to close the Channel";
             return;
         }
+
 
         QByteArray result = csharp.readAll();
 
