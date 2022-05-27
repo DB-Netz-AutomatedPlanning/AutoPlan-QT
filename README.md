@@ -4,9 +4,7 @@
 ---
 
 #### A-Plan intends to create an open-source, powerful, and sustainable planning tool which can be used inside or outside the organization by providing European standards data exchange format based on EULYNX!
-
 ![Conda](https://img.shields.io/conda/pn/conda-forge/python?color=green)
-
 
 ---
 
@@ -25,6 +23,8 @@
 [- Contributions (Developers Only)](#contribution-(developers-only))
 
 [- Release Version](#release-version)
+
+[ - Report Issue(s)](#report-issues)
 
 
 ---
@@ -60,7 +60,7 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ### Installation
 
 1. Access the downloadable .exe file with all dependencies [Here](https://github.com/DB-Netz-AutomatedPlanning/AutoPlan-QT/releases)
-2. **Click** on "Assets" and download the APlan folder only
+2. **Click** on "Assets" and download the **"APlan v1.0.0"** folder only
 3. Unzip the downloaded folder; locate and launch "AutoCADDB.exe" 
 
 ---
@@ -76,7 +76,8 @@ IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ---
 
 ### User Guide
-From the Release folder "A-Plan" >> doc >> User Guide
+- Locating New User Documentation
+From the Release folder "APlan v1.0.0" >> doc >> User Guide
 
 <img width="416" alt="userGuideLocation" src="https://user-images.githubusercontent.com/56730691/154340143-861c6e7f-e9f0-4d8b-81d1-3ebcfac3bad9.PNG">
 
@@ -91,6 +92,18 @@ From the Release folder "A-Plan" >> doc >> User Guide
 
 ### Release Version
 
-* v.1.0.0
-* Date: 02.18.2022
+* v.1.0.0    Date: 02.18.2022
+* v.1.0.1     Date: 03.22.2022
 * To access the last available release (installation) file, Click [Here](https://github.com/DB-Netz-AutomatedPlanning/AutoPlan-QT/releases)
+
+---
+
+### Report Issues
+
+##### Tell us about issues you want us to fixed in the next Sprint;
+
+* Bug reporting and bug fixing
+* New features and enhancements
+* Other Issues 
+
+##### Click [HERE](https://github.com/DB-Netz-AutomatedPlanning/AutoPlan-QT/issues) and create "New Issue"
