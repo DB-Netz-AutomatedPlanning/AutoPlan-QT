@@ -370,15 +370,9 @@ void QGraphicsSymbolContainer::on_stellwerksbedient_clicked()
 }
 
 
-
-
-
 void QGraphicsSymbolContainer::on_pb_hauptSignalbegriffe_clicked()
 {
-
          tracks->addSymbol("stellwerksbedient");
-
-
 }
 
 
@@ -418,8 +412,6 @@ void QGraphicsSymbolContainer::on_chb_zug_filled_clicked()
     } else {
         ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedient.svg"));
     }
-
-
 }
 
 
@@ -445,7 +437,6 @@ ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedientArrow.svg"
 
         if((ui->chb_zug_filled->isChecked())){
             ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/stellwerksbedientArrow.svg"));
-
         }
         if((ui->chb_zug_nofill->isChecked())){
             ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedientArrow.svg"));
@@ -473,7 +464,6 @@ void QGraphicsSymbolContainer::on_chb_zug_nofill_clicked()
     ui->chb_zug_partial->setChecked(false);
     ui->chb_zug_filled->setChecked(false);
     ui->chb_zug_arrow->setChecked(false);
-
     if (ui->chb_zug_nofill->isChecked()) {
         ui->lbl_zugbedient->setIcon(QIcon(":/icons/assets/qgraphics/zugbedient.svg"));
     } else {

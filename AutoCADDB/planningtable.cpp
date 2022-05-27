@@ -119,10 +119,6 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         UH_Path = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_UH.geojson";
         LA_Path = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_LA.geojson";
 
-        //        gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
-        //        gleisknotenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleisknoten.geojson";
-        //        hoehePath = projectName.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_HO.geojson";
-
         std::vector<QString> paths;
         paths.push_back(kmLinePath);
         paths.push_back(gleiskantenPath);
@@ -147,18 +143,13 @@ void PlanningTable::on_btnAutoPLAN_clicked()
 
         /*Check the first row (Lateral Distance, and Positioning ) to know if there are output error
         from the C# appllication. Also, this is used to handle "fail fast Exception"*/
-        bool ok1;
-        bool ok2;
-        table[0][1].toFloat(&ok1);
-        table[0][2].toFloat(&ok2);
 
-        if (!(ok1 && ok2)){
+        if (this->rows == 0) {
             QMessageBox::information(this, "Planning Aborted !", "Process aborted mid-way, "
-                                      "Please ensure \n compliance with the input data specification.");
+                                                                 "Please ensure \n compliance with the input data specification.");
             close();
             return;
         }
-
         ui->lblLocation->hide();
         ui->lblLocation->setText(location.toUpper());
         ui->btnAutoPLAN->setEnabled(true);
@@ -181,9 +172,10 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         rows.append(QString::number(i+1));
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
-    ui->tableWidget->setColumnWidth(2, 150);
-    ui->tableWidget->setColumnWidth(1, 150);
-    ui->tableWidget->setColumnWidth(0, 150);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); //   setSectionResizeMode(QHeaderView::AdjustToContents);
+//    ui->tableWidget->setColumnWidth(2, 150);
+//    ui->tableWidget->setColumnWidth(1, 150);
+//    ui->tableWidget->setColumnWidth(0, 150);
     ui->tableWidget->setEnabled(true);
     ui->lblLocation->show();
     for (int i =0; i< this->rows; i++){
@@ -250,137 +242,6 @@ void PlanningTable::setGleiskantenPath(const QString &newGleiskantenPath)
 {
     gleiskantenPath = newGleiskantenPath;
 }
-
-
-//void PlanningTable::on_btnLoad_clicked()
-//{
-//    if (fileFormat == ".mdb"){
-//        QMessageBox::warning(this, "Warning", "Planning of .mdb data source/file was temporarily disabled");
-//        return;
-//    }
-//    if (ui->comboBoxStations->currentText().isNull() || ui->comboBoxStations->currentText().isEmpty()) {
-//        QMessageBox::warning(this, "Warning", "Unable to process ... \n Please create a project");
-//        ui->tableWidget->setEnabled(false);
-//        ui->btnAutoPLAN->setEnabled(false);
-//        ui->lblLocation->setEnabled(false);
-//        return;
-//    }
-//    else {
-
-//        QString location = ui->comboBoxStations->currentText();
-//        QString kmLinePath = projectPath+"/"+location+"/temp/Entwurfselement_KM.dbahn";
-
-//        QString gleiskantenPath = projectPath+"/"+location+"/temp/Gleiskanten.dbahn";
-//        QString gleisknotenPath = projectPath+"/"+location+"/temp/Gleisknoten.dbahn";
-//        QString hoehePath = projectPath+"/"+location+"/temp/Entwurfselement_HO.dbahn";
-
-//        QString UH_Path = projectPath+"/"+location+"/temp/Entwurfselement_UH.dbahn";
-//        QString LA_Path = projectPath+"/"+location+"/temp/Entwurfselement_LA.dbahn";
-//        if (!QFile::exists(kmLinePath)|| !QFile::exists(gleiskantenPath) || !QFile::exists(gleisknotenPath) ||
-//                !QFile::exists(hoehePath) || !QFile::exists(UH_Path) || !QFile::exists(LA_Path) ){
-//            QMessageBox::information(this, "Missing Data", "One or More Important Data is missing ...\n Please visit Data section");
-//            ui->tableWidget->setEnabled(false);
-//            ui->btnAutoPLAN->setEnabled(false);
-//            ui->lblLocation->setEnabled(false);
-//            return;
-//        }
-
-//        std::vector<QString> filePaths;
-
-//        filePaths.push_back(kmLinePath);
-//        filePaths.push_back(gleiskantenPath);
-//        filePaths.push_back(gleisknotenPath);
-//        filePaths.push_back(hoehePath);
-//        filePaths.push_back(UH_Path);
-//        filePaths.push_back(LA_Path);
-
-//        foreach (auto fi, filePaths){
-//            QFile file (fi);
-//            QFileInfo info (fi);
-//            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
-//                QMessageBox::information(this, "info", file.errorString());
-//                return;
-//            }
-
-//            QString current = fi.remove(projectPath+"/"+projectName+"/temp/");
-//            current = current.remove("."+ info.completeSuffix());
-
-//            QFile fileToSave (projectPath+"/"+projectName+"/temp/"+current+".geojson");
-
-//            if (!fileToSave.open(QIODevice::WriteOnly)){
-//                QMessageBox::warning(this, "Warning", fileToSave.errorString());
-//                return;
-//            }
-
-//            QByteArray data = file.readAll();
-//            QByteArray decoded = QByteArray::fromHex(data);
-
-//    //        QString allData;
-//    //        allData = QString(decoded);
-//            file.close();
-
-//            fileToSave.write(decoded);
-//            fileToSave.close();
-//        }
-//        kmLinePath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_KM.geojson";
-//        gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
-//        gleisknotenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleisknoten.geojson";
-//        hoehePath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_HO.geojson";
-//        UH_Path = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_UH.geojson";
-//        LA_Path = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_LA.geojson";
-
-//        this->setKmLinePath(kmLinePath);
-//        this->setGleiskantenPath(gleiskantenPath);
-//        this->setGleisknotenPath(gleisknotenPath);
-//        this->setHoehePath(hoehePath);
-//        this->setUH_Path(UH_Path);
-//        this->setLA_Path(LA_Path);
-
-//        Connect2CSharp *csharp = new Connect2CSharp ("",this->getKmLinePath().toLatin1(), this->getGleiskantenPath().toLatin1(),
-//                                                     this->getGleisknotenPath().toLatin1(), this->getHoehePath().toLatin1(), this->getUH_Path().toLatin1(),
-//                                                     this->getLA_Path().toLatin1());
-//        csharp->cSharp();
-
-//        // remove all the input files
-
-//        kmLinePath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_KM.geojson";
-//        gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
-//        gleisknotenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleisknoten.geojson";
-//        hoehePath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_HO.geojson";
-//        UH_Path = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_UH.geojson";
-//        LA_Path = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_LA.geojson";
-
-////        gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
-////        gleisknotenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleisknoten.geojson";
-////        hoehePath = projectName.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_HO.geojson";
-
-//        std::vector<QString> paths;
-//        paths.push_back(kmLinePath);
-//        paths.push_back(gleiskantenPath);
-//        paths.push_back(gleisknotenPath);
-//        paths.push_back(hoehePath);
-//        paths.push_back(UH_Path);
-//        paths.push_back(LA_Path);
-
-//        foreach(QString val, paths){
-//            QFile file (val);
-//            file.remove();
-//        }
-//        if (!csharp->isAvailable){
-//            QMessageBox::warning(this, "Warning", "Problem opening APlan_Core App \n ... some linking file(s) are missing. "
-//                                                  "Please contact your administrator");
-//            return;
-//        }
-//        csharp->mainSolution();
-//        this->table = csharp->getMainAntwort();
-//        this->rows = csharp->getNumberOfRows();
-//        this->cols = csharp->getNumberofCols();
-//        ui->lblLocation->hide();
-//        ui->lblLocation->setText(location.toUpper());
-//        ui->btnAutoPLAN->setEnabled(true);
-//        QMessageBox::information(this, "Info", "Successful !");
-//    }
-//}
 
 
 void PlanningTable::on_btnSelectFolder_clicked()

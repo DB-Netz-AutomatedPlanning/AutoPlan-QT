@@ -17,6 +17,7 @@
 #include <QGraphicsSceneHoverEvent>
 #include <QFlags>
 #include <QInputDialog>
+#include <QMenu>
 //#include <QGraphicsTextItem>
 
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
@@ -27,7 +28,15 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scale(1, -1);
+//    setAttribute(Qt::WA_TransparentForMouseEvents);
     setMouseTracking(true);
+//    setAcceptDrops(true);
+
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(showContextMenu(QPoint)));
+
+    //    setStyleSheet("background-color:yellow");
 }
 
 void Tracks::addGleiskanten()
@@ -60,7 +69,8 @@ void Tracks::addGleiskanten()
         if (isFirstSegment){
             gleiskanten_Parent = new QGraphicsPathItem(path);
             if ((countryCode == "de" &&(dir[segmentCount] =="1" || dir[segmentCount] =="2")) || (countryCode == "de" && fileFormat == ".euxml")){
-                gleiskanten_Parent->setPen(QPen(Qt::black, 1));
+                gleiskanten_Parent->setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
+                //                QPen::QPen(const QBrush &brush, qreal width, Qt::PenStyle style = Qt::SolidLine, Qt::PenCapStyle cap = Qt::SquareCap, Qt::PenJoinStyle join = Qt::BevelJoin)
                 segmentCount++;
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values() );
@@ -70,7 +80,7 @@ void Tracks::addGleiskanten()
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values());
             }
             else {
-                gleiskanten_Parent->setPen(QPen(Qt::black, 0.3));
+                gleiskanten_Parent->setPen(QPen(Qt::black, 0.3,  Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
                 segmentCount++;
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values() );
@@ -105,7 +115,6 @@ void Tracks::addGleiskanten()
             gleiskanten->setParentItem(gleiskanten_Parent);
         }
     }
-
     if (!parentItems.contains("gleiskanten_Parent")) parentItems << "gleiskanten_Parent";
 
     // Add DataPoints
@@ -121,8 +130,6 @@ void Tracks::addGleiskanten()
                 gleiskantenDP_Parent = new QGraphicsPathItem(path);
                 gleiskantenDP_Parent->setPen(QPen(Qt::blue));
 
-                //                gleiskantenDP_Parent->setPen(QPen(QColor(0x55, 0x55, 0xFF),0.2));
-                //                gleiskantenDP_Parent->setBrush(QColor(0xFF, 0x55, 0x55));
                 gleiskantenDP_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
                 gleiskantenDP_Parent->setToolTip("x: "+QString::number(val[count])+"\n y: "+QString::number(val[count+1]));
                 scene()->addItem(gleiskantenDP_Parent);
@@ -575,8 +582,8 @@ void Tracks::addGleisknoten(){
             gleisknotenDP_Parent->setData(signalKey, map[dataSegCount].keys());
             gleisknotenDP_Parent->setData(signalKey+1, map[dataSegCount].values());
             gleisknotenDP_Parent->setToolTip("Gleisknoten_"+QString::number(signalKey));
-//            gleisknotenDP_Parent->setToolTip("Gleisknoten_"+QString::number(signalKey) +
-//                                             "\n x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
+            //            gleisknotenDP_Parent->setToolTip("Gleisknoten_"+QString::number(signalKey) +
+            //                                             "\n x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
             signalKey +=2;
             dataSegCount++;
 
@@ -593,8 +600,8 @@ void Tracks::addGleisknoten(){
             gleisknotenDP->setData(signalKey, map[dataSegCount].keys());
             gleisknotenDP->setData(signalKey+1, map[dataSegCount].values());
             gleisknotenDP->setToolTip("Gleisknoten_"+QString::number(signalKey));
-//            gleisknotenDP->setToolTip("Gleisknoten_"+QString::number(signalKey) +
-//                                             "\n x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
+            //            gleisknotenDP->setToolTip("Gleisknoten_"+QString::number(signalKey) +
+            //                                             "\n x: "+QString::number(vec[count])+"\n y: "+QString::number(vec[count+1]));
             signalKey +=2;
             dataSegCount++;
 
@@ -631,41 +638,33 @@ void Tracks::addSignals()
     qDebug()<< static_cast<int>(each.size());
 
     for (int i=0; i< static_cast<int>(each.size()); i++){
-//        qInfo()<< "DB Signal " << each.at(i)["DB Signal Function"];
-//        qInfo()<< "Dir " << each.at(i)["Direction"];
-//        qInfo()<< "Lat. Dist " << each.at(i)["Lateral Distance"];
-//        qInfo()<< "Lat Side " << each.at(i)["Lateral Side"];
-//        qInfo()<< "Linear Coord " << each.at(i)["Linear Coordinate"];
+        //        qInfo()<< "DB Signal " << each.at(i)["DB Signal Function"];
+        //        qInfo()<< "Dir " << each.at(i)["Direction"];
+        //        qInfo()<< "Lat. Dist " << each.at(i)["Lateral Distance"];
+        //        qInfo()<< "Lat Side " << each.at(i)["Lateral Side"];
+        //        qInfo()<< "Linear Coord " << each.at(i)["Linear Coordinate"];
 
         double val = (each.at(i)["Linear Coordinate"]).toDouble(); //    table[i][1].toDouble();
-        qDebug()<< "signal3 "<< val;
         double lateralDistance = (each.at(i)["Lateral Distance"]).toDouble();
-        qDebug()<< "signal4 "<< lateralDistance;
         QString lateralSide =(each.at(i)["Lateral Side"]);
-        qDebug()<< "signal5 "<< lateralSide;
 
         // getFinalPosition(value, lateralDist, orientation)
         QPointF position = kmToCoord->getFinalPosition(val,lateralDistance,lateralSide);  //getNearestCoordFromKmValue(val);
-        qDebug()<< "signal6 "<< position;
         double angle = kmToCoord->getAngleFromKmValue(val);
         if (each.at(i)["DB Signal Function"] == "Entry Signal" && each.at(i)["Direction"] == "1"){
-            qDebug()<< "signal8 ";
             addAutomateSignal("Ankundigungsbake", position, angle, each.at(i)["DB Signal Function"],
                     each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
         }
         else if (each.at(i)["DB Signal Function"] == "Entry Signal" && each.at(i)["Direction"] == "2"){
-            qDebug()<< "signal9 ";
             //Then add 180 to the angle (to make symbol rotate/turn to other direction
             addAutomateSignal("Ankundigungsbake",position, angle+180,  each.at(i)["DB Signal Function"],
-                 each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
+                    each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
         }
         else if (each.at(i)["DB Signal Function"] == "Exit Signal" && each.at(i)["Direction"] == "1"){
-            qDebug()<< "signal_10 ";
             addAutomateSignal("Abfahrsignal",position, angle, each.at(i)["DB Signal Function"],
                     each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
         }
         else if (each.at(i)["DB Signal Function"] == "Exit Signal" && each.at(i)["Direction"] == "2"){
-            qDebug()<< "signal11 ";
             //Then add 180 to the angle (to make symbol rotate/turn to other direction
             addAutomateSignal("Abfahrsignal",position, angle+180, each.at(i)["DB Signal Function"],
                     each.at(i)["Linear Coordinate"], each.at(i)["Lateral Distance"], each.at(i)["Lateral Side"], each.at(i)["Direction"]);
@@ -699,6 +698,7 @@ void Tracks::reload()
     updateAll();
 }
 
+// TODO:: This function to be replaced by calling all items on the scene (e.g scene()->items())... and delete iteratively
 
 /*RESET ALL (deleteAll and updateAll...  These functions ensure that all objects drawn on the scene are removed and deleted as
 soon as it discovered that the Project path and /or Projetct name changes. It further helps in
@@ -706,59 +706,64 @@ calling all relevants functions needed for the re-implementation based on the ne
 
 void Tracks::deleteAll()
 {
-    if (parentItems.isEmpty()) return;
+    foreach (QGraphicsItem *item, scene()->items()){
+        scene()->removeItem(item);
+        delete item;
+    }
 
-    if (parentItems.contains("gleiskanten_Parent")){
-        scene()->removeItem(gleiskanten_Parent);
-        delete gleiskanten_Parent;
-        parentItems.remove("gleiskanten_Parent");
-    }
-    if (parentItems.contains("gleiskantenDP_Parent")){
-        scene()->removeItem(gleiskantenDP_Parent);
-        delete gleiskantenDP_Parent;
-        parentItems.remove("gleiskantenDP_Parent");
-    }
-    if (parentItems.contains("hoehe_Parent")){
-        scene()->removeItem(hoehe_Parent);
-        delete hoehe_Parent;
-        parentItems.remove("hoehe_Parent");
-    }
-    if (parentItems.contains("hoeheDP_Parent")){
-        scene()->removeItem(hoeheDP_Parent);
-        delete hoeheDP_Parent;
-        parentItems.remove("hoeheDP_Parent");
-    }
-    if (parentItems.contains("kmLine_Parent")){
-        scene()->removeItem(kmLine_Parent);
-        delete kmLine_Parent;
-        parentItems.remove("kmLine_Parent");
-    }
-    if (parentItems.contains("kmLineDP_Parent")){
-        scene()->removeItem(kmLineDP_Parent);
-        delete kmLineDP_Parent;
-        parentItems.remove("kmLineDP_Parent");
-    }
-    if (parentItems.contains("lage_Parent")){
-        scene()->removeItem(lage_Parent);
-        delete lage_Parent;
-        parentItems.remove("lage_Parent");
-    }
-    if (parentItems.contains("lageDP_Parent")){
-        scene()->removeItem(lageDP_Parent);
-        delete lageDP_Parent;
-        parentItems.remove("lageDP_Parent");
-    }
-    if (parentItems.contains("uberhohung_Parent")){
-        scene()->removeItem(uberhohung_Parent);
-        delete uberhohung_Parent;
-        parentItems.remove("uberhohung_Parent");
-    }
-    if (parentItems.contains("uberhohungDP_Parent")){
-        scene()->removeItem(uberhohungDP_Parent);
-        delete uberhohungDP_Parent;
-        parentItems.remove("uberhohungDP_Parent");
-    }
-    // TODO: implement for Gleisknoten
+    //    if (parentItems.isEmpty()) return;
+
+    //    if (parentItems.contains("gleiskanten_Parent")){
+    //        scene()->removeItem(gleiskanten_Parent);
+    //        delete gleiskanten_Parent;
+    //        parentItems.remove("gleiskanten_Parent");
+    //    }
+    //    if (parentItems.contains("gleiskantenDP_Parent")){
+    //        scene()->removeItem(gleiskantenDP_Parent);
+    //        delete gleiskantenDP_Parent;
+    //        parentItems.remove("gleiskantenDP_Parent");
+    //    }
+    //    if (parentItems.contains("hoehe_Parent")){
+    //        scene()->removeItem(hoehe_Parent);
+    //        delete hoehe_Parent;
+    //        parentItems.remove("hoehe_Parent");
+    //    }
+    //    if (parentItems.contains("hoeheDP_Parent")){
+    //        scene()->removeItem(hoeheDP_Parent);
+    //        delete hoeheDP_Parent;
+    //        parentItems.remove("hoeheDP_Parent");
+    //    }
+    //    if (parentItems.contains("kmLine_Parent")){
+    //        scene()->removeItem(kmLine_Parent);
+    //        delete kmLine_Parent;
+    //        parentItems.remove("kmLine_Parent");
+    //    }
+    //    if (parentItems.contains("kmLineDP_Parent")){
+    //        scene()->removeItem(kmLineDP_Parent);
+    //        delete kmLineDP_Parent;
+    //        parentItems.remove("kmLineDP_Parent");
+    //    }
+    //    if (parentItems.contains("lage_Parent")){
+    //        scene()->removeItem(lage_Parent);
+    //        delete lage_Parent;
+    //        parentItems.remove("lage_Parent");
+    //    }
+    //    if (parentItems.contains("lageDP_Parent")){
+    //        scene()->removeItem(lageDP_Parent);
+    //        delete lageDP_Parent;
+    //        parentItems.remove("lageDP_Parent");
+    //    }
+    //    if (parentItems.contains("uberhohung_Parent")){
+    //        scene()->removeItem(uberhohung_Parent);
+    //        delete uberhohung_Parent;
+    //        parentItems.remove("uberhohung_Parent");
+    //    }
+    //    if (parentItems.contains("uberhohungDP_Parent")){
+    //        scene()->removeItem(uberhohungDP_Parent);
+    //        delete uberhohungDP_Parent;
+    //        parentItems.remove("uberhohungDP_Parent");
+    //    }
+    //    // TODO: implement for Gleisknoten
 }
 
 
@@ -1113,22 +1118,46 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
     if (drawGrids){
         painter->save();
+
+        //        QPen pen;
+        //        painter->setPen(pen);
+        //        qreal left = int(rect.left()) - (int(rect.left()) % 20); //gridSize
+        //        qreal top = int(rect.top()) - (int(rect.top()) % 20);
+        //        QVector<QPointF> points;
+        //        for (qreal x = left; x < rect.right(); x += 20){
+        //            for (qreal y = top; y < rect.bottom(); y += 20){
+        //                points.append(QPointF(x,y));
+        //            }
+        //        }
+        //        painter->drawPoints(points.data(), points.size());
+
+
+
         QPen pen;
         pen.setCosmetic(true);
         pen.setWidthF(0.6);
         pen.setColor(QColor(95,52,21,90));
         painter->setPen(pen);
 
-//        painter->setPen(QColor(95,52,21,90));
+        //        painter->setPen(QColor(95,52,21,90));
+        for (int i = 0; i< rect.width()/50; i++) {
+            painter->drawLine(rect.x()+(50*i), rect.y(), rect.x()+(50*i),
+                              rect.y()+rect.height());
+        }
+        for(int i =0; i < rect.height()/50; i++){
+            painter->drawLine(rect.x(),rect.y()+(i*50),
+                              rect.x()+rect.width(), rect.y()+(i*50));
+        }
 
-        for (int i = 0; i< getUsedRect()[2]/50; i++) {
-            painter->drawLine(getUsedRect()[0]+(50*i),getUsedRect()[1], getUsedRect()[0]+(50*i),
-                    getUsedRect()[1]+getUsedRect()[3] );
-        }
-        for(int i =0; i < getUsedRect()[3]/50; i++){
-            painter->drawLine(getUsedRect()[0],getUsedRect()[1]+(i*50),
-                    getUsedRect()[0]+getUsedRect()[2], getUsedRect()[1]+(i*50));
-        }
+        //        for (int i = 0; i< getUsedRect()[2]/50; i++) {
+        //            painter->drawLine(getUsedRect()[0]+(50*i),getUsedRect()[1], getUsedRect()[0]+(50*i),
+        //                    getUsedRect()[1]+getUsedRect()[3]);
+        //        }
+        //        for(int i =0; i < getUsedRect()[3]/50; i++){
+        //            painter->drawLine(getUsedRect()[0],getUsedRect()[1]+(i*50),
+        //                    getUsedRect()[0]+getUsedRect()[2], getUsedRect()[1]+(i*50));
+        //        }
+
         painter->restore();
     } else {
         QGraphicsView::drawForeground(painter, rect);
@@ -1155,32 +1184,33 @@ void Tracks::wheelEvent(QWheelEvent *event)
     }
 }
 
-//void Tracks::keyPressEvent(QKeyEvent *event)
-//{
-//    if(event->key() == Qt::Key_Left) rotate(1);
-//    else if(event->key() == Qt::Key_Right) rotate(-1);
+void Tracks::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_Left) rotate(1);
+    else if(event->key() == Qt::Key_Right) rotate(-1);
 
-//    if((event->key() == Qt::Key_Delete))
-//    {
-//        foreach (QGraphicsItem *item, scene()->selectedItems()) {
-//            QString toolTip = item->toolTip();
+    if((event->key() == Qt::Key_Delete))
+    {
+        foreach (QGraphicsItem *item, scene()->selectedItems()) {
+            QString toolTip = item->toolTip();
 
-//            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
-//            qInfo() << breakToolTip[0];
-//            if(breakToolTip[0].isEmpty()){
-//                scene()->removeItem(item);
-//                delete item;
-//            }
-//        }
-//    }
-//}
+            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+            qInfo() << breakToolTip[0];
+            if(breakToolTip[0].isEmpty()){
+                scene()->removeItem(item);
+                delete item;
+            }
+        }
+    }
+    QGraphicsView::keyPressEvent(event);
+}
 
 void Tracks::mouseDoubleClickEvent(QMouseEvent *event)
 {
     const QPointF &pos = mapToScene(event->pos());
     bool ok;
     QString enteredText = QInputDialog::getText(this, tr("APlan"),
-                           tr("Please enter your text"), QLineEdit::Normal, "Text Here", &ok);
+                                                tr("Please enter your text"), QLineEdit::Normal, "Text Here", &ok);
     if (!ok || enteredText.isEmpty() || enteredText == "Text Here") return;
 
     textItem = scene()->addText(enteredText);
@@ -1190,33 +1220,30 @@ void Tracks::mouseDoubleClickEvent(QMouseEvent *event)
     textItem->setPos(pos);
     textItem->setTransform(transform);
     textItem->setDefaultTextColor("blue");
-//    textItem = scene()->addText("");
-//    textItem->setPos(pos);
+    //    textItem = scene()->addText("");
+    //    textItem->setPos(pos);
     textItem->setTextInteractionFlags(Qt::TextEditorInteraction | Qt::TextEditable );
     textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable | textItem->flags());
 }
 
 
 
-//void Tracks::mousePressEvent(QMouseEvent *event)
-//{
-
-
-// getSegementObjects();
-
-//    if (event->button() == Qt::RightButton){
-//        qDebug() << "Mouse Clicked : "<< event->pos();
-//        QPointF sceneCoord = mapToScene(event->pos());
-//        setXCoord(sceneCoord.x()/getMultiplierValue());
-//        setYCoord(sceneCoord.y()/getMultiplierValue());
-//    } else {
+void Tracks::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::RightButton){
+        qDebug() << "Mouse Clicked : "<< event->pos();
+        QPointF sceneCoord = mapToScene(event->pos());
+        setXCoord(sceneCoord.x()/getMultiplierValue());
+        setYCoord(sceneCoord.y()/getMultiplierValue());
+    }
+//    else {
 //        setXCoord(0);
 //        setYCoord(0);
 //    }
-
-//    qDebug()<< "X : " << getXCoord();
-//    qDebug()<< "Y : " << getYCoord();
-//}
+    qDebug()<< "X : " << getXCoord();
+    qDebug()<< "Y : " << getYCoord();
+    QGraphicsView::mousePressEvent(event);
+}
 
 const QVector<float> &Tracks::getUsedRect() const
 {
@@ -1306,7 +1333,6 @@ void Tracks::getUpdateRect()
         if (brect.width() > boundingRect[2]) boundingRect[2] = brect.width();
         if (brect.height() > boundingRect[3]) boundingRect[3] = brect.height();
     }
-
     if (file3.exists()){
         std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_KM.dbahn");
         QPainterPath path;
@@ -1323,7 +1349,6 @@ void Tracks::getUpdateRect()
         if (brect.width() > boundingRect[2]) boundingRect[2] = brect.width();
         if (brect.height() > boundingRect[3]) boundingRect[3] = brect.height();
     }
-
     if (file4.exists()){
         std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_UH.dbahn");
         QPainterPath path;
@@ -1340,7 +1365,6 @@ void Tracks::getUpdateRect()
         if (brect.width() > boundingRect[2]) boundingRect[2] = brect.width();
         if (brect.height() > boundingRect[3]) boundingRect[3] = brect.height();
     }
-
     if (file5.exists()){
         std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Entwurfselement_LA.dbahn");
         QPainterPath path;
@@ -1357,8 +1381,6 @@ void Tracks::getUpdateRect()
         if (brect.width() > boundingRect[2]) boundingRect[2] = brect.width();
         if (brect.height() > boundingRect[3]) boundingRect[3] = brect.height();
     }
-
-
     if (file6.exists()){
         std::vector<float>vec = unsegmentedVec(projectPath, projectName, "Gleisknoten.dbahn");
         QPainterPath path;
@@ -1375,17 +1397,24 @@ void Tracks::getUpdateRect()
         if (brect.width() > boundingRect[2]) boundingRect[2] = brect.width();
         if (brect.height() > boundingRect[3]) boundingRect[3] = brect.height();
     }
-
     QVector <float> newUsedRect = {boundingRect[0]-boundingRect[2]/2, boundingRect[1]-boundingRect[3]/2,
                                    boundingRect[2]*2, boundingRect[3]*2};
     setUsedRect(newUsedRect);
 }
 
 
-
 int Tracks::getMultiplierValue() const
 {
     return multiplierValue;
+}
+
+void Tracks::showContextMenu(QPoint pos)
+{
+    QMenu contextMenu(tr("Context Menu"), this);
+    QAction action1("Yellow Background: TestingMode", this);
+    connect(&action1, SIGNAL(triggered()), this, SLOT(darkMode()));
+    contextMenu.addAction(&action1);
+    contextMenu.exec(mapToGlobal(pos));
 }
 
 
@@ -1404,7 +1433,7 @@ void Tracks::addSymbol(QString str)
     QGraphicsSvgItem *otherSignal = new QGraphicsSvgItem();
     otherSignal->setSharedRenderer(renderer);
     otherSignal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-//    QFlags tr = otherSignal->flags();
+    //    QFlags tr = otherSignal->flags();
     otherSignal->setData(0, "OtherSignal");
     otherSignal->setData(1, str);
     otherSignal->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
@@ -1425,6 +1454,10 @@ void Tracks :: sceneSelectedItems(int degree){
 
         QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
         if(breakToolTip[0].isEmpty()){
+            QPointF rotationPt = item->boundingRect().center();
+            //            qreal xRotationPt = item->boundingRect().x() + (item->boundingRect().width()/2);
+            //            qreal yRotationPt = item->boundingRect().y() + (item->boundingRect().height() /2);
+            item->setTransformOriginPoint(rotationPt);
             item->setRotation(degree);
         }//else{
         //}
@@ -1446,7 +1479,6 @@ bool Tracks::writeOperator(QString fileName)
     }
     QDataStream out (&file);
     out.setVersion(QDataStream::Qt_6_1);
-
     foreach (QGraphicsItem *item, scene()->items()){
         QVariant data = item->data(0);
         if((data.isValid() && data == "AutomatedSignal") ||
@@ -1458,7 +1490,7 @@ bool Tracks::writeOperator(QString fileName)
             QString toolTip = item->toolTip();
             qreal angle = item->rotation();
             QPointF position = item->pos();
-//            QFlags flags = item->flags();
+            //            QFlags flags = item->flags();
             out << type << name << toolTip << angle << position;
         }
     }
@@ -1478,7 +1510,6 @@ bool Tracks::ReadOperator(QString fileName)
         return false;
     }
     if (file.size() == 0) return false;
-
     QDataStream in (&file);
     if (in.version() != QDataStream::Qt_6_1){
         qDebug()<< "Wrong File Version";
@@ -1547,7 +1578,6 @@ void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QSt
 void Tracks::getSegementObjects()
 {
     rightPanelTable =0;
-
     if (scene()->selectedItems().count() >0){
         QGraphicsItem *item = scene()->selectedItems()[0];
         // foreach (QGraphicsItem *item, scene()->selectedItems()){
@@ -1573,13 +1603,13 @@ bool Tracks::isTrack(QString name)
     Q_UNUSED(name);
     rightPanelTable = !rightPanelTable;
     return rightPanelTable;
-//    if (name == "Gleiskanten" || name == "Gleisknoten" || name == "KMLine"
-//            || name == "Lage" || name == "Uberhohung" || name == "Hoehe"){
-////        rightPanelTable = !rightPanelTable;
-//        return rightPanelTable;
-//    } else {
-////        rightPanelTable = !rightPanelTable;
-//        return rightPanelTable;
+    //    if (name == "Gleiskanten" || name == "Gleisknoten" || name == "KMLine"
+    //            || name == "Lage" || name == "Uberhohung" || name == "Hoehe"){
+    ////        rightPanelTable = !rightPanelTable;
+    //        return rightPanelTable;
+    //    } else {
+    ////        rightPanelTable = !rightPanelTable;
+    //        return rightPanelTable;
     //    }
 }
 
@@ -1597,6 +1627,12 @@ void Tracks::deleteSelectedItems()
     }
 }
 
+void Tracks::darkMode()
+{
+    qDebug()<< "In the yellow Mode now ";
+    setStyleSheet("background-color:yellow");
+}
+
 
 //TODO.. Remove this function
 //void Tracks::currentPos(QHoverEvent *hoverEvent)
@@ -1610,5 +1646,3 @@ void Tracks::deleteSelectedItems()
 //    setYCoord(position.y());
 //    qDebug()<< "x: "<<getXCoord() <<" y: "<<getYCoord();
 //}
-
-

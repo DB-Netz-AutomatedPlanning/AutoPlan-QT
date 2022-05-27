@@ -28,28 +28,25 @@ UberhohungFromUnprocessedJson::UberhohungFromUnprocessedJson(QObject *parent, QS
 
 void UberhohungFromUnprocessedJson::searchNameAndID()
 {
-    std::vector<QString> name;
+//    std::vector<QString> name;
     std::vector<QString> id;
     int i=0;
 
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesAlignmentCantSegment"][i].isUndefined()){
         try {
             id.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesAlignmentCantSegment"][i]["id"].toString());
-
-
         }  catch (_exception ex) {
         }
         i+=1;
     }
 
-    setName(name);
+//    setName(name);
     setId(id);
 }
 
 
 void UberhohungFromUnprocessedJson::searchStartRefAndStartKm()
 {
-
     std::vector<QString> startRef;
     std::vector<QString> endRef;
 
@@ -78,7 +75,6 @@ void UberhohungFromUnprocessedJson::searchStartRefAndStartKm()
     setStartValues(startValues);
     setEndValues(endValues);
 }
-
 
 
 // ToDo: This function needs to be optimized
@@ -244,15 +240,15 @@ std::vector<std::vector<double> > UberhohungFromUnprocessedJson::arrayOfCoordina
 }
 
 
-const std::vector<QString> &UberhohungFromUnprocessedJson::getName() const
-{
-    return name;
-}
+//const std::vector<QString> &UberhohungFromUnprocessedJson::getName() const
+//{
+//    return name;
+//}
 
-void UberhohungFromUnprocessedJson::setName(const std::vector<QString> &newName)
-{
-    name = newName;
-}
+//void UberhohungFromUnprocessedJson::setName(const std::vector<QString> &newName)
+//{
+//    name = newName;
+//}
 
 const std::vector<QString> &UberhohungFromUnprocessedJson::getId() const
 {

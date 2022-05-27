@@ -3,22 +3,37 @@
 
 #include <QObject>
 #include <QJsonDocument>
+#include <QMap>
 
 class SignalsFromUnprocessedJson : public QObject
 {
     Q_OBJECT
 public:
-    explicit SignalsFromUnprocessedJson(QObject *parent = nullptr, QString filePath="", const QString &newFilePath ="");
+    explicit SignalsFromUnprocessedJson(QObject *parent = nullptr, QString filePath="");
+//    enum SignalTypes {
+//        Main,
+//        MainShunting,
+//        MultiSection,
+//        MultiSectionShunting,
+//        Shunting,
+//        Distant,
+//        Repeater,
+//        Train_Protection
+//    };
+
     std::vector<QString> lookForCoord(QString currentRef);
 
     std::vector<QString> searchID();
-    std::vector<QString> ownSignalTypes();
-    std::vector<QString> ownSignalFunction();
+    std::vector<QString> ownSignalTypes();   // returns an enum of signal types
+    std::vector<QString> ownSignalFunction();  // returns enum of signal functions
     void searchLocation();
     void searchLateralSideAndDirection();
+    QString getSignalType(QString enumValue);
+    QString getSignalFunction (QString enumValue);
     void createSignalJson();
     QJsonObject properties(std::vector<QString> name, std::vector<QString> direction, std::vector<QString> side, std::vector<QString> location, int index);
 
+    std::vector<std::vector<QString>> signalInfos();
 //    const std::vector<QString> &getName() const;
 //    void setName(const std::vector<QString> &newName);
 
@@ -31,21 +46,22 @@ public:
     const std::vector<QString> &getDirection() const;
     void setDirection(const std::vector<QString> &newDirection);
 
+    const std::vector<std::vector<double> > &getAllNetGeoValues() const;
+    void setAllNetGeoValues(const std::vector<std::vector<double> > &newAllNetGeoValues);
+
 signals:
 
 
 private:
     QString filePath ="";
-    QString newFilePath = "";
-//    std::vector<QString> name;
     std::vector<QString> lateralSide;
     std::vector<QString> direction;
-//    std::vector<QString> endRef;
     std::vector<QString> location;
-//    std::vector<QString> endValues;
+    std::vector <std::vector<double>> allNetGeoValues;
 
     QJsonDocument document;
-
+    QMap <QString, QString> allTypes;
+    QMap <QString, QString> allFunctions;
 };
 
 #endif // SIGNALSFROMUNPROCESSEDJSON_H
