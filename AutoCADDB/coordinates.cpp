@@ -1,6 +1,7 @@
 #include "coordinates.h"
 #include <QPointF>
 #include <QRegularExpression>
+#include "symbolcontainer.h"
 
 
 Coordinates::Coordinates(QString pPath, QString pName)
@@ -110,26 +111,20 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
     case 2: {
 
         if (dataFile == "Gleiskanten.dbahn" && countryCode=="de"){
-
             setupData(count, document);
         }
-
         else if (dataFile == "Gleiskanten.dbahn" && countryCode=="fr"){
             setupData(count, document);
         }
-
         else if (dataFile == "Entwurfselement_HO.dbahn"){
             setupData(count, document);
-
         }
         else if (dataFile == "Entwurfselement_LA.dbahn"){
             setupData(count, document);
         }
-
         else if(dataFile == "Entwurfselement_UH.dbahn"){
             setupData(count, document);
         }
-
         else if (dataFile == "Entwurfselement_KM.dbahn"){
             setupData(count, document);
         }
@@ -148,7 +143,6 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             globalCount+=(innerCount*2);
             segmentCount.push_back(globalCount);
             segmentExtremePoints.push_back(QPointF(document["features"][counter]["geometry"]["coordinates"][innerCount-1][0].toDouble(), document["features"][counter]["geometry"]["coordinates"][innerCount-1][1].toDouble()));
-
             int innerIndex =0;
             while (innerIndex < innerCount){
                 arrayOfCoordinates.push_back(document["features"][counter]["geometry"]["coordinates"][innerIndex][0].toDouble());
@@ -160,14 +154,19 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
         setCoordinateLists(arrayOfCoordinates);
         setSegment(segmentCount);
         setSegmentExtremePoints(segmentExtremePoints);
-        if (dataFile == "Entwurfselement_KM.dbahn"){
+        QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
+        if ((dataFile == "Entwurfselement_KM.dbahn" && fileFormat==".json") || (dataFile == "Entwurfselement_LA.dbahn" && fileFormat == ".euxml" && !km_file.exists())
+                || (dataFile == "Entwurfselement_KM.dbahn" && fileFormat==".euxml") ){  //Gleiskanten.dbahn
+
             // Set values for the extreme dataPoints Km that is correcponding to segmentExtremepoints
             std::vector<double> segmentExtremeKmVals;
             counter =0;
             while (counter < count){
+                qDebug()<< "HHHH9";
                 /* usually, the KM value from geojson is expected to be in form of text, and need to be
                 processed differently from the normal floating points expected from euxml processed data*/
                 if (!document["features"][counter]["properties"]["KM_A_TEXT"].isUndefined() && !document["features"][counter]["properties"]["KM_E_TEXT"].isUndefined()){
+                    qDebug()<< "HHHH10";
                     QString KM_A_TEXT = document["features"][counter]["properties"]["KM_A_TEXT"].toString();
                     QString KM_E_TEXT = document["features"][counter]["properties"]["KM_E_TEXT"].toString();
                     QList<QString> KM_A_SPLIT = KM_A_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
@@ -182,14 +181,21 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
                     p2_final = p2_km + p2_m/1000;
                     segmentExtremeKmVals.push_back(p1_final);
                     segmentExtremeKmVals.push_back(p2_final);
+                    qDebug()<< "SSS";
                 }
                 else if (!document["features"][counter]["properties"]["KM_A"].isUndefined() && !document["features"][counter]["properties"]["KM_E"].isUndefined()){
                     double p1, p2 ;// Point 1 and 2
 //                    p1 = document["features"][counter]["properties"]["KM_A"].toDouble();
                     p1 = (document["features"][counter]["properties"]["KM_A"].toString()).toDouble();
-                    qDebug()<< "Point1 : " <<p1;
                     p2 = (document["features"][counter]["properties"]["KM_E"].toString()).toDouble();
-                    qDebug()<< "Point2 : " <<p2;
+                    segmentExtremeKmVals.push_back(p1);
+                    segmentExtremeKmVals.push_back(p2);
+                }
+
+                else if (!document["features"][counter]["properties"]["KM_A_KM"].isUndefined() && !document["features"][counter]["properties"]["KM_E_KM"].isUndefined()){
+                    double p1, p2 ;// Point 1 and 2
+                    p1 = (document["features"][counter]["properties"]["KM_A_KM"].toString()).toDouble();  //.toDouble();
+                    p2 = (document["features"][counter]["properties"]["KM_E_KM"].toString()).toDouble();    //.toDouble();
                     segmentExtremeKmVals.push_back(p1);
                     segmentExtremeKmVals.push_back(p2);
                 }

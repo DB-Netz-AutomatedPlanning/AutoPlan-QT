@@ -147,19 +147,19 @@ void IconsList::mousePressEvent(QMouseEvent *event)
     QByteArray itemData;
     QDataStream dataStream(&itemData, QIODevice::WriteOnly);
     dataStream << pixmap << QPoint(event->position().toPoint() - child->pos());
-//! [1]
+    //! [1]
 
-//! [2]
+    //! [2]
     QMimeData *mimeData = new QMimeData;
     mimeData->setData("application/x-dnditemdata", itemData);
-//! [2]
+    //! [2]
 
-//! [3]
+    //! [3]
     QDrag *drag = new QDrag(this);
     drag->setMimeData(mimeData);
     drag->setPixmap(pixmap);
     drag->setHotSpot(event->position().toPoint() - child->pos());
-//! [3]
+    //! [3]
 
     QPixmap tempPixmap = pixmap;
     QPainter painter;
@@ -177,10 +177,10 @@ void IconsList::mousePressEvent(QMouseEvent *event)
     }
 
 
-QString str = child->objectName();
+    QString str = child->objectName();
 
-MyOpenglWidget *w = new MyOpenglWidget();
-w->sendObjectProperties(str);
+    MyOpenglWidget *w = new MyOpenglWidget();
+    w->sendObjectProperties(str);
 }
 
 
@@ -189,43 +189,43 @@ w->sendObjectProperties(str);
 void IconsList::on_checkBox_clicked()
 {
 
-     if (ui->sh1->isChecked() && ui->checkBox->isChecked()) {
+    if (ui->sh1->isChecked() && ui->checkBox->isChecked()) {
 
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
-            painter->drawPixmap(13, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
-            painter->drawPixmap(-16, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/hauptBox.svg"));
-
-             painter->end();
-
-             ui->label_21->setPixmap(*pixmap);
-
-    }
-   else if (ui->checkBox->isChecked()) {
         pixmap=new QPixmap(170, 30);
         pixmap->fill(Qt::transparent);
         painter=new QPainter(pixmap);
         painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
-         painter->drawPixmap(13, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
-         painter->end();
+        painter->drawPixmap(13, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
+        painter->drawPixmap(-16, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/hauptBox.svg"));
 
-         ui->label_21->setPixmap(*pixmap);
-       // ui->label_21->clear();
+        painter->end();
+
+        ui->label_21->setPixmap(*pixmap);
+
+    }
+    else if (ui->checkBox->isChecked()) {
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
+        painter->drawPixmap(13, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
+        painter->end();
+
+        ui->label_21->setPixmap(*pixmap);
+        // ui->label_21->clear();
     } else  if(ui->sh1->isChecked()) {
         ui->label_21->clear();
-      pixmap=new QPixmap(170, 30);
-      pixmap->fill(Qt::transparent);
-      painter=new QPainter(pixmap);
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
 
-      painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
-       painter->drawPixmap(-16, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/hauptBox.svg"));
+        painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
+        painter->drawPixmap(-16, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/hauptBox.svg"));
 
-       painter->end();
+        painter->end();
 
-       ui->label_21->setPixmap(*pixmap);
-  }
+        ui->label_21->setPixmap(*pixmap);
+    }
     else {
         ui->label_21->clear();
         pixmap=new QPixmap(170, 30);
@@ -234,7 +234,7 @@ void IconsList::on_checkBox_clicked()
         painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
         painter->end();
 
-         ui->label_21->setPixmap(*pixmap);
+        ui->label_21->setPixmap(*pixmap);
     }
 
 }
@@ -244,41 +244,41 @@ void IconsList::on_sh1_clicked()
 {
     if (ui->sh1->isChecked() && ui->checkBox->isChecked()) {
 
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
-            painter->drawPixmap(13, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
-            painter->drawPixmap(-16, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/hauptBox.svg"));
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
+        painter->drawPixmap(13, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
+        painter->drawPixmap(-16, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/hauptBox.svg"));
 
-             painter->end();
+        painter->end();
 
-             ui->label_21->setPixmap(*pixmap);
+        ui->label_21->setPixmap(*pixmap);
 
     }
     else if(ui->sh1->isChecked()) {
-          ui->label_21->clear();
+        ui->label_21->clear();
         pixmap=new QPixmap(170, 30);
         pixmap->fill(Qt::transparent);
         painter=new QPainter(pixmap);
 
         painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
-         painter->drawPixmap(-16, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/hauptBox.svg"));
+        painter->drawPixmap(-16, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/hauptBox.svg"));
 
-         painter->end();
+        painter->end();
 
-         ui->label_21->setPixmap(*pixmap);
+        ui->label_21->setPixmap(*pixmap);
     }
     else if (ui->checkBox->isChecked()) {
         pixmap=new QPixmap(170, 30);
         pixmap->fill(Qt::transparent);
         painter=new QPainter(pixmap);
         painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
-         painter->drawPixmap(13, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
-         painter->end();
+        painter->drawPixmap(13, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
+        painter->end();
 
-         ui->label_21->setPixmap(*pixmap);
-       // ui->label_21->clear();
+        ui->label_21->setPixmap(*pixmap);
+        // ui->label_21->clear();
     }
     else {
         ui->label_21->clear();
@@ -288,7 +288,7 @@ void IconsList::on_sh1_clicked()
         painter->drawPixmap(0, 0, 50, 20, QPixmap(":/icons/assets/smallSvgs/Hauptsignal.svg"));
         painter->end();
 
-         ui->label_21->setPixmap(*pixmap);
+        ui->label_21->setPixmap(*pixmap);
     }
 }
 
@@ -296,23 +296,23 @@ void IconsList::on_sh1_clicked()
 void IconsList::on_sh1_mehra_clicked()
 {
     if (ui->sh1_mehra->isChecked()) {
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-            painter->drawPixmap(-10, 0, 50, 12, QPixmap(":/icons/assets/smallSvgs/mehraBox.svg"));
-            painter->end();
-            ui->lbl_mehra->setPixmap(*pixmap);
-        }
-        else {
-            ui->lbl_mehra->clear();
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-            painter->end();
-            ui->lbl_mehra->setPixmap(*pixmap);
-        }
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(-10, 0, 50, 12, QPixmap(":/icons/assets/smallSvgs/mehraBox.svg"));
+        painter->end();
+        ui->lbl_mehra->setPixmap(*pixmap);
+    }
+    else {
+        ui->lbl_mehra->clear();
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->end();
+        ui->lbl_mehra->setPixmap(*pixmap);
+    }
 }
 
 
@@ -620,16 +620,16 @@ void IconsList::on_chc_sh1exp_clicked()
         painter->end();
         ui->lbl_expanded->setPixmap(*pixmap);
     }
-        else if (ui->chk_exp->isChecked())  {
-            ui->lbl_expanded->clear();
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 30, 13, QPixmap(":/icons/assets/smallSvgs/mehra.svg"));
-            painter->drawPixmap(15, -1, 30, 15, QPixmap(":/icons/assets/smallSvgs/expandedSignal.svg"));
-            painter->end();
-            ui->lbl_expanded->setPixmap(*pixmap);
-        }
+    else if (ui->chk_exp->isChecked())  {
+        ui->lbl_expanded->clear();
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 30, 13, QPixmap(":/icons/assets/smallSvgs/mehra.svg"));
+        painter->drawPixmap(15, -1, 30, 15, QPixmap(":/icons/assets/smallSvgs/expandedSignal.svg"));
+        painter->end();
+        ui->lbl_expanded->setPixmap(*pixmap);
+    }
     else if (ui->chc_sh1exp->isChecked()) {
         pixmap=new QPixmap(170, 30);
         pixmap->fill(Qt::transparent);
@@ -640,13 +640,13 @@ void IconsList::on_chc_sh1exp_clicked()
         ui->lbl_expanded->setPixmap(*pixmap);
     }
     else {
-            ui->lbl_expanded->clear();
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 30, 13, QPixmap(":/icons/assets/smallSvgs/mehra.svg"));
-            painter->end();
-            ui->lbl_expanded->setPixmap(*pixmap);
+        ui->lbl_expanded->clear();
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 30, 13, QPixmap(":/icons/assets/smallSvgs/mehra.svg"));
+        painter->end();
+        ui->lbl_expanded->setPixmap(*pixmap);
     }
 
 
@@ -667,16 +667,16 @@ void IconsList::on_chk_exp_clicked()
         painter->end();
         ui->lbl_expanded->setPixmap(*pixmap);
     }
-        else if
+    else if
             (ui->chc_sh1exp->isChecked()) {
-                       pixmap=new QPixmap(170, 30);
-                       pixmap->fill(Qt::transparent);
-                       painter=new QPainter(pixmap);
-                       painter->drawPixmap(0, 0, 30, 13, QPixmap(":/icons/assets/smallSvgs/mehra.svg"));
-                       painter->drawPixmap(-2, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/schnittBox.svg"));
-                       painter->end();
-                       ui->lbl_expanded->setPixmap(*pixmap);
-                   }
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 30, 13, QPixmap(":/icons/assets/smallSvgs/mehra.svg"));
+        painter->drawPixmap(-2, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/schnittBox.svg"));
+        painter->end();
+        ui->lbl_expanded->setPixmap(*pixmap);
+    }
 
     else if (ui->chk_exp->isChecked())  {
         ui->lbl_expanded->clear();
@@ -689,13 +689,13 @@ void IconsList::on_chk_exp_clicked()
         ui->lbl_expanded->setPixmap(*pixmap);
     }
     else {
-            ui->lbl_expanded->clear();
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 30, 13, QPixmap(":/icons/assets/smallSvgs/mehra.svg"));
-            painter->end();
-            ui->lbl_expanded->setPixmap(*pixmap);
+        ui->lbl_expanded->clear();
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 30, 13, QPixmap(":/icons/assets/smallSvgs/mehra.svg"));
+        painter->end();
+        ui->lbl_expanded->setPixmap(*pixmap);
     }
 }
 
@@ -1011,33 +1011,33 @@ void IconsList::on_chk_backArrow_clicked()
 {
     //chk_backArrow chk_backerstaz
     if (ui->chk_backArrow->isChecked() && ui->chk_backerstaz->isChecked()) {
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-            painter->drawPixmap(0, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/vorArrow.svg"));
-            painter->drawPixmap(34, 0, 25, 12, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
-            painter->end();
-            ui->lbl_vorsignal->setPixmap(*pixmap);
-        }
-   else if (ui->chk_backArrow->isChecked()) {
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-            painter->drawPixmap(0, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/vorArrow.svg"));
-            painter->end();
-            ui->lbl_vorsignal->setPixmap(*pixmap);
-        }
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(0, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/vorArrow.svg"));
+        painter->drawPixmap(34, 0, 25, 12, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
+        painter->end();
+        ui->lbl_vorsignal->setPixmap(*pixmap);
+    }
+    else if (ui->chk_backArrow->isChecked()) {
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(0, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/vorArrow.svg"));
+        painter->end();
+        ui->lbl_vorsignal->setPixmap(*pixmap);
+    }
     else if (ui->chk_backerstaz->isChecked()) {
-             pixmap=new QPixmap(170, 30);
-             pixmap->fill(Qt::transparent);
-             painter=new QPainter(pixmap);
-             painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-             painter->drawPixmap(34, 0, 25, 12, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
-             painter->end();
-             ui->lbl_vorsignal->setPixmap(*pixmap);
-         }
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(34, 0, 25, 12, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
+        painter->end();
+        ui->lbl_vorsignal->setPixmap(*pixmap);
+    }
     else{
         ui->lbl_vorsignal->clear();
         pixmap=new QPixmap(170, 30);
@@ -1054,42 +1054,42 @@ void IconsList::on_chk_backArrow_clicked()
 void IconsList::on_chk_backerstaz_clicked()
 {
     if (ui->chk_backerstaz->isChecked() && ui->chk_backArrow->isChecked()) {
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-            painter->drawPixmap(0, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/vorArrow.svg"));
-            painter->drawPixmap(34, 0, 25, 12, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
-            painter->end();
-            ui->lbl_vorsignal->setPixmap(*pixmap);
-        }
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(0, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/vorArrow.svg"));
+        painter->drawPixmap(34, 0, 25, 12, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
+        painter->end();
+        ui->lbl_vorsignal->setPixmap(*pixmap);
+    }
     else if (ui->chk_backArrow->isChecked()) {
-             pixmap=new QPixmap(170, 30);
-             pixmap->fill(Qt::transparent);
-             painter=new QPainter(pixmap);
-             painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-             painter->drawPixmap(0, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/vorArrow.svg"));
-             painter->end();
-             ui->lbl_vorsignal->setPixmap(*pixmap);
-         }
-     else if (ui->chk_backerstaz->isChecked()) {
-              pixmap=new QPixmap(170, 30);
-              pixmap->fill(Qt::transparent);
-              painter=new QPainter(pixmap);
-              painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-              painter->drawPixmap(34, 0, 25, 12, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
-              painter->end();
-              ui->lbl_vorsignal->setPixmap(*pixmap);
-          }
-     else{
-         ui->lbl_vorsignal->clear();
-         pixmap=new QPixmap(170, 30);
-         pixmap->fill(Qt::transparent);
-         painter=new QPainter(pixmap);
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(0, 0, 20, 13, QPixmap(":/icons/assets/smallSvgs/vorArrow.svg"));
+        painter->end();
+        ui->lbl_vorsignal->setPixmap(*pixmap);
+    }
+    else if (ui->chk_backerstaz->isChecked()) {
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(34, 0, 25, 12, QPixmap(":/icons/assets/smallSvgs/haputArrow.svg"));
+        painter->end();
+        ui->lbl_vorsignal->setPixmap(*pixmap);
+    }
+    else{
+        ui->lbl_vorsignal->clear();
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
 
-         painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-         ui->lbl_vorsignal->setPixmap(*pixmap);
-     }
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        ui->lbl_vorsignal->setPixmap(*pixmap);
+    }
 }
 
 
@@ -1098,42 +1098,42 @@ void IconsList::on_chk_backerstaz_clicked()
 void IconsList::on_chk_frontarrow_clicked()
 {
     if (ui->chk_frontarrow->isChecked() && ui->chk_ersatzRght->isChecked()) {
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-            painter->drawPixmap(30, 0, 25, 13, QPixmap(":/icons/assets/smallSvgs/rightArrow.svg"));
-            painter->drawPixmap(30, 0, 30, 12, QPixmap(":/icons/assets/smallSvgs/rightArrowersatz.svg"));
-            painter->end();
-            ui->lbl_rightSignal->setPixmap(*pixmap);
-        }
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(30, 0, 25, 13, QPixmap(":/icons/assets/smallSvgs/rightArrow.svg"));
+        painter->drawPixmap(30, 0, 30, 12, QPixmap(":/icons/assets/smallSvgs/rightArrowersatz.svg"));
+        painter->end();
+        ui->lbl_rightSignal->setPixmap(*pixmap);
+    }
     else if (ui->chk_frontarrow->isChecked()) {
-             pixmap=new QPixmap(170, 30);
-             pixmap->fill(Qt::transparent);
-             painter=new QPainter(pixmap);
-             painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-              painter->drawPixmap(30, 0, 25, 13, QPixmap(":/icons/assets/smallSvgs/rightArrow.svg"));
-             painter->end();
-             ui->lbl_rightSignal->setPixmap(*pixmap);
-         }
-     else if (ui->chk_ersatzRght->isChecked()) {
-              pixmap=new QPixmap(170, 30);
-              pixmap->fill(Qt::transparent);
-              painter=new QPainter(pixmap);
-              painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-               painter->drawPixmap(30, 0, 30, 12, QPixmap(":/icons/assets/smallSvgs/rightArrowersatz.svg"));;
-              painter->end();
-              ui->lbl_rightSignal->setPixmap(*pixmap);
-          }
-     else{
-         ui->lbl_rightSignal->clear();
-         pixmap=new QPixmap(170, 30);
-         pixmap->fill(Qt::transparent);
-         painter=new QPainter(pixmap);
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(30, 0, 25, 13, QPixmap(":/icons/assets/smallSvgs/rightArrow.svg"));
+        painter->end();
+        ui->lbl_rightSignal->setPixmap(*pixmap);
+    }
+    else if (ui->chk_ersatzRght->isChecked()) {
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(30, 0, 30, 12, QPixmap(":/icons/assets/smallSvgs/rightArrowersatz.svg"));;
+        painter->end();
+        ui->lbl_rightSignal->setPixmap(*pixmap);
+    }
+    else{
+        ui->lbl_rightSignal->clear();
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
 
-         painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-         ui->lbl_rightSignal->setPixmap(*pixmap);
-     }
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        ui->lbl_rightSignal->setPixmap(*pixmap);
+    }
 
 
     //rightarrow
@@ -1144,42 +1144,42 @@ void IconsList::on_chk_frontarrow_clicked()
 void IconsList::on_chk_ersatzRght_clicked()
 {
     if (ui->chk_ersatzRght->isChecked() && ui->chk_frontarrow->isChecked()) {
-            pixmap=new QPixmap(170, 30);
-            pixmap->fill(Qt::transparent);
-            painter=new QPainter(pixmap);
-            painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-            painter->drawPixmap(30, 0, 25, 13, QPixmap(":/icons/assets/smallSvgs/rightArrow.svg"));
-            painter->drawPixmap(30, 0, 30, 12, QPixmap(":/icons/assets/smallSvgs/rightArrowersatz.svg"));
-            painter->end();
-            ui->lbl_rightSignal->setPixmap(*pixmap);
-        }
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(30, 0, 25, 13, QPixmap(":/icons/assets/smallSvgs/rightArrow.svg"));
+        painter->drawPixmap(30, 0, 30, 12, QPixmap(":/icons/assets/smallSvgs/rightArrowersatz.svg"));
+        painter->end();
+        ui->lbl_rightSignal->setPixmap(*pixmap);
+    }
     else if (ui->chk_frontarrow->isChecked()) {
-             pixmap=new QPixmap(170, 30);
-             pixmap->fill(Qt::transparent);
-             painter=new QPainter(pixmap);
-             painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-              painter->drawPixmap(30, 0, 25, 13, QPixmap(":/icons/assets/smallSvgs/rightArrow.svg"));
-             painter->end();
-             ui->lbl_rightSignal->setPixmap(*pixmap);
-         }
-     else if (ui->chk_ersatzRght->isChecked()) {
-              pixmap=new QPixmap(170, 30);
-              pixmap->fill(Qt::transparent);
-              painter=new QPainter(pixmap);
-              painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-               painter->drawPixmap(30, 0, 30, 12, QPixmap(":/icons/assets/smallSvgs/rightArrowersatz.svg"));;
-              painter->end();
-              ui->lbl_rightSignal->setPixmap(*pixmap);
-          }
-     else{
-         ui->lbl_rightSignal->clear();
-         pixmap=new QPixmap(170, 30);
-         pixmap->fill(Qt::transparent);
-         painter=new QPainter(pixmap);
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(30, 0, 25, 13, QPixmap(":/icons/assets/smallSvgs/rightArrow.svg"));
+        painter->end();
+        ui->lbl_rightSignal->setPixmap(*pixmap);
+    }
+    else if (ui->chk_ersatzRght->isChecked()) {
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        painter->drawPixmap(30, 0, 30, 12, QPixmap(":/icons/assets/smallSvgs/rightArrowersatz.svg"));;
+        painter->end();
+        ui->lbl_rightSignal->setPixmap(*pixmap);
+    }
+    else{
+        ui->lbl_rightSignal->clear();
+        pixmap=new QPixmap(170, 30);
+        pixmap->fill(Qt::transparent);
+        painter=new QPainter(pixmap);
 
-         painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
-         ui->lbl_rightSignal->setPixmap(*pixmap);
-     }
+        painter->drawPixmap(0, 0, 50, 13, QPixmap(":/icons/assets/smallSvgs/Mehrabschnittsignal.svg"));
+        ui->lbl_rightSignal->setPixmap(*pixmap);
+    }
     //rightarrow
     //rightarrowersatz
 }

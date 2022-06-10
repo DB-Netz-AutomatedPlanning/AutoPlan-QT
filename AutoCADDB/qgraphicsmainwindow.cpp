@@ -1,6 +1,7 @@
 #include "qgraphicsmainwindow.h"
 #include "ui_qgraphicsmainwindow.h"
 #include "symbolcontainer.h"
+#include <QTimer>
 
 //#include <QGraphicsPixmapItem>
 //#include <QWheelEvent>
@@ -30,7 +31,8 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->addLage();
     tracks->addUberhohung();
     tracks->addGleisknoten();
-    tracks->addSignals(); // if using euxml and it's available
+    //tracks->addSignals(); // if using euxml and it's available
+    tracks->addSignals2();
 
     ui->verticalLayout->addWidget(tracks);
     ui->checkBoxGridLine->setChecked(tracks->getDrawGrids());
@@ -45,6 +47,12 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     ui->checkBoxUH->setChecked(tracks->getDrawUberhohung());
     ui->checkBoxUHDP->setChecked(tracks->getDrawUberhohungDP());
     ui->checkBoxKnotenDP->setChecked(tracks->getDrawGleisknotenDP());
+
+    disableNonDataCheckbox();
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &QGraphicsMainWindow::displayXandYCoord);
+    timer->start();
 }
 
 QGraphicsMainWindow::~QGraphicsMainWindow()
@@ -96,7 +104,6 @@ void QGraphicsMainWindow::on_checkBoxKantenDP_toggled(bool checked)
 void QGraphicsMainWindow::on_checkBoxHO_toggled(bool checked)
 {
     tracks->setDrawHoehe(checked);
-
 }
 
 void QGraphicsMainWindow::on_checkBoxHODP_toggled(bool checked)
@@ -138,10 +145,10 @@ void QGraphicsMainWindow::on_checkBoxUHDP_toggled(bool checked)
     tracks->setDrawUberhohungDP(checked);
 }
 
-void QGraphicsMainWindow::on_rortatebtn_clicked()
-{
+//void QGraphicsMainWindow::on_rortatebtn_clicked()
+//{
 
-}
+//}
 
 void QGraphicsMainWindow::on_horizontalSlider_valueChanged(int value)
 {
@@ -160,4 +167,37 @@ void QGraphicsMainWindow::on_spinBox_RotateView_valueChanged(int arg1)
     else if((arg1 - rotation_angle) < 0) tracks->rotate(-10);
 
     rotation_angle = arg1;
+}
+
+void QGraphicsMainWindow::displayXandYCoord()
+{
+    ui->valueXCoord->setText(QString::number(tracks->getXCoord()));
+    ui->valueYCoord->setText(QString::number(tracks->getYCoord()));
+}
+
+void QGraphicsMainWindow::disableNonDataCheckbox()
+{
+    if (!ui->checkBoxKanten->isChecked()){
+        ui->checkBoxKanten->setEnabled(false);
+        ui->checkBoxKantenDP->setEnabled(false);
+    }
+    if (!ui->checkBoxHO->isChecked()){
+        ui->checkBoxHO->setEnabled(false);
+        ui->checkBoxHODP->setEnabled(false);
+    }
+    if (!ui->checkBoxKM->isChecked()){
+        ui->checkBoxKM->setEnabled(false);
+        ui->checkBoxKMDP->setEnabled(false);
+    }
+    if(!ui->checkBoxLA->isChecked()){
+        ui->checkBoxLA->setEnabled(false);
+        ui->checkBoxLADP->setEnabled(false);
+    }
+    if(!ui->checkBoxUH->isChecked()){
+        ui->checkBoxUH->setEnabled(false);
+        ui->checkBoxUHDP->setEnabled(false);
+    }
+    if (!ui->checkBoxKnotenDP->isChecked()) {
+        ui->checkBoxKnotenDP->setEnabled(false);
+    }
 }

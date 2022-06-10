@@ -492,11 +492,9 @@ bool MainWindow::saveFile(const QByteArray &fileFormat)
 }
 
 bool MainWindow::maybeSave()
-//! [17] //! [18]
 {
     return true;
 }
-//! [18]
 
 // SaveAs
 void MainWindow::save()
@@ -739,6 +737,15 @@ void MainWindow::onNewProjectClicked()
     newProjDialog.setModal(true);
     newProjDialog.exec();
     readSettings();
+
+    // Create dock widget
+    if (dockWidgetCreated) {
+        viewDockSubMenu->removeAction(dock1->toggleViewAction());
+        viewDockSubMenu->removeAction(dock2->toggleViewAction());
+        dock2->close();
+        dock1->close();
+        dockWidgetCreated = !dockWidgetCreated;
+    }
     createDock();
 }
 
@@ -856,9 +863,11 @@ void MainWindow::on_grabBtn_2_clicked()
     if(!isChecked){
         isChecked = !isChecked;
         ui->grabBtn_2->setStyleSheet("QPushButton { background-color: white; border:none; }");
+//        setCursor(Qt::IBeamCursor);
     }else{
         isChecked = !isChecked;
         ui->grabBtn_2->setStyleSheet("QPushButton { background-color: green; border:none; }");
+//        setCursor(Qt::ArrowCursor);
     }
 }
 
