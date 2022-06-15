@@ -1,55 +1,61 @@
 #include "connecttocsharp.h"
+#include <QMessageBox>
 
 
-ConnectToCSharp::ConnectToCSharp(QObject *parent, QByteArray data1, QByteArray data2) : QObject(parent)
+ConnectToCSharp::ConnectToCSharp(QObject *parent, QByteArray xsdPath, QByteArray inputXML, QByteArray outputPath) : QObject(parent)
 {
-    this->data1 = data1;
-    this->data2 = data2;
+    this->inputXML = inputXML;
+    this->outputPath = outputPath;
+    this->xsdPath = xsdPath;
 }
 
 
 void ConnectToCSharp::cSharp()
 {
-    QProcess csharp;
+    // Start the A-Plan Core application through network process (QProcess)
+    QProcess c_sharp;
     findOS();   //determine the operating system
     // replace this with corresponding filepath
-    QString filePath = "D:/Users/BKU/SayliArjunPednekar/Desktop/publish/PhelzApp.exe";
-    csharp.start(filePath);
-    if(!csharp.waitForStarted(3000)) {
-        qInfo()<< "Problem with opening of App";
+
+    QByteArray filePath = "eulynx-validator.exe";
+
+//    QByteArray xsdPath = "validatorRelease\\validator";
+
+    c_sharp.start(filePath);
+
+    if(!c_sharp.waitForStarted(3000)) {
+        qDebug()<< "Problem opening Validator App \n ...some linking file(s) are missing";
         return;
     }
-
     // write data(each parameter) to the terminal, followed by Enter key
+    if(!xsdPath.endsWith(endl.toLatin1())) xsdPath.append(endl.toUtf8());
+    c_sharp.write(xsdPath);
+    c_sharp.waitForBytesWritten(1000);
 
-    if(!data1.endsWith(endl.toLatin1())) data1.append(endl.toUtf8());
-    csharp.write(data1);
-    csharp.waitForBytesWritten(1000);
+    if(!inputXML.endsWith(endl.toLatin1())) inputXML.append(endl.toUtf8());
+    c_sharp.write(inputXML);
+    c_sharp.waitForBytesWritten(1000);
 
-    if(!data2.endsWith(endl.toLatin1())) data2.append(endl.toUtf8());
-    csharp.write(data2);
-    csharp.waitForBytesWritten(1000);
+    if(!outputPath.endsWith(endl.toLatin1())) outputPath.append(endl.toUtf8());
+    c_sharp.write(outputPath);
+    c_sharp.waitForBytesWritten(1000);
 
-    csharp.closeWriteChannel();
-    if(!csharp.waitForFinished(3000)) {
-        // Giving maximum of 3 seconds to execute the program
+    c_sharp.closeWriteChannel();
+//    csharp.waitForFinished();
+
+    if(!c_sharp.waitForFinished(15000)) {
+        // Giving maximum of 15 seconds to execute the program
         qInfo() << "The program is taking too long to close the Channel";
         return;
     }
-
-    QByteArray result = csharp.readAll();
-    this->setAntwort(result);
+    this->setAntwort(c_sharp.readAll());
 }
 
 
-QStringList ConnectToCSharp::solutions()
+QChar ConnectToCSharp::solutions()
 {
-    QStringList sol1; // = this->antwort.split("\n");
-    QStringList sol = this->getAntwort().split(QRegularExpression("\\n"), Qt::SkipEmptyParts);
-    foreach(QString value, sol){
-        sol1.append(value.replace('\r',""));
-    }
-    return sol1;
+    if (this->getAntwort().size() >0) return this->getAntwort().at(0);
+    else return 'n';     // else return 'n' for no valid output
 }
 
 const QString &ConnectToCSharp::getApp() const
@@ -100,12 +106,3 @@ void ConnectToCSharp::findOS()
     this->setEndl("\n");
 #endif
 }
-
-
-
-
-
-
-
-
-

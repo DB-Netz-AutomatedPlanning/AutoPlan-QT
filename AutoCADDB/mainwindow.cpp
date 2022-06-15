@@ -17,6 +17,7 @@
 #include "qgraphicssymbolcontainer.h"
 #include "qjsonmodel.h"
 #include "signalsfromunprocessedjson.h"
+#include "connecttocsharp.h"
 #include <QTreeView>
 #include <QComboBox>
 #include<QDebug>
@@ -42,14 +43,13 @@
 #include <QSvgGenerator>
 #include <QPainterPath>
 #include <QHeaderView>
+#include <QErrorMessage>
 
 #include <QPainter>
 #include <QPrinter>
-
 #include <QtGui>
 #include <QtWidgets>
 #include <QtPrintSupport>
-
 #include <iostream>
 
 #if defined(QT_PRINTSUPPORT_LIB)
@@ -1031,3 +1031,162 @@ void MainWindow::on_actionPlanning_Tab_toggled(bool arg1)
     else ui->tabWidget->show();
 }
 
+
+void MainWindow::on_actionEULYNX_Validator_triggered()
+{
+    QDialog dialog(this);
+    dialog.setWindowTitle("Validator");
+    QFormLayout form (&dialog);
+    error = new QErrorMessage(&dialog);
+    error2 = new QErrorMessage(&dialog);
+
+    form.addRow(new QLabel("VALIDATE EULYNX XML"));
+
+    // xsdPath
+    xsdPath = new QLineEdit(&dialog);
+    xsdPath->setPlaceholderText("Select xsd folder");
+    xsdPath->setMinimumSize(QSize(300,25));
+    QPushButton *btnAddXSD = new QPushButton(&dialog);
+    btnAddXSD->setText("Add XSD");
+    QObject::connect(btnAddXSD, SIGNAL(clicked()), this, SLOT(setxsdPath()));
+    form.addRow(xsdPath, btnAddXSD);
+
+    // xmlPath
+    xmlPath = new QLineEdit(&dialog);
+    xmlPath->setPlaceholderText("Path to your input (EULYNX XML)");
+    xmlPath->setMinimumSize(QSize(300,25));
+
+    QPushButton *btnAddXML = new QPushButton(&dialog);
+    btnAddXML->setText("Add xml");
+    QObject::connect(btnAddXML, SIGNAL(clicked()), this, SLOT(setXMLPath()));
+    form.addRow(xmlPath, btnAddXML);
+
+    // outputPath
+    outputPath = new QLineEdit(&dialog);
+    outputPath->setPlaceholderText("Select output folder");
+    outputPath->setMinimumSize(QSize(300,25));
+
+    QPushButton *btnAddFolder = new QPushButton(&dialog);
+    btnAddFolder->setText("Add Path");
+    QObject::connect(btnAddFolder, SIGNAL(clicked()), this, SLOT(setOutputpath()));
+    form.addRow(outputPath, btnAddFolder);
+
+//     Add Cancel and OK button
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+        Qt::Horizontal, &dialog);
+    form.addRow(&buttonBox);
+
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+
+    error->setWindowTitle("Info/Hint");
+    error->showMessage("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n  Expected Encoding:    UTF-8 \n\n"
+                       "Ensure you have correct input (including path to the xsd) \n\n   Also, wait for few seconds to process your input");
+//    error->showMessage("No Problem");
+//    error->show();
+
+
+
+//     Process when OK button is clicked
+    if (dialog.exec() == QDialog::Accepted) {
+
+        QDir dir (xsdPath->text());
+        if (!dir.exists() || xsdPath->text().isEmpty()) {
+            QMessageBox::warning(this,"Invalid XSD Path", "You have entered an invalid input ...\n"
+                                                          "please select a valid folder containing your desired xsd files" );
+            return on_actionEULYNX_Validator_triggered();
+        }
+        QDir dir2 (outputPath->text());
+        if (!dir2.exists() || outputPath->text().isEmpty()){
+            QMessageBox::warning(this,"Invalid Output Folder", "Please select/enter a valid folder to store your report" );
+            return on_actionEULYNX_Validator_triggered();
+        }
+        QFile file (xmlPath->text());
+        if (!file.exists()){
+            QMessageBox::warning(this,"Wrong XML Input", "Please add a valid xml");
+            return on_actionEULYNX_Validator_triggered();
+        }
+//        error2->setWindowTitle("Hint");
+//        error2->showMessage("(1) You need to wait for few seconds to process your input.. (2) Expected Input: EULYNX xml utf-8 encoding )");
+//        QApplication::processEvents();
+        progressBar = new QProgressBar (&dialog);
+        progressBar->move((this->rect().width() /2), (this->rect().height()/2));
+        progressBar->setRange(0,8);
+        progressValue = 2;
+        progressBar->setValue(progressValue);
+        progressBar->show();
+        QApplication::processEvents();
+        progressBar->setWindowFlags(Qt::FramelessWindowHint);
+        progressBar->setAlignment(Qt::AlignCenter);
+        QApplication::processEvents();
+//        progressBar->setWindowTitle("validating xml...");
+        progressBar->setTextVisible(true);
+        QApplication::processEvents();
+        progressBar->setVisible(true);
+        QApplication::processEvents();
+
+        timer = new QTimer(this);
+
+//        timer->setInterval(2000);
+        connect(timer, &QTimer::timeout, this, &MainWindow::timeOut);
+        timer->start();
+
+        ConnectToCSharp *ctsharp = new ConnectToCSharp(nullptr, xsdPath->text().toUtf8(), xmlPath->text().toUtf8(), outputPath->text().toUtf8() );
+        ctsharp->cSharp();
+        cSharpIsDone = true;
+
+        QChar soln = ctsharp->solutions();
+//        QString path = outputPath->text() + "/XML Schema Report.txt";
+//        QFile readFile (path);
+//        qDebug()<< "PATH: " << path;
+//        if (readFile.exists()){
+//            qint64 size = readFile.size();
+//            qDebug()<< "File Size: " << size;
+
+        if(soln == '1') QMessageBox::information(this, "Not Valid!!", "Status :      Not Valid \nType    :      EULYNX XML\n\nReport Detail: \n       check your selected output folder for detailed report");
+        else if (soln== '0') QMessageBox::information(this, " Valid!!", "Status :    GOOD (Valid) \nType    :    EULYNX XML\n\n\n\nReport Detail: \n       check your selected output folder for detailed report");
+        else QMessageBox::information(this, "Oooop!", "Status cannot be determined. \nReason :      Unknown Input\nPreffered :     utf-8 Encoding\n Ensure you have made correct input \n\n ... If the problem persists, please report this error" );
+        progressBar->close();
+    }
+}
+
+
+void MainWindow::setXMLPath()
+{
+    QString file = QFileDialog::getOpenFileName(this, "Add File", "", "(*.xml *.euxml)" );
+    if (file.isEmpty()||file.isNull()) return;
+    xmlPath->setText(file);
+
+}
+
+void MainWindow::setOutputpath()
+{
+    QString path = QFileDialog::getExistingDirectory(this, ("Select Output Folder"), QDir::currentPath());
+    if (path.isNull() || path.isEmpty()) return;
+    outputPath->setText(path);
+}
+
+void MainWindow::setxsdPath()
+{
+    QString path = QFileDialog::getExistingDirectory(this, ("Select xsd Folder"), QDir::currentPath());
+    if (path.isNull() || path.isEmpty()) return;
+    xsdPath->setText(path);
+}
+
+void MainWindow::timeOut()
+{
+    if(!cSharpIsDone && progressValue < 7){
+        progressValue ++;
+        progressBar->setValue(progressValue);
+        QApplication::processEvents();
+    } else if (!cSharpIsDone && progressValue == 7) {
+        progressValue++;
+        progressBar->setValue(progressValue);
+        QApplication::processEvents();
+    }
+    else {
+        progressBar->setValue(8);
+        timer->stop();
+        QApplication::processEvents();
+    }
+}

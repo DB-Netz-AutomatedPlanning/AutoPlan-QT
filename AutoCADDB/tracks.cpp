@@ -24,7 +24,7 @@
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false),
-    drawGleisknotenDP(false)
+    drawGleisknotenDP(false), dark_Mode(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -36,8 +36,6 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(showContextMenu(QPoint)));
-
-    //    setStyleSheet("background-color:yellow");
 }
 
 void Tracks::addGleiskanten()
@@ -738,7 +736,7 @@ void Tracks::setBoolParameters()
     QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
     QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
-    drawGleiskanten = file.exists() ? true : false;
+//    drawGleiskanten = file.exists() ? true : false;
     drawHoehe = file2.exists() ? true : false;
     drawKmLine = file3.exists() ? true : false;
     drawUberhohung = file4.exists() ? true : false;
@@ -1474,7 +1472,7 @@ int Tracks::getMultiplierValue() const
 void Tracks::showContextMenu(QPoint pos)
 {
     QMenu contextMenu(tr("Context Menu"), this);
-    QAction action1("Dark Mode: TestingMode", this);
+    QAction action1("Dark Mode: Torggle (Testing)", this);
     connect(&action1, SIGNAL(triggered()), this, SLOT(darkMode()));
     contextMenu.addAction(&action1);
     contextMenu.exec(mapToGlobal(pos));
@@ -1490,7 +1488,6 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 void Tracks::addSymbol(QString str)
 {
     defaultObjectName = str;
-
     glbObjectName = str;
     QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
     QGraphicsSvgItem *otherSignal = new QGraphicsSvgItem();
@@ -1692,8 +1689,14 @@ void Tracks::deleteSelectedItems()
 
 void Tracks::darkMode()
 {
-    qDebug()<< "In the yellow Mode now ";
-    setStyleSheet("background-color:grey");
+    if (dark_Mode) {
+        setStyleSheet("background-color:white");
+        dark_Mode = !dark_Mode;
+    }
+    else {
+        setStyleSheet("background-color:grey");
+        dark_Mode = !dark_Mode;
+    }
 }
 
 

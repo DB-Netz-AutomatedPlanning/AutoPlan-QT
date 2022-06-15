@@ -144,7 +144,6 @@ private:
     QTextCursor cursor;
 
     void multiplierEffect(float x, float y);
-//    void currentPos(QHoverEvent *hoverEvent);
 
     int multiplierValue = 1;
     bool multiplierDone;
@@ -165,12 +164,12 @@ private:
     bool drawUberhohungDP;
     bool drawGleisknotenDP;
     bool dragModeMouse;
+    bool dark_Mode;
     double xCoord;
     double yCoord;
     int ttt = 0;
     QStringList dataKeys;
     QStringList dataValues;
-
 
 
 //    Object currentObject;

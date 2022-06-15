@@ -177,10 +177,10 @@ void QGraphicsMainWindow::displayXandYCoord()
 
 void QGraphicsMainWindow::disableNonDataCheckbox()
 {
-    if (!ui->checkBoxKanten->isChecked()){
-        ui->checkBoxKanten->setEnabled(false);
-        ui->checkBoxKantenDP->setEnabled(false);
-    }
+//    if (!ui->checkBoxKanten->isChecked()){
+//        ui->checkBoxKanten->setEnabled(false);
+//        ui->checkBoxKantenDP->setEnabled(false);
+//    }
     if (!ui->checkBoxHO->isChecked()){
         ui->checkBoxHO->setEnabled(false);
         ui->checkBoxHODP->setEnabled(false);

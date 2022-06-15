@@ -11,7 +11,7 @@ class ConnectToCSharp : public QObject
 {
     Q_OBJECT
 public:
-    explicit ConnectToCSharp(QObject *parent = nullptr, QByteArray data1 = "", QByteArray data2 ="");
+    explicit ConnectToCSharp(QObject *parent = nullptr, QByteArray xsdPath="", QByteArray inputXML ="", QByteArray outputPath ="");
 
     const QString &getApp() const;
     void setApp(const QString &newApp);
@@ -23,7 +23,7 @@ public:
     void setAntwort(const QString &newAntwort);
     void findOS();
     void cSharp();
-    QStringList solutions();
+    QChar solutions();
 
 
 signals:
@@ -32,9 +32,9 @@ private:
     QString antwort;
     QString app;
     QString endl;
-    QByteArray data1;
-    QByteArray data2;
-
+    QByteArray inputXML;
+    QByteArray outputPath;
+    QByteArray xsdPath;
 };
 
 #endif // CONNECTTOCSHARP_H
