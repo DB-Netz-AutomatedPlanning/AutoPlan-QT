@@ -31,6 +31,7 @@ public:
     void addUberhohung();
     void addGleisknoten();
     void addSignals();
+    void addSignals2();
     void setBoolParameters();
     void reload();
     void addSymbol(QString str);
@@ -140,11 +141,9 @@ private:
     QGraphicsPathItem *gleisknotenDP_Parent;
 
     QGraphicsTextItem *textItem;
-//    QGraphicsTextItem *textItem;
     QTextCursor cursor;
 
     void multiplierEffect(float x, float y);
-//    void currentPos(QHoverEvent *hoverEvent);
 
     int multiplierValue = 1;
     bool multiplierDone;
@@ -165,12 +164,12 @@ private:
     bool drawUberhohungDP;
     bool drawGleisknotenDP;
     bool dragModeMouse;
+    bool dark_Mode;
     double xCoord;
     double yCoord;
     int ttt = 0;
     QStringList dataKeys;
     QStringList dataValues;
-
 
 
 //    Object currentObject;
@@ -189,14 +188,12 @@ public:
     const QStringList &getDataValues() const;
     void setDataValues(const QStringList &newDataValues);
 
+    // QWidget interface
 protected:
     void wheelEvent(QWheelEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event)override;
     void keyPressEvent(QKeyEvent *event) override;
-
-
-    // QWidget interface
-protected:
+    void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
 };
 

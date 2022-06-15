@@ -26,6 +26,8 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Create New Project");
+    ui->leEnterProjectPath->setPlaceholderText("Add a folder to save the project");
+    ui->leImportProjectData->setPlaceholderText("Include your project data");
 
 //    timer.setInterval(3000);
 
@@ -90,7 +92,6 @@ void NewProjectDialog::on_btnBrowseProjectPath_clicked()
 }
 
 
-
 void NewProjectDialog::on_btnBrowseProjectData_clicked()
 {
     if (!QDir(ui->leEnterProjectPath->text()).exists()) {
@@ -98,7 +99,6 @@ void NewProjectDialog::on_btnBrowseProjectData_clicked()
         QMessageBox::warning(this, "Invalid Path", "Please Enter a valid save path in 'Create in' Section");
         return;
     }
-
     if (ui->fileFormatComboBox->currentText() == ".json"){
         fileNames = QFileDialog::getOpenFileNames(this,"Choose Files","", "(*.geojson *.json)");
 

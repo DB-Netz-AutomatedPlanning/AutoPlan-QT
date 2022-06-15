@@ -5,6 +5,7 @@
 #include "mainwindow.h"
 #include "kmtocoordinate.h"
 #include "qgraphicsmainwindow.h"
+#include "signalsfromunprocessedjson.h"
 #include <QGraphicsPathItem>
 #include <QPainter>
 #include <QPainterPath>
@@ -23,7 +24,7 @@
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false),
-    drawGleisknotenDP(false)
+    drawGleisknotenDP(false), dark_Mode(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -35,8 +36,6 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(showContextMenu(QPoint)));
-
-    //    setStyleSheet("background-color:yellow");
 }
 
 void Tracks::addGleiskanten()
@@ -673,6 +672,60 @@ void Tracks::addSignals()
     }
 }
 
+void Tracks::addSignals2()
+{
+    QFile file (projectPath+"/"+projectName+"/temp2/UnprocessedJson.json");
+    if (!file.exists()) return;
+    SignalsFromUnprocessedJson *signal = new SignalsFromUnprocessedJson(nullptr, projectPath+"/"+projectName+"/temp2/UnprocessedJson.json"); //D:/Users/BKU/OlatunjiAjala/Documents/pdf/scheiben/temp2/UnprocessedJson.json  ; D:/Users/BKU/OlatunjiAjala/Documents/pdf/ETCS/temp2/UnprocessedJson.json  ; D:/Users/BKU/OlatunjiAjala/Documents/pdf/new2/temp2/UnprocessedJson.json
+    std::vector< std::vector<QString>> all = signal->signalInfos();
+    if ((int)all.size() ==0) return;
+
+    // Add Symbols/Signals -- only if KmLine data /or Gleiskanen is available (Json)
+    QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
+    QFile la_File(projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn"); // Gleiskanten.dbahn
+    if (!km_file.exists() && !la_File.exists()) return;
+    KmToCoordinate *kmToCoord = new KmToCoordinate(projectPath,projectName);
+    kmToCoord->mapKmAndCoord();
+    kmToCoord->calculateAngles();
+
+    qDebug() << "\n\n" "S/No. " << "|  Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ ";
+    qDebug() << "--------|------------------------------------------------------------------------------------------------------";
+    for (int i=0; i< static_cast<int>(all.size()); i++){
+        QString type = all.at(i)[0];
+        QString function = all.at(i)[1];
+        QString lateralSide =all.at(i)[2];   // Left or Right
+        QString direction = (all.at(i)[3]);  // 1 or 2
+        double linearKm = (all.at(i)[4]).toDouble();
+        double lateralDistance = 3.1;
+        QPointF position;
+
+        // Check if the location geometry already defined in the inout data. If not, it needs to be evaluated
+        if ((all.at(i)[5] =="0") && (all.at(i)[4] != "0")) {
+            position = kmToCoord->getFinalPosition(linearKm,lateralDistance,lateralSide);  //getNearestCoordFromKmValue(val);
+        } else if (all.at(i)[5] != "0") {
+            position = QPointF((all.at(i)[5]).toDouble(), (all.at(i)[6]).toDouble());
+        }
+        else if ((all.at(i)[5] =="0") && (all.at(i)[4] == "0")) continue;
+        double angle = kmToCoord->getAngleFromKmValue(linearKm);
+
+        qDebug()<< "Type: " << type;
+        qDebug()<< "Function: " << function;
+        qDebug()<< "LateralSide: " << lateralSide;
+        qDebug()<< "Direction: "<< direction;
+        qDebug()<< "Lateral Distance: " << lateralDistance;
+        qDebug()<< "Position: " <<position;
+        qDebug() << "Angle "<< angle;
+        // ToDo: re-implement based on the specific function name
+        if (direction == "1") addAutomateSignal("Achszahlkontakt", position, angle, function, QString::number(linearKm), "3.1", lateralSide, direction);
+        //Then add 180 to the angle (to make symbol rotate/turn to other direction
+        else if (direction == "2") addAutomateSignal("Achszahlkontakt", position, angle+180, function, QString::number(linearKm), "3.1", lateralSide, direction);
+        else qDebug()<< "None";
+    }
+
+//    qDebug() << "\n\n" "S/No. " << "|  Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ ";
+//    qDebug() << "--------|------------------------------------------------------------------------------------------------------";
+}
+
 
 void Tracks::setBoolParameters()
 {
@@ -683,7 +736,7 @@ void Tracks::setBoolParameters()
     QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
     QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
-    drawGleiskanten = file.exists() ? true : false;
+//    drawGleiskanten = file.exists() ? true : false;
     drawHoehe = file2.exists() ? true : false;
     drawKmLine = file3.exists() ? true : false;
     drawUberhohung = file4.exists() ? true : false;
@@ -1205,6 +1258,14 @@ void Tracks::keyPressEvent(QKeyEvent *event)
     QGraphicsView::keyPressEvent(event);
 }
 
+void Tracks::mouseMoveEvent(QMouseEvent *event)
+{
+    QPointF pos = mapToScene((event->pos()));
+    setXCoord(pos.x());
+    setYCoord(pos.y());
+    QGraphicsView::mouseMoveEvent(event);
+}
+
 void Tracks::mouseDoubleClickEvent(QMouseEvent *event)
 {
     const QPointF &pos = mapToScene(event->pos());
@@ -1411,7 +1472,7 @@ int Tracks::getMultiplierValue() const
 void Tracks::showContextMenu(QPoint pos)
 {
     QMenu contextMenu(tr("Context Menu"), this);
-    QAction action1("Yellow Background: TestingMode", this);
+    QAction action1("Dark Mode: Torggle (Testing)", this);
     connect(&action1, SIGNAL(triggered()), this, SLOT(darkMode()));
     contextMenu.addAction(&action1);
     contextMenu.exec(mapToGlobal(pos));
@@ -1427,7 +1488,6 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 void Tracks::addSymbol(QString str)
 {
     defaultObjectName = str;
-
     glbObjectName = str;
     QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
     QGraphicsSvgItem *otherSignal = new QGraphicsSvgItem();
@@ -1455,8 +1515,6 @@ void Tracks :: sceneSelectedItems(int degree){
         QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
         if(breakToolTip[0].isEmpty()){
             QPointF rotationPt = item->boundingRect().center();
-            //            qreal xRotationPt = item->boundingRect().x() + (item->boundingRect().width()/2);
-            //            qreal yRotationPt = item->boundingRect().y() + (item->boundingRect().height() /2);
             item->setTransformOriginPoint(rotationPt);
             item->setRotation(degree);
         }//else{
@@ -1561,7 +1619,9 @@ bool Tracks::ReadOperator(QString fileName)
 
 void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QString type,
                                QString position, QString latDist, QString orientation, QString direction)
+
 {
+//    "Abfahrsignal", position, angle, function,all.at(i)[0], "3.1", lateralSide, direction
     QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+name+".svg"));
     QGraphicsSvgItem *signal = new QGraphicsSvgItem();
     signal->setSharedRenderer(renderer);
@@ -1629,8 +1689,14 @@ void Tracks::deleteSelectedItems()
 
 void Tracks::darkMode()
 {
-    qDebug()<< "In the yellow Mode now ";
-    setStyleSheet("background-color:yellow");
+    if (dark_Mode) {
+        setStyleSheet("background-color:white");
+        dark_Mode = !dark_Mode;
+    }
+    else {
+        setStyleSheet("background-color:grey");
+        dark_Mode = !dark_Mode;
+    }
 }
 
 

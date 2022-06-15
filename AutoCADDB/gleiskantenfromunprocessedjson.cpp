@@ -225,14 +225,14 @@ std::vector<QString> GleiskantenFromUnprocessedJson::lookForCoord(QString curren
                 }
 
                 // z-axis
-                if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-                        ["usesPositioningSystemCoordinate"][j]["z"].isString()){
-                    values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-                            ["usesPositioningSystemCoordinate"][j]["z"].toString());
-                } else {
-                    values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
-                            ["usesPositioningSystemCoordinate"][j]["z"].toDouble(), 'f', 8));
-                }
+//                if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                        ["usesPositioningSystemCoordinate"][j]["z"].isString()){
+//                    values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][j]["z"].toString());
+//                } else {
+//                    values.push_back(QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
+//                            ["usesPositioningSystemCoordinate"][j]["z"].toDouble(), 'f', 8));
+//                }
             }
             break;
         }
@@ -274,7 +274,7 @@ std::vector<std::vector<double> > GleiskantenFromUnprocessedJson::arrayOfCoordin
                 //qDebug()<< "0 :"<< coordValue[0].toDouble() << "   1 :  "<< coordValue[1]<< "     2 :   " << coordValue[2];
                 segmentData.push_back(coordValue[0].toDouble());
                 segmentData.push_back(coordValue[1].toDouble());
-                segmentData.push_back(coordValue[2].toDouble());
+//                segmentData.push_back(coordValue[2].toDouble());
                 j++;
             }
 //            progressValue++;
@@ -364,11 +364,11 @@ QJsonObject GleiskantenFromUnprocessedJson::geometry(std::vector<double> coord){
     QJsonArray allCoord;
 
 
-    for (int i=0; i< (int)coord.size(); i=i+3){
+    for (int i=0; i< (int)coord.size(); i=i+2){
         QJsonArray currentArr;
         currentArr.append(coord.at(i));
         currentArr.append(coord.at(i+1));
-        currentArr.append(coord.at(i+2));
+//        currentArr.append(coord.at(i+2));
         allCoord.append(currentArr);
     }
     geom.insert("type", "LineString");

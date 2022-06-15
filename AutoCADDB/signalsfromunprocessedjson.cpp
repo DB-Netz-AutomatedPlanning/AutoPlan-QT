@@ -161,9 +161,6 @@ void SignalsFromUnprocessedJson::searchLocation()
                     usesLocationRef_Km = document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["coordinates"][0]["ref"].isUndefined() ? "" : document["hasDataContainer"][0]
                             ["ownsRsmEntities"]["usesLocation"][l]["coordinates"][0]["ref"].toString();
                 }
-
-
-
                 // checking for the geographical coordinate ref
                 usesLocationRef_Geo = document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["bounds"]
                         [0]["coordinates"][1]["ref"].isUndefined() ? "" : document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["bounds"]

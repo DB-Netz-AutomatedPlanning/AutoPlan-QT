@@ -4,6 +4,7 @@
 #include "qgraphicsmainwindow.h"
 #include "qgraphicssymbolcontainer.h"
 #include <QMainWindow>
+#include <QProgressDialog>
 #include <QWidget>
 #include <QSlider>
 #include <QList>
@@ -12,6 +13,7 @@
 #include <QPushButton>
 #include <QMouseEvent>
 #include <QTableWidget>
+#include <QErrorMessage>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -36,6 +38,7 @@ public:
   void mousePressEvent(QMouseEvent *event) override;
   void paintEvent(QPaintEvent *event) override;
 public slots:
+  void on_actionEULYNX_Validator_triggered();
 
 private slots:
 
@@ -55,6 +58,12 @@ private slots:
     void on_actionOpen_triggered();
     void fetchObjectProps();
     bool writeFooBar();
+
+    //Validator
+    void setXMLPath();
+    void setOutputpath();
+    void setxsdPath();
+    void timeOut();
 
     //MENU
     void save();
@@ -99,6 +108,8 @@ private slots:
 
     void on_actionPlanning_Tab_toggled(bool arg1);
 
+
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;
@@ -123,9 +134,22 @@ private:
     bool dockWidgetCreated;
     QGraphicsSymbolContainer *svgDialog;
 
+    // Validator
+    QLineEdit *xmlPath;
+    QLineEdit *outputPath;
+    QLineEdit *xsdPath;
+    QProgressDialog *progress;
+    QProgressBar *progressBar;
+    bool cSharpIsDone = false;
+    QTimer *timer;
+    QErrorMessage *error;
+    QErrorMessage *error2;
+    int progressValue;
+
+
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
+    void keyPressEvent(QKeyEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
 
 };

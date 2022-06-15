@@ -11,8 +11,12 @@ KmToCoordinate::KmToCoordinate(QString pPath, QString pName)
     this->pPath = pPath;
     this->pName = pName;
 
+    QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
+//    QFile kanten_File(projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn"); // D:\Users\BKU\OlatunjiAjala\Documents\pdf\Sample2\temp\Gleiskanten.dbahn
+
+    QString usedDataFile = km_file.exists() ? "Entwurfselement_KM.dbahn" : "Entwurfselement_LA.dbahn";  //Gleiskanten.dbahn
     coord = new Coordinates(pPath,pName);
-    coord->readCoordinates("Entwurfselement_KM.dbahn", countryCode);
+    coord->readCoordinates(usedDataFile, countryCode);
     setSegmentExtremeKmValues(coord->getSegmentExtremeKmValues());
     setSegmentExtremePoints(coord->getSegmentExtremePoints());
 }
@@ -95,7 +99,6 @@ void KmToCoordinate::calculateSegmentLength()
         lenghts.push_back(val);
     }
     setSegmentLengths(lenghts);
-
     calculateSegmentAllPoints();
     calculateSegmentPointDistance();
     std::vector<std::vector<double>> segPtDistance = getSegmentPointDistance();
@@ -135,26 +138,33 @@ void KmToCoordinate::calculateRealKmValues()
 {
     int extremeCounter =0;
     std::vector<double> extremeKm = getSegmentExtremeKmValues();
+    qDebug()<< ":::::::::::::::::::::21";
     std::vector<double> actualSegLength = getSegmentLengths();
+    qDebug()<< ":::::::::::::::::::::22";
     std::vector<double> sumDist = getSegmentLengths_FromAddedValues(); // Length obtain by adding all the smaller segments;
+    qDebug()<< ":::::::::::::::::::::23";
     std::vector<std::vector<double>> segPtDist = getSegmentPointDistance();
-
+    qDebug()<< ":::::::::::::::::::::24";
     std::vector<std::vector<double>> real_Km_Values;
 
     for (int i=0; i<(int)segPtDist.size(); i++){
         double sum =0;
         real_Km_Values.push_back(std::vector<double>());
         sum += extremeKm[extremeCounter];
+        qDebug()<< ":::::::::::::::::::::25";
         real_Km_Values[i].push_back(sum);
+        qDebug()<< ":::::::::::::::::::::26";
 
         foreach(double val, segPtDist[i]){
+            qDebug()<< ":::::::::::::::::::::27";
             double estimate = estimateActualLength(actualSegLength[i],sumDist[i],val);
+            qDebug()<< ":::::::::::::::::::::28";
             sum += estimate;
             real_Km_Values[i].push_back(sum);
+            qDebug()<< ":::::::::::::::::::::29";
         }
         extremeCounter += 2;
     }
-
     setRealKmValues(real_Km_Values);
 }
 
@@ -178,10 +188,16 @@ void KmToCoordinate::mapKmAndCoord()
 {
 //    calculateSegmentAllPoints();
 //    calculateSegmentPointDistance();
+
+    qDebug()<< "::::::::::::::10";
     calculateSegmentLength();
+    qDebug()<< "::::::::::::::11";
     calculateRealKmValues();
+    qDebug()<< "::::::::::::::12";
     std::vector<std::vector<double>> real_Km_Values = getRealKmValues();
+    qDebug()<< "::::::::::::::13";
     std::vector<std::vector<QPointF>> allPoints = getSegmentAllPoints();
+    qDebug()<< "::::::::::::::14";
     QMap<double, QPointF> km_And_Coord;
     int sum =0;
     for(int i=0; i< (int)allPoints.size(); i++){
@@ -190,6 +206,7 @@ void KmToCoordinate::mapKmAndCoord()
             sum++;
         }
     }
+    qDebug()<< "::::::::::::::15";
     setKmAndCoord(km_And_Coord);
 //    qDebug()<< "Total = "<< sum;
 }

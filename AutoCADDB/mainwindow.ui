@@ -1413,6 +1413,9 @@ QPushButton:enabled { background-color: green; }</string>
    </property>
   </action>
   <action name="actionUndo_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/icons/assets/menubar/undo.png</normaloff>:/icons/assets/menubar/undo.png</iconset>
@@ -1425,6 +1428,9 @@ QPushButton:enabled { background-color: green; }</string>
    </property>
   </action>
   <action name="actionRedo_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/icons/assets/menubar/redo.png</normaloff>:/icons/assets/menubar/redo.png</iconset>

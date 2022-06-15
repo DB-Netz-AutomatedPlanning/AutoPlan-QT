@@ -45,7 +45,7 @@ private slots:
 
     void on_checkBoxUHDP_toggled(bool checked);
 
-    void on_rortatebtn_clicked();
+//    void on_rortatebtn_clicked();
 
 //    void on_horizontalSlider_actionTriggered(int action);
 
@@ -54,6 +54,10 @@ private slots:
     void on_checkBoxKnotenDP_toggled(bool checked);
 
     void on_spinBox_RotateView_valueChanged(int arg1);
+
+    void displayXandYCoord();
+
+    void disableNonDataCheckbox();
 
 private:
     Ui::QGraphicsMainWindow *ui;
@@ -64,6 +68,7 @@ private:
 //protected slots:
 //     void wheelEvent(QWheelEvent *event);
 //     void keyPressEvent(QKeyEvent *event);
+
 };
 
 #endif // QGRAPHICSMAINWINDOW_H
