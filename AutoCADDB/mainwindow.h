@@ -36,6 +36,7 @@ public:
     void setObjNameTW(QString);
      MyOpenglWidget *myopen;
      void createViewToolBar();
+     void removeGabageData();
 
   void paintEvent(QPaintEvent *event) override;
 public slots:

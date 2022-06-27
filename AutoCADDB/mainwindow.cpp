@@ -201,19 +201,19 @@ void MainWindow::setObjNameTW(QString str){
     update();
 }
 
-//void MainWindow::removeGabageData()
-//{
-//    QString savedFilePath = projectPath + "/"+ projectName +"/"+ projectName + ".aplan";
-//    QFile file (savedFilePath);
-//    if (file.exists()) return;
+void MainWindow::removeGabageData()
+{
+    QString savedFilePath = projectPath + "/"+ projectName +"/"+ projectName + ".aplan";
+    QFile file (savedFilePath);
+    if (file.exists()) return;
 
-//    if (projectPath == "" || projectName == "") return;
+    if (projectPath == "" || projectName == "") return;
 
-//    QDir dir(projectPath + "/"+ projectName);
-//    if (dir.exists()){
-//        dir.removeRecursively();
-//    }
-//}
+    QDir dir(projectPath + "/"+ projectName);
+    if (dir.exists()){
+        dir.removeRecursively();
+    }
+}
 
 void MainWindow::createViewToolBar()
 {
@@ -275,7 +275,6 @@ void MainWindow::addTab()
 
 void MainWindow::closeTab(int index)
 {
-//    removeGabageData();
     if (index ==0 && isFirstTab){
         isFirstTab = false;
         delete ui->tabWidget_2->widget(index);
@@ -294,6 +293,7 @@ void MainWindow::closeTab(int index)
         viewDockSubMenu->removeAction(dock2->toggleViewAction());
         dockWidgetCreated = !dockWidgetCreated;
     }
+    removeGabageData();
 }
 
 
@@ -309,7 +309,7 @@ void MainWindow::on_actionOpen_triggered()
 //        } else if (reply == QMessageBox::No) delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
         }else if (reply == QMessageBox::Cancel ) return;
     }
-//    removeGabageData();
+    removeGabageData();
     QString selectedFile = QFileDialog::getOpenFileName(this, "Open the file");
     if(selectedFile.isNull() || selectedFile.isEmpty() || selectedFile == "") return;
     QFile file(selectedFile);
@@ -351,8 +351,8 @@ void MainWindow::on_actionOpen_triggered()
     QString allData;
     allData = QString(decoded);
     file2.close();
-
-    QStringList getOtherData = allData.split(QRegularExpression("\n"));
+    static QRegularExpression re("\n");
+    QStringList getOtherData = allData.split(re);
     fileFormat = getOtherData.at(0);
     countryCode = getOtherData.at(1);
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
@@ -711,7 +711,7 @@ void MainWindow::onNewProjectClicked()
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
-//    removeGabageData();
+    removeGabageData();
     if (dockWidgetCreated) {
         viewDockSubMenu->removeAction(dock1->toggleViewAction());
         dock1->close();
@@ -801,7 +801,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
         event->ignore();
         QCoreApplication::quit();
     }
-//    removeGabageData();
+    removeGabageData();
 }
 
 // this event loads everytime after specific time interval or anything is updated on the screen
