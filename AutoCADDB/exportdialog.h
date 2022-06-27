@@ -8,6 +8,7 @@
 #include<QSysInfo>
 #include<QProcess>
 #include<QDebug>
+#include <QTimer>
 #include<QRegularExpression>
 #include <previeweulynxxml.h>
 
@@ -40,6 +41,8 @@ private slots:
 
     void on_btnCancel_clicked();
 
+    void timeOut();
+
 signals:
 
 private:
@@ -47,6 +50,16 @@ private:
     QString app;
     QString endl;
 
+    //progress bar
+    QTimer *timer;
+    int progressBarValue;
+    bool isStart;
+    bool isEnd;
+
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // EXPORTDIALOG_H
