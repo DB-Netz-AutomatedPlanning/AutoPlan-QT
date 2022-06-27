@@ -9,7 +9,7 @@
 
 QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::QGraphicsMainWindow), rotation_angle(0)
+    ui(new Ui::QGraphicsMainWindow)
 {
     ui->setupUi(this);
     scene = new QGraphicsScene(this);
@@ -63,10 +63,10 @@ QGraphicsMainWindow::~QGraphicsMainWindow()
 void QGraphicsMainWindow::on_checkBoxGridLine_toggled(bool checked)
 {
     tracks->setDrawGrids(checked);
-    qDebug()<< "SceneGeometry: "<<tracks->screen()->geometry();
-    qDebug()<< "SceneRect: "<<tracks->sceneRect();
-    qDebug()<< "SceneHeight: "<<tracks->scene()->height();
-    qDebug()<< "SceneWidth: "<<tracks->scene()->width();
+//    qDebug()<< "SceneGeometry: "<<tracks->screen()->geometry();
+//    qDebug()<< "SceneRect: "<<tracks->sceneRect();
+//    qDebug()<< "SceneHeight: "<<tracks->scene()->height();
+//    qDebug()<< "SceneWidth: "<<tracks->scene()->width();
 //    tracks->grab(scene->sceneRect().toRect());
 }
 
@@ -162,10 +162,14 @@ void QGraphicsMainWindow::on_checkBoxKnotenDP_toggled(bool checked)
 
 void QGraphicsMainWindow::on_spinBox_RotateView_valueChanged(int arg1)
 {
+//    QTransform transform;
+//    transform.scale(zoomSpinBox->value() /100.00 , zoomSpinBox->value()/100.00 );
+//    transform.rotate(rotation_angle);
+////    view->setTransform(transform);
+//    tracks->setTransform(transform);
 
-    if((arg1 - rotation_angle) > 0) tracks->rotate(10);
-    else if((arg1 - rotation_angle) < 0) tracks->rotate(-10);
-
+    if((arg1 - rotation_angle) > 0) tracks->rotate(5);
+    else if((arg1 - rotation_angle) < 0) tracks->rotate(-5);
     rotation_angle = arg1;
 }
 

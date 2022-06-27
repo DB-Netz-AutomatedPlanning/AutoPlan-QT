@@ -72,7 +72,7 @@ bool isChecked = true;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow), currentSpinNumber(0)
 {
     scribbleArea= new MyOpenglWidget(this);
     setCentralWidget(scribbleArea);
@@ -84,6 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(showContextMenu(QPoint)));
     viewDockSubMenu = ui->menuView->addMenu(tr("Object Parameters"));
+    createViewToolBar();
 
     hideMenuBar = false;
     hideFileTab = false;
@@ -153,8 +154,6 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
 
-
-
     //MENU actionOpen
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(onNewProjectClicked()));
@@ -180,6 +179,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setItem(0, 1, newItem1);
     QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
     ui->tableWidget->setItem(1, 0, newItem2);
+
+
 }
 
 
@@ -198,6 +199,33 @@ void MainWindow::setObjNameTW(QString str){
     ui->tableWidget->item(0, 1)->setText(str);
 
     update();
+}
+
+//void MainWindow::removeGabageData()
+//{
+//    QString savedFilePath = projectPath + "/"+ projectName +"/"+ projectName + ".aplan";
+//    QFile file (savedFilePath);
+//    if (file.exists()) return;
+
+//    if (projectPath == "" || projectName == "") return;
+
+//    QDir dir(projectPath + "/"+ projectName);
+//    if (dir.exists()){
+//        dir.removeRecursively();
+//    }
+//}
+
+void MainWindow::createViewToolBar()
+{
+    QLabel *label = new QLabel(tr("zoom"));
+    ui->viewToolBar->addWidget(label);
+    zoomSpinBox = new QSpinBox();
+    zoomSpinBox->setRange(0,1000);
+    zoomSpinBox->setValue(100);
+    zoomSpinBox->setSingleStep(2);
+    zoomSpinBox->setEnabled(false);
+    ui->viewToolBar->addWidget(zoomSpinBox);
+    connect(zoomSpinBox, SIGNAL(valueChanged(int)), this, SLOT(transformation(int)));
 }
 
 void MainWindow::hideFile()
@@ -247,6 +275,7 @@ void MainWindow::addTab()
 
 void MainWindow::closeTab(int index)
 {
+//    removeGabageData();
     if (index ==0 && isFirstTab){
         isFirstTab = false;
         delete ui->tabWidget_2->widget(index);
@@ -280,6 +309,7 @@ void MainWindow::on_actionOpen_triggered()
 //        } else if (reply == QMessageBox::No) delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
         }else if (reply == QMessageBox::Cancel ) return;
     }
+//    removeGabageData();
     QString selectedFile = QFileDialog::getOpenFileName(this, "Open the file");
     if(selectedFile.isNull() || selectedFile.isEmpty() || selectedFile == "") return;
     QFile file(selectedFile);
@@ -332,10 +362,11 @@ void MainWindow::on_actionOpen_triggered()
     tracks->ReadOperator(selectedFile); // for symbols
     readSettings();
 
-    // Enable Save, SaveAs, and Print button
+    // Enable Save, SaveAs, zoom, and Print button
     ui->actionSave->setEnabled(true);
     ui->actionSave_As->setEnabled(true);
     ui->actionPrint->setEnabled(true);
+    zoomSpinBox->setEnabled(true);
     if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
     else ui->actionXML_Json->setEnabled(false);   // to fix the condition if .euxml has previously been opened
     // Create dock widget
@@ -395,17 +426,6 @@ void MainWindow::on_actionSave_triggered()
     ui->statusbar->showMessage("Project saving in progress. . . ", 5000);
     QTimer::singleShot(4500, [this]{ui->statusbar->setStyleSheet("QStatusBar{padding-left:8px;background:"
                                                                  "rgba(0,0,0,0);color:black;font-weight:bold;}");});
-}
-
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    Q_UNUSED(event);
-}
-
-
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    Q_UNUSED(event);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
@@ -504,6 +524,7 @@ void MainWindow::save()
         ui->actionSave->setEnabled(false);
         ui->actionSave_As->setEnabled(false);
         ui->actionPrint->setEnabled(false);
+        zoomSpinBox->setEnabled(false);
         return;
     }
     QString fileName = QFileDialog::getSaveFileName(this, "Save As", "", "Windows Bitmap(*.BMP);;Joint Photographic Experts Group(*.JPG);;Joint Photographic Experts Group(*.JPEG);;"
@@ -564,42 +585,6 @@ void MainWindow::print()
 void MainWindow::exit()
 {
     QCoreApplication::quit();
-}
-
-
-//Rayhan's code
-
-void MainWindow::importShapeFiles()
-{
-    //    FileChooser fileChooser = new FileChooser();
-    //            fileChooser.setTitle("Import Multiple Files");
-    //            fileChooser.getExtensionFilters().addAll(
-    //                    new FileChooser.ExtensionFilter("All Shapefiles", "*.*"),
-    //                    new FileChooser.ExtensionFilter("DBF", "*.dbf"),
-    //                    new FileChooser.ExtensionFilter("CPG", "*.cpg"),
-    //                    new FileChooser.ExtensionFilter("SHX", "*.shx"),
-    //                    new FileChooser.ExtensionFilter("PRJ", "*.prj"),
-    //                    new FileChooser.ExtensionFilter("QPJ", "*.qpj"),
-    //                    new FileChooser.ExtensionFilter("SHP", "*.shp")
-    //            );
-    //            Stage stage = (Stage) gridPane.getScene().getWindow();
-
-    //            files = fileChooser.showOpenMultipleDialog(stage);
-    //            db.setFiles(files);
-    //            db.copyData();
-
-    QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
-    QFile file(fileName);
-    readFile = fileName;
-    if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-        // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
-        return;
-    }
-    setWindowTitle(fileName);
-    QTextStream in(&file);
-    QString text = in.readAll();
-    //ui->textEdit->setText(text);
-    file.close();
 }
 
 void MainWindow::exportToPicture()
@@ -726,6 +711,7 @@ void MainWindow::onNewProjectClicked()
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+//    removeGabageData();
     if (dockWidgetCreated) {
         viewDockSubMenu->removeAction(dock1->toggleViewAction());
         dock1->close();
@@ -745,8 +731,7 @@ void MainWindow::onNewProjectClicked()
         dock2->close();
         dock1->close();
         dockWidgetCreated = !dockWidgetCreated;
-    }
-    createDock();
+    } else createDock();
 }
 
 void MainWindow::setActionMenus(bool activate)
@@ -755,21 +740,42 @@ void MainWindow::setActionMenus(bool activate)
     ui->actionSave_As->setEnabled(activate);
     ui->actionPrint->setEnabled(activate);
     ui->actionXML_Json->setEnabled(activate);
+    zoomSpinBox->setEnabled(activate);
     viewDockSubMenu->setEnabled(activate);
 }
 
 void MainWindow::writeSettings()
 {
-    QSettings settings ("DB_Netz", "APlan");
-    settings.setValue("geometry",saveGeometry());
-    settings.setValue("windowState", saveState());
+    QSettings *settings = new QSettings("DB_Netz", "APlan");
+    settings->beginGroup("outputPaths");
+    settings->setValue("exportOutputPath", exportPath);
+    settings->setValue("planningOutputPath", planningOutputPath);
+    settings->setValue("newProjectPath", newProjectPath);
+
+    settings->endGroup();
+
+//    settings->beginGroup("MainWindow");
+//    settings->setValue("size", size());
+//    settings->setValue("position",pos());
+//    settings->setValue("windowState", saveState());
+//    settings->endGroup();
 }
 
 void MainWindow::readSettings()
 {
-    QSettings settings ("DB_Netz", "APlan");
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("windowState").toByteArray());
+    QSettings *settings = new QSettings("DB_Netz", "APlan");
+
+    settings->beginGroup("outputPaths");
+    exportPath = settings->value("exportOutputPath").toString();
+    planningOutputPath = settings->value("planningOutputPath").toString();
+    newProjectPath = settings->value("newProjectPath").toString();
+    settings->endGroup();
+
+//    settings->beginGroup("MainWindow");
+//    resize(settings->value("size",QSize(600,500)).toSize());
+//    move(settings->value("position", QPoint(200,200)).toPoint());
+//    restoreState(settings->value("windowState").toByteArray());
+//    settings->endGroup();
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
@@ -795,6 +801,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
         event->ignore();
         QCoreApplication::quit();
     }
+//    removeGabageData();
 }
 
 // this event loads everytime after specific time interval or anything is updated on the screen
@@ -836,6 +843,7 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         ui->actionSave->setEnabled(true);
         ui->actionSave_As->setEnabled(true);
         ui->actionPrint->setEnabled(true);
+        zoomSpinBox->setEnabled(true);
         if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
         else ui->actionXML_Json->setEnabled(false);
     }
@@ -1031,6 +1039,14 @@ void MainWindow::on_actionPlanning_Tab_toggled(bool arg1)
     else ui->tabWidget->show();
 }
 
+void MainWindow::transformation(int)
+{
+    qreal factor;
+    factor = (zoomSpinBox->value() > currentSpinNumber) ? 1.1 : 0.9;
+    tracks->scale(factor, factor);
+    currentSpinNumber = zoomSpinBox->value();
+}
+
 
 void MainWindow::on_actionEULYNX_Validator_triggered()
 {
@@ -1115,15 +1131,11 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
         progressValue = 2;
         progressBar->setValue(progressValue);
         progressBar->show();
-        QApplication::processEvents();
         progressBar->setWindowFlags(Qt::FramelessWindowHint);
         progressBar->setAlignment(Qt::AlignCenter);
-        QApplication::processEvents();
 //        progressBar->setWindowTitle("validating xml...");
         progressBar->setTextVisible(true);
-        QApplication::processEvents();
         progressBar->setVisible(true);
-        QApplication::processEvents();
 
         timer = new QTimer(this);
 
@@ -1156,7 +1168,6 @@ void MainWindow::setXMLPath()
     QString file = QFileDialog::getOpenFileName(this, "Add File", "", "(*.xml *.euxml)" );
     if (file.isEmpty()||file.isNull()) return;
     xmlPath->setText(file);
-
 }
 
 void MainWindow::setOutputpath()

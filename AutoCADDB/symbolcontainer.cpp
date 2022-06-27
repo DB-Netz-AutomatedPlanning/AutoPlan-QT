@@ -18,6 +18,9 @@ QString countryCode ="";
 QString fileFormat = "";
 bool mouseDragMode = false;
 
+//Rotation Angle
+int rotation_angle = 0;
+
 QString glbObjectName = "sayli";
 QString defaultObjectName = "default name";
 bool createNewProject = false;
@@ -30,6 +33,10 @@ bool isEuXml = false;
 int totalValue =0;
 int progressValue =1; // out of 8
 
+
+QString exportPath = "";
+QString planningOutputPath = "";
+QString newProjectPath = "";
 
 
 //name
@@ -46,6 +53,6 @@ SymbolContainer::SymbolContainer(QWidget *parent) :
 SymbolContainer::~SymbolContainer()
 {
 
-    glbObjectName = "sayli";
+    glbObjectName = "";
     delete ui ;
 }
