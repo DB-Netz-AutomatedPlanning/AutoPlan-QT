@@ -19,11 +19,11 @@
 #include "signalsfromunprocessedjson.h"
 #include "connecttocsharp.h"
 #include <QTreeView>
-#include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
 #include<QToolButton>
 #include <QComboBox>
+#include <QCheckBox>
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -712,6 +712,8 @@ void MainWindow::onNewProjectClicked()
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     removeGabageData();
+    // Enable Save, SaveAs, zoom, and Print button
+    setActionMenus(false);
     if (dockWidgetCreated) {
         viewDockSubMenu->removeAction(dock1->toggleViewAction());
         dock1->close();
@@ -1053,8 +1055,6 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
     QDialog dialog(this);
     dialog.setWindowTitle("Validator");
     QFormLayout form (&dialog);
-    error = new QErrorMessage(&dialog);
-    error2 = new QErrorMessage(&dialog);
 
     form.addRow(new QLabel("VALIDATE EULYNX XML"));
 
@@ -1095,17 +1095,29 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
     QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
     QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
-    error->setWindowTitle("Info/Hint");
-    error->showMessage("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n  Expected Encoding:    UTF-8 \n\n"
-                       "Ensure you have correct input (including path to the xsd) \n\n   Also, wait for few seconds to process your input");
-//    error->showMessage("No Problem");
-//    error->show();
+//    error->setWindowTitle("Info/Hint");
+//    error->showMessage("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n  Expected Encoding:    UTF-8 \n\n"
+//                       "Ensure you have correct input (including path to the xsd) \n\n   Also, wait for few seconds to process your input");
+//    error->exec();
+//    error->update();
 
+    if (showMessageBox) {
+        QCheckBox *cb = new QCheckBox("Do not show this message again");
+        QMessageBox msgbox;
+        msgbox.setText("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n Expected Encoding:    UTF-8 \n"
+                       "Ensure you have correct input (including path to the xsd) \nAlso, wait for few seconds to process your input \n\n");
+        msgbox.setIcon(QMessageBox::Icon::Question);
+        msgbox.addButton(QMessageBox::Ok);
+        msgbox.addButton(QMessageBox::Cancel);
+        msgbox.setDefaultButton(QMessageBox::Cancel);
+        msgbox.setCheckBox(cb);
 
+        QObject::connect(cb, &QCheckBox::stateChanged, this, &MainWindow::stateChanged);
+        msgbox.exec();
+    }
 
 //     Process when OK button is clicked
     if (dialog.exec() == QDialog::Accepted) {
-
         QDir dir (xsdPath->text());
         if (!dir.exists() || xsdPath->text().isEmpty()) {
             QMessageBox::warning(this,"Invalid XSD Path", "You have entered an invalid input ...\n"
@@ -1125,23 +1137,28 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
 //        error2->setWindowTitle("Hint");
 //        error2->showMessage("(1) You need to wait for few seconds to process your input.. (2) Expected Input: EULYNX xml utf-8 encoding )");
 //        QApplication::processEvents();
-        progressBar = new QProgressBar (&dialog);
-        progressBar->move((this->rect().width() /2), (this->rect().height()/2));
-        progressBar->setRange(0,8);
+        progress = new QProgressDialog ("Operation in progress ...", "Cancel", 0, 8, this); //&dialog
+        progress->move((this->rect().width() /2), (this->rect().height()/2));
+        progress->setRange(0,8);
         progressValue = 2;
-        progressBar->setValue(progressValue);
-        progressBar->show();
-        progressBar->setWindowFlags(Qt::FramelessWindowHint);
-        progressBar->setAlignment(Qt::AlignCenter);
-//        progressBar->setWindowTitle("validating xml...");
-        progressBar->setTextVisible(true);
-        progressBar->setVisible(true);
+        progress->setWindowModality(Qt::WindowModal);
+        progress->setValue(progressValue);
+//        progress->show();
 
+//        progress->setWindowFlags(Qt::FramelessWindowHint);
+//        progress->setAlignment(Qt::AlignCenter);
+        progress->setWindowTitle("validating xml...");
+//        progress->setTextVisible(true);
+        progress->setVisible(true);
+        QApplication::processEvents();
         timer = new QTimer(this);
 
 //        timer->setInterval(2000);
         connect(timer, &QTimer::timeout, this, &MainWindow::timeOut);
+
         timer->start();
+        progress->setValue(progressValue);
+        QApplication::processEvents();
 
         ConnectToCSharp *ctsharp = new ConnectToCSharp(nullptr, xsdPath->text().toUtf8(), xmlPath->text().toUtf8(), outputPath->text().toUtf8() );
         ctsharp->cSharp();
@@ -1157,9 +1174,14 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
 
         if(soln == '1') QMessageBox::information(this, "Not Valid!!", "Status :      Not Valid \nType    :      EULYNX XML\n\nReport Detail: \n       check your selected output folder for detailed report");
         else if (soln== '0') QMessageBox::information(this, " Valid!!", "Status :    GOOD (Valid) \nType    :    EULYNX XML\n\n\n\nReport Detail: \n       check your selected output folder for detailed report");
-        else QMessageBox::information(this, "Oooop!", "Status cannot be determined. \nReason :      Unknown Input\nPreffered :     utf-8 Encoding\n Ensure you have made correct input \n\n ... If the problem persists, please report this error" );
-        progressBar->close();
+        else QMessageBox::information(this, "Oooop!", "Status cannot be determined. \nReason :      Unknown Input\nPreffered :     utf-8 Encoding\n Ensure you have made correct input" );
+        progress->close();
     }
+}
+
+void MainWindow::stateChanged(int state)
+{
+    showMessageBox = state == 0 ? true : false;
 }
 
 
@@ -1188,15 +1210,15 @@ void MainWindow::timeOut()
 {
     if(!cSharpIsDone && progressValue < 7){
         progressValue ++;
-        progressBar->setValue(progressValue);
+        progress->setValue(progressValue);
         QApplication::processEvents();
     } else if (!cSharpIsDone && progressValue == 7) {
         progressValue++;
-        progressBar->setValue(progressValue);
+        progress->setValue(progressValue);
         QApplication::processEvents();
     }
     else {
-        progressBar->setValue(8);
+        progress->setValue(8);
         timer->stop();
         QApplication::processEvents();
     }

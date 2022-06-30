@@ -13,7 +13,6 @@
 #include <QPushButton>
 #include <QMouseEvent>
 #include <QTableWidget>
-#include <QErrorMessage>
 #include <QSpinBox>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -41,6 +40,7 @@ public:
   void paintEvent(QPaintEvent *event) override;
 public slots:
   void on_actionEULYNX_Validator_triggered();
+  void stateChanged(int state);
 
 private slots:
 
@@ -141,11 +141,9 @@ private:
     QLineEdit *outputPath;
     QLineEdit *xsdPath;
     QProgressDialog *progress;
-    QProgressBar *progressBar;
+//    QProgressBar *progressBar;
     bool cSharpIsDone = false;
     QTimer *timer;
-    QErrorMessage *error;
-    QErrorMessage *error2;
     int progressValue;
     int lastRotation;
 

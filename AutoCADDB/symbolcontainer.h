@@ -45,6 +45,7 @@ extern QString projectName;
 extern int rotation_angle;
 
 extern bool rightPanelTable;
+extern bool showMessageBox;  // previewEulynxXML
 
 extern bool isEuXml;
 extern int totalValue;

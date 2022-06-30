@@ -463,6 +463,7 @@ void ExportDialog::timeOut()
             timer->stop();
             ui->progressBar->setVisible(false);
             isEnd =false;
+            ui->btnExport->setEnabled(false);
 //            qDebug()<< "TORR1";
 
         } else if (isStart && (progressBarValue <90)){

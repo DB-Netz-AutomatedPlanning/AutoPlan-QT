@@ -10,6 +10,7 @@ int geoJsonCodeNo = 0;
 // Preview Eulynx variables
 QString folderPath = "";
 QString stationLocation = "";
+bool showMessageBox = true;   // previewEulynxXML
 
 // project data and location
 QString projectPath = "";

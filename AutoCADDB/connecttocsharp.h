@@ -11,7 +11,7 @@ class ConnectToCSharp : public QObject
 {
     Q_OBJECT
 public:
-    explicit ConnectToCSharp(QObject *parent = nullptr, QByteArray xsdPath="", QByteArray inputXML ="", QByteArray outputPath ="");
+    explicit ConnectToCSharp(QObject *parent = nullptr, QByteArray xsdPath ="", QByteArray inputXML ="", QByteArray outputPath ="");
 
     const QString &getApp() const;
     void setApp(const QString &newApp);
