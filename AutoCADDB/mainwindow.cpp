@@ -93,7 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setActionMenus(false);
     readSettings();
-    createDock();
+//    createDock();
 
 
 //    ui->f_headerTabs->setGeometry(0,0,100,100);
@@ -123,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
     // ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(1);
+    ui->tabWidget->hide();
 
     // Create button what must be placed in tabs row
     QToolButton* tb = new QToolButton(this);
@@ -163,6 +164,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
     connect(ui->actionXML_Json, SIGNAL(triggered()), this, SLOT(onClicked_xml_json()));
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
+    connect(ui->actionText, SIGNAL(toggled(bool)), this, SLOT(textFunctionToggled(bool)));
 
 //    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
 
@@ -179,8 +181,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidget->setItem(0, 1, newItem1);
     QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
     ui->tableWidget->setItem(1, 0, newItem2);
-
-
 }
 
 
@@ -190,14 +190,10 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::setObjNameTW(QString str){
-
     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(str));
     ui->tableWidget->setItem(0, 1, newItem1);
-
     ui->tableWidget->show();
-    qInfo() << "in ui"+str;
     ui->tableWidget->item(0, 1)->setText(str);
-
     update();
 }
 
@@ -206,9 +202,7 @@ void MainWindow::removeGabageData()
     QString savedFilePath = projectPath + "/"+ projectName +"/"+ projectName + ".aplan";
     QFile file (savedFilePath);
     if (file.exists()) return;
-
     if (projectPath == "" || projectName == "") return;
-
     QDir dir(projectPath + "/"+ projectName);
     if (dir.exists()){
         dir.removeRecursively();
@@ -217,6 +211,7 @@ void MainWindow::removeGabageData()
 
 void MainWindow::createViewToolBar()
 {
+    // Create and connect Zoom spin box
     QLabel *label = new QLabel(tr("zoom"));
     ui->viewToolBar->addWidget(label);
     zoomSpinBox = new QSpinBox();
@@ -305,8 +300,6 @@ void MainWindow::on_actionOpen_triggered()
                                                                     QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
         if (reply == QMessageBox::Yes){
             on_actionSave_triggered();
-//            delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
-//        } else if (reply == QMessageBox::No) delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
         }else if (reply == QMessageBox::Cancel ) return;
     }
     removeGabageData();
@@ -430,10 +423,13 @@ void MainWindow::on_actionSave_triggered()
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Escape)
-        close();
+    if (e->key() == Qt::Key_Escape){
+        textFunctionToggled(false);
+        ui->actionText->setChecked(false);
+    }
     else
-        QWidget::keyPressEvent(e);
+//        QWidget::keyPressEvent(e);
+        QMainWindow::keyPressEvent(e);
 }
 
 //Home -> Properties
@@ -1056,7 +1052,17 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
     dialog.setWindowTitle("Validator");
     QFormLayout form (&dialog);
 
-    form.addRow(new QLabel("VALIDATE EULYNX XML"));
+    QLabel *title = new QLabel("VALIDATE EULYNX XML");
+    title->setAlignment(Qt::AlignCenter);
+
+    form.addRow(title);
+    form.addRow(new QLabel(""));
+
+    versionCombo = new QComboBox (&dialog);
+    versionCombo->addItem("EULYNX_DP_V1.0");
+
+    versionCombo->setMinimumSize(QSize(300,25));
+    form.addRow(versionCombo, new QLabel("Version"));
 
     // xsdPath
     xsdPath = new QLineEdit(&dialog);
@@ -1104,7 +1110,7 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
     if (showMessageBox) {
         QCheckBox *cb = new QCheckBox("Do not show this message again");
         QMessageBox msgbox;
-        msgbox.setText("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n Expected Encoding:    UTF-8 \n"
+        msgbox.setText("<h2>EULYNX Validator</h2>\n\n<hr/>EULYNX Validator was based on the \nfirst release (OLD) of the EULYNX Data Preparation \nmodel as can be found at https://www.eulynx.eu/index.php/dataprep.\n Expected Encoding:    UTF-8 \n"
                        "Ensure you have correct input (including path to the xsd) \nAlso, wait for few seconds to process your input \n\n");
         msgbox.setIcon(QMessageBox::Icon::Question);
         msgbox.addButton(QMessageBox::Ok);
@@ -1165,12 +1171,6 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
         cSharpIsDone = true;
 
         QChar soln = ctsharp->solutions();
-//        QString path = outputPath->text() + "/XML Schema Report.txt";
-//        QFile readFile (path);
-//        qDebug()<< "PATH: " << path;
-//        if (readFile.exists()){
-//            qint64 size = readFile.size();
-//            qDebug()<< "File Size: " << size;
 
         if(soln == '1') QMessageBox::information(this, "Not Valid!!", "Status :      Not Valid \nType    :      EULYNX XML\n\nReport Detail: \n       check your selected output folder for detailed report");
         else if (soln== '0') QMessageBox::information(this, " Valid!!", "Status :    GOOD (Valid) \nType    :    EULYNX XML\n\n\n\nReport Detail: \n       check your selected output folder for detailed report");
@@ -1182,6 +1182,13 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
 void MainWindow::stateChanged(int state)
 {
     showMessageBox = state == 0 ? true : false;
+}
+
+void MainWindow::textFunctionToggled(bool isActive)
+{
+    textModeIsActive = isActive;
+    if (textModeIsActive) this->setCursor(Qt::IBeamCursor);
+    else this->setCursor(Qt::ArrowCursor);
 }
 
 
@@ -1203,6 +1210,40 @@ void MainWindow::setxsdPath()
 {
     QString path = QFileDialog::getExistingDirectory(this, ("Select xsd Folder"), QDir::currentPath());
     if (path.isNull() || path.isEmpty()) return;
+    if (versionCombo->currentText().isEmpty()) {
+        QMessageBox::information(this, tr("No Version Detected"), tr("Please select a EULYNX_DP version"));
+        xsdPath->clear();
+        return;
+    }
+
+    // Check for the validity of input data folder
+    QFile dateTimeTest (path + "/EulynxSchemaOld/Eulynx_Schema/DateTimeTest.xsd");
+    QFile db (path + "/EulynxSchemaOld/Eulynx_Schema/DB.xsd");
+    QFile generic (path + "/EulynxSchemaOld/Eulynx_Schema/Generic.xsd");
+    QFile nr (path + "/EulynxSchemaOld/Eulynx_Schema/NR.xsd");
+    QFile proRail (path + "/EulynxSchemaOld/Eulynx_Schema/ProRail.xsd");
+    QFile rfi (path + "/EulynxSchemaOld/Eulynx_Schema/RFI.xsd");
+    QFile signalling (path + "/EulynxSchemaOld/Eulynx_Schema/Signalling.xsd");
+    QFile sncf (path + "/EulynxSchemaOld/Eulynx_Schema/SNCF.xsd");
+    QFile trv (path + "/EulynxSchemaOld/Eulynx_Schema/TRV.xsd");
+
+    QFile common (path + "/EulynxSchemaOld/RSM_Schema/Common.xsd");
+    QFile netEntity (path + "/EulynxSchemaOld/RSM_Schema/NetEntity.xsd");
+    QFile schema_signalling (path + "/EulynxSchemaOld/RSM_Schema/Signalling.xsd");
+    QFile track (path + "/EulynxSchemaOld/RSM_Schema/Track.xsd");
+
+    // Schematron
+    QFile mainSignal (path + "/Schematron/mainSignal.sch");
+    QDir schematron (path + "/Schematron/schxslt-1.8.6");
+    if (versionCombo->currentText() == "EULYNX_DP_V1.0" && (!dateTimeTest.exists() || !db.exists() || !generic.exists() ||
+                                                            !nr.exists() || !proRail.exists() || !rfi.exists() || !signalling.exists() ||
+                                                            !sncf.exists() || !trv.exists() || !common.exists() || !netEntity.exists() ||
+                                                            !schema_signalling.exists() || !track.exists() || !mainSignal.exists() ||
+                                                            !schematron.exists()) ) {
+        QMessageBox::information(this, tr("Xsd/Schematron Missing!"), tr("Please upload recommended folder"));
+        xsdPath->clear();
+        return;
+    }
     xsdPath->setText(path);
 }
 

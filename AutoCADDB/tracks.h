@@ -168,6 +168,7 @@ private:
     double xCoord;
     double yCoord;
     int ttt = 0;
+    int mGridSize = 20;
     QStringList dataKeys;
     QStringList dataValues;
 

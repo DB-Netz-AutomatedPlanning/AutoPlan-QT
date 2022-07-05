@@ -29,9 +29,9 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     scale(1, -1);
-//    setAttribute(Qt::WA_TransparentForMouseEvents);
+    //    setAttribute(Qt::WA_TransparentForMouseEvents);
     setMouseTracking(true);
-//    setAcceptDrops(true);
+    //    setAcceptDrops(true);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
@@ -722,8 +722,8 @@ void Tracks::addSignals2()
         else qDebug()<< "None";
     }
 
-//    qDebug() << "\n\n" "S/No. " << "|  Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ ";
-//    qDebug() << "--------|------------------------------------------------------------------------------------------------------";
+    //    qDebug() << "\n\n" "S/No. " << "|  Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ ";
+    //    qDebug() << "--------|------------------------------------------------------------------------------------------------------";
 }
 
 
@@ -736,7 +736,7 @@ void Tracks::setBoolParameters()
     QFile file5 (projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn");
     QFile file6 (projectPath+"/"+projectName+"/temp/Gleisknoten.dbahn");
 
-//    drawGleiskanten = file.exists() ? true : false;
+    //    drawGleiskanten = file.exists() ? true : false;
     drawHoehe = file2.exists() ? true : false;
     drawKmLine = file3.exists() ? true : false;
     drawUberhohung = file4.exists() ? true : false;
@@ -1152,18 +1152,58 @@ void Tracks::setDrawGrids(bool newDrawGrids)
 
 void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
 {
-    Q_UNUSED(rect);
-
-    painter->save();
-    //    painter->setBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));
-    //    painter->drawRect(getUsedRect()[0], getUsedRect()[1], getUsedRect()[2],
-    //            getUsedRect()[3]);
+//    Q_UNUSED(rect);
     getSegementObjects();
 
-    //qDebug() << getUsedRect()[0]<<" .. " <<getUsedRect()[1]<<" .. "<< getUsedRect()[2]<< "  .. "<< getUsedRect()[3];
+    painter->save();
+
+    if (drawGrids){
+
+
+
+    qreal left = int(rect.left()) - (int(rect.left()) % mGridSize);
+    qreal top = int(rect.top()) - (int(rect.top()) % mGridSize);
+
+    QVarLengthArray<QLineF, 100> lines;
+
+    for (qint64 x = left; x < rect.right(); x += mGridSize)
+        lines.append(QLineF(x, rect.top(), x, rect.bottom()));
+    for (qint64 y = top; y < rect.bottom(); y += mGridSize)
+        lines.append(QLineF(rect.left(), y, rect.right(), y));
+
+    QVarLengthArray<QLineF, 100> thickLines;
+
+    for (qint64 x = left; x < rect.right(); x += mGridSize * 5)
+        thickLines.append(QLineF(x, rect.top(), x, rect.bottom()));
+    for (qint64 y = top; y < rect.bottom(); y += mGridSize * 5)
+        thickLines.append(QLineF(rect.left(), y, rect.right(), y));
+
+    QPen myPen(Qt::NoPen);
+    painter->setBrush(QBrush(QColor(55, 55, 55, 255)));
+    painter->setPen(myPen);
+    painter->drawRect(rect);
+
+    QPen penHLines(QColor(75, 75, 75), 1, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
+    painter->setPen(penHLines);
+    painter->drawLines(lines.data(), lines.size());
+
+    painter->setPen(QPen(QColor(100, 100, 100), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin));
+    painter->drawLines(thickLines.data(), thickLines.size());
+
+
+    painter->setPen(Qt::blue);
+
+    QVector<QPointF> points;
+    for (qint64 x = left; x < rect.right(); x += mGridSize) {
+        for (qint64 y = top; y < rect.bottom(); y += mGridSize) {
+            points.append(QPointF(x, y));
+        }
+    }
+    painter->drawPoints(points.data(), points.size());
+    } else QGraphicsView::drawForeground(painter, rect);
+
 
     painter->restore();
-    // qApp->processEvents();
     update();
 }
 
@@ -1172,36 +1212,47 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
     if (drawGrids){
         painter->save();
 
+
+        //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+        //        // Point as background
+        //                QPen pen;
+        //                painter->setPen(pen);
+        //                qreal left = int(rect.left()) - (int(rect.left()) % 20); //gridSize
+        //                qreal top = int(rect.top()) - (int(rect.top()) % 20);
+        //                QVector<QPointF> points;
+        //                for (qreal x = left; x < rect.right(); x += 20){
+        //                    for (qreal y = top; y < rect.bottom(); y += 20){
+        //                        points.append(QPointF(x,y));
+        //                    }
+        //                }
+        //                painter->drawPoints(points.data(), points.size());
+
+        //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+        // Line through
+
         //        QPen pen;
+        //        pen.setCosmetic(true);
+        //        pen.setWidthF(0.6);
+        //        pen.setColor(QColor(95,52,21,90));
         //        painter->setPen(pen);
-        //        qreal left = int(rect.left()) - (int(rect.left()) % 20); //gridSize
-        //        qreal top = int(rect.top()) - (int(rect.top()) % 20);
-        //        QVector<QPointF> points;
-        //        for (qreal x = left; x < rect.right(); x += 20){
-        //            for (qreal y = top; y < rect.bottom(); y += 20){
-        //                points.append(QPointF(x,y));
-        //            }
+
+        //        //        painter->setPen(QColor(95,52,21,90));
+        //        for (int i = 0; i< rect.width()/50; i++) {
+        //            painter->drawLine(rect.x()+(50*i), rect.y(), rect.x()+(50*i),
+        //                              rect.y()+rect.height());
         //        }
-        //        painter->drawPoints(points.data(), points.size());
+        //        for(int i =0; i < rect.height()/50; i++){
+        //            painter->drawLine(rect.x(),rect.y()+(i*50),
+        //                              rect.x()+rect.width(), rect.y()+(i*50));
+        //        }
+
+        //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-
-        QPen pen;
-        pen.setCosmetic(true);
-        pen.setWidthF(0.6);
-        pen.setColor(QColor(95,52,21,90));
-        painter->setPen(pen);
-
-        //        painter->setPen(QColor(95,52,21,90));
-        for (int i = 0; i< rect.width()/50; i++) {
-            painter->drawLine(rect.x()+(50*i), rect.y(), rect.x()+(50*i),
-                              rect.y()+rect.height());
-        }
-        for(int i =0; i < rect.height()/50; i++){
-            painter->drawLine(rect.x(),rect.y()+(i*50),
-                              rect.x()+rect.width(), rect.y()+(i*50));
-        }
-
+        // Line as Background
         //        for (int i = 0; i< getUsedRect()[2]/50; i++) {
         //            painter->drawLine(getUsedRect()[0]+(50*i),getUsedRect()[1], getUsedRect()[0]+(50*i),
         //                    getUsedRect()[1]+getUsedRect()[3]);
@@ -1210,6 +1261,8 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
         //            painter->drawLine(getUsedRect()[0],getUsedRect()[1]+(i*50),
         //                    getUsedRect()[0]+getUsedRect()[2], getUsedRect()[1]+(i*50));
         //        }
+
+        //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
         painter->restore();
     } else {
@@ -1292,17 +1345,35 @@ void Tracks::mouseDoubleClickEvent(QMouseEvent *event)
 void Tracks::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton){
-        qDebug() << "Mouse Clicked : "<< event->pos();
+        //        qDebug() << "Mouse Clicked : "<< event->pos();
         QPointF sceneCoord = mapToScene(event->pos());
         setXCoord(sceneCoord.x()/getMultiplierValue());
         setYCoord(sceneCoord.y()/getMultiplierValue());
+    } else if (textModeIsActive) {
+        const QPointF &pos = mapToScene(event->pos());
+        bool ok;
+        QString enteredText = QInputDialog::getText(this, tr("APlan"),
+                                                    tr("Please enter your text"), QLineEdit::Normal, "Text Here", &ok);
+        if (!ok || enteredText.isEmpty() || enteredText == "Text Here") return;
+
+        textItem = scene()->addText(enteredText);
+        QTransform transform;
+        transform.scale(1,-1);
+
+        textItem->setPos(pos);
+        textItem->setTransform(transform);
+        textItem->setDefaultTextColor("blue");
+        //    textItem = scene()->addText("");
+        //    textItem->setPos(pos);
+        textItem->setTextInteractionFlags(Qt::TextEditorInteraction | Qt::TextEditable );
+        textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable | textItem->flags());
     }
-//    else {
-//        setXCoord(0);
-//        setYCoord(0);
-//    }
-    qDebug()<< "X : " << getXCoord();
-    qDebug()<< "Y : " << getYCoord();
+    //    else {
+    //        setXCoord(0);
+    //        setYCoord(0);
+    //    }
+    //    qDebug()<< "X : " << getXCoord();
+    //    qDebug()<< "Y : " << getYCoord();
     QGraphicsView::mousePressEvent(event);
 }
 
@@ -1556,7 +1627,7 @@ bool Tracks::writeOperator(QString fileName)
         file.close();
         return false;
     }
-    qDebug()<< "File Written";
+    //    qDebug()<< "File Written";
     return true;
 }
 
@@ -1621,7 +1692,7 @@ void Tracks::addAutomateSignal(QString name, QPointF location, double angle, QSt
                                QString position, QString latDist, QString orientation, QString direction)
 
 {
-//    "Abfahrsignal", position, angle, function,all.at(i)[0], "3.1", lateralSide, direction
+    //    "Abfahrsignal", position, angle, function,all.at(i)[0], "3.1", lateralSide, direction
     QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+name+".svg"));
     QGraphicsSvgItem *signal = new QGraphicsSvgItem();
     signal->setSharedRenderer(renderer);
@@ -1679,7 +1750,7 @@ void Tracks::deleteSelectedItems()
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
         QString toolTip = item->toolTip();
         scene()->itemsBoundingRect();
-        QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+        QStringList breakToolTip = toolTip.split(QLatin1Char('_'));  //QRegularExpression("_")
         if(breakToolTip[0].isEmpty()){
             scene()->removeItem(item);
             delete item;

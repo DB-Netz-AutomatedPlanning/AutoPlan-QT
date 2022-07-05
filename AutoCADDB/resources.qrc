@@ -357,6 +357,7 @@
         <file>assets/stylesheet/HackBook.qss</file>
         <file>assets/stylesheet/MailSy.qss</file>
         <file>assets/stylesheet/TCobra.qss</file>
+        <file>assets/home/HackBook.qss</file>
     </qresource>
     <qresource prefix="/">
         <file>assets/svg/square.svg</file>

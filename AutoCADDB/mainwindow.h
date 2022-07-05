@@ -14,6 +14,7 @@
 #include <QMouseEvent>
 #include <QTableWidget>
 #include <QSpinBox>
+#include <QComboBox>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -41,6 +42,7 @@ public:
 public slots:
   void on_actionEULYNX_Validator_triggered();
   void stateChanged(int state);
+  void textFunctionToggled(bool isActive);
 
 private slots:
 
@@ -137,6 +139,7 @@ private:
     QGraphicsSymbolContainer *svgDialog;
 
     // Validator
+    QComboBox *versionCombo;
     QLineEdit *xmlPath;
     QLineEdit *outputPath;
     QLineEdit *xsdPath;
@@ -149,8 +152,6 @@ private:
 
     QSpinBox *zoomSpinBox;
     int currentSpinNumber;
-
-
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;

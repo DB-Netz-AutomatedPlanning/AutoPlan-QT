@@ -27,7 +27,6 @@ LageFromUnprocessedJson::LageFromUnprocessedJson(QObject *parent, QString filePa
 }
 
 
-
 void LageFromUnprocessedJson::searchNameAndID()
 {
     std::vector<QString> name;

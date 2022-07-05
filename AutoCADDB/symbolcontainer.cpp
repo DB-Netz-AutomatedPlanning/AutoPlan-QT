@@ -18,6 +18,7 @@ QString projectName = "";
 QString countryCode ="";
 QString fileFormat = "";
 bool mouseDragMode = false;
+bool textModeIsActive = false;
 
 //Rotation Angle
 int rotation_angle = 0;
