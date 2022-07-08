@@ -114,6 +114,10 @@ private slots:
     void on_actionPlanning_Tab_toggled(bool arg1);
     void on_actionAbout_Qt_triggered();
 
+    // Background Grids
+    void darkThemeSelected(bool isSelected);
+    void lightRulesSelected(bool isSelected);
+
 private:
     Ui::MainWindow *ui;
     bool hideMenuBar;

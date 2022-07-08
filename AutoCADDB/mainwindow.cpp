@@ -166,6 +166,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionXML_Json, SIGNAL(triggered()), this, SLOT(onClicked_xml_json()));
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
     connect(ui->actionText, SIGNAL(toggled(bool)), this, SLOT(textFunctionToggled(bool)));
+    connect(ui->actionDark_Theme, SIGNAL(toggled(bool)), this, SLOT(darkThemeSelected(bool)));
+    connect(ui->actionLight_Rules, SIGNAL(toggled(bool)), this, SLOT(lightRulesSelected(bool)));
 
     //    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
 
@@ -1162,9 +1164,6 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
             QMessageBox::warning(this,"Wrong XML Input", "Please add a valid xml");
             return on_actionEULYNX_Validator_triggered();
         }
-        //        error2->setWindowTitle("Hint");
-        //        error2->showMessage("(1) You need to wait for few seconds to process your input.. (2) Expected Input: EULYNX xml utf-8 encoding )");
-        //        QApplication::processEvents();
         progress = new QProgressDialog ("Operation in progress ...", "Cancel", 0, 8, this); //&dialog
         progress->move((this->rect().width() /2), (this->rect().height()/2));
         progress->setRange(0,8);
@@ -1294,5 +1293,23 @@ void MainWindow::timeOut()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(this);
+}
+
+void MainWindow::darkThemeSelected(bool isSelected)
+{
+    if (isSelected) {
+        tracks->setLightRules(false);
+        ui->actionLight_Rules->setChecked(false);
+    }
+    tracks->setDarkTheme(isSelected);
+}
+
+void MainWindow::lightRulesSelected(bool isSelected)
+{
+    if (isSelected) {
+        tracks->setDarkTheme(false);
+        ui->actionDark_Theme->setChecked(false);
+    }
+    tracks->setLightRules(isSelected);
 }
 

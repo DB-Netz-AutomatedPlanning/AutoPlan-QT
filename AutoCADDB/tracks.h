@@ -169,6 +169,8 @@ private:
     double yCoord;
     int ttt = 0;
     int mGridSize = 20;
+    bool darkTheme;
+    bool lightRules;
     QStringList dataKeys;
     QStringList dataValues;
 
@@ -192,6 +194,10 @@ public:
     void setDataValues(const QStringList &newDataValues);
 
     // QWidget interface
+    void setDarkTheme(bool newDarkTheme);
+
+    void setLightRules(bool newLightRules);
+
 protected:
     void wheelEvent(QWheelEvent *event) override;
 //    void mouseDoubleClickEvent(QMouseEvent *event)override;

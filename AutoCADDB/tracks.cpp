@@ -21,10 +21,10 @@
 #include <QMenu>
 //#include <QGraphicsTextItem>
 
-Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
+Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false),
-    drawGleisknotenDP(false), dark_Mode(false)
+    drawGleisknotenDP(false), dark_Mode(false), darkTheme(false), lightRules(true)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -68,7 +68,7 @@ void Tracks::addGleiskanten()
         if (isFirstSegment){
             gleiskanten_Parent = new QGraphicsPathItem(path); //QColor(255, 69,0)
             if ((countryCode == "de" &&(dir[segmentCount] =="1" || dir[segmentCount] =="2")) || (countryCode == "de" && fileFormat == ".euxml")){
-//                gleiskanten_Parent->setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
+                //                gleiskanten_Parent->setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
                 gleiskanten_Parent->setPen(QPen(lineColor,1));
                 //                QPen::QPen(const QBrush &brush, qreal width, Qt::PenStyle style = Qt::SolidLine, Qt::PenCapStyle cap = Qt::SquareCap, Qt::PenJoinStyle join = Qt::BevelJoin)
                 segmentCount++;
@@ -80,7 +80,7 @@ void Tracks::addGleiskanten()
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values());
             }
             else {
-//                gleiskanten_Parent->setPen(QPen(Qt::black, 0.3,  Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
+                //                gleiskanten_Parent->setPen(QPen(Qt::black, 0.3,  Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
                 gleiskanten_Parent->setPen(QPen(lineColor,0.3));
                 segmentCount++;
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
@@ -104,7 +104,7 @@ void Tracks::addGleiskanten()
                 gleiskanten->setData(signalKey, map[dataSegCount].keys());
                 gleiskanten->setData(signalKey+1, map[dataSegCount].values());
             } else {
-//                gleiskanten->setPen(QPen(Qt::black, 0.3));
+                //                gleiskanten->setPen(QPen(Qt::black, 0.3));
                 gleiskanten->setPen(QPen(lineColor, 0.3));
                 segmentCount++;
                 gleiskanten->setData(signalKey, map[dataSegCount].keys() );
@@ -905,6 +905,20 @@ void Tracks::multiplierEffect(float x, float y)
     }
 }
 
+void Tracks::setLightRules(bool newLightRules)
+{
+    lightRules = newLightRules;
+    rotate(1);
+    rotate(-1);
+}
+
+void Tracks::setDarkTheme(bool newDarkTheme)
+{
+    darkTheme = newDarkTheme;
+    rotate(1);
+    rotate(-1);
+}
+
 const QStringList &Tracks::getDataValues() const
 {
     return dataValues;
@@ -960,7 +974,7 @@ void Tracks::setDragModeMouse()
 {
     if (mouseDragMode){
         setDragMode(QGraphicsView::ScrollHandDrag);
-        setInteractive(false);       
+        setInteractive(false);
     }
     else {
         setDragMode(QGraphicsView::NoDrag);
@@ -1154,67 +1168,56 @@ void Tracks::setDrawGrids(bool newDrawGrids)
 
 void Tracks::drawBackground(QPainter *painter, const QRectF &rect)
 {
-//    Q_UNUSED(rect);
     getSegementObjects();
 
     painter->save();
+    if (drawGrids && darkTheme){
+        qreal left = int(rect.left()) - (int(rect.left()) % mGridSize);
+        qreal top = int(rect.top()) - (int(rect.top()) % mGridSize);
 
-    if (drawGrids){
+        QVarLengthArray<QLineF, 100> lines;
 
+        for (qint64 x = left; x < rect.right(); x += mGridSize)
+            lines.append(QLineF(x, rect.top(), x, rect.bottom()));
+        for (qint64 y = top; y < rect.bottom(); y += mGridSize)
+            lines.append(QLineF(rect.left(), y, rect.right(), y));
 
+        QVarLengthArray<QLineF, 100> thickLines;
 
-    qreal left = int(rect.left()) - (int(rect.left()) % mGridSize);
-    qreal top = int(rect.top()) - (int(rect.top()) % mGridSize);
+        for (qint64 x = left; x < rect.right(); x += mGridSize * 5)
+            thickLines.append(QLineF(x, rect.top(), x, rect.bottom()));
+        for (qint64 y = top; y < rect.bottom(); y += mGridSize * 5)
+            thickLines.append(QLineF(rect.left(), y, rect.right(), y));
 
-    QVarLengthArray<QLineF, 100> lines;
+        QPen myPen(Qt::NoPen);
+        painter->setBrush(QBrush(QColor(55, 55, 55, 255)));
+        painter->setPen(myPen);
+        painter->drawRect(rect);
 
-    for (qint64 x = left; x < rect.right(); x += mGridSize)
-        lines.append(QLineF(x, rect.top(), x, rect.bottom()));
-    for (qint64 y = top; y < rect.bottom(); y += mGridSize)
-        lines.append(QLineF(rect.left(), y, rect.right(), y));
+        QPen penHLines(QColor(75, 75, 75), 1, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
+        painter->setPen(penHLines);
+        painter->drawLines(lines.data(), lines.size());
 
-    QVarLengthArray<QLineF, 100> thickLines;
+        painter->setPen(QPen(QColor(100, 100, 100), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin));
+        painter->drawLines(thickLines.data(), thickLines.size());
+        painter->setPen(Qt::blue);
 
-    for (qint64 x = left; x < rect.right(); x += mGridSize * 5)
-        thickLines.append(QLineF(x, rect.top(), x, rect.bottom()));
-    for (qint64 y = top; y < rect.bottom(); y += mGridSize * 5)
-        thickLines.append(QLineF(rect.left(), y, rect.right(), y));
-
-    QPen myPen(Qt::NoPen);
-    painter->setBrush(QBrush(QColor(55, 55, 55, 255)));
-    painter->setPen(myPen);
-    painter->drawRect(rect);
-
-    QPen penHLines(QColor(75, 75, 75), 1, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin);
-    painter->setPen(penHLines);
-    painter->drawLines(lines.data(), lines.size());
-
-    painter->setPen(QPen(QColor(100, 100, 100), 2, Qt::SolidLine, Qt::FlatCap, Qt::RoundJoin));
-    painter->drawLines(thickLines.data(), thickLines.size());
-
-
-    painter->setPen(Qt::blue);
-
-    QVector<QPointF> points;
-    for (qint64 x = left; x < rect.right(); x += mGridSize) {
-        for (qint64 y = top; y < rect.bottom(); y += mGridSize) {
-            points.append(QPointF(x, y));
+        QVector<QPointF> points;
+        for (qint64 x = left; x < rect.right(); x += mGridSize) {
+            for (qint64 y = top; y < rect.bottom(); y += mGridSize) {
+                points.append(QPointF(x, y));
+            }
         }
-    }
-    painter->drawPoints(points.data(), points.size());
-    } else QGraphicsView::drawForeground(painter, rect);
-
-
+        painter->drawPoints(points.data(), points.size());
+    } else QGraphicsView::drawBackground(painter, rect);
     painter->restore();
     update();
 }
 
 void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 {
-    if (drawGrids){
-        painter->save();
-
-
+    painter->save();
+    if (drawGrids && lightRules){
         //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
         //        // Point as background
@@ -1233,23 +1236,23 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
         //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-        // Line through
+        //         Line through
 
-        //        QPen pen;
-        //        pen.setCosmetic(true);
-        //        pen.setWidthF(0.6);
-        //        pen.setColor(QColor(95,52,21,90));
-        //        painter->setPen(pen);
+        QPen pen;
+        pen.setCosmetic(true);
+        pen.setWidthF(0.6);
+        pen.setColor(QColor(95,52,21,90));
+        painter->setPen(pen);
 
-        //        //        painter->setPen(QColor(95,52,21,90));
-        //        for (int i = 0; i< rect.width()/50; i++) {
-        //            painter->drawLine(rect.x()+(50*i), rect.y(), rect.x()+(50*i),
-        //                              rect.y()+rect.height());
-        //        }
-        //        for(int i =0; i < rect.height()/50; i++){
-        //            painter->drawLine(rect.x(),rect.y()+(i*50),
-        //                              rect.x()+rect.width(), rect.y()+(i*50));
-        //        }
+        //        painter->setPen(QColor(95,52,21,90));
+        for (int i = 0; i< rect.width()/50; i++) {
+            painter->drawLine(rect.x()+(50*i), rect.y(), rect.x()+(50*i),
+                              rect.y()+rect.height());
+        }
+        for(int i =0; i < rect.height()/50; i++){
+            painter->drawLine(rect.x(),rect.y()+(i*50),
+                              rect.x()+rect.width(), rect.y()+(i*50));
+        }
 
         //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -1266,10 +1269,13 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 
         //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-        painter->restore();
+//        painter->restore();
     } else {
         QGraphicsView::drawForeground(painter, rect);
     }
+    painter->restore();
+    update();
+
 }
 
 void Tracks::wheelEvent(QWheelEvent *event)
@@ -1361,15 +1367,13 @@ void Tracks::mousePressEvent(QMouseEvent *event)
         textItem = scene()->addText(enteredText);
         QTransform transform;
         transform.scale(1,-1);
-
         textItem->setPos(pos);
         textItem->setTransform(transform);
         textItem->setDefaultTextColor("blue");
-        //    textItem = scene()->addText("");
-        //    textItem->setPos(pos);
         textItem->setTextInteractionFlags(Qt::TextEditorInteraction | Qt::TextEditable );
         textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable | textItem->flags());
-        textItem->setScale(2);
+        // ToDo : Function to allow users zoom individual contents to desired scale
+        textItem->setScale(1.5);
     }
     QGraphicsView::mousePressEvent(event);
 }
@@ -1731,14 +1735,6 @@ bool Tracks::isTrack(QString name)
     Q_UNUSED(name);
     rightPanelTable = !rightPanelTable;
     return rightPanelTable;
-    //    if (name == "Gleiskanten" || name == "Gleisknoten" || name == "KMLine"
-    //            || name == "Lage" || name == "Uberhohung" || name == "Hoehe"){
-    ////        rightPanelTable = !rightPanelTable;
-    //        return rightPanelTable;
-    //    } else {
-    ////        rightPanelTable = !rightPanelTable;
-    //        return rightPanelTable;
-    //    }
 }
 
 // Only items that is not from the data can be deleted.

@@ -1227,8 +1227,16 @@ QPushButton:enabled { background-color: green; }</string>
     <property name="title">
      <string>View</string>
     </property>
+    <widget class="QMenu" name="menuGrid_Style">
+     <property name="title">
+      <string>Grid Style</string>
+     </property>
+     <addaction name="actionDark_Theme"/>
+     <addaction name="actionLight_Rules"/>
+    </widget>
     <addaction name="actionXML_Json"/>
     <addaction name="actionPlanning_Tab"/>
+    <addaction name="menuGrid_Style"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1521,6 +1529,25 @@ QPushButton:enabled { background-color: green; }</string>
   <action name="actionAbout_Qt">
    <property name="text">
     <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionDark_Theme">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Dark Theme</string>
+   </property>
+  </action>
+  <action name="actionLight_Rules">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Light Rules</string>
    </property>
   </action>
  </widget>
