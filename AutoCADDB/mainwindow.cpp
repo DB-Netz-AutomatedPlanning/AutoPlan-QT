@@ -74,6 +74,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow), currentSpinNumber(0)
 {
+//    darkTheme();
     scribbleArea= new MyOpenglWidget(this);
     setCentralWidget(scribbleArea);
     ui->setupUi(this);
@@ -93,31 +94,31 @@ MainWindow::MainWindow(QWidget *parent)
 
     setActionMenus(false);
     readSettings();
-//    createDock();
+    //    createDock();
 
 
-//    ui->f_headerTabs->setGeometry(0,0,100,100);
+    //    ui->f_headerTabs->setGeometry(0,0,100,100);
 
-//    ui->comboBox_10->setEditable(true);
-//    ui->comboBox_10->lineEdit()->setReadOnly(true);
-//    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_10->setEditable(true);
+    //    ui->comboBox_10->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
 
-//    ui->comboBox_13->setEditable(true);
-//    ui->comboBox_13->lineEdit()->setReadOnly(true);
-//    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_13->setEditable(true);
+    //    ui->comboBox_13->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
 
-//    ui->comboBox_15->setEditable(true);
-//    ui->comboBox_15->lineEdit()->setReadOnly(true);
-//    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
-//    ui->comboBox_15->lineEdit()->adjustSize();
+    //    ui->comboBox_15->setEditable(true);
+    //    ui->comboBox_15->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_15->lineEdit()->adjustSize();
 
-//    ui->comboBox_16->setEditable(true);
-//    ui->comboBox_16->lineEdit()->setReadOnly(true);
-//    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_16->setEditable(true);
+    //    ui->comboBox_16->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
 
-//    ui->comboBox_17->setEditable(true);
-//    ui->comboBox_17->lineEdit()->setReadOnly(true);
-//    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_17->setEditable(true);
+    //    ui->comboBox_17->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
 
     //Close button on Tab bar
     // ui->tabWidget_2->removeTab(2);
@@ -141,18 +142,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     setStyleSheet("QToolButton { border: none; }");
 
-//    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
+    //    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
-//    //Home->Properties
-//    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
-//    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
-//    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
-//    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
+    //    //Home->Properties
+    //    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
+    //    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
+    //    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
+    //    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
 
-//    //View - Interface
-//    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
-//    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
+    //    //View - Interface
+    //    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
+    //    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
 
     //MENU actionOpen
@@ -166,7 +167,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
     connect(ui->actionText, SIGNAL(toggled(bool)), this, SLOT(textFunctionToggled(bool)));
 
-//    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
+    //    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
 
     // ui->widget_147->hide();
     ui->widget_146->hide();
@@ -207,6 +208,38 @@ void MainWindow::removeGabageData()
     if (dir.exists()){
         dir.removeRecursively();
     }
+}
+
+void MainWindow::darkTheme()
+{
+    qApp->setStyle(QStyleFactory::create("Fusion"));
+
+    QColor darkGray(53, 53, 53);
+    QColor gray(128, 128, 128);
+    QColor black(25, 25, 25);
+    QColor blue(42, 130, 218);
+
+    QPalette darkPalette;
+    darkPalette.setColor(QPalette::Window, darkGray);
+    darkPalette.setColor(QPalette::WindowText, Qt::white);
+    darkPalette.setColor(QPalette::Base, black);
+    darkPalette.setColor(QPalette::AlternateBase, darkGray);
+    darkPalette.setColor(QPalette::ToolTipBase, blue);
+    darkPalette.setColor(QPalette::ToolTipText, Qt::white);
+    darkPalette.setColor(QPalette::Text, Qt::white);
+    darkPalette.setColor(QPalette::Button, darkGray);
+    darkPalette.setColor(QPalette::ButtonText, Qt::white);
+    darkPalette.setColor(QPalette::Link, blue);
+    darkPalette.setColor(QPalette::Highlight, blue);
+    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+
+    darkPalette.setColor(QPalette::Active, QPalette::Button, gray.darker());
+    darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::WindowText, gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Text, gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Light, darkGray);
+
+    qApp->setPalette(darkPalette);
 }
 
 void MainWindow::createViewToolBar()
@@ -295,9 +328,9 @@ void MainWindow::closeTab(int index)
 void MainWindow::on_actionOpen_triggered()
 {
     if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
-             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){ //     ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != ""){
+            !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){ //     ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != ""){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Attempt!", "Did you want to save your project ? ... \n  Unsaved progress would be lost",
-                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+                                                                  QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
         if (reply == QMessageBox::Yes){
             on_actionSave_triggered();
         }else if (reply == QMessageBox::Cancel ) return;
@@ -332,7 +365,7 @@ void MainWindow::on_actionOpen_triggered()
     QFile file2(iniFile);
     if(!file2.exists()) {
         QMessageBox::warning(this, "File Not Exists", "Important file missing from your directory \n" + file2.errorString());
-//        qDebug() << "Missing File2: " + file2.errorString();
+        //        qDebug() << "Missing File2: " + file2.errorString();
         return;
     }
     if(!file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -424,11 +457,16 @@ void MainWindow::on_actionSave_triggered()
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Escape){
+        //release Text writing mode
         textFunctionToggled(false);
         ui->actionText->setChecked(false);
+
+        // release drag mode
+        isChecked = false;
+        on_grabBtn_2_clicked();
     }
     else
-//        QWidget::keyPressEvent(e);
+        //        QWidget::keyPressEvent(e);
         QMainWindow::keyPressEvent(e);
 }
 
@@ -550,9 +588,9 @@ void MainWindow::save()
     }
 
 
-//    // QAction *action = qobject_cast<QAction *>(sender());
-//    QByteArray fileFormat = ui->actionSave_As->data().toByteArray();
-//    saveFile(fileFormat);
+    //    // QAction *action = qobject_cast<QAction *>(sender());
+    //    QByteArray fileFormat = ui->actionSave_As->data().toByteArray();
+    //    saveFile(fileFormat);
 }
 
 void MainWindow::print()
@@ -697,9 +735,9 @@ void MainWindow::on_btnSymbol_clicked()
 void MainWindow::onNewProjectClicked()
 {
     if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
-             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
+            !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Current Project?", "You are trying to open a new project. . . \n\t Save ongoing project ? ",
-                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+                                                                  QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
         if (reply == QMessageBox::Yes){
             on_actionSave_triggered();
         }else if (reply == QMessageBox::Cancel ) return;
@@ -749,37 +787,23 @@ void MainWindow::writeSettings()
     settings->setValue("exportOutputPath", exportPath);
     settings->setValue("planningOutputPath", planningOutputPath);
     settings->setValue("newProjectPath", newProjectPath);
-
     settings->endGroup();
-
-//    settings->beginGroup("MainWindow");
-//    settings->setValue("size", size());
-//    settings->setValue("position",pos());
-//    settings->setValue("windowState", saveState());
-//    settings->endGroup();
 }
 
 void MainWindow::readSettings()
 {
     QSettings *settings = new QSettings("DB_Netz", "APlan");
-
     settings->beginGroup("outputPaths");
     exportPath = settings->value("exportOutputPath").toString();
     planningOutputPath = settings->value("planningOutputPath").toString();
     newProjectPath = settings->value("newProjectPath").toString();
     settings->endGroup();
-
-//    settings->beginGroup("MainWindow");
-//    resize(settings->value("size",QSize(600,500)).toSize());
-//    move(settings->value("position", QPoint(200,200)).toPoint());
-//    restoreState(settings->value("windowState").toByteArray());
-//    settings->endGroup();
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
 {
     if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
-             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
+            !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
         QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
                                                                     tr("Do you want to save the changes?\n"),
                                                                     QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
@@ -869,11 +893,9 @@ void MainWindow::on_grabBtn_2_clicked()
     if(!isChecked){
         isChecked = !isChecked;
         ui->grabBtn_2->setStyleSheet("QPushButton { background-color: white; border:none; }");
-//        setCursor(Qt::IBeamCursor);
     }else{
         isChecked = !isChecked;
         ui->grabBtn_2->setStyleSheet("QPushButton { background-color: green; border:none; }");
-//        setCursor(Qt::ArrowCursor);
     }
 }
 
@@ -883,7 +905,7 @@ void MainWindow::onClicked_xml_json()
     QJsonModel * model = new QJsonModel;
 
     view->setModel(model);
-//    view->setColumnWidth(0, 100);
+    //    view->setColumnWidth(0, 100);
     view->setFont(QFont("Helvetica [Cronyx]", 10));
     view->header()->setDefaultAlignment(Qt::AlignHCenter);
     QFile file (projectPath +"/"+ projectName + "/temp2/UnprocessedJson.json");
@@ -899,15 +921,15 @@ void MainWindow::onClicked_xml_json()
     QByteArray json = file.readAll();
     model->loadJson(json);
     view->show();
-//    QByteArray mjson = model->json();
-//    qDebug() << mjson;
+    //    QByteArray mjson = model->json();
+    //    qDebug() << mjson;
 }
 
 
-void MainWindow::on_grabBtn_toggled(bool checked)
-{
-    Q_UNUSED(checked);
-}
+//void MainWindow::on_grabBtn_toggled(bool checked)
+//{
+//    Q_UNUSED(checked);
+//}
 
 void MainWindow::on_actionDelete_Items_triggered()
 {
@@ -940,17 +962,17 @@ void MainWindow::showContextMenu(QPoint pos)
 
 void MainWindow::createDock()
 {
-//    if (dockWidgetCreated) {
-//        createSignalObjects();
-//        return;
-//    }
-//    QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
-//    QFile file (filePath);
-//    if(!file.exists()) {
-//        qDebug()<< "UnprocessedJson not exist";
-//        viewDockSubMenu->setEnabled(false);
-//        return;
-//    }
+    //    if (dockWidgetCreated) {
+    //        createSignalObjects();
+    //        return;
+    //    }
+    //    QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
+    //    QFile file (filePath);
+    //    if(!file.exists()) {
+    //        qDebug()<< "UnprocessedJson not exist";
+    //        viewDockSubMenu->setEnabled(false);
+    //        return;
+    //    }
     createSignalObjects();
     dock1 = new QDockWidget(tr("Signal Object Info ("+projectName.toLocal8Bit()+")"), this);
     dock1->setObjectName("Signal Object Info");
@@ -978,13 +1000,13 @@ void MainWindow::createSignalObjects()
     QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
     QFile file (filePath);
     if(!file.exists()) {
-//        viewDockSubMenu->setEnabled(false);
+        //        viewDockSubMenu->setEnabled(false);
         table = new QTableWidget(this);
         table->setColumnCount(8);
         table->setRowCount(2);
 
         QStringList horizontalLabel;
-    //    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
+        //    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
         horizontalLabel << "DB Signal Type" << "DB Signal Function" << "Lateral Side" << "Direction" << "Linear Coordinate" << "XCoord" << "YCoord " << "ZCoord";
         table->setHorizontalHeaderLabels(horizontalLabel);
         for (int i=0; i< 2; i++){
@@ -1004,7 +1026,7 @@ void MainWindow::createSignalObjects()
     table->setRowCount((int)allSignals.size());
 
     QStringList horizontalLabel;
-//    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
+    //    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
     horizontalLabel << "DB Signal Type" << "DB Signal Function" << "Lateral Side" << "Direction" << "Linear Coordinate" << "XCoord" << "YCoord " << "ZCoord";
     table->setHorizontalHeaderLabels(horizontalLabel);
 
@@ -1027,7 +1049,7 @@ void MainWindow::createSignalObjects()
     table->setGridStyle(Qt::DotLine);
     table->setSortingEnabled(true);
     table->setCornerButtonEnabled(true);
-//    table->horizontalHeader()->setStretchLastSection(true);
+    //    table->horizontalHeader()->setStretchLastSection(true);
 }
 
 // Function to show/hide entire tabWidget
@@ -1093,26 +1115,26 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
     QObject::connect(btnAddFolder, SIGNAL(clicked()), this, SLOT(setOutputpath()));
     form.addRow(outputPath, btnAddFolder);
 
-//     Add Cancel and OK button
+    //     Add Cancel and OK button
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-        Qt::Horizontal, &dialog);
+                               Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
 
     QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
     QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
-//    error->setWindowTitle("Info/Hint");
-//    error->showMessage("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n  Expected Encoding:    UTF-8 \n\n"
-//                       "Ensure you have correct input (including path to the xsd) \n\n   Also, wait for few seconds to process your input");
-//    error->exec();
-//    error->update();
+    //    error->setWindowTitle("Info/Hint");
+    //    error->showMessage("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n  Expected Encoding:    UTF-8 \n\n"
+    //                       "Ensure you have correct input (including path to the xsd) \n\n   Also, wait for few seconds to process your input");
+    //    error->exec();
+    //    error->update();
 
     if (showMessageBox) {
         QCheckBox *cb = new QCheckBox("Do not show this message again");
         QMessageBox msgbox;
         msgbox.setText("<h2>EULYNX Validator</h2>\n\n<hr/>EULYNX Validator was based on the \nfirst release (OLD) of the EULYNX Data Preparation \nmodel as can be found at https://www.eulynx.eu/index.php/dataprep.\n Expected Encoding:    UTF-8 \n"
                        "Ensure you have correct input (including path to the xsd) \nAlso, wait for few seconds to process your input \n\n");
-        msgbox.setIcon(QMessageBox::Icon::Question);
+        msgbox.setIcon(QMessageBox::Icon::Information);
         msgbox.addButton(QMessageBox::Ok);
         msgbox.addButton(QMessageBox::Cancel);
         msgbox.setDefaultButton(QMessageBox::Cancel);
@@ -1122,7 +1144,7 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
         msgbox.exec();
     }
 
-//     Process when OK button is clicked
+    //     Process when OK button is clicked
     if (dialog.exec() == QDialog::Accepted) {
         QDir dir (xsdPath->text());
         if (!dir.exists() || xsdPath->text().isEmpty()) {
@@ -1140,26 +1162,26 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
             QMessageBox::warning(this,"Wrong XML Input", "Please add a valid xml");
             return on_actionEULYNX_Validator_triggered();
         }
-//        error2->setWindowTitle("Hint");
-//        error2->showMessage("(1) You need to wait for few seconds to process your input.. (2) Expected Input: EULYNX xml utf-8 encoding )");
-//        QApplication::processEvents();
+        //        error2->setWindowTitle("Hint");
+        //        error2->showMessage("(1) You need to wait for few seconds to process your input.. (2) Expected Input: EULYNX xml utf-8 encoding )");
+        //        QApplication::processEvents();
         progress = new QProgressDialog ("Operation in progress ...", "Cancel", 0, 8, this); //&dialog
         progress->move((this->rect().width() /2), (this->rect().height()/2));
         progress->setRange(0,8);
         progressValue = 2;
         progress->setWindowModality(Qt::WindowModal);
         progress->setValue(progressValue);
-//        progress->show();
+        //        progress->show();
 
-//        progress->setWindowFlags(Qt::FramelessWindowHint);
-//        progress->setAlignment(Qt::AlignCenter);
+        //        progress->setWindowFlags(Qt::FramelessWindowHint);
+        //        progress->setAlignment(Qt::AlignCenter);
         progress->setWindowTitle("validating xml...");
-//        progress->setTextVisible(true);
+        //        progress->setTextVisible(true);
         progress->setVisible(true);
         QApplication::processEvents();
         timer = new QTimer(this);
 
-//        timer->setInterval(2000);
+        //        timer->setInterval(2000);
         connect(timer, &QTimer::timeout, this, &MainWindow::timeOut);
 
         timer->start();
@@ -1187,7 +1209,11 @@ void MainWindow::stateChanged(int state)
 void MainWindow::textFunctionToggled(bool isActive)
 {
     textModeIsActive = isActive;
-    if (textModeIsActive) this->setCursor(Qt::IBeamCursor);
+    if (textModeIsActive) {
+        isChecked = false;
+        on_grabBtn_2_clicked();
+        this->setCursor(Qt::IBeamCursor);
+    }
     else this->setCursor(Qt::ArrowCursor);
 }
 
@@ -1264,3 +1290,9 @@ void MainWindow::timeOut()
         QApplication::processEvents();
     }
 }
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QMessageBox::aboutQt(this);
+}
+

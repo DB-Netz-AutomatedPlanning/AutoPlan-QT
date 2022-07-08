@@ -21,7 +21,7 @@
 #include <QMenu>
 //#include <QGraphicsTextItem>
 
-Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
+Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(false),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false),
     drawGleisknotenDP(false), dark_Mode(false)
@@ -66,20 +66,22 @@ void Tracks::addGleiskanten()
         path.addPolygon(segment);
 
         if (isFirstSegment){
-            gleiskanten_Parent = new QGraphicsPathItem(path);
+            gleiskanten_Parent = new QGraphicsPathItem(path); //QColor(255, 69,0)
             if ((countryCode == "de" &&(dir[segmentCount] =="1" || dir[segmentCount] =="2")) || (countryCode == "de" && fileFormat == ".euxml")){
-                gleiskanten_Parent->setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
+//                gleiskanten_Parent->setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
+                gleiskanten_Parent->setPen(QPen(lineColor,1));
                 //                QPen::QPen(const QBrush &brush, qreal width, Qt::PenStyle style = Qt::SolidLine, Qt::PenCapStyle cap = Qt::SquareCap, Qt::PenJoinStyle join = Qt::BevelJoin)
                 segmentCount++;
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values() );
             } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
-                gleiskanten_Parent->setPen(QPen(Qt::black, 1));
+                gleiskanten_Parent->setPen(QPen(lineColor, 1));  //QPen(Qt::black
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys());
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values());
             }
             else {
-                gleiskanten_Parent->setPen(QPen(Qt::black, 0.3,  Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
+//                gleiskanten_Parent->setPen(QPen(Qt::black, 0.3,  Qt::SolidLine, Qt::SquareCap, Qt::BevelJoin ));
+                gleiskanten_Parent->setPen(QPen(lineColor,0.3));
                 segmentCount++;
                 gleiskanten_Parent->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten_Parent->setData(signalKey+1, map[dataSegCount].values() );
@@ -93,16 +95,17 @@ void Tracks::addGleiskanten()
         } else {
             QGraphicsPathItem *gleiskanten = new QGraphicsPathItem(path);
             if ((countryCode == "de" && (dir[segmentCount] =="1" || dir[segmentCount] =="2")) || (countryCode == "de" && fileFormat == ".euxml")){
-                gleiskanten->setPen(QPen(Qt::black, 1));
+                gleiskanten->setPen(QPen(lineColor,1)); // QPen(Qt::black, 1)
                 segmentCount++;
                 gleiskanten->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten->setData(signalKey+1, map[dataSegCount].values() );
             } else if (countryCode == "fr"){  // This condition should be removed when there is data about directions
-                gleiskanten->setPen(QPen(Qt::black, 1));
+                gleiskanten->setPen(QPen(lineColor, 1));
                 gleiskanten->setData(signalKey, map[dataSegCount].keys());
                 gleiskanten->setData(signalKey+1, map[dataSegCount].values());
             } else {
-                gleiskanten->setPen(QPen(Qt::black, 0.3));
+//                gleiskanten->setPen(QPen(Qt::black, 0.3));
+                gleiskanten->setPen(QPen(lineColor, 0.3));
                 segmentCount++;
                 gleiskanten->setData(signalKey, map[dataSegCount].keys() );
                 gleiskanten->setData(signalKey+1, map[dataSegCount].values() );
@@ -183,11 +186,11 @@ void Tracks::addHoehe()
         if (isFirstSegment){
             hoehe_Parent = new QGraphicsPathItem(path);
             if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
-                hoehe_Parent->setPen(QPen(Qt::black, 1));
+                hoehe_Parent->setPen(QPen(lineColor, 1)); //Qt::black
                 segmentCount++;
 
             } else {
-                hoehe_Parent->setPen(QPen(Qt::black, 0.3));
+                hoehe_Parent->setPen(QPen(lineColor, 0.3));
                 segmentCount++;
             }
             hoehe_Parent->setData(signalKey, map[dataSegCount].keys() );
@@ -202,10 +205,10 @@ void Tracks::addHoehe()
         } else {
             QGraphicsPathItem *hoehe = new QGraphicsPathItem(path);
             if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
-                hoehe->setPen(QPen(Qt::black, 1));
+                hoehe->setPen(QPen(lineColor, 1));
                 segmentCount++;
             } else {
-                hoehe->setPen(QPen(Qt::black, 0.3));
+                hoehe->setPen(QPen(lineColor, 0.3));
                 segmentCount++;
             }
             hoehe->setData(signalKey, map[dataSegCount].keys() );
@@ -285,7 +288,7 @@ void Tracks::addKMline()
 
         if (isFirstSegment){
             kmLine_Parent = new QGraphicsPathItem(path);
-            kmLine_Parent->setPen(QPen(Qt::black));
+            kmLine_Parent->setPen(QPen(lineColor));
             kmLine_Parent->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             kmLine_Parent->setData(signalKey, map[dataSegCount].keys() );
             kmLine_Parent->setData(signalKey+1, map[dataSegCount].values() );
@@ -298,7 +301,7 @@ void Tracks::addKMline()
             isFirstSegment = !isFirstSegment;
         } else {
             QGraphicsPathItem *kmLine = new QGraphicsPathItem(path);
-            kmLine->setPen(QPen(Qt::black));
+            kmLine->setPen(QPen(lineColor));
             kmLine->setFlags(QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable);
             kmLine->setData(signalKey, map[dataSegCount].keys() );
             kmLine->setData(signalKey+1, map[dataSegCount].values() );
@@ -379,10 +382,10 @@ void Tracks::addLage()
         if (isFirstSegment){
             lage_Parent = new QGraphicsPathItem(path);
             if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
-                lage_Parent->setPen(QPen(Qt::black, 1));
+                lage_Parent->setPen(QPen(lineColor, 1));
                 segmentCount++;
             } else {
-                lage_Parent->setPen(QPen(Qt::black, 0.3));
+                lage_Parent->setPen(QPen(lineColor, 0.3));
                 segmentCount++;
             }
             lage_Parent->setData(signalKey, map[dataSegCount].keys() );
@@ -398,10 +401,10 @@ void Tracks::addLage()
             QGraphicsPathItem *lage = new QGraphicsPathItem(path);
 
             if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
-                lage->setPen(QPen(Qt::black, 1));
+                lage->setPen(QPen(lineColor, 1));
                 segmentCount++;
             } else {
-                lage->setPen(QPen(Qt::black, 0.3));
+                lage->setPen(QPen(lineColor, 0.3));
                 segmentCount++;
             }
             lage->setData(signalKey, map[dataSegCount].keys() );
@@ -481,10 +484,10 @@ void Tracks::addUberhohung()
         if (isFirstSegment){
             uberhohung_Parent = new QGraphicsPathItem(path);
             if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
-                uberhohung_Parent->setPen(QPen(Qt::black, 1));
+                uberhohung_Parent->setPen(QPen(lineColor, 1));
                 segmentCount++;
             } else {
-                uberhohung_Parent->setPen(QPen(Qt::black, 0.3));
+                uberhohung_Parent->setPen(QPen(lineColor, 0.3));
                 segmentCount++;
             }
             uberhohung_Parent->setData(signalKey, map[dataSegCount].keys() );
@@ -498,10 +501,10 @@ void Tracks::addUberhohung()
         } else {
             QGraphicsPathItem *uberhohung = new QGraphicsPathItem(path);
             if ((dir[segmentCount] =="1" || dir[segmentCount] =="2") || (countryCode == "de" && fileFormat == ".euxml")){
-                uberhohung->setPen(QPen(Qt::black, 1));
+                uberhohung->setPen(QPen(lineColor, 1));
                 segmentCount++;
             } else {
-                uberhohung->setPen(QPen(Qt::black, 0.3));
+                uberhohung->setPen(QPen(lineColor, 0.3));
                 segmentCount++;
             }
             uberhohung->setData(signalKey, map[dataSegCount].keys() );
@@ -957,14 +960,13 @@ void Tracks::setDragModeMouse()
 {
     if (mouseDragMode){
         setDragMode(QGraphicsView::ScrollHandDrag);
-        setInteractive(false);
-        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        setInteractive(false);       
     }
     else {
         setDragMode(QGraphicsView::NoDrag);
         setInteractive(true);
-        setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
     }
+    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
 }
 
 bool Tracks::getDrawLageDP() const
@@ -1292,8 +1294,8 @@ void Tracks::wheelEvent(QWheelEvent *event)
 
 void Tracks::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Left) rotate(1);
-    else if(event->key() == Qt::Key_Right) rotate(-1);
+    if(event->key() == Qt::Key_Left) rotate(5);
+    else if(event->key() == Qt::Key_Right) rotate(-5);
 
     if((event->key() == Qt::Key_Delete))
     {
@@ -1319,26 +1321,26 @@ void Tracks::mouseMoveEvent(QMouseEvent *event)
     QGraphicsView::mouseMoveEvent(event);
 }
 
-void Tracks::mouseDoubleClickEvent(QMouseEvent *event)
-{
-    const QPointF &pos = mapToScene(event->pos());
-    bool ok;
-    QString enteredText = QInputDialog::getText(this, tr("APlan"),
-                                                tr("Please enter your text"), QLineEdit::Normal, "Text Here", &ok);
-    if (!ok || enteredText.isEmpty() || enteredText == "Text Here") return;
+//void Tracks::mouseDoubleClickEvent(QMouseEvent *event)
+//{
+//    const QPointF &pos = mapToScene(event->pos());
+//    bool ok;
+//    QString enteredText = QInputDialog::getText(this, tr("APlan"),
+//                                                tr("Please enter your text"), QLineEdit::Normal, "Text Here", &ok);
+//    if (!ok || enteredText.isEmpty() || enteredText == "Text Here") return;
 
-    textItem = scene()->addText(enteredText);
-    QTransform transform;
-    transform.scale(1,-1);
+//    textItem = scene()->addText(enteredText);
+//    QTransform transform;
+//    transform.scale(1,-1);
 
-    textItem->setPos(pos);
-    textItem->setTransform(transform);
-    textItem->setDefaultTextColor("blue");
-    //    textItem = scene()->addText("");
-    //    textItem->setPos(pos);
-    textItem->setTextInteractionFlags(Qt::TextEditorInteraction | Qt::TextEditable );
-    textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable | textItem->flags());
-}
+//    textItem->setPos(pos);
+//    textItem->setTransform(transform);
+//    textItem->setDefaultTextColor("blue");
+//    //    textItem = scene()->addText("");
+//    //    textItem->setPos(pos);
+//    textItem->setTextInteractionFlags(Qt::TextEditorInteraction | Qt::TextEditable );
+//    textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable | textItem->flags());
+//}
 
 
 
@@ -1367,13 +1369,8 @@ void Tracks::mousePressEvent(QMouseEvent *event)
         //    textItem->setPos(pos);
         textItem->setTextInteractionFlags(Qt::TextEditorInteraction | Qt::TextEditable );
         textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable | textItem->flags());
+        textItem->setScale(2);
     }
-    //    else {
-    //        setXCoord(0);
-    //        setYCoord(0);
-    //    }
-    //    qDebug()<< "X : " << getXCoord();
-    //    qDebug()<< "Y : " << getYCoord();
     QGraphicsView::mousePressEvent(event);
 }
 

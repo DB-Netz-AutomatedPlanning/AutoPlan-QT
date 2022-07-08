@@ -18,6 +18,16 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->getUpdateRect();
 
 
+//    QPalette pal = QPalette();
+
+//    // set black background
+//    // Qt::black / "#000000" / "black"
+//    pal.setColor(QPalette::Window, Qt::blue);
+//    pal.setColor(QPalette::Text, Qt::darkGreen);
+
+//    setAutoFillBackground(true);
+//    setPalette(pal);
+
     scene->setSceneRect(tracks->getUsedRect()[0],tracks->getUsedRect()[1],
             tracks->getUsedRect()[2],tracks->getUsedRect()[3]);
     //    scene->setBackgroundBrush(QBrush(Qt::yellow, Qt::Dense7Pattern));

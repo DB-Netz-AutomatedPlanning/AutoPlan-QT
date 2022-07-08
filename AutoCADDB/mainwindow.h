@@ -37,6 +37,7 @@ public:
      MyOpenglWidget *myopen;
      void createViewToolBar();
      void removeGabageData();
+     void darkTheme();
 
   void paintEvent(QPaintEvent *event) override;
 public slots:
@@ -95,7 +96,7 @@ private slots:
     void on_btnSymbol_clicked();
     void closeEvent (QCloseEvent *event) override;
     //void on_grabBtn_clicked();
-    void on_grabBtn_toggled(bool checked);
+//    void on_grabBtn_toggled(bool checked);
 
     void on_grabBtn_2_clicked();
     void onClicked_xml_json();
@@ -111,8 +112,7 @@ private slots:
     void createSignalObjects();
 
     void on_actionPlanning_Tab_toggled(bool arg1);
-
-
+    void on_actionAbout_Qt_triggered();
 
 private:
     Ui::MainWindow *ui;

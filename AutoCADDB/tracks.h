@@ -172,6 +172,8 @@ private:
     QStringList dataKeys;
     QStringList dataValues;
 
+    QColor lineColor = QColor(255,69,0); // orangered
+
 
 //    Object currentObject;
     // QGraphicsView interface
@@ -192,7 +194,7 @@ public:
     // QWidget interface
 protected:
     void wheelEvent(QWheelEvent *event) override;
-    void mouseDoubleClickEvent(QMouseEvent *event)override;
+//    void mouseDoubleClickEvent(QMouseEvent *event)override;
     void keyPressEvent(QKeyEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;

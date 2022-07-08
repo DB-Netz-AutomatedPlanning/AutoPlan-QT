@@ -384,9 +384,7 @@ void MyOpenglWidget::resizeGL(int w, int h)
       Q_UNUSED(w); Q_UNUSED(h);
       //glViewport(0, 0, (GLint)width(), (GLint)height());
       //projectionMatrix.perspective(45.0f, (float)width()/(float)height(), z, z/1000);
-
 }
-
 
 //Drag icons
 void MyOpenglWidget::dragEnterEvent(QDragEnterEvent *event)
@@ -403,13 +401,8 @@ void MyOpenglWidget::dragEnterEvent(QDragEnterEvent *event)
     } else {
         event->ignore();
     }
-
-
-
-
-
-
 }
+
 
 void MyOpenglWidget::dragMoveEvent(QDragMoveEvent *event)
 {
@@ -423,10 +416,8 @@ void MyOpenglWidget::dragMoveEvent(QDragMoveEvent *event)
     } else {
         event->ignore();
     }
-
-
-
 }
+
 
 void MyOpenglWidget::dropEvent(QDropEvent *event)
 {

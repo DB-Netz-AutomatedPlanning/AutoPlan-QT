@@ -186,18 +186,10 @@ void KmToCoordinate::setKmAndCoord(const QMap<double, QPointF> &newKmAndCoord)
 
 void KmToCoordinate::mapKmAndCoord()
 {
-//    calculateSegmentAllPoints();
-//    calculateSegmentPointDistance();
-
-    qDebug()<< "::::::::::::::10";
     calculateSegmentLength();
-    qDebug()<< "::::::::::::::11";
     calculateRealKmValues();
-    qDebug()<< "::::::::::::::12";
     std::vector<std::vector<double>> real_Km_Values = getRealKmValues();
-    qDebug()<< "::::::::::::::13";
     std::vector<std::vector<QPointF>> allPoints = getSegmentAllPoints();
-    qDebug()<< "::::::::::::::14";
     QMap<double, QPointF> km_And_Coord;
     int sum =0;
     for(int i=0; i< (int)allPoints.size(); i++){
@@ -206,9 +198,7 @@ void KmToCoordinate::mapKmAndCoord()
             sum++;
         }
     }
-    qDebug()<< "::::::::::::::15";
     setKmAndCoord(km_And_Coord);
-//    qDebug()<< "Total = "<< sum;
 }
 
 // this function return the nearest Km value to the provided Km value
@@ -219,12 +209,7 @@ double KmToCoordinate::searchNearestKmValue(double value)
     std::sort(keys.begin(),keys.end(), std::less<>());
     std::vector<std::vector<double>> real_Km_Values = getRealKmValues();
 
-    qDebug() <<" Key1 " << keys[0]<< "  Key1 " << keys[keys.size()-1];
-
-
     for (int i=0; i< (int)realKmValues.size(); i++){
-        qDebug()<< "VALUE: " << value;
-
         if (value < keys[0] || value > keys[keys.size()-1]){
             qDebug()<< "Your input km value is not within your considered track range \n"
                        "ensure you have input correct value" ;
@@ -236,7 +221,6 @@ double KmToCoordinate::searchNearestKmValue(double value)
             for (int j=0; j< (int)realKmValues[i].size(); j++){
                 double factor = abs(realKmValues[i][j] - value);
                 diff.insert(factor, realKmValues[i][j]);
-
             }
             QList<double> diffkeys = diff.keys();
             std::sort(diffkeys.begin(),diffkeys.end(), std::less<>());
@@ -370,4 +354,3 @@ void KmToCoordinate::calculateAngles()
     }
     setAngles(angles);
 }
-
