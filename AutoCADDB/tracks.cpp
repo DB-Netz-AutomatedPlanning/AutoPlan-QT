@@ -33,9 +33,9 @@ Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), 
     setMouseTracking(true);
     //    setAcceptDrops(true);
 
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(showContextMenu(QPoint)));
+//    setContextMenuPolicy(Qt::CustomContextMenu);
+//    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+//            this, SLOT(showContextMenu(QPoint)));
 }
 
 void Tracks::addGleiskanten()
@@ -1541,14 +1541,14 @@ int Tracks::getMultiplierValue() const
     return multiplierValue;
 }
 
-void Tracks::showContextMenu(QPoint pos)
-{
-    QMenu contextMenu(tr("Context Menu"), this);
-    QAction action1("Dark Mode: Torggle (Testing)", this);
-    connect(&action1, SIGNAL(triggered()), this, SLOT(darkMode()));
-    contextMenu.addAction(&action1);
-    contextMenu.exec(mapToGlobal(pos));
-}
+//void Tracks::showContextMenu(QPoint pos)
+//{
+//    QMenu contextMenu(tr("Context Menu"), this);
+//    QAction action1("Dark Mode: Torggle (Testing)", this);
+//    connect(&action1, SIGNAL(triggered()), this, SLOT(darkMode()));
+//    contextMenu.addAction(&action1);
+//    contextMenu.exec(mapToGlobal(pos));
+//}
 
 
 void Tracks::setMultiplierValue(int newMultiplierValue)
@@ -1751,17 +1751,17 @@ void Tracks::deleteSelectedItems()
     }
 }
 
-void Tracks::darkMode()
-{
-    if (dark_Mode) {
-        setStyleSheet("background-color:white");
-        dark_Mode = !dark_Mode;
-    }
-    else {
-        setStyleSheet("background-color:grey");
-        dark_Mode = !dark_Mode;
-    }
-}
+//void Tracks::darkMode()
+//{
+//    if (dark_Mode) {
+//        setStyleSheet("background-color:white");
+//        dark_Mode = !dark_Mode;
+//    }
+//    else {
+//        setStyleSheet("background-color:grey");
+//        dark_Mode = !dark_Mode;
+//    }
+//}
 
 
 //TODO.. Remove this function

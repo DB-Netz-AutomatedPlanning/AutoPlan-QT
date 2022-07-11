@@ -43,16 +43,6 @@ void MyOpenglWidget::cleanup()
     doneCurrent();
 }
 
-//void MyOpenglWidget::delay()
-//{
-//    QTime dieTime= QTime::currentTime().addSecs(2);
-//    while (QTime::currentTime() < dieTime)
-//        qInfo()<< "";
-//        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-//}
-
-
-
 struct EventInfo
 {
 int mcstrCMD_ID;

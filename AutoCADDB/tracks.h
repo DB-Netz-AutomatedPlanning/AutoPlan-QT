@@ -115,9 +115,9 @@ public:
 
 //    void currentPos();
    // void mousePressEvent(QMouseEvent *event);
-public slots:
-    void darkMode();
-    void showContextMenu(QPoint pos);
+//public slots:
+//    void darkMode();
+//    void showContextMenu(QPoint pos);
 
     // void mousePressEvent(QMouseEvent *event);
 

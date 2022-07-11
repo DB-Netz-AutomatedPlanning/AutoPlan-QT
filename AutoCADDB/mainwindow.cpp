@@ -75,8 +75,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow), currentSpinNumber(0)
 {
 //    darkTheme();
-    scribbleArea= new MyOpenglWidget(this);
-    setCentralWidget(scribbleArea);
+//    scribbleArea= new MyOpenglWidget(this);
+//    setCentralWidget(scribbleArea);
     ui->setupUi(this);
     ui->toolBar->setIconSize(QSize(16, 16));
 

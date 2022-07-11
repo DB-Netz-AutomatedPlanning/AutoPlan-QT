@@ -2,7 +2,7 @@
 #include <QMessageBox>
 #include<QDir>
 
-
+// Eulynx Validator
 //QByteArray xsdPath
 ConnectToCSharp::ConnectToCSharp(QObject *parent, QByteArray xsdPath, QByteArray inputXML, QByteArray outputPath) : QObject(parent)
 {
@@ -18,21 +18,6 @@ void ConnectToCSharp::cSharp()
     QFile file2 (xsdPath + "/EulynxSchemaOld/Eulynx_Schema/Signalling.xsd");
     QFile file3 (xsdPath + "/EulynxSchemaOld/RSM_Schema/Common.xsd");
     QFile file4 (xsdPath + "/Schematron/schxslt-1.8.6/2.0/pipeline-for-svrl.xsl");
-
-    if (file1.exists()) qDebug()<< "Yes1: ";
-    else qDebug() << "Whahala1";
-
-    if (file2.exists()) qDebug()<< "Yes2: ";
-    else qDebug() << "Whahala2";
-
-    if (file3.exists()) qDebug()<< "Yes3: ";
-    else qDebug() << "Whahala3";
-
-    if (file4.exists()) qDebug()<< "Yes4: ";
-    else qDebug() << "Whahala4";
-
-    if (div.exists()) qDebug()<< "Yes: ";
-    else qDebug() << "Whahala";
 
     // Start the A-Plan Core application through network process (QProcess)
     QProcess c_sharp;
