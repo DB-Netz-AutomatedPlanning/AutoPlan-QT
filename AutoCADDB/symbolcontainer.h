@@ -35,17 +35,27 @@ extern QString projectPath;
 extern QString projectName;
 extern bool createNewProject;
 extern bool mouseDragMode;
+extern bool textModeIsActive;
 extern QString countryCode;
 extern QString fileFormat;
 
 extern Tracks *tracks;
 extern QString projectName;
 
+//Rotation Angle
+extern int rotation_angle;
+
 extern bool rightPanelTable;
+extern bool showMessageBox;  // previewEulynxXML
 
 extern bool isEuXml;
 extern int totalValue;
 extern int progressValue;
+
+// path to remember
+extern QString exportPath;
+extern QString planningOutputPath;
+extern QString newProjectPath;
 
 //trackname
 extern QString nameOfTrack;

@@ -11,6 +11,7 @@
 #include <QMessageBox>
 #include <QtGui>
 #include <QtCore>
+#include <QTimer>
 
 namespace Ui { class PlanningTable; }
 QT_END_NAMESPACE
@@ -50,6 +51,7 @@ private slots:
 //    void on_btnLoad_clicked();
 
     void on_btnSelectFolder_clicked();
+    void timeout();
 
 private:
     Ui::PlanningTable *ui;
@@ -64,7 +66,16 @@ private:
     int rows;
     int cols;
 
+    //ProgressBar
+    int progressBarValue;
+    bool isStart;
+    bool isEnd;
+    QTimer *timer;
 
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // PLANNINGTABLE_H

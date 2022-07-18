@@ -3,6 +3,7 @@
 #include "ui_previeweulynxxml.h"
 #include "previeweulynxxml.h"
 #include "symbolcontainer.h"
+//#include <QtConcurrent>
 
 ExportDialog::ExportDialog(QWidget *parent) :
     QDialog(parent),
@@ -11,21 +12,28 @@ ExportDialog::ExportDialog(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowTitle("Export file");
 
-//    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-//    QDirIterator iter( projectPath+"/"+projectName, QDir::Dirs | QDir::NoDotAndDotDot);  //+"/temp"
-//    while(iter.hasNext() )
-//    {
-//        QString val = iter.next();
-//        ui->cmbStation->addItem(val.remove(projectPath+"/"+projectName+"/"));  //temp/
-//    }
-
+    progressBarValue = 40;
+    ui->progressBar->setVisible(false);
     ui->cmbStation->addItem(projectName);
     ui->cmbStation->setCurrentText(projectName);
     if(!ui->cmbStation->currentText().isNull() && !ui->cmbStation->currentText().isEmpty()){
         ui->leFolder->setEnabled(true);
         ui->btnOpenFolder->setEnabled(true);
     }
+
+    // set previous export path only if it exist
+    if (QDir(exportPath).exists()){
+        ui->leFolder->setText(exportPath);
+        ui->btnExport->setEnabled(true);
+        isStart = true;
+    }
+    else exportPath = "";
+    timer = new QTimer(this);
+    timer->setInterval(1000);
+    connect(timer, &QTimer::timeout, this, &ExportDialog::timeOut);
+    timer->start(1000);
 }
+
 ExportDialog::~ExportDialog()
 {
     delete ui;
@@ -55,9 +63,12 @@ void ExportDialog::on_btnOpenFolder_clicked()
     QString filePath = QFileDialog::getExistingDirectory(this, ("Select Output Folder"), QDir::currentPath());
     ui->leFolder->setText(filePath);
     ui->btnExport->setEnabled(true);
+
     if (ui->leFolder->text().isNull() ||ui->leFolder->text().isEmpty()){
         ui->btnExport->setEnabled(false);
     }
+    isStart = true;
+
 }
 
 void ExportDialog::on_btnExport_clicked()
@@ -65,6 +76,9 @@ void ExportDialog::on_btnExport_clicked()
     if (!QDir(ui->leFolder->text()).exists()){
         QMessageBox::warning(this, "Information", "Invalid folder selected... \n Please use a valid folder");
         return;
+    }
+    if (ui->checkBoxRemPath->isChecked()){
+        exportPath = ui->leFolder->text();
     }
     QString outputPath_ = ui->leFolder->text();
     //    QString station_ = ui->cmbStation->currentText();
@@ -76,6 +90,9 @@ void ExportDialog::on_btnExport_clicked()
     QByteArray mdbPath;
 
     if (fileFormat== ".mdb"){
+        ui->progressBar->setVisible(true);
+        ui->progressBar->setValue(progressBarValue);
+        QApplication::processEvents();
         QString dataPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp";
         QDir dir (dataPath);
         QFileInfoList files = dir.entryInfoList(QDir::Files);
@@ -87,7 +104,6 @@ void ExportDialog::on_btnExport_clicked()
                 break;
             }
         }
-
         if (!QFile::exists(mdbPath)){
             QMessageBox::information(this, "Missing File", "Required file Missing... \n Please import appropriate files");
             return;
@@ -95,7 +111,6 @@ void ExportDialog::on_btnExport_clicked()
         QProcess csharp;
         findOS();   //determine the operating system
 
-        // replace this with corresponding filepath
         QString filePath = "APLAN-CORE.exe";
         csharp.start(filePath);
 
@@ -131,18 +146,21 @@ void ExportDialog::on_btnExport_clicked()
         csharp.write(outputPath);
         csharp.waitForBytesWritten(1000);
 
-//        waitToFinish(15000);
-
         csharp.closeWriteChannel();
-        if(!csharp.waitForFinished(15000)) {
-            // Giving maximum of 15 seconds to execute the program
+
+        if(!csharp.waitForFinished()) {
+
             qInfo() << "The program is taking too long to close the Channel";
-            QMessageBox::warning(this, "Warning", "The program is taking too long to execute\n ... "
-                                                  "the channel has been terminated after conversion");
-            return;
+            QMessageBox::warning(this, "Warning", "The program is taking too long to execute...\n The conversion"
+                                                  "is still running");
+            //            return;
         }
+
     }
     else if (fileFormat == ".json"){
+        ui->progressBar->setVisible(true);
+        ui->progressBar->setValue(progressBarValue);
+        QApplication::processEvents();
         std::vector<QString> filePaths;
         QByteArray kMliniePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_KM.dbahn";
         QByteArray gleiskantenPath =  path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleiskanten.dbahn";
@@ -250,12 +268,11 @@ void ExportDialog::on_btnExport_clicked()
             csharp.waitForBytesWritten(1000);
 
             csharp.closeWriteChannel();
-            if(!csharp.waitForFinished(15000)) {
-                // Giving maximum of 15 seconds to execute the program
+            if(!csharp.waitForFinished()) {
                 qInfo() << "The program is taking too long to close the Channel";
                 QMessageBox::warning(this, "Warning", "The program is taking too long to execute\n ... "
-                                                      "the channel has been terminated after conversion");
-                return;
+                                                      "the program is still running");
+                //                return;
             }
             // remove all the input files
             gleiskantenPath =  path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleiskanten.geojson";
@@ -278,6 +295,9 @@ void ExportDialog::on_btnExport_clicked()
             }
         }
         else if (countryCode == "fr"){
+            ui->progressBar->setVisible(true);
+            ui->progressBar->setValue(progressBarValue);
+            QApplication::processEvents();
             if (!QFile::exists(gleiskantenPath)){
                 QMessageBox::information(this, "Missing File", "Required file Missing... \n Please import all appropriate files");
                 return;
@@ -366,12 +386,12 @@ void ExportDialog::on_btnExport_clicked()
             csharp.waitForBytesWritten(1000);
 
             csharp.closeWriteChannel();
-            if(!csharp.waitForFinished(15000)) {
+            if(!csharp.waitForFinished()) {
                 // Giving maximum of 15 seconds to execute the program
                 qInfo() << "The program is taking too long to close the Channel";
-                QMessageBox::warning(this, "Warning", "The program is taking too long to execute\n ... "
-                                                      "the channel has been terminated after conversion");
-                return;
+                QMessageBox::warning(this, "Warning", "The program is taking too long to execute...\n The "
+                                                      "program is still running");
+                //                return;
             }
 
             // remove all the input files
@@ -386,6 +406,7 @@ void ExportDialog::on_btnExport_clicked()
         return;
     }
     if (QFile::exists(outputPath_+"/eulynx"+station_+".euxml")){
+        isEnd = true;
         QMessageBox::information(this, "Successful", "EulynxXML Successfully Generated...\n"
                                                      "check ->"+outputPath_);
         folderPath = outputPath_;
@@ -431,4 +452,37 @@ void ExportDialog::on_cmbStation_currentTextChanged()
 void ExportDialog::on_btnCancel_clicked()
 {
     close();
+}
+
+void ExportDialog::timeOut()
+{
+    if (isStart || isEnd){
+        if (isEnd){
+            ui->progressBar->setValue(100);
+            QApplication::processEvents();
+            timer->stop();
+            ui->progressBar->setVisible(false);
+            isEnd =false;
+            ui->btnExport->setEnabled(false);
+//            qDebug()<< "TORR1";
+
+        } else if (isStart && (progressBarValue <90)){
+            progressBarValue+=10;
+            ui->progressBar->setValue(progressBarValue);
+            QApplication::processEvents();
+//            qDebug()<< "TORR2";
+
+        } else if(isStart && (progressBarValue == 90)) {
+            ui->progressBar->setValue(90);
+            QApplication::processEvents();
+//            qDebug()<< "TORR3";
+        }
+    }
+
+}
+
+void ExportDialog::closeEvent(QCloseEvent *event)
+{
+    timer->stop();
+    event->accept();
 }

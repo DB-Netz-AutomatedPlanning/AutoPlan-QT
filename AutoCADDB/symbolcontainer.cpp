@@ -10,6 +10,7 @@ int geoJsonCodeNo = 0;
 // Preview Eulynx variables
 QString folderPath = "";
 QString stationLocation = "";
+bool showMessageBox = true;   // previewEulynxXML
 
 // project data and location
 QString projectPath = "";
@@ -17,6 +18,10 @@ QString projectName = "";
 QString countryCode ="";
 QString fileFormat = "";
 bool mouseDragMode = false;
+bool textModeIsActive = false;
+
+//Rotation Angle
+int rotation_angle = 0;
 
 QString glbObjectName = "sayli";
 QString defaultObjectName = "default name";
@@ -30,6 +35,10 @@ bool isEuXml = false;
 int totalValue =0;
 int progressValue =1; // out of 8
 
+
+QString exportPath = "";
+QString planningOutputPath = "";
+QString newProjectPath = "";
 
 
 //name
@@ -46,6 +55,6 @@ SymbolContainer::SymbolContainer(QWidget *parent) :
 SymbolContainer::~SymbolContainer()
 {
 
-    glbObjectName = "sayli";
+    glbObjectName = "";
     delete ui ;
 }

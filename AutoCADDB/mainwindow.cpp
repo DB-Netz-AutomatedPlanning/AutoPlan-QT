@@ -19,11 +19,11 @@
 #include "signalsfromunprocessedjson.h"
 #include "connecttocsharp.h"
 #include <QTreeView>
-#include <QComboBox>
 #include<QDebug>
 #include <QTabBar>
 #include<QToolButton>
 #include <QComboBox>
+#include <QCheckBox>
 #include <QLineEdit>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -72,10 +72,11 @@ bool isChecked = true;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow), currentSpinNumber(0)
 {
-    scribbleArea= new MyOpenglWidget(this);
-    setCentralWidget(scribbleArea);
+//    darkTheme();
+//    scribbleArea= new MyOpenglWidget(this);
+//    setCentralWidget(scribbleArea);
     ui->setupUi(this);
     ui->toolBar->setIconSize(QSize(16, 16));
 
@@ -84,6 +85,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(showContextMenu(QPoint)));
     viewDockSubMenu = ui->menuView->addMenu(tr("Object Parameters"));
+    createViewToolBar();
 
     hideMenuBar = false;
     hideFileTab = false;
@@ -92,36 +94,37 @@ MainWindow::MainWindow(QWidget *parent)
 
     setActionMenus(false);
     readSettings();
-    createDock();
+    //    createDock();
 
 
-//    ui->f_headerTabs->setGeometry(0,0,100,100);
+    //    ui->f_headerTabs->setGeometry(0,0,100,100);
 
-//    ui->comboBox_10->setEditable(true);
-//    ui->comboBox_10->lineEdit()->setReadOnly(true);
-//    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_10->setEditable(true);
+    //    ui->comboBox_10->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
 
-//    ui->comboBox_13->setEditable(true);
-//    ui->comboBox_13->lineEdit()->setReadOnly(true);
-//    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_13->setEditable(true);
+    //    ui->comboBox_13->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
 
-//    ui->comboBox_15->setEditable(true);
-//    ui->comboBox_15->lineEdit()->setReadOnly(true);
-//    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
-//    ui->comboBox_15->lineEdit()->adjustSize();
+    //    ui->comboBox_15->setEditable(true);
+    //    ui->comboBox_15->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_15->lineEdit()->adjustSize();
 
-//    ui->comboBox_16->setEditable(true);
-//    ui->comboBox_16->lineEdit()->setReadOnly(true);
-//    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_16->setEditable(true);
+    //    ui->comboBox_16->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
 
-//    ui->comboBox_17->setEditable(true);
-//    ui->comboBox_17->lineEdit()->setReadOnly(true);
-//    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
+    //    ui->comboBox_17->setEditable(true);
+    //    ui->comboBox_17->lineEdit()->setReadOnly(true);
+    //    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
 
     //Close button on Tab bar
     // ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(1);
+    ui->tabWidget->hide();
 
     // Create button what must be placed in tabs row
     QToolButton* tb = new QToolButton(this);
@@ -139,20 +142,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     setStyleSheet("QToolButton { border: none; }");
 
-//    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
+    //    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
-//    //Home->Properties
-//    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
-//    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
-//    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
-//    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
+    //    //Home->Properties
+    //    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
+    //    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
+    //    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
+    //    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
 
-//    //View - Interface
-//    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
-//    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
-
-
+    //    //View - Interface
+    //    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
+    //    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
 
 
     //MENU actionOpen
@@ -164,8 +165,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
     connect(ui->actionXML_Json, SIGNAL(triggered()), this, SLOT(onClicked_xml_json()));
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
+    connect(ui->actionText, SIGNAL(toggled(bool)), this, SLOT(textFunctionToggled(bool)));
+    connect(ui->actionDark_Theme, SIGNAL(toggled(bool)), this, SLOT(darkThemeSelected(bool)));
+    connect(ui->actionLight_Rules, SIGNAL(toggled(bool)), this, SLOT(lightRulesSelected(bool)));
 
-//    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
+    //    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
 
     // ui->widget_147->hide();
     ui->widget_146->hide();
@@ -189,15 +193,69 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::setObjNameTW(QString str){
-
     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(str));
     ui->tableWidget->setItem(0, 1, newItem1);
-
     ui->tableWidget->show();
-    qInfo() << "in ui"+str;
     ui->tableWidget->item(0, 1)->setText(str);
-
     update();
+}
+
+void MainWindow::removeGabageData()
+{
+    QString savedFilePath = projectPath + "/"+ projectName +"/"+ projectName + ".aplan";
+    QFile file (savedFilePath);
+    if (file.exists()) return;
+    if (projectPath == "" || projectName == "") return;
+    QDir dir(projectPath + "/"+ projectName);
+    if (dir.exists()){
+        dir.removeRecursively();
+    }
+}
+
+void MainWindow::darkTheme()
+{
+    qApp->setStyle(QStyleFactory::create("Fusion"));
+
+    QColor darkGray(53, 53, 53);
+    QColor gray(128, 128, 128);
+    QColor black(25, 25, 25);
+    QColor blue(42, 130, 218);
+
+    QPalette darkPalette;
+    darkPalette.setColor(QPalette::Window, darkGray);
+    darkPalette.setColor(QPalette::WindowText, Qt::white);
+    darkPalette.setColor(QPalette::Base, black);
+    darkPalette.setColor(QPalette::AlternateBase, darkGray);
+    darkPalette.setColor(QPalette::ToolTipBase, blue);
+    darkPalette.setColor(QPalette::ToolTipText, Qt::white);
+    darkPalette.setColor(QPalette::Text, Qt::white);
+    darkPalette.setColor(QPalette::Button, darkGray);
+    darkPalette.setColor(QPalette::ButtonText, Qt::white);
+    darkPalette.setColor(QPalette::Link, blue);
+    darkPalette.setColor(QPalette::Highlight, blue);
+    darkPalette.setColor(QPalette::HighlightedText, Qt::black);
+
+    darkPalette.setColor(QPalette::Active, QPalette::Button, gray.darker());
+    darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::WindowText, gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Text, gray);
+    darkPalette.setColor(QPalette::Disabled, QPalette::Light, darkGray);
+
+    qApp->setPalette(darkPalette);
+}
+
+void MainWindow::createViewToolBar()
+{
+    // Create and connect Zoom spin box
+    QLabel *label = new QLabel(tr("zoom"));
+    ui->viewToolBar->addWidget(label);
+    zoomSpinBox = new QSpinBox();
+    zoomSpinBox->setRange(0,1000);
+    zoomSpinBox->setValue(100);
+    zoomSpinBox->setSingleStep(2);
+    zoomSpinBox->setEnabled(false);
+    ui->viewToolBar->addWidget(zoomSpinBox);
+    connect(zoomSpinBox, SIGNAL(valueChanged(int)), this, SLOT(transformation(int)));
 }
 
 void MainWindow::hideFile()
@@ -265,21 +323,21 @@ void MainWindow::closeTab(int index)
         viewDockSubMenu->removeAction(dock2->toggleViewAction());
         dockWidgetCreated = !dockWidgetCreated;
     }
+    removeGabageData();
 }
 
 
 void MainWindow::on_actionOpen_triggered()
 {
     if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
-             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){ //     ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != ""){
+            !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){ //     ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != ""){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Attempt!", "Did you want to save your project ? ... \n  Unsaved progress would be lost",
-                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+                                                                  QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
         if (reply == QMessageBox::Yes){
             on_actionSave_triggered();
-//            delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
-//        } else if (reply == QMessageBox::No) delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
         }else if (reply == QMessageBox::Cancel ) return;
     }
+    removeGabageData();
     QString selectedFile = QFileDialog::getOpenFileName(this, "Open the file");
     if(selectedFile.isNull() || selectedFile.isEmpty() || selectedFile == "") return;
     QFile file(selectedFile);
@@ -309,7 +367,7 @@ void MainWindow::on_actionOpen_triggered()
     QFile file2(iniFile);
     if(!file2.exists()) {
         QMessageBox::warning(this, "File Not Exists", "Important file missing from your directory \n" + file2.errorString());
-//        qDebug() << "Missing File2: " + file2.errorString();
+        //        qDebug() << "Missing File2: " + file2.errorString();
         return;
     }
     if(!file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -321,8 +379,8 @@ void MainWindow::on_actionOpen_triggered()
     QString allData;
     allData = QString(decoded);
     file2.close();
-
-    QStringList getOtherData = allData.split(QRegularExpression("\n"));
+    static QRegularExpression re("\n");
+    QStringList getOtherData = allData.split(re);
     fileFormat = getOtherData.at(0);
     countryCode = getOtherData.at(1);
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
@@ -332,10 +390,11 @@ void MainWindow::on_actionOpen_triggered()
     tracks->ReadOperator(selectedFile); // for symbols
     readSettings();
 
-    // Enable Save, SaveAs, and Print button
+    // Enable Save, SaveAs, zoom, and Print button
     ui->actionSave->setEnabled(true);
     ui->actionSave_As->setEnabled(true);
     ui->actionPrint->setEnabled(true);
+    zoomSpinBox->setEnabled(true);
     if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
     else ui->actionXML_Json->setEnabled(false);   // to fix the condition if .euxml has previously been opened
     // Create dock widget
@@ -397,23 +456,20 @@ void MainWindow::on_actionSave_triggered()
                                                                  "rgba(0,0,0,0);color:black;font-weight:bold;}");});
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event)
-{
-    Q_UNUSED(event);
-}
-
-
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    Q_UNUSED(event);
-}
-
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
-    if (e->key() == Qt::Key_Escape)
-        close();
+    if (e->key() == Qt::Key_Escape){
+        //release Text writing mode
+        textFunctionToggled(false);
+        ui->actionText->setChecked(false);
+
+        // release drag mode
+        isChecked = false;
+        on_grabBtn_2_clicked();
+    }
     else
-        QWidget::keyPressEvent(e);
+        //        QWidget::keyPressEvent(e);
+        QMainWindow::keyPressEvent(e);
 }
 
 //Home -> Properties
@@ -504,6 +560,7 @@ void MainWindow::save()
         ui->actionSave->setEnabled(false);
         ui->actionSave_As->setEnabled(false);
         ui->actionPrint->setEnabled(false);
+        zoomSpinBox->setEnabled(false);
         return;
     }
     QString fileName = QFileDialog::getSaveFileName(this, "Save As", "", "Windows Bitmap(*.BMP);;Joint Photographic Experts Group(*.JPG);;Joint Photographic Experts Group(*.JPEG);;"
@@ -533,9 +590,9 @@ void MainWindow::save()
     }
 
 
-//    // QAction *action = qobject_cast<QAction *>(sender());
-//    QByteArray fileFormat = ui->actionSave_As->data().toByteArray();
-//    saveFile(fileFormat);
+    //    // QAction *action = qobject_cast<QAction *>(sender());
+    //    QByteArray fileFormat = ui->actionSave_As->data().toByteArray();
+    //    saveFile(fileFormat);
 }
 
 void MainWindow::print()
@@ -564,42 +621,6 @@ void MainWindow::print()
 void MainWindow::exit()
 {
     QCoreApplication::quit();
-}
-
-
-//Rayhan's code
-
-void MainWindow::importShapeFiles()
-{
-    //    FileChooser fileChooser = new FileChooser();
-    //            fileChooser.setTitle("Import Multiple Files");
-    //            fileChooser.getExtensionFilters().addAll(
-    //                    new FileChooser.ExtensionFilter("All Shapefiles", "*.*"),
-    //                    new FileChooser.ExtensionFilter("DBF", "*.dbf"),
-    //                    new FileChooser.ExtensionFilter("CPG", "*.cpg"),
-    //                    new FileChooser.ExtensionFilter("SHX", "*.shx"),
-    //                    new FileChooser.ExtensionFilter("PRJ", "*.prj"),
-    //                    new FileChooser.ExtensionFilter("QPJ", "*.qpj"),
-    //                    new FileChooser.ExtensionFilter("SHP", "*.shp")
-    //            );
-    //            Stage stage = (Stage) gridPane.getScene().getWindow();
-
-    //            files = fileChooser.showOpenMultipleDialog(stage);
-    //            db.setFiles(files);
-    //            db.copyData();
-
-    QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
-    QFile file(fileName);
-    readFile = fileName;
-    if (!file.open(QIODevice::ReadOnly | QFile::Text)) {
-        // QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
-        return;
-    }
-    setWindowTitle(fileName);
-    QTextStream in(&file);
-    QString text = in.readAll();
-    //ui->textEdit->setText(text);
-    file.close();
 }
 
 void MainWindow::exportToPicture()
@@ -716,9 +737,9 @@ void MainWindow::on_btnSymbol_clicked()
 void MainWindow::onNewProjectClicked()
 {
     if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
-             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
+            !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Exit Current Project?", "You are trying to open a new project. . . \n\t Save ongoing project ? ",
-                                                                    QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
+                                                                  QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
         if (reply == QMessageBox::Yes){
             on_actionSave_triggered();
         }else if (reply == QMessageBox::Cancel ) return;
@@ -726,6 +747,9 @@ void MainWindow::onNewProjectClicked()
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
+    removeGabageData();
+    // Enable Save, SaveAs, zoom, and Print button
+    setActionMenus(false);
     if (dockWidgetCreated) {
         viewDockSubMenu->removeAction(dock1->toggleViewAction());
         dock1->close();
@@ -745,8 +769,7 @@ void MainWindow::onNewProjectClicked()
         dock2->close();
         dock1->close();
         dockWidgetCreated = !dockWidgetCreated;
-    }
-    createDock();
+    } else createDock();
 }
 
 void MainWindow::setActionMenus(bool activate)
@@ -755,27 +778,34 @@ void MainWindow::setActionMenus(bool activate)
     ui->actionSave_As->setEnabled(activate);
     ui->actionPrint->setEnabled(activate);
     ui->actionXML_Json->setEnabled(activate);
+    zoomSpinBox->setEnabled(activate);
     viewDockSubMenu->setEnabled(activate);
 }
 
 void MainWindow::writeSettings()
 {
-    QSettings settings ("DB_Netz", "APlan");
-    settings.setValue("geometry",saveGeometry());
-    settings.setValue("windowState", saveState());
+    QSettings *settings = new QSettings("DB_Netz", "APlan");
+    settings->beginGroup("outputPaths");
+    settings->setValue("exportOutputPath", exportPath);
+    settings->setValue("planningOutputPath", planningOutputPath);
+    settings->setValue("newProjectPath", newProjectPath);
+    settings->endGroup();
 }
 
 void MainWindow::readSettings()
 {
-    QSettings settings ("DB_Netz", "APlan");
-    restoreGeometry(settings.value("geometry").toByteArray());
-    restoreState(settings.value("windowState").toByteArray());
+    QSettings *settings = new QSettings("DB_Netz", "APlan");
+    settings->beginGroup("outputPaths");
+    exportPath = settings->value("exportOutputPath").toString();
+    planningOutputPath = settings->value("planningOutputPath").toString();
+    newProjectPath = settings->value("newProjectPath").toString();
+    settings->endGroup();
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
 {
     if (ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()) != "Welcome" &&
-             !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
+            !ui->tabWidget_2->tabText(ui->tabWidget_2->currentIndex()).isEmpty()){
         QMessageBox::StandardButton resBtn = QMessageBox::question( this, "A Plan",
                                                                     tr("Do you want to save the changes?\n"),
                                                                     QMessageBox::Cancel | QMessageBox::No | QMessageBox::Yes);
@@ -795,6 +825,7 @@ void MainWindow::closeEvent (QCloseEvent *event)
         event->ignore();
         QCoreApplication::quit();
     }
+    removeGabageData();
 }
 
 // this event loads everytime after specific time interval or anything is updated on the screen
@@ -836,6 +867,7 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         ui->actionSave->setEnabled(true);
         ui->actionSave_As->setEnabled(true);
         ui->actionPrint->setEnabled(true);
+        zoomSpinBox->setEnabled(true);
         if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
         else ui->actionXML_Json->setEnabled(false);
     }
@@ -863,11 +895,9 @@ void MainWindow::on_grabBtn_2_clicked()
     if(!isChecked){
         isChecked = !isChecked;
         ui->grabBtn_2->setStyleSheet("QPushButton { background-color: white; border:none; }");
-//        setCursor(Qt::IBeamCursor);
     }else{
         isChecked = !isChecked;
         ui->grabBtn_2->setStyleSheet("QPushButton { background-color: green; border:none; }");
-//        setCursor(Qt::ArrowCursor);
     }
 }
 
@@ -877,7 +907,7 @@ void MainWindow::onClicked_xml_json()
     QJsonModel * model = new QJsonModel;
 
     view->setModel(model);
-//    view->setColumnWidth(0, 100);
+    //    view->setColumnWidth(0, 100);
     view->setFont(QFont("Helvetica [Cronyx]", 10));
     view->header()->setDefaultAlignment(Qt::AlignHCenter);
     QFile file (projectPath +"/"+ projectName + "/temp2/UnprocessedJson.json");
@@ -893,15 +923,15 @@ void MainWindow::onClicked_xml_json()
     QByteArray json = file.readAll();
     model->loadJson(json);
     view->show();
-//    QByteArray mjson = model->json();
-//    qDebug() << mjson;
+    //    QByteArray mjson = model->json();
+    //    qDebug() << mjson;
 }
 
 
-void MainWindow::on_grabBtn_toggled(bool checked)
-{
-    Q_UNUSED(checked);
-}
+//void MainWindow::on_grabBtn_toggled(bool checked)
+//{
+//    Q_UNUSED(checked);
+//}
 
 void MainWindow::on_actionDelete_Items_triggered()
 {
@@ -934,17 +964,17 @@ void MainWindow::showContextMenu(QPoint pos)
 
 void MainWindow::createDock()
 {
-//    if (dockWidgetCreated) {
-//        createSignalObjects();
-//        return;
-//    }
-//    QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
-//    QFile file (filePath);
-//    if(!file.exists()) {
-//        qDebug()<< "UnprocessedJson not exist";
-//        viewDockSubMenu->setEnabled(false);
-//        return;
-//    }
+    //    if (dockWidgetCreated) {
+    //        createSignalObjects();
+    //        return;
+    //    }
+    //    QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
+    //    QFile file (filePath);
+    //    if(!file.exists()) {
+    //        qDebug()<< "UnprocessedJson not exist";
+    //        viewDockSubMenu->setEnabled(false);
+    //        return;
+    //    }
     createSignalObjects();
     dock1 = new QDockWidget(tr("Signal Object Info ("+projectName.toLocal8Bit()+")"), this);
     dock1->setObjectName("Signal Object Info");
@@ -972,13 +1002,13 @@ void MainWindow::createSignalObjects()
     QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
     QFile file (filePath);
     if(!file.exists()) {
-//        viewDockSubMenu->setEnabled(false);
+        //        viewDockSubMenu->setEnabled(false);
         table = new QTableWidget(this);
         table->setColumnCount(8);
         table->setRowCount(2);
 
         QStringList horizontalLabel;
-    //    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
+        //    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
         horizontalLabel << "DB Signal Type" << "DB Signal Function" << "Lateral Side" << "Direction" << "Linear Coordinate" << "XCoord" << "YCoord " << "ZCoord";
         table->setHorizontalHeaderLabels(horizontalLabel);
         for (int i=0; i< 2; i++){
@@ -998,7 +1028,7 @@ void MainWindow::createSignalObjects()
     table->setRowCount((int)allSignals.size());
 
     QStringList horizontalLabel;
-//    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
+    //    Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ "
     horizontalLabel << "DB Signal Type" << "DB Signal Function" << "Lateral Side" << "Direction" << "Linear Coordinate" << "XCoord" << "YCoord " << "ZCoord";
     table->setHorizontalHeaderLabels(horizontalLabel);
 
@@ -1021,7 +1051,7 @@ void MainWindow::createSignalObjects()
     table->setGridStyle(Qt::DotLine);
     table->setSortingEnabled(true);
     table->setCornerButtonEnabled(true);
-//    table->horizontalHeader()->setStretchLastSection(true);
+    //    table->horizontalHeader()->setStretchLastSection(true);
 }
 
 // Function to show/hide entire tabWidget
@@ -1031,16 +1061,32 @@ void MainWindow::on_actionPlanning_Tab_toggled(bool arg1)
     else ui->tabWidget->show();
 }
 
+void MainWindow::transformation(int)
+{
+    qreal factor;
+    factor = (zoomSpinBox->value() > currentSpinNumber) ? 1.1 : 0.9;
+    tracks->scale(factor, factor);
+    currentSpinNumber = zoomSpinBox->value();
+}
+
 
 void MainWindow::on_actionEULYNX_Validator_triggered()
 {
     QDialog dialog(this);
     dialog.setWindowTitle("Validator");
     QFormLayout form (&dialog);
-    error = new QErrorMessage(&dialog);
-    error2 = new QErrorMessage(&dialog);
 
-    form.addRow(new QLabel("VALIDATE EULYNX XML"));
+    QLabel *title = new QLabel("VALIDATE EULYNX XML");
+    title->setAlignment(Qt::AlignCenter);
+
+    form.addRow(title);
+    form.addRow(new QLabel(""));
+
+    versionCombo = new QComboBox (&dialog);
+    versionCombo->addItem("EULYNX_DP_V1.0");
+
+    versionCombo->setMinimumSize(QSize(300,25));
+    form.addRow(versionCombo, new QLabel("Version"));
 
     // xsdPath
     xsdPath = new QLineEdit(&dialog);
@@ -1071,25 +1117,37 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
     QObject::connect(btnAddFolder, SIGNAL(clicked()), this, SLOT(setOutputpath()));
     form.addRow(outputPath, btnAddFolder);
 
-//     Add Cancel and OK button
+    //     Add Cancel and OK button
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
-        Qt::Horizontal, &dialog);
+                               Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
 
     QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
     QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
-    error->setWindowTitle("Info/Hint");
-    error->showMessage("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n  Expected Encoding:    UTF-8 \n\n"
-                       "Ensure you have correct input (including path to the xsd) \n\n   Also, wait for few seconds to process your input");
-//    error->showMessage("No Problem");
-//    error->show();
+    //    error->setWindowTitle("Info/Hint");
+    //    error->showMessage("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n  Expected Encoding:    UTF-8 \n\n"
+    //                       "Ensure you have correct input (including path to the xsd) \n\n   Also, wait for few seconds to process your input");
+    //    error->exec();
+    //    error->update();
 
+    if (showMessageBox) {
+        QCheckBox *cb = new QCheckBox("Do not show this message again");
+        QMessageBox msgbox;
+        msgbox.setText("<h2>EULYNX Validator</h2>\n\n<hr/>EULYNX Validator was based on the \nfirst release (OLD) of the EULYNX Data Preparation \nmodel as can be found at https://www.eulynx.eu/index.php/dataprep.\n Expected Encoding:    UTF-8 \n"
+                       "Ensure you have correct input (including path to the xsd) \nAlso, wait for few seconds to process your input \n\n");
+        msgbox.setIcon(QMessageBox::Icon::Information);
+        msgbox.addButton(QMessageBox::Ok);
+        msgbox.addButton(QMessageBox::Cancel);
+        msgbox.setDefaultButton(QMessageBox::Cancel);
+        msgbox.setCheckBox(cb);
 
+        QObject::connect(cb, &QCheckBox::stateChanged, this, &MainWindow::stateChanged);
+        msgbox.exec();
+    }
 
-//     Process when OK button is clicked
+    //     Process when OK button is clicked
     if (dialog.exec() == QDialog::Accepted) {
-
         QDir dir (xsdPath->text());
         if (!dir.exists() || xsdPath->text().isEmpty()) {
             QMessageBox::warning(this,"Invalid XSD Path", "You have entered an invalid input ...\n"
@@ -1106,48 +1164,56 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
             QMessageBox::warning(this,"Wrong XML Input", "Please add a valid xml");
             return on_actionEULYNX_Validator_triggered();
         }
-//        error2->setWindowTitle("Hint");
-//        error2->showMessage("(1) You need to wait for few seconds to process your input.. (2) Expected Input: EULYNX xml utf-8 encoding )");
-//        QApplication::processEvents();
-        progressBar = new QProgressBar (&dialog);
-        progressBar->move((this->rect().width() /2), (this->rect().height()/2));
-        progressBar->setRange(0,8);
+        progress = new QProgressDialog ("Operation in progress ...", "Cancel", 0, 8, this); //&dialog
+        progress->move((this->rect().width() /2), (this->rect().height()/2));
+        progress->setRange(0,8);
         progressValue = 2;
-        progressBar->setValue(progressValue);
-        progressBar->show();
-        QApplication::processEvents();
-        progressBar->setWindowFlags(Qt::FramelessWindowHint);
-        progressBar->setAlignment(Qt::AlignCenter);
-        QApplication::processEvents();
-//        progressBar->setWindowTitle("validating xml...");
-        progressBar->setTextVisible(true);
-        QApplication::processEvents();
-        progressBar->setVisible(true);
-        QApplication::processEvents();
+        progress->setWindowModality(Qt::WindowModal);
+        progress->setValue(progressValue);
+        //        progress->show();
 
+        //        progress->setWindowFlags(Qt::FramelessWindowHint);
+        //        progress->setAlignment(Qt::AlignCenter);
+        progress->setWindowTitle("validating xml...");
+        //        progress->setTextVisible(true);
+        progress->setVisible(true);
+        QApplication::processEvents();
         timer = new QTimer(this);
 
-//        timer->setInterval(2000);
+        //        timer->setInterval(2000);
         connect(timer, &QTimer::timeout, this, &MainWindow::timeOut);
+
         timer->start();
+        progress->setValue(progressValue);
+        QApplication::processEvents();
 
         ConnectToCSharp *ctsharp = new ConnectToCSharp(nullptr, xsdPath->text().toUtf8(), xmlPath->text().toUtf8(), outputPath->text().toUtf8() );
         ctsharp->cSharp();
         cSharpIsDone = true;
 
         QChar soln = ctsharp->solutions();
-//        QString path = outputPath->text() + "/XML Schema Report.txt";
-//        QFile readFile (path);
-//        qDebug()<< "PATH: " << path;
-//        if (readFile.exists()){
-//            qint64 size = readFile.size();
-//            qDebug()<< "File Size: " << size;
 
         if(soln == '1') QMessageBox::information(this, "Not Valid!!", "Status :      Not Valid \nType    :      EULYNX XML\n\nReport Detail: \n       check your selected output folder for detailed report");
         else if (soln== '0') QMessageBox::information(this, " Valid!!", "Status :    GOOD (Valid) \nType    :    EULYNX XML\n\n\n\nReport Detail: \n       check your selected output folder for detailed report");
-        else QMessageBox::information(this, "Oooop!", "Status cannot be determined. \nReason :      Unknown Input\nPreffered :     utf-8 Encoding\n Ensure you have made correct input \n\n ... If the problem persists, please report this error" );
-        progressBar->close();
+        else QMessageBox::information(this, "Oooop!", "Status cannot be determined. \nReason :      Unknown Input\nPreffered :     utf-8 Encoding\n Ensure you have made correct input" );
+        progress->close();
     }
+}
+
+void MainWindow::stateChanged(int state)
+{
+    showMessageBox = state == 0 ? true : false;
+}
+
+void MainWindow::textFunctionToggled(bool isActive)
+{
+    textModeIsActive = isActive;
+    if (textModeIsActive) {
+        isChecked = false;
+        on_grabBtn_2_clicked();
+        this->setCursor(Qt::IBeamCursor);
+    }
+    else this->setCursor(Qt::ArrowCursor);
 }
 
 
@@ -1156,7 +1222,6 @@ void MainWindow::setXMLPath()
     QString file = QFileDialog::getOpenFileName(this, "Add File", "", "(*.xml *.euxml)" );
     if (file.isEmpty()||file.isNull()) return;
     xmlPath->setText(file);
-
 }
 
 void MainWindow::setOutputpath()
@@ -1170,6 +1235,40 @@ void MainWindow::setxsdPath()
 {
     QString path = QFileDialog::getExistingDirectory(this, ("Select xsd Folder"), QDir::currentPath());
     if (path.isNull() || path.isEmpty()) return;
+    if (versionCombo->currentText().isEmpty()) {
+        QMessageBox::information(this, tr("No Version Detected"), tr("Please select a EULYNX_DP version"));
+        xsdPath->clear();
+        return;
+    }
+
+    // Check for the validity of input data folder
+    QFile dateTimeTest (path + "/EulynxSchemaOld/Eulynx_Schema/DateTimeTest.xsd");
+    QFile db (path + "/EulynxSchemaOld/Eulynx_Schema/DB.xsd");
+    QFile generic (path + "/EulynxSchemaOld/Eulynx_Schema/Generic.xsd");
+    QFile nr (path + "/EulynxSchemaOld/Eulynx_Schema/NR.xsd");
+    QFile proRail (path + "/EulynxSchemaOld/Eulynx_Schema/ProRail.xsd");
+    QFile rfi (path + "/EulynxSchemaOld/Eulynx_Schema/RFI.xsd");
+    QFile signalling (path + "/EulynxSchemaOld/Eulynx_Schema/Signalling.xsd");
+    QFile sncf (path + "/EulynxSchemaOld/Eulynx_Schema/SNCF.xsd");
+    QFile trv (path + "/EulynxSchemaOld/Eulynx_Schema/TRV.xsd");
+
+    QFile common (path + "/EulynxSchemaOld/RSM_Schema/Common.xsd");
+    QFile netEntity (path + "/EulynxSchemaOld/RSM_Schema/NetEntity.xsd");
+    QFile schema_signalling (path + "/EulynxSchemaOld/RSM_Schema/Signalling.xsd");
+    QFile track (path + "/EulynxSchemaOld/RSM_Schema/Track.xsd");
+
+    // Schematron
+    QFile mainSignal (path + "/Schematron/mainSignal.sch");
+    QDir schematron (path + "/Schematron/schxslt-1.8.6");
+    if (versionCombo->currentText() == "EULYNX_DP_V1.0" && (!dateTimeTest.exists() || !db.exists() || !generic.exists() ||
+                                                            !nr.exists() || !proRail.exists() || !rfi.exists() || !signalling.exists() ||
+                                                            !sncf.exists() || !trv.exists() || !common.exists() || !netEntity.exists() ||
+                                                            !schema_signalling.exists() || !track.exists() || !mainSignal.exists() ||
+                                                            !schematron.exists()) ) {
+        QMessageBox::information(this, tr("Xsd/Schematron Missing!"), tr("Please upload recommended folder"));
+        xsdPath->clear();
+        return;
+    }
     xsdPath->setText(path);
 }
 
@@ -1177,16 +1276,40 @@ void MainWindow::timeOut()
 {
     if(!cSharpIsDone && progressValue < 7){
         progressValue ++;
-        progressBar->setValue(progressValue);
+        progress->setValue(progressValue);
         QApplication::processEvents();
     } else if (!cSharpIsDone && progressValue == 7) {
         progressValue++;
-        progressBar->setValue(progressValue);
+        progress->setValue(progressValue);
         QApplication::processEvents();
     }
     else {
-        progressBar->setValue(8);
+        progress->setValue(8);
         timer->stop();
         QApplication::processEvents();
     }
 }
+
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QMessageBox::aboutQt(this);
+}
+
+void MainWindow::darkThemeSelected(bool isSelected)
+{
+    if (isSelected) {
+        tracks->setLightRules(false);
+        ui->actionLight_Rules->setChecked(false);
+    }
+    tracks->setDarkTheme(isSelected);
+}
+
+void MainWindow::lightRulesSelected(bool isSelected)
+{
+    if (isSelected) {
+        tracks->setDarkTheme(false);
+        ui->actionDark_Theme->setChecked(false);
+    }
+    tracks->setLightRules(isSelected);
+}
+

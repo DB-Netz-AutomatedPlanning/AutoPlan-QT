@@ -13,7 +13,8 @@
 #include <QPushButton>
 #include <QMouseEvent>
 #include <QTableWidget>
-#include <QErrorMessage>
+#include <QSpinBox>
+#include <QComboBox>
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -34,17 +35,22 @@ public:
     //treeview
     void setObjNameTW(QString);
      MyOpenglWidget *myopen;
+     void createViewToolBar();
+     void removeGabageData();
+     void darkTheme();
 
-  void mousePressEvent(QMouseEvent *event) override;
   void paintEvent(QPaintEvent *event) override;
 public slots:
   void on_actionEULYNX_Validator_triggered();
+  void stateChanged(int state);
+  void textFunctionToggled(bool isActive);
 
 private slots:
 
     void on_actionSave_triggered();
 
     void closeTab(int);
+    void transformation(int);
     void penColor();
     void penWidth();
 //    void openCalculator();
@@ -73,7 +79,6 @@ private slots:
     void exportToPicture();
    // void exportToPdf();
 
-    void importShapeFiles();
     void planningFnt();
     void addTab();
     void onNewProjectClicked();
@@ -91,7 +96,7 @@ private slots:
     void on_btnSymbol_clicked();
     void closeEvent (QCloseEvent *event) override;
     //void on_grabBtn_clicked();
-    void on_grabBtn_toggled(bool checked);
+//    void on_grabBtn_toggled(bool checked);
 
     void on_grabBtn_2_clicked();
     void onClicked_xml_json();
@@ -107,8 +112,11 @@ private slots:
     void createSignalObjects();
 
     void on_actionPlanning_Tab_toggled(bool arg1);
+    void on_actionAbout_Qt_triggered();
 
-
+    // Background Grids
+    void darkThemeSelected(bool isSelected);
+    void lightRulesSelected(bool isSelected);
 
 private:
     Ui::MainWindow *ui;
@@ -135,22 +143,21 @@ private:
     QGraphicsSymbolContainer *svgDialog;
 
     // Validator
+    QComboBox *versionCombo;
     QLineEdit *xmlPath;
     QLineEdit *outputPath;
     QLineEdit *xsdPath;
     QProgressDialog *progress;
-    QProgressBar *progressBar;
+//    QProgressBar *progressBar;
     bool cSharpIsDone = false;
     QTimer *timer;
-    QErrorMessage *error;
-    QErrorMessage *error2;
     int progressValue;
+    int lastRotation;
 
-
+    QSpinBox *zoomSpinBox;
+    int currentSpinNumber;
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
-
 };
 #endif // MAINWINDOW_H

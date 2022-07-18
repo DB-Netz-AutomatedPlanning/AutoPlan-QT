@@ -121,7 +121,6 @@ void GleisknotenFromUnprocessedJson::searchStartRefAndStartKm()
 }
 
 
-// ToDo: This function needs to be optimized
 std::vector<QString> GleisknotenFromUnprocessedJson::lookForCoord(QString currentRef)
 {
     std::vector <QString> values;

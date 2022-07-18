@@ -92,6 +92,8 @@ QGraphicsSymbolContainer::~QGraphicsSymbolContainer()
 void QGraphicsSymbolContainer::on_pb1_clicked()
 {
     tracks->addSymbol("Abfahrsignal");
+//    QCursor cursor_default = QCursor(QPixmap(":/icons/assets/qgraphics/Abfahrsignal.svg"));
+//    tracks->setCursor(cursor_default);
 }
 
 

@@ -115,9 +115,9 @@ public:
 
 //    void currentPos();
    // void mousePressEvent(QMouseEvent *event);
-public slots:
-    void darkMode();
-    void showContextMenu(QPoint pos);
+//public slots:
+//    void darkMode();
+//    void showContextMenu(QPoint pos);
 
     // void mousePressEvent(QMouseEvent *event);
 
@@ -168,8 +168,13 @@ private:
     double xCoord;
     double yCoord;
     int ttt = 0;
+    int mGridSize = 20;
+    bool darkTheme;
+    bool lightRules;
     QStringList dataKeys;
     QStringList dataValues;
+
+    QColor lineColor = QColor(255,69,0); // orangered
 
 
 //    Object currentObject;
@@ -189,9 +194,13 @@ public:
     void setDataValues(const QStringList &newDataValues);
 
     // QWidget interface
+    void setDarkTheme(bool newDarkTheme);
+
+    void setLightRules(bool newLightRules);
+
 protected:
     void wheelEvent(QWheelEvent *event) override;
-    void mouseDoubleClickEvent(QMouseEvent *event)override;
+//    void mouseDoubleClickEvent(QMouseEvent *event)override;
     void keyPressEvent(QKeyEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;

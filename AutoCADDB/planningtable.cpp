@@ -12,6 +12,21 @@ PlanningTable::PlanningTable(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->comboBoxStations->addItem(projectName);
+
+    progressBarValue =0;
+
+    ui->progressBar->setVisible(false);
+    // set previous export path only if it exist
+    if (QDir(planningOutputPath).exists() && !ui->comboBoxStations->currentText().isEmpty()){
+        ui->lineEdit->setText(planningOutputPath);
+        ui->btnAutoPLAN->setEnabled(true);
+        isStart = true;
+    } else planningOutputPath = "";
+
+    timer = new QTimer(this);
+    timer->setInterval(1000);
+    connect(timer, &QTimer::timeout, this, &PlanningTable::timeout);
+    timer->start(1000);
 }
 
 PlanningTable::~PlanningTable()
@@ -21,6 +36,7 @@ PlanningTable::~PlanningTable()
 
 void PlanningTable::on_btnAutoPLAN_clicked()
 {
+
     if (fileFormat == ".mdb"){
         QMessageBox::warning(this, "Warning", "Planning of .mdb data source/file was temporarily disabled");
         return;
@@ -38,7 +54,12 @@ void PlanningTable::on_btnAutoPLAN_clicked()
         return;
     }
     else {
+        ui->progressBar->setVisible(true);
+        ui->progressBar->setValue(progressBarValue);
+        QApplication::processEvents();
+        isStart = true;
 
+        planningOutputPath = ui->lineEdit->text();
         QString location = ui->comboBoxStations->currentText();
         QString kmLinePath = projectPath+"/"+location+"/temp/Entwurfselement_KM.dbahn";
 
@@ -56,7 +77,6 @@ void PlanningTable::on_btnAutoPLAN_clicked()
             ui->lblLocation->setEnabled(false);
             return;
         }
-
         std::vector<QString> filePaths;
 
         filePaths.push_back(kmLinePath);
@@ -150,6 +170,7 @@ void PlanningTable::on_btnAutoPLAN_clicked()
             close();
             return;
         }
+        isEnd = true;
         ui->lblLocation->hide();
         ui->lblLocation->setText(location.toUpper());
         ui->btnAutoPLAN->setEnabled(true);
@@ -254,6 +275,38 @@ void PlanningTable::on_btnSelectFolder_clicked()
     }
 }
 
+void PlanningTable::timeout()
+{
+    if (isStart || isEnd){
+        if (isEnd){
+            ui->progressBar->setValue(100);
+            QApplication::processEvents();
+            timer->stop();
+            ui->progressBar->setVisible(false);
+            isEnd =false;
+            ui->btnAutoPLAN->setEnabled(false);
+            qDebug()<< "TORR1";
+
+        } else if (isStart && (progressBarValue <90)){
+            progressBarValue+=10;
+            ui->progressBar->setValue(progressBarValue);
+            QApplication::processEvents();
+            qDebug()<< "TORR2";
+
+        } else if (isStart && (progressBarValue == 90)){
+            ui->progressBar->setValue(90);
+            QApplication::processEvents();
+            qDebug()<< "TORR3";
+        }
+    }
+}
+
+void PlanningTable::closeEvent(QCloseEvent *event)
+{
+    isEnd =true;
+    event->accept();
+}
+
 const QString &PlanningTable::getLA_Path() const
 {
     return LA_Path;
@@ -283,4 +336,3 @@ void PlanningTable::setKmLinePath(const QString &newKmLinePath)
 {
     kmLinePath = newKmLinePath;
 }
-

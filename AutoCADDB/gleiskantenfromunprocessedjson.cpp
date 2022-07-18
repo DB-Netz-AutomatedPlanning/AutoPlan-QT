@@ -115,11 +115,11 @@ void GleiskantenFromUnprocessedJson::searchStartRefAndStartKm()
 }
 
 
-// ToDo: This function needs to be optimized
 std::vector<QString> GleiskantenFromUnprocessedJson::lookForCoord(QString currentRef)
 {
     std::vector <QString> values;
 
+// A step search of 50
 
 //    for (int i=0; i<50; i++){
 //        int k =i;
@@ -224,7 +224,7 @@ std::vector<QString> GleiskantenFromUnprocessedJson::lookForCoord(QString curren
                             ["usesPositioningSystemCoordinate"][j]["y"].toDouble(), 'f', 8));
                 }
 
-                // z-axis
+                // z-axis (height)
 //                if(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
 //                        ["usesPositioningSystemCoordinate"][j]["z"].isString()){
 //                    values.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]

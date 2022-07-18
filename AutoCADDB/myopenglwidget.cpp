@@ -43,16 +43,6 @@ void MyOpenglWidget::cleanup()
     doneCurrent();
 }
 
-//void MyOpenglWidget::delay()
-//{
-//    QTime dieTime= QTime::currentTime().addSecs(2);
-//    while (QTime::currentTime() < dieTime)
-//        qInfo()<< "";
-//        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-//}
-
-
-
 struct EventInfo
 {
 int mcstrCMD_ID;
@@ -384,9 +374,7 @@ void MyOpenglWidget::resizeGL(int w, int h)
       Q_UNUSED(w); Q_UNUSED(h);
       //glViewport(0, 0, (GLint)width(), (GLint)height());
       //projectionMatrix.perspective(45.0f, (float)width()/(float)height(), z, z/1000);
-
 }
-
 
 //Drag icons
 void MyOpenglWidget::dragEnterEvent(QDragEnterEvent *event)
@@ -403,13 +391,8 @@ void MyOpenglWidget::dragEnterEvent(QDragEnterEvent *event)
     } else {
         event->ignore();
     }
-
-
-
-
-
-
 }
+
 
 void MyOpenglWidget::dragMoveEvent(QDragMoveEvent *event)
 {
@@ -423,10 +406,8 @@ void MyOpenglWidget::dragMoveEvent(QDragMoveEvent *event)
     } else {
         event->ignore();
     }
-
-
-
 }
+
 
 void MyOpenglWidget::dropEvent(QDropEvent *event)
 {

@@ -12,7 +12,6 @@ KmToCoordinate::KmToCoordinate(QString pPath, QString pName)
     this->pName = pName;
 
     QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
-//    QFile kanten_File(projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn"); // D:\Users\BKU\OlatunjiAjala\Documents\pdf\Sample2\temp\Gleiskanten.dbahn
 
     QString usedDataFile = km_file.exists() ? "Entwurfselement_KM.dbahn" : "Entwurfselement_LA.dbahn";  //Gleiskanten.dbahn
     coord = new Coordinates(pPath,pName);
@@ -186,18 +185,10 @@ void KmToCoordinate::setKmAndCoord(const QMap<double, QPointF> &newKmAndCoord)
 
 void KmToCoordinate::mapKmAndCoord()
 {
-//    calculateSegmentAllPoints();
-//    calculateSegmentPointDistance();
-
-    qDebug()<< "::::::::::::::10";
     calculateSegmentLength();
-    qDebug()<< "::::::::::::::11";
     calculateRealKmValues();
-    qDebug()<< "::::::::::::::12";
     std::vector<std::vector<double>> real_Km_Values = getRealKmValues();
-    qDebug()<< "::::::::::::::13";
     std::vector<std::vector<QPointF>> allPoints = getSegmentAllPoints();
-    qDebug()<< "::::::::::::::14";
     QMap<double, QPointF> km_And_Coord;
     int sum =0;
     for(int i=0; i< (int)allPoints.size(); i++){
@@ -206,9 +197,7 @@ void KmToCoordinate::mapKmAndCoord()
             sum++;
         }
     }
-    qDebug()<< "::::::::::::::15";
     setKmAndCoord(km_And_Coord);
-//    qDebug()<< "Total = "<< sum;
 }
 
 // this function return the nearest Km value to the provided Km value
@@ -219,12 +208,7 @@ double KmToCoordinate::searchNearestKmValue(double value)
     std::sort(keys.begin(),keys.end(), std::less<>());
     std::vector<std::vector<double>> real_Km_Values = getRealKmValues();
 
-    qDebug() <<" Key1 " << keys[0]<< "  Key1 " << keys[keys.size()-1];
-
-
     for (int i=0; i< (int)realKmValues.size(); i++){
-        qDebug()<< "VALUE: " << value;
-
         if (value < keys[0] || value > keys[keys.size()-1]){
             qDebug()<< "Your input km value is not within your considered track range \n"
                        "ensure you have input correct value" ;
@@ -236,7 +220,6 @@ double KmToCoordinate::searchNearestKmValue(double value)
             for (int j=0; j< (int)realKmValues[i].size(); j++){
                 double factor = abs(realKmValues[i][j] - value);
                 diff.insert(factor, realKmValues[i][j]);
-
             }
             QList<double> diffkeys = diff.keys();
             std::sort(diffkeys.begin(),diffkeys.end(), std::less<>());
@@ -334,7 +317,7 @@ void KmToCoordinate::calculateSegmentAllPoints()
     std::vector<std::vector<float>> vec;
     int segmentSize = coord->getSegment().size();
 
-    for (int i=0; i<segmentSize-1; i++){
+    for (int i=0; i<segmentSize; i++){  //segmentSize-1
         vec.push_back(std::vector<float>());
         for (int j=coord->getSegment()[i]; j< coord->getSegment()[i+1]; j++){
             vec[i].push_back(coord->getCoordinateLists()[j]);
@@ -370,4 +353,3 @@ void KmToCoordinate::calculateAngles()
     }
     setAngles(angles);
 }
-

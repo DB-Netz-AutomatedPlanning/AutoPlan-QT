@@ -2,6 +2,8 @@ QT       += core gui openglwidgets sql printsupport widgets svg svgwidgets concu
 requires(qtConfig(tableview))
 requires(qtConfig(fontdialog))
 
+INCLUDEPATH += ./include
+
 LIBS +=  -lopengl32 -lglu32 -lgdi32
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -13,8 +15,6 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    calcbutton.cpp \
-    calculator.cpp \
     connect2csharp.cpp \
     connecttocsharp.cpp \
     constructsvgdialog.cpp \
@@ -52,11 +52,10 @@ SOURCES += \
     tracks.cpp \
     uberhohungfromunprocessedjson.cpp \
     uploadnewdata.cpp \
-    exportdialog.cpp
+    exportdialog.cpp \
+    xml2json.cpp
 
 HEADERS += \
-    calcbutton.h \
-    calculator.h \
     connect2csharp.h \
     connecttocsharp.h \
     constructsvgdialog.h \
@@ -93,7 +92,8 @@ HEADERS += \
     tracks.h \
     uberhohungfromunprocessedjson.h \
     uploadnewdata.h \
-    exportdialog.h
+    exportdialog.h \
+    xml2json.h
 
 FORMS += \
     constructsvgdialog.ui \

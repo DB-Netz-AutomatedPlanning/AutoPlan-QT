@@ -62,7 +62,6 @@ private slots:
 private:
     Ui::QGraphicsMainWindow *ui;
     QGraphicsScene *scene;
-    int rotation_angle;
 
 
 //protected slots:

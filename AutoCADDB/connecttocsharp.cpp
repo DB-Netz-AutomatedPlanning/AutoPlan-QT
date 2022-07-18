@@ -1,25 +1,28 @@
 #include "connecttocsharp.h"
 #include <QMessageBox>
+#include<QDir>
 
-
+// Eulynx Validator
+//QByteArray xsdPath
 ConnectToCSharp::ConnectToCSharp(QObject *parent, QByteArray xsdPath, QByteArray inputXML, QByteArray outputPath) : QObject(parent)
 {
+    this->xsdPath = xsdPath;
     this->inputXML = inputXML;
     this->outputPath = outputPath;
-    this->xsdPath = xsdPath;
 }
-
 
 void ConnectToCSharp::cSharp()
 {
+    QDir div (xsdPath);
+    QFile file1 (xsdPath + "/EulynxSchemaOld/Eulynx_Schema/Generic.xsd"); //
+    QFile file2 (xsdPath + "/EulynxSchemaOld/Eulynx_Schema/Signalling.xsd");
+    QFile file3 (xsdPath + "/EulynxSchemaOld/RSM_Schema/Common.xsd");
+    QFile file4 (xsdPath + "/Schematron/schxslt-1.8.6/2.0/pipeline-for-svrl.xsl");
+
     // Start the A-Plan Core application through network process (QProcess)
     QProcess c_sharp;
     findOS();   //determine the operating system
-    // replace this with corresponding filepath
-
     QByteArray filePath = "eulynx-validator.exe";
-
-//    QByteArray xsdPath = "validatorRelease\\validator";
 
     c_sharp.start(filePath);
 
@@ -43,12 +46,14 @@ void ConnectToCSharp::cSharp()
     c_sharp.closeWriteChannel();
 //    csharp.waitForFinished();
 
-    if(!c_sharp.waitForFinished(15000)) {
+    if(!c_sharp.waitForFinished()) {
         // Giving maximum of 15 seconds to execute the program
         qInfo() << "The program is taking too long to close the Channel";
-        return;
+//        return;
     }
     this->setAntwort(c_sharp.readAll());
+    QString ans = getAntwort();
+    qDebug()<< "\n\n\n All<< " << ans;
 }
 
 

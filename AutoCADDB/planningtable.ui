@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>489</width>
-    <height>230</height>
+    <width>477</width>
+    <height>264</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,7 +28,6 @@
         <property name="font">
          <font>
           <pointsize>8</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -55,7 +54,6 @@
          <font>
           <family>Segoe Script</family>
           <pointsize>10</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -171,6 +169,13 @@
       </item>
      </layout>
     </item>
+    <item row="1" column="0">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -178,8 +183,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>489</width>
-     <height>21</height>
+     <width>477</width>
+     <height>17</height>
     </rect>
    </property>
   </widget>

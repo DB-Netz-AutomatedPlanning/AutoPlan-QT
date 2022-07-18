@@ -162,11 +162,11 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
             std::vector<double> segmentExtremeKmVals;
             counter =0;
             while (counter < count){
-                qDebug()<< "HHHH9";
+
                 /* usually, the KM value from geojson is expected to be in form of text, and need to be
                 processed differently from the normal floating points expected from euxml processed data*/
                 if (!document["features"][counter]["properties"]["KM_A_TEXT"].isUndefined() && !document["features"][counter]["properties"]["KM_E_TEXT"].isUndefined()){
-                    qDebug()<< "HHHH10";
+
                     QString KM_A_TEXT = document["features"][counter]["properties"]["KM_A_TEXT"].toString();
                     QString KM_E_TEXT = document["features"][counter]["properties"]["KM_E_TEXT"].toString();
                     QList<QString> KM_A_SPLIT = KM_A_TEXT.split(QRegularExpression("\\+"), Qt::SkipEmptyParts);
@@ -181,7 +181,7 @@ void Coordinates::readCoordinates(QString dataFile, QString countryCode, int dat
                     p2_final = p2_km + p2_m/1000;
                     segmentExtremeKmVals.push_back(p1_final);
                     segmentExtremeKmVals.push_back(p2_final);
-                    qDebug()<< "SSS";
+
                 }
                 else if (!document["features"][counter]["properties"]["KM_A"].isUndefined() && !document["features"][counter]["properties"]["KM_E"].isUndefined()){
                     double p1, p2 ;// Point 1 and 2
