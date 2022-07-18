@@ -2,7 +2,7 @@
 #define CALCULATOR_H
 
 #include <QWidget>
-class CalcButton;
+//class CalcButton;
 class QLineEdit;
 class Calculator : public QWidget
 {
@@ -29,7 +29,7 @@ private slots:
 //! [1]
 private:
 //! [1] //! [2]
-    CalcButton *createButton(const QString &text, const char *member);
+//    CalcButton *createButton(const QString &text, const char *member);
     void abortOperation();
     bool calculate(double rightOperand, const QString &pendingOperator);
 //! [2]
@@ -53,7 +53,7 @@ private:
 //! [9] //! [10]
 
     enum { NumDigitButtons = 10 };
-    CalcButton *digitButtons[NumDigitButtons];
+//    CalcButton *digitButtons[NumDigitButtons];
 };
 //! [10]
 

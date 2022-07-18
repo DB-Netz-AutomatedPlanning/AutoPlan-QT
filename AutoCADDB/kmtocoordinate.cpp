@@ -12,7 +12,6 @@ KmToCoordinate::KmToCoordinate(QString pPath, QString pName)
     this->pName = pName;
 
     QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
-//    QFile kanten_File(projectPath+"/"+projectName+"/temp/Gleiskanten.dbahn"); // D:\Users\BKU\OlatunjiAjala\Documents\pdf\Sample2\temp\Gleiskanten.dbahn
 
     QString usedDataFile = km_file.exists() ? "Entwurfselement_KM.dbahn" : "Entwurfselement_LA.dbahn";  //Gleiskanten.dbahn
     coord = new Coordinates(pPath,pName);
@@ -318,7 +317,7 @@ void KmToCoordinate::calculateSegmentAllPoints()
     std::vector<std::vector<float>> vec;
     int segmentSize = coord->getSegment().size();
 
-    for (int i=0; i<segmentSize-1; i++){
+    for (int i=0; i<segmentSize; i++){  //segmentSize-1
         vec.push_back(std::vector<float>());
         for (int j=coord->getSegment()[i]; j< coord->getSegment()[i+1]; j++){
             vec[i].push_back(coord->getCoordinateLists()[j]);

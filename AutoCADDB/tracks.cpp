@@ -1584,7 +1584,7 @@ void Tracks :: sceneSelectedItems(int degree){
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
         QString toolTip = item->toolTip();
 
-        QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+        QStringList breakToolTip = toolTip.split(QLatin1String("_")); //QRegularExpression("_")
         if(breakToolTip[0].isEmpty()){
             QPointF rotationPt = item->boundingRect().center();
             item->setTransformOriginPoint(rotationPt);
