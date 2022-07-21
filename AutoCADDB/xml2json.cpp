@@ -1,6 +1,6 @@
 #include "xml2json.h"
-#include <QFile>
 #include "xml2json.hpp"
+#include <QFile>
 #include <QDebug>
 #include <QJsonDocument>
 
