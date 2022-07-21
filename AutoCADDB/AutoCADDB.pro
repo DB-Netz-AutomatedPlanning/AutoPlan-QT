@@ -36,6 +36,7 @@ SOURCES += \
     nopreviewdelete.cpp \
     openglclass.cpp \
     planningtable.cpp \
+    planproelements.cpp \
     previeweulynxxml.cpp \
     qgraphicsmainwindow.cpp \
     qgraphicssymbolcontainer.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
     nopreviewdelete.h \
     openglclass.h \
     planningtable.h \
+    planproelements.h \
     previeweulynxxml.h \
     qgraphicsmainwindow.h \
     qgraphicssymbolcontainer.h \

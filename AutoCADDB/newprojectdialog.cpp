@@ -183,7 +183,6 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
             if (current == "Entwurfselement_HO" || current == "Entwurfselement_KM" || current == "Entwurfselement_LA" ||
                     current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"){
 
-
                 QString allData = file.readAll();
                 file.close();
 

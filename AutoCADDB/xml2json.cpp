@@ -1,11 +1,12 @@
 #include "xml2json.h"
-#include <QFile>
 #include "xml2json.hpp"
+#include <QFile>
 #include <QDebug>
 #include <QJsonDocument>
 
 
-Xml2Json::Xml2Json(QObject *parent, QString xml_Path, const QString &output_JsonPath) : QObject{parent}
+Xml2Json::Xml2Json(QObject *parent, QString xml_Path, const QString &output_JsonPath)
+    : QObject{parent}
 
 {
     this->xml_Path = xml_Path;
