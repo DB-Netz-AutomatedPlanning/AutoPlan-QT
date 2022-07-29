@@ -1308,7 +1308,7 @@ void Tracks::keyPressEvent(QKeyEvent *event)
         foreach (QGraphicsItem *item, scene()->selectedItems()) {
             QString toolTip = item->toolTip();
 
-            QStringList breakToolTip = toolTip.split(QRegularExpression("_"));
+            QStringList breakToolTip = toolTip.split(QLatin1Char('_'));  //QRegularExpression("_")
             qInfo() << breakToolTip[0];
             if(breakToolTip[0].isEmpty()){
                 scene()->removeItem(item);

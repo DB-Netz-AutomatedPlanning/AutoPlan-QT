@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setActionMenus(false);
     readSettings();
-    //    createDock();
+    createDock();
 
 
     //    ui->f_headerTabs->setGeometry(0,0,100,100);

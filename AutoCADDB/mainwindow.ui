@@ -1507,6 +1507,9 @@ QPushButton:enabled { background-color: green; }</string>
    <property name="text">
     <string>Planning Tab</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+P</string>
+   </property>
   </action>
   <action name="actionText">
    <property name="checkable">
