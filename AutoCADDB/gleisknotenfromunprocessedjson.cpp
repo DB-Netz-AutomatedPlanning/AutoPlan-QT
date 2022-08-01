@@ -421,7 +421,7 @@ QJsonObject GleisknotenFromUnprocessedJson::geometry(std::vector<double> coord){
     allCoord.append(coord.at(0+1));
     allCoord.append(coord.at(0+2));
 
-    geom.insert("type", "LineString");
+    geom.insert("type", "Point");
     geom.insert("coordinates", allCoord);
 
     return geom;
@@ -477,7 +477,7 @@ void GleisknotenFromUnprocessedJson::createJson()
     }
     QJsonObject content;
     content.insert("type", "FeatureCollection");
-    content.insert("name", "Entwurfselement_Ueberhoehung");
+    content.insert("name", "Gleisknoten");
     content.insert("features", allFeatures);
 
     QJsonDocument document;

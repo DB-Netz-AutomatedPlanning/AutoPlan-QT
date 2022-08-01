@@ -10,6 +10,8 @@
 #include "lagefromunprocessedjson.h"
 #include "signalfromunprocessedjson.h"
 #include "readeulynxsignals.h"
+#include "xml2json.h"
+#include "planproelements.h"
 #include <QPushButton>
 #include<QSysInfo>
 #include<QProcess>
@@ -132,6 +134,20 @@ void NewProjectDialog::on_btnBrowseProjectData_clicked()
     // euxml format
     else if (ui->fileFormatComboBox->currentText() == ".euxml"){
         fileName = QFileDialog::getOpenFileName(this, "Add File", "", "(*.euxml *.xml)" );
+        if (fileName.isEmpty()){
+            ui->leImportProjectData->clear();
+            QMessageBox::warning(this, "Warning", "No file selected");
+            ui->btnCreateNewProject->setEnabled(false);
+        }
+        else {
+            ui->btnCreateNewProject->setEnabled(true);
+            ui->leImportProjectData->setText(fileName);
+        }
+    }
+
+    // ppxml format
+    else if (ui->fileFormatComboBox->currentText() == ".ppxml"){
+        fileName = QFileDialog::getOpenFileName(this, "Add File", "", "(*.ppxml)" );
         if (fileName.isEmpty()){
             ui->leImportProjectData->clear();
             QMessageBox::warning(this, "Warning", "No file selected");
@@ -388,6 +404,70 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         }
         msg.append(current +" successfully updated \n");
     }
+
+
+    else if (ui->fileFormatComboBox->currentText() == ".ppxml") {
+
+        QStringList each = fileName.split(QRegularExpression("/"));
+        QFile file (fileName);
+        QFileInfo info (fileName);
+
+        if (!file.open(QIODevice::ReadOnly)){
+            QMessageBox::warning(this, "Warning", file.errorString());
+            return;
+        }
+        file.close();
+        QString current = each.back().remove("."+info.completeSuffix());
+
+
+        QString output = ui->leEnterProjectPath->text() +"/"+ ui->leEnterProjectName->text() +"/temp2/planPro.json";
+
+        Xml2Json *json = new Xml2Json(nullptr, fileName, output);
+        json->serializeXml2Json();
+
+        projectPath = "D:/Users/BKU/OlatunjiAjala/Documents";
+        projectName = "output";
+        QString kantenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleiskanten.json";
+        QString knotenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleisknoten.json";
+
+        PlanProElements *pp = new PlanProElements(nullptr, kantenPath, knotenPath);
+        pp->createJson();
+        pp->createKnotenJson();
+
+
+        QString tempFolder = ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text()+"/temp2";
+        QDir dir (tempFolder);
+        QFileInfoList files = dir.entryInfoList(QDir::Files);
+
+        foreach(QFileInfo fi, files){
+            QString file_name = fi.fileName();
+            QFile file (fi.filePath());
+
+            if (!file.open(QIODevice::ReadOnly)){
+                QMessageBox::warning(this, "Warning", file.errorString());
+                return;
+            }
+            QString current = file_name.remove(".json");
+            if (current == "Entwurfselement_HO" || current == "Entwurfselement_KM" || current == "Entwurfselement_LA" ||
+                    current == "Entwurfselement_UH" || current == "Gleiskanten" || current == "Gleisknoten"  || current == "Signal"){
+                QString allData = file.readAll();
+
+                // create a .dbahn file corresponding to the json file into the saving folder
+                QFile fileToSave  (ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text() +"/temp/" + current+".dbahn");
+                if (!fileToSave.open(QIODevice::WriteOnly)){
+                    QMessageBox::warning(this, "Warning", fileToSave.errorString());
+                    return;
+                }
+                QByteArray bytes(allData.toUtf8());
+                QByteArray encoded = bytes.toHex();
+                fileToSave.write(encoded);
+                fileToSave.close();
+            }
+            file.close();
+        }
+        msg.append(current +" successfully updated \n");
+    }
+
 
     QString allMsg;
     foreach(QString eachMsg, msg){

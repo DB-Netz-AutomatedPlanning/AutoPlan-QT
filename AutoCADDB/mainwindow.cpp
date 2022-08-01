@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setActionMenus(false);
     readSettings();
-    //    createDock();
+    createDock();
 
 
     //    ui->f_headerTabs->setGeometry(0,0,100,100);
@@ -367,7 +367,6 @@ void MainWindow::on_actionOpen_triggered()
     QFile file2(iniFile);
     if(!file2.exists()) {
         QMessageBox::warning(this, "File Not Exists", "Important file missing from your directory \n" + file2.errorString());
-        //        qDebug() << "Missing File2: " + file2.errorString();
         return;
     }
     if(!file2.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -748,6 +747,7 @@ void MainWindow::onNewProjectClicked()
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     delete ui->tabWidget_2->widget(ui->tabWidget_2->currentIndex());
     removeGabageData();
+
     // Enable Save, SaveAs, zoom, and Print button
     setActionMenus(false);
     if (dockWidgetCreated) {
@@ -769,7 +769,8 @@ void MainWindow::onNewProjectClicked()
         dock2->close();
         dock1->close();
         dockWidgetCreated = !dockWidgetCreated;
-    } else createDock();
+    }
+    createDock();
 }
 
 void MainWindow::setActionMenus(bool activate)
