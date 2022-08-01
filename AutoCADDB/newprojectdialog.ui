@@ -279,6 +279,11 @@
            </item>
            <item>
             <property name="text">
+             <string>.ppxml</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
              <string>.mdb</string>
             </property>
            </item>

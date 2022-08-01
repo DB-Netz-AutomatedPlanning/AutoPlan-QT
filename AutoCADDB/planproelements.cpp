@@ -310,7 +310,7 @@ void PlanProElements::setKantenParameters()
 }
 
 
-QJsonObject PlanProElements::geometry(std::vector<double> coord)
+QJsonObject PlanProElements::kantenGeometry(std::vector<double> coord)
 {
     QJsonObject geom;
     QJsonArray allCoord;
@@ -320,10 +320,23 @@ QJsonObject PlanProElements::geometry(std::vector<double> coord)
         currentArr.append(coord.at(i+1));
         allCoord.append(currentArr);
     }
-    QString type = this->newKanten_Path == "" ? "Point" : "LineString";
 
-    geom.insert("type", type);
+    geom.insert("type", "LineString");
     geom.insert("coordinates", allCoord);
+    return geom;
+}
+
+QJsonObject PlanProElements::knotenGeometry(std::vector<double> coord)
+{
+    QJsonObject geom;
+    QJsonArray allCoord;
+
+    allCoord.append(coord.at(0));
+    allCoord.append(coord.at(0+1));
+
+    geom.insert("type", "Point");
+    geom.insert("coordinates", allCoord);
+
     return geom;
 }
 
@@ -381,7 +394,7 @@ void PlanProElements::createJson()
 
         QJsonObject prop = properties (geo_form, geo_laenge, geo_radiusA, geo_radiusB,
                                        geo_richtungswinkel, geo_quelle, geo_art, i);
-        QJsonObject geom = geometry(allCoord.at(i));
+        QJsonObject geom = kantenGeometry(allCoord.at(i));
         QJsonObject features = Features(prop, geom);
         allFeatures.append(features);
     }
@@ -427,7 +440,7 @@ void PlanProElements::createKnotenJson()
 
     for (int i=0; i< (int)allCoord.size(); i++){
         QJsonObject prop = knotenProperties (id, i);
-        QJsonObject geom = geometry(allCoord.at(i));
+        QJsonObject geom = knotenGeometry(allCoord.at(i));
         QJsonObject features = Features(prop, geom);
         allFeatures.append(features);
     }

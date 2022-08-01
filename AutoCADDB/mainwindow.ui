@@ -402,7 +402,7 @@
                        <property name="spacing">
                         <number>0</number>
                        </property>
-                       <item row="0" column="0">
+                       <item row="1" column="0">
                         <widget class="QLabel" name="label_46">
                          <property name="text">
                           <string>Plan</string>
@@ -494,6 +494,26 @@
                               <height>30</height>
                              </size>
                             </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="0">
+                           <widget class="QComboBox" name="cmbPlan">
+                            <property name="iconSize">
+                             <size>
+                              <width>16</width>
+                              <height>10</height>
+                             </size>
+                            </property>
+                            <item>
+                             <property name="text">
+                              <string>ECTS</string>
+                             </property>
+                            </item>
+                            <item>
+                             <property name="text">
+                              <string>LST (CCS)</string>
+                             </property>
+                            </item>
                            </widget>
                           </item>
                          </layout>
@@ -663,11 +683,6 @@
                                <item>
                                 <property name="text">
                                  <string>Plan Pro</string>
-                                </property>
-                               </item>
-                               <item>
-                                <property name="text">
-                                 <string>DWG</string>
                                 </property>
                                </item>
                               </widget>

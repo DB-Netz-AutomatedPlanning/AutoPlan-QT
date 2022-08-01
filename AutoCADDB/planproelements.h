@@ -25,7 +25,8 @@ public:
     std::vector<double> lookForCoord(QString ID_GEO_Knoten);
     std::vector<std::vector<double> > arrayOfCoordinates();
     void setKantenParameters();
-    QJsonObject geometry(std::vector<double> coord);
+    QJsonObject kantenGeometry(std::vector<double> coord);
+    QJsonObject knotenGeometry(std::vector<double>coord);
 
     QJsonObject properties (std::vector<QString> name, std::vector<QString> id, std::vector<QString> elementLength,
                             std::vector<QString> startRef, std::vector<QString> endRef, std::vector<QString> startValue,
