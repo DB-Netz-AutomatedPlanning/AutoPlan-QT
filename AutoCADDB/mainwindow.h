@@ -18,7 +18,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-class MyOpenglWidget;
+//class MyOpenglWidget;
 //class MyOpenglWidget;
 //class Calculator;
 class PlanningTable;
@@ -33,8 +33,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     //treeview
-    void setObjNameTW(QString);
-     MyOpenglWidget *myopen;
+//    void setObjNameTW(QString);
+    // MyOpenglWidget *myopen;
      void createViewToolBar();
      void removeGabageData();
      void darkTheme();
@@ -51,19 +51,17 @@ private slots:
 
     void closeTab(int);
     void transformation(int);
-    void penColor();
-    void penWidth();
+//    void penColor();
+//    void penWidth();
 //    void openCalculator();
-    void hideFile();
-    void hideTab();
     void print();
     void exit();
-    void openSvgDialog();
-    void openSvgOptions();
+//    void openSvgDialog();
+//    void openSvgOptions();
 
     void on_actionOpen_triggered();
-    void fetchObjectProps();
-    bool writeFooBar();
+//    void fetchObjectProps();
+//    bool writeFooBar();
 
     //Validator
     void setXMLPath();
@@ -73,10 +71,10 @@ private slots:
 
     //MENU
     void save();
-    void open();
+//    void open();
 
     //ppview
-    void exportToPicture();
+//    void exportToPicture();
    // void exportToPdf();
 
     void planningFnt();
@@ -120,16 +118,14 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    bool hideMenuBar;
-    bool hideFileTab;
-    bool hideTabView;
+
     QString readFile;
-    MyOpenglWidget *scribbleArea;
-    MyOpenglWidget *sc;
+//    MyOpenglWidget *scribbleArea;
+//    MyOpenglWidget *sc;
     QMenu *viewDockSubMenu;
 
-    bool saveFile(const QByteArray &fileFormat);
-    bool maybeSave();
+//    bool saveFile(const QByteArray &fileFormat);
+//    bool maybeSave();
     bool isFirstTab = true;
 
     QGraphicsView* view;

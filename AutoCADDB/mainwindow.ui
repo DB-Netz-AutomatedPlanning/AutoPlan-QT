@@ -1046,7 +1046,7 @@ QPushButton:enabled { background-color: green; }</string>
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <property name="iconSize">
              <size>
@@ -1104,7 +1104,7 @@ QPushButton:enabled { background-color: green; }</string>
                <number>0</number>
               </property>
               <item row="0" column="0">
-               <widget class="MyOpenglWidget" name="widget_151" native="true">
+               <widget class="QWidget" name="widget_151" native="true">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
@@ -1574,12 +1574,6 @@ QPushButton:enabled { background-color: green; }</string>
    <class>QGraphicsMainWindow</class>
    <extends>QWidget</extends>
    <header location="global">qgraphicsmainwindow.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>MyOpenglWidget</class>
-   <extends>QWidget</extends>
-   <header>myopenglwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

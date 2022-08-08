@@ -2,7 +2,7 @@
 #include "ui_planningtable.h"
 #include "ui_mainwindow.h"
 #include "mainwindow.h"
-#include "myopenglwidget.h"
+//#include "myopenglwidget.h"
 #include "symbolcontainer.h"
 #include "kmtocoordinate.h"
 

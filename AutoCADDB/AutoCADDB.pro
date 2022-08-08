@@ -17,24 +17,24 @@ CONFIG += c++11
 SOURCES += \
     connect2csharp.cpp \
     connecttocsharp.cpp \
-    constructsvgdialog.cpp \
+#    constructsvgdialog.cpp \
     coordinates.cpp \
-    dragwidget.cpp \
-    dropwidget.cpp \
+#    dragwidget.cpp \
+#    dropwidget.cpp \
     gleiskantenfromunprocessedjson.cpp \
     gleisknotenfromunprocessedjson.cpp \
     hofromunprocessedjson.cpp \
-    iconslist.cpp \
+#    iconslist.cpp \
     importfolder.cpp \
     kmliniefromunprocessedjson.cpp \
     kmtocoordinate.cpp \
     lagefromunprocessedjson.cpp \
     main.cpp \
     mainwindow.cpp \
-    myopenglwidget.cpp \
+#    myopenglwidget.cpp \
     newprojectdialog.cpp \
     nopreviewdelete.cpp \
-    openglclass.cpp \
+#    openglclass.cpp \
     planningtable.cpp \
     planproelements.cpp \
     previeweulynxxml.cpp \
@@ -45,11 +45,11 @@ SOURCES += \
     removedata.cpp \
     signalfromunprocessedjson.cpp \
     signalsfromunprocessedjson.cpp \
-    svgdialogview.cpp \
+#    svgdialogview.cpp \
     symbolcontainer.cpp \
-    symbolinformation.cpp \
-    symboloptions.cpp \
-    test.cpp \
+#    symbolinformation.cpp \
+#    symboloptions.cpp \
+#    test.cpp \
     tracks.cpp \
     uberhohungfromunprocessedjson.cpp \
     uploadnewdata.cpp \
@@ -59,23 +59,23 @@ SOURCES += \
 HEADERS += \
     connect2csharp.h \
     connecttocsharp.h \
-    constructsvgdialog.h \
+#    constructsvgdialog.h \
     coordinates.h \
-    dragwidget.h \
-    dropwidget.h \
+#    dragwidget.h \
+#    dropwidget.h \
     gleiskantenfromunprocessedjson.h \
     gleisknotenfromunprocessedjson.h \
     hofromunprocessedjson.h \
-    iconslist.h \
+#    iconslist.h \
     importfolder.h \
     kmliniefromunprocessedjson.h \
     kmtocoordinate.h \
     lagefromunprocessedjson.h \
     mainwindow.h \
-    myopenglwidget.h \
+#    myopenglwidget.h \
     newprojectdialog.h \
     nopreviewdelete.h \
-    openglclass.h \
+#    openglclass.h \
     planningtable.h \
     planproelements.h \
     previeweulynxxml.h \
@@ -86,11 +86,11 @@ HEADERS += \
     removedata.h \
     signalfromunprocessedjson.h \
     signalsfromunprocessedjson.h \
-    svgdialogview.h \
+#    svgdialogview.h \
     symbolcontainer.h \
-    symbolinformation.h \
-    symboloptions.h \
-    test.h \
+#    symbolinformation.h \
+#    symboloptions.h \
+#    test.h \
     tracks.h \
     uberhohungfromunprocessedjson.h \
     uploadnewdata.h \
@@ -98,8 +98,8 @@ HEADERS += \
     xml2json.h
 
 FORMS += \
-    constructsvgdialog.ui \
-    iconslist.ui \
+#    constructsvgdialog.ui \
+#    iconslist.ui \
     importfolder.ui \
     mainwindow.ui \
     newprojectdialog.ui \
@@ -110,9 +110,9 @@ FORMS += \
     qgraphicssymbolcontainer.ui \
     removedata.ui \
     symbolcontainer.ui \
-    symbolinformation.ui \
-    symboloptions.ui \
-    test.ui \
+#    symbolinformation.ui \
+#    symboloptions.ui \
+#    test.ui \
     uploadnewdata.ui \
     exportdialog.ui
 
