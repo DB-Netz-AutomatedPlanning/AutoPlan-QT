@@ -5,9 +5,9 @@
 #include "newprojectdialog.h"
 //#include "calculator.h"
 #include "planningtable.h"
-#include "constructsvgdialog.h"
+//#include "constructsvgdialog.h"
 //#include "iconslist.h"
-#include "symboloptions.h"
+//#include "symboloptions.h"
 #include "symbolcontainer.h"
 #include "uploadnewdata.h"
 #include "removedata.h"
@@ -161,10 +161,12 @@ MainWindow::MainWindow(QWidget *parent)
 //    connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
 //    connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
     connect(ui->actionXML_Json, SIGNAL(triggered()), this, SLOT(onClicked_xml_json()));
+//    connect(ui->actionOSM, SIGNAL(triggered()), this, SLOT(onClickOSM_triggered()));
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
     connect(ui->actionText, SIGNAL(toggled(bool)), this, SLOT(textFunctionToggled(bool)));
     connect(ui->actionDark_Theme, SIGNAL(toggled(bool)), this, SLOT(darkThemeSelected(bool)));
     connect(ui->actionLight_Rules, SIGNAL(toggled(bool)), this, SLOT(lightRulesSelected(bool)));
+    connect(ui->actionOSM, SIGNAL(triggered()), this, SLOT(onClickOSM_triggered()));
 
     //    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
 
@@ -180,7 +182,7 @@ MainWindow::MainWindow(QWidget *parent)
     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
     ui->tableWidget->setItem(0, 1, newItem1);
     QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
-    ui->tableWidget->setItem(1, 0, newItem2);
+    ui->tableWidget->setItem(1, 0, newItem2);    
 }
 
 
@@ -241,6 +243,25 @@ void MainWindow::darkTheme()
     qApp->setPalette(darkPalette);
 }
 
+void MainWindow::findOS()
+{
+    // Linux
+    this->setApp("bash");
+    this->setEndl("\n");
+
+#ifdef Q_OS_WIN
+    //Windows
+    this->setApp("cmd");
+    this->setEndl("\n");
+    //    this->setEndl("\r\n");
+
+#elif Q_OS_MACOS
+    //Mac
+    this->setApp("zsh");
+    this->setEndl("\n");
+#endif
+}
+
 void MainWindow::createViewToolBar()
 {
     // Create and connect Zoom spin box
@@ -255,21 +276,6 @@ void MainWindow::createViewToolBar()
     connect(zoomSpinBox, SIGNAL(valueChanged(int)), this, SLOT(transformation(int)));
 }
 
-//void MainWindow::fetchObjectProps()
-//{
-//    btnSender = qobject_cast<QPushButton*>(sender()); // retrieve the button you have clicked
-//    QString buttonText = btnSender->objectName(); // retrive the object name from the clicked button
-//}
-
-//bool MainWindow::writeFooBar()
-//{
-//    QSaveFile file(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
-//    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-//        return false;
-//    if (-1 == file.write("foo bar"))
-//        return false;
-//    return file.commit();
-//}
 
 //Add new tab
 void MainWindow::addTab()
@@ -329,7 +335,7 @@ void MainWindow::on_actionOpen_triggered()
     }
     // Get the projectPath and the projectName information
     QString completePath = info.absolutePath();
-    QStringList regEx = completePath.split(QRegularExpression("/"));
+    QStringList regEx = completePath.split(QLatin1Char('/'));
     projectPath = completePath.remove("/"+regEx.back());
     projectName = regEx.back();
     // Check if the temp folder exists in the selected directory
@@ -371,6 +377,9 @@ void MainWindow::on_actionOpen_triggered()
     zoomSpinBox->setEnabled(true);
     if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
     else ui->actionXML_Json->setEnabled(false);   // to fix the condition if .euxml has previously been opened
+    if (fileFormat == ".json") ui->actionOSM->setEnabled(true);
+    else ui->actionOSM->setEnabled(false);
+
     // Create dock widget
     if (dockWidgetCreated) {
         viewDockSubMenu->removeAction(dock1->toggleViewAction());
@@ -446,81 +455,6 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
         QMainWindow::keyPressEvent(e);
 }
 
-//Home -> Properties
-//void MainWindow::penColor()
-////! [7] //! [8]
-//{   glClearColor(1,0,0,1);
-//    //QColor newColor = QColorDialog::getColor(scribbleArea->penColor());
-//    //    if (newColor.isValid())
-//    // scribbleArea->setPenColor(newColor);
-//}
-
-
-//void MainWindow::penWidth()
-////! [9] //! [10]
-//{
-//    // int newWidth = QInputDialog::getInt(this, tr("Scribble"),
-//    //tr("Select pen width:"),
-//    //scribbleArea->penWidth(),
-//    //1, 50, 1, &ok);
-//    //if (ok)
-//    //   scribbleArea->setPenWidth(newWidth);
-//}
-
-//void MainWindow::openCalculator(){
-//    disconnect(ui->calculator, SIGNAL(pressed()), this, SLOT(openCalculator()));
-//    Calculator *calc;
-//    calc = new Calculator();
-//    // Calculator calc;
-//    calc->show();
-//}
-
-
-//Open dialog box of SVG
-//void MainWindow::openSvgDialog(){
-//    disconnect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
-//    IconsList *svgDialog;
-//    svgDialog = new IconsList();
-//    svgDialog->show();
-//}
-
-//void MainWindow::openSvgOptions(){
-//    disconnect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
-//    SymbolOptions *svgOptions;
-//    svgOptions = new SymbolOptions();
-//    svgOptions->show();
-//}
-
-//MENU
-//! [3]
-//void MainWindow::open()
-////! [3] //! [4]
-//{
-//    if (maybeSave()) {
-//        QString fileName = QFileDialog::getOpenFileName(this,
-//                                                        tr("Open File"), QDir::currentPath());
-//        if (!fileName.isEmpty())
-//            //scribbleArea->openImage(fileName);
-//            qInfo() << "hello";
-//    }
-//}
-
-//! [19]
-//bool MainWindow::saveFile(const QByteArray &fileFormat)
-//{
-//    QString initialPath = QDir::currentPath() + "/untitled." + fileFormat;
-//    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"),
-//                                                    initialPath,
-//                                                    tr("%1 Files (*.%2);;All Files (*)")
-//                                                    .arg(QString::fromLatin1(fileFormat.toUpper()))
-//                                                    .arg(QString::fromLatin1(fileFormat)));
-//    return true;
-//}
-
-//bool MainWindow::maybeSave()
-//{
-//    return true;
-//}
 
 // SaveAs
 void MainWindow::save()
@@ -744,6 +678,7 @@ void MainWindow::setActionMenus(bool activate)
     ui->actionSave_As->setEnabled(activate);
     ui->actionPrint->setEnabled(activate);
     ui->actionXML_Json->setEnabled(activate);
+    ui->actionOSM->setEnabled(activate);
     zoomSpinBox->setEnabled(activate);
     viewDockSubMenu->setEnabled(activate);
 }
@@ -836,6 +771,8 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         zoomSpinBox->setEnabled(true);
         if (fileFormat == ".euxml") ui->actionXML_Json->setEnabled(true);
         else ui->actionXML_Json->setEnabled(false);
+        if (fileFormat == ".json") ui->actionOSM->setEnabled(true);
+        else ui->actionOSM->setEnabled(false);
     }
 }
 
@@ -1277,5 +1214,92 @@ void MainWindow::lightRulesSelected(bool isSelected)
         ui->actionDark_Theme->setChecked(false);
     }
     tracks->setLightRules(isSelected);
+}
+
+
+void MainWindow::onClickOSM_triggered()
+{
+    if (fileFormat != ".json") return;
+    QString path = projectPath + "/" + projectName+ "/temp/Gleiskanten.dbahn";
+    QFile file (path);
+    qDebug() << "1";
+    if (!file.exists()) {
+        QMessageBox::information(this, "Missing Data", "This service is only available for track edge data");
+        return;
+    }
+    qDebug() << "2";
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        qInfo()<< file.errorString();
+        return;
+    }
+    qDebug() << "3";
+    QFile fileToSave (projectPath+"/"+projectName +"/temp/GleiskantenOSM.geojson");
+    QByteArray data = file.readAll();
+    QByteArray decoded = QByteArray::fromHex(data);
+    fileToSave.write(decoded);
+    fileToSave.close();
+    file.close();
+    qDebug() << "4";
+
+    QProcess python;
+    findOS();   //determine the operating system
+
+    QByteArray inputFile = projectPath.toUtf8()+"/"+projectName.toUtf8() +"/temp/GleiskantenOSM.geojson";
+    QByteArray outputHTMLpath = projectPath.toUtf8()+"/"+projectName.toUtf8() +"/temp";
+    QByteArray country_code = countryCode.toUtf8();
+    QString appPath = "main.exe";
+    qDebug() << "5";
+    python.start(appPath);
+    qDebug() << "6";
+
+    if(!python.waitForStarted(3000)) {
+        QMessageBox::warning(this, "Warning", "Problem opening OSM App \n ... "
+                                              "some linking file(s) are missing. Please contact your administrator");
+        return;
+    }
+    qDebug() << "7";
+    // write data(each parameter) to the terminal, followed by Enter key
+    if(!inputFile.endsWith(endl.toLatin1())) inputFile.append(endl.toUtf8());
+    python.write(inputFile);
+    python.waitForBytesWritten(1000);
+
+    if(!outputHTMLpath.endsWith(endl.toLatin1())) outputHTMLpath.append(endl.toUtf8());
+    python.write(outputHTMLpath);
+    python.waitForBytesWritten(1000);
+
+    if(!country_code.endsWith(endl.toLatin1())) country_code.append(endl.toUtf8());
+    python.write(country_code);
+    python.waitForBytesWritten(1000);
+    qDebug() << "8";
+
+    python.closeWriteChannel();
+    qDebug() << "9";
+    python.waitForFinished();
+    qDebug() << "10";
+    QString outputHTMLFile = projectPath+"/"+projectName+"/temp/output.html";
+    QDesktopServices::openUrl(QUrl(outputHTMLFile));
+    qDebug() << "11";
+
+}
+
+const QString &MainWindow::getEndl() const
+{
+    return endl;
+}
+
+void MainWindow::setEndl(const QString &newEndl)
+{
+    endl = newEndl;
+}
+
+const QString &MainWindow::getApp() const
+{
+    return app;
+}
+
+void MainWindow::setApp(const QString &newApp)
+{
+    app = newApp;
 }
 

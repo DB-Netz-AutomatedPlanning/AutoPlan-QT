@@ -418,22 +418,19 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         }
         file.close();
         QString current = each.back().remove("."+info.completeSuffix());
-
-
         QString output = ui->leEnterProjectPath->text() +"/"+ ui->leEnterProjectName->text() +"/temp2/planPro.json";
 
         Xml2Json *json = new Xml2Json(nullptr, fileName, output);
         json->serializeXml2Json();
 
-        projectPath = "D:/Users/BKU/OlatunjiAjala/Documents";
-        projectName = "output";
+//        projectPath = "D:/Users/BKU/OlatunjiAjala/Documents";
+//        projectName = "output";
         QString kantenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleiskanten.json";
         QString knotenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleisknoten.json";
 
         PlanProElements *pp = new PlanProElements(nullptr, kantenPath, knotenPath);
         pp->createJson();
         pp->createKnotenJson();
-
 
         QString tempFolder = ui->leEnterProjectPath->text()+"/"+ui->leEnterProjectName->text()+"/temp2";
         QDir dir (tempFolder);

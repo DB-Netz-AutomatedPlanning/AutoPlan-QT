@@ -38,8 +38,15 @@ public:
      void createViewToolBar();
      void removeGabageData();
      void darkTheme();
+     void findOS();
 
-  void paintEvent(QPaintEvent *event) override;
+     void paintEvent(QPaintEvent *event) override;
+     const QString &getApp() const;
+     void setApp(const QString &newApp);
+
+     const QString &getEndl() const;
+     void setEndl(const QString &newEndl);
+
 public slots:
   void on_actionEULYNX_Validator_triggered();
   void stateChanged(int state);
@@ -116,6 +123,8 @@ private slots:
     void darkThemeSelected(bool isSelected);
     void lightRulesSelected(bool isSelected);
 
+    void onClickOSM_triggered();
+
 private:
     Ui::MainWindow *ui;
 
@@ -123,6 +132,8 @@ private:
 //    MyOpenglWidget *scribbleArea;
 //    MyOpenglWidget *sc;
     QMenu *viewDockSubMenu;
+    QString app;
+    QString endl;
 
 //    bool saveFile(const QByteArray &fileFormat);
 //    bool maybeSave();

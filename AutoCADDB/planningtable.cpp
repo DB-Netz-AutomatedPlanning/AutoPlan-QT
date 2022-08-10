@@ -285,18 +285,15 @@ void PlanningTable::timeout()
             ui->progressBar->setVisible(false);
             isEnd =false;
             ui->btnAutoPLAN->setEnabled(false);
-            qDebug()<< "TORR1";
 
         } else if (isStart && (progressBarValue <90)){
             progressBarValue+=10;
             ui->progressBar->setValue(progressBarValue);
             QApplication::processEvents();
-            qDebug()<< "TORR2";
 
         } else if (isStart && (progressBarValue == 90)){
             ui->progressBar->setValue(90);
             QApplication::processEvents();
-            qDebug()<< "TORR3";
         }
     }
 }

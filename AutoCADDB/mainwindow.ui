@@ -1252,6 +1252,7 @@ QPushButton:enabled { background-color: green; }</string>
     <addaction name="actionXML_Json"/>
     <addaction name="actionPlanning_Tab"/>
     <addaction name="menuGrid_Style"/>
+    <addaction name="actionOSM"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1566,6 +1567,17 @@ QPushButton:enabled { background-color: green; }</string>
    </property>
    <property name="text">
     <string>Light Rules</string>
+   </property>
+  </action>
+  <action name="actionOSM">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>OSM</string>
+   </property>
+   <property name="toolTip">
+    <string>Visualize the track layout on Open Street Map</string>
    </property>
   </action>
  </widget>
