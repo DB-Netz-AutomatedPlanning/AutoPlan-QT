@@ -5,7 +5,7 @@
 #include <QFile>
 #include <QDialog>
 #include <QFileDialog>
-#include<QDebug>
+#include <QDebug>
 #include "connect2csharp.h"
 #include "mainwindow.h"
 #include <QMessageBox>
@@ -16,7 +16,7 @@
 namespace Ui { class PlanningTable; }
 QT_END_NAMESPACE
 class MainWindow;
-class MyOpenglWidget;
+//class MyOpenglWidget;
 
 class PlanningTable : public QMainWindow
 {

@@ -137,30 +137,21 @@ void KmToCoordinate::calculateRealKmValues()
 {
     int extremeCounter =0;
     std::vector<double> extremeKm = getSegmentExtremeKmValues();
-    qDebug()<< ":::::::::::::::::::::21";
     std::vector<double> actualSegLength = getSegmentLengths();
-    qDebug()<< ":::::::::::::::::::::22";
     std::vector<double> sumDist = getSegmentLengths_FromAddedValues(); // Length obtain by adding all the smaller segments;
-    qDebug()<< ":::::::::::::::::::::23";
     std::vector<std::vector<double>> segPtDist = getSegmentPointDistance();
-    qDebug()<< ":::::::::::::::::::::24";
     std::vector<std::vector<double>> real_Km_Values;
 
     for (int i=0; i<(int)segPtDist.size(); i++){
         double sum =0;
         real_Km_Values.push_back(std::vector<double>());
         sum += extremeKm[extremeCounter];
-        qDebug()<< ":::::::::::::::::::::25";
         real_Km_Values[i].push_back(sum);
-        qDebug()<< ":::::::::::::::::::::26";
 
         foreach(double val, segPtDist[i]){
-            qDebug()<< ":::::::::::::::::::::27";
             double estimate = estimateActualLength(actualSegLength[i],sumDist[i],val);
-            qDebug()<< ":::::::::::::::::::::28";
             sum += estimate;
             real_Km_Values[i].push_back(sum);
-            qDebug()<< ":::::::::::::::::::::29";
         }
         extremeCounter += 2;
     }

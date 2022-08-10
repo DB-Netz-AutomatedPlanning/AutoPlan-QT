@@ -18,7 +18,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-class MyOpenglWidget;
+//class MyOpenglWidget;
 //class MyOpenglWidget;
 //class Calculator;
 class PlanningTable;
@@ -33,13 +33,20 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     //treeview
-    void setObjNameTW(QString);
-     MyOpenglWidget *myopen;
+//    void setObjNameTW(QString);
+    // MyOpenglWidget *myopen;
      void createViewToolBar();
      void removeGabageData();
      void darkTheme();
+     void findOS();
 
-  void paintEvent(QPaintEvent *event) override;
+     void paintEvent(QPaintEvent *event) override;
+     const QString &getApp() const;
+     void setApp(const QString &newApp);
+
+     const QString &getEndl() const;
+     void setEndl(const QString &newEndl);
+
 public slots:
   void on_actionEULYNX_Validator_triggered();
   void stateChanged(int state);
@@ -51,19 +58,17 @@ private slots:
 
     void closeTab(int);
     void transformation(int);
-    void penColor();
-    void penWidth();
+//    void penColor();
+//    void penWidth();
 //    void openCalculator();
-    void hideFile();
-    void hideTab();
     void print();
     void exit();
-    void openSvgDialog();
-    void openSvgOptions();
+//    void openSvgDialog();
+//    void openSvgOptions();
 
     void on_actionOpen_triggered();
-    void fetchObjectProps();
-    bool writeFooBar();
+//    void fetchObjectProps();
+//    bool writeFooBar();
 
     //Validator
     void setXMLPath();
@@ -73,10 +78,10 @@ private slots:
 
     //MENU
     void save();
-    void open();
+//    void open();
 
     //ppview
-    void exportToPicture();
+//    void exportToPicture();
    // void exportToPdf();
 
     void planningFnt();
@@ -118,18 +123,20 @@ private slots:
     void darkThemeSelected(bool isSelected);
     void lightRulesSelected(bool isSelected);
 
+    void onClickOSM_triggered();
+
 private:
     Ui::MainWindow *ui;
-    bool hideMenuBar;
-    bool hideFileTab;
-    bool hideTabView;
-    QString readFile;
-    MyOpenglWidget *scribbleArea;
-    MyOpenglWidget *sc;
-    QMenu *viewDockSubMenu;
 
-    bool saveFile(const QByteArray &fileFormat);
-    bool maybeSave();
+    QString readFile;
+//    MyOpenglWidget *scribbleArea;
+//    MyOpenglWidget *sc;
+    QMenu *viewDockSubMenu;
+    QString app;
+    QString endl;
+
+//    bool saveFile(const QByteArray &fileFormat);
+//    bool maybeSave();
     bool isFirstTab = true;
 
     QGraphicsView* view;
