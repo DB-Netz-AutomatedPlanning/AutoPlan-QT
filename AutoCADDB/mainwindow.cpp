@@ -1,13 +1,8 @@
 #include "mainwindow.h"
 #include "importfolder.h"
 #include "ui_mainwindow.h"
-// #include "myopenglwidget.h"
 #include "newprojectdialog.h"
-//#include "calculator.h"
 #include "planningtable.h"
-//#include "constructsvgdialog.h"
-//#include "iconslist.h"
-//#include "symboloptions.h"
 #include "symbolcontainer.h"
 #include "uploadnewdata.h"
 #include "removedata.h"
@@ -44,6 +39,8 @@
 #include <QPainterPath>
 #include <QHeaderView>
 #include <QErrorMessage>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include <QPainter>
 #include <QPrinter>
@@ -75,8 +72,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow), currentSpinNumber(0)
 {
 //    darkTheme();
-//    scribbleArea= new MyOpenglWidget(this);
-//    setCentralWidget(scribbleArea);
     ui->setupUi(this);
     ui->toolBar->setIconSize(QSize(16, 16));
 
@@ -93,32 +88,6 @@ MainWindow::MainWindow(QWidget *parent)
     readSettings();
     createDock();
 
-
-    //    ui->f_headerTabs->setGeometry(0,0,100,100);
-
-    //    ui->comboBox_10->setEditable(true);
-    //    ui->comboBox_10->lineEdit()->setReadOnly(true);
-    //    ui->comboBox_10->lineEdit()->setAlignment(Qt::AlignCenter);
-
-    //    ui->comboBox_13->setEditable(true);
-    //    ui->comboBox_13->lineEdit()->setReadOnly(true);
-    //    ui->comboBox_13->lineEdit()->setAlignment(Qt::AlignCenter);
-
-    //    ui->comboBox_15->setEditable(true);
-    //    ui->comboBox_15->lineEdit()->setReadOnly(true);
-    //    ui->comboBox_15->lineEdit()->setAlignment(Qt::AlignCenter);
-    //    ui->comboBox_15->lineEdit()->adjustSize();
-
-    //    ui->comboBox_16->setEditable(true);
-    //    ui->comboBox_16->lineEdit()->setReadOnly(true);
-    //    ui->comboBox_16->lineEdit()->setAlignment(Qt::AlignCenter);
-
-    //    ui->comboBox_17->setEditable(true);
-    //    ui->comboBox_17->lineEdit()->setReadOnly(true);
-    //    ui->comboBox_17->lineEdit()->setAlignment(Qt::AlignCenter);
-
-    //Close button on Tab bar
-    // ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(2);
     ui->tabWidget_2->removeTab(1);
     ui->tabWidget->hide();
@@ -139,36 +108,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     setStyleSheet("QToolButton { border: none; }");
 
-    //    connect(tb,SIGNAL(clicked()),this,SLOT(addTab()));
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
-
-    //    //Home->Properties
-    //    connect(ui->pushButton_8, SIGNAL(clicked()), this, SLOT(penColor()));
-    //    connect(ui->pushButton_9, SIGNAL(clicked()), this, SLOT(penWidth()));
-    //    connect(ui->calculator, SIGNAL(clicked(bool)), this, SLOT(openCalculator()));
-    //    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(fetchObjectProps()));
-
-    //    //View - Interface
-    //    connect(ui->fileTab, SIGNAL(clicked()), this, SLOT(hideFile()));
-    //    connect(ui->hideTabBtn,SIGNAL(clicked()),this,SLOT(hideTab()));
-
 
     //MENU actionOpen
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(onNewProjectClicked()));
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
-//    connect(ui->actionAdd_symbol, SIGNAL(triggered()), this, SLOT(openSvgDialog()));
-//    connect(ui->actionAdd_symbol_options, SIGNAL(triggered()), this, SLOT(openSvgOptions()));
     connect(ui->actionXML_Json, SIGNAL(triggered()), this, SLOT(onClicked_xml_json()));
-//    connect(ui->actionOSM, SIGNAL(triggered()), this, SLOT(onClickOSM_triggered()));
     connect(ui->planBtn, SIGNAL(clicked()), this, SLOT(planningFnt()));
     connect(ui->actionText, SIGNAL(toggled(bool)), this, SLOT(textFunctionToggled(bool)));
     connect(ui->actionDark_Theme, SIGNAL(toggled(bool)), this, SLOT(darkThemeSelected(bool)));
     connect(ui->actionLight_Rules, SIGNAL(toggled(bool)), this, SLOT(lightRulesSelected(bool)));
     connect(ui->actionOSM, SIGNAL(triggered()), this, SLOT(onClickOSM_triggered()));
-
-    //    connect(viewDockSubMenu. SIGNAL(triggered()), this, SLOT(createDock()));
 
     // ui->widget_147->hide();
     ui->widget_146->hide();
@@ -190,14 +142,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
-//void MainWindow::setObjNameTW(QString str){
-//    QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(str));
-//    ui->tableWidget->setItem(0, 1, newItem1);
-//    ui->tableWidget->show();
-//    ui->tableWidget->item(0, 1)->setText(str);
-//    update();
-//}
 
 void MainWindow::removeGabageData()
 {
@@ -1222,65 +1166,93 @@ void MainWindow::onClickOSM_triggered()
     if (fileFormat != ".json") return;
     QString path = projectPath + "/" + projectName+ "/temp/Gleiskanten.dbahn";
     QFile file (path);
-    qDebug() << "1";
     if (!file.exists()) {
         QMessageBox::information(this, "Missing Data", "This service is only available for track edge data");
         return;
     }
-    qDebug() << "2";
-
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qInfo()<< file.errorString();
+        QMessageBox::warning(this, "Warning", file.errorString());
         return;
     }
-    qDebug() << "3";
     QFile fileToSave (projectPath+"/"+projectName +"/temp/GleiskantenOSM.geojson");
+    if (!fileToSave.open(QIODevice::WriteOnly)){
+        QMessageBox::warning(this, "Warning", fileToSave.errorString());
+        return;
+    }
     QByteArray data = file.readAll();
     QByteArray decoded = QByteArray::fromHex(data);
     fileToSave.write(decoded);
     fileToSave.close();
     file.close();
-    qDebug() << "4";
-
-    QProcess python;
+    python = new QProcess(this);
+    connect(python, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &MainWindow::OSMFinished);
+    connect(python, &QProcess::started, this, &MainWindow::OSMStarted);
     findOS();   //determine the operating system
-
     QByteArray inputFile = projectPath.toUtf8()+"/"+projectName.toUtf8() +"/temp/GleiskantenOSM.geojson";
     QByteArray outputHTMLpath = projectPath.toUtf8()+"/"+projectName.toUtf8() +"/temp";
     QByteArray country_code = countryCode.toUtf8();
     QString appPath = "main.exe";
-    qDebug() << "5";
-    python.start(appPath);
-    qDebug() << "6";
-
-    if(!python.waitForStarted(3000)) {
+    python->start(appPath);
+    if(!python->waitForStarted(3000)) {
         QMessageBox::warning(this, "Warning", "Problem opening OSM App \n ... "
                                               "some linking file(s) are missing. Please contact your administrator");
         return;
     }
-    qDebug() << "7";
     // write data(each parameter) to the terminal, followed by Enter key
     if(!inputFile.endsWith(endl.toLatin1())) inputFile.append(endl.toUtf8());
-    python.write(inputFile);
-    python.waitForBytesWritten(1000);
+    python->write(inputFile);
+    python->waitForBytesWritten(1000);
 
     if(!outputHTMLpath.endsWith(endl.toLatin1())) outputHTMLpath.append(endl.toUtf8());
-    python.write(outputHTMLpath);
-    python.waitForBytesWritten(1000);
+    python->write(outputHTMLpath);
+    python->waitForBytesWritten(1000);
 
     if(!country_code.endsWith(endl.toLatin1())) country_code.append(endl.toUtf8());
-    python.write(country_code);
-    python.waitForBytesWritten(1000);
-    qDebug() << "8";
+    python->write(country_code);
+    python->waitForBytesWritten(1000);
 
-    python.closeWriteChannel();
-    qDebug() << "9";
-    python.waitForFinished();
-    qDebug() << "10";
-    QString outputHTMLFile = projectPath+"/"+projectName+"/temp/output.html";
-    QDesktopServices::openUrl(QUrl(outputHTMLFile));
-    qDebug() << "11";
+    python->closeWriteChannel();
+    ui->actionOSM->setEnabled(false);
+//    QString outputHTMLFile = projectPath+"/"+projectName+"/temp/output.html";
+//    QDesktopServices::openUrl(QUrl(outputHTMLFile));
+}
 
+/* OSMFinished slot function will be evoked whenever the finished SIGNAL is emited from
+ * the OSM python process */
+void MainWindow::OSMFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    Q_UNUSED(exitStatus);
+    Q_UNUSED(exitCode);
+    QMessageBox::information(this, "Good", "Done");
+    ui->actionOSM->setEnabled(true);
+}
+
+void MainWindow::OSMStarted()
+{
+    progress = new QProgressDialog ("Generating OSM - Operation in progress ...", "Cancel", 0, 100, this);
+    OSMProgressValue = 2;
+    progress->setValue(OSMProgressValue);
+    OSMtimer = new QTimer(this);
+    OSMtimer->setInterval(1000);
+    connect(OSMtimer, &QTimer::timeout, this, &MainWindow::OSMTimeOut);
+    OSMtimer->start();
+}
+
+void MainWindow::OSMTimeOut()
+{
+    if(python->state() == QProcess::NotRunning){
+        progress->close();
+        OSMtimer->stop();
+        progress->setValue(100);
+    } else if ((python->state() == QProcess::Running && OSMProgressValue < 98) ||
+               (python->state() == QProcess::Starting && OSMProgressValue < 98)) {
+        OSMProgressValue++;
+        progress->setValue(OSMProgressValue);
+    } else if ((python->state() == QProcess::Running && OSMProgressValue == 98) ||
+              (python->state() == QProcess::Starting && OSMProgressValue == 98)) {
+       progress->setValue(OSMProgressValue);
+    }
 }
 
 const QString &MainWindow::getEndl() const
