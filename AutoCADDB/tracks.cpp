@@ -766,60 +766,6 @@ void Tracks::deleteAll()
         scene()->removeItem(item);
         delete item;
     }
-
-    //    if (parentItems.isEmpty()) return;
-
-    //    if (parentItems.contains("gleiskanten_Parent")){
-    //        scene()->removeItem(gleiskanten_Parent);
-    //        delete gleiskanten_Parent;
-    //        parentItems.remove("gleiskanten_Parent");
-    //    }
-    //    if (parentItems.contains("gleiskantenDP_Parent")){
-    //        scene()->removeItem(gleiskantenDP_Parent);
-    //        delete gleiskantenDP_Parent;
-    //        parentItems.remove("gleiskantenDP_Parent");
-    //    }
-    //    if (parentItems.contains("hoehe_Parent")){
-    //        scene()->removeItem(hoehe_Parent);
-    //        delete hoehe_Parent;
-    //        parentItems.remove("hoehe_Parent");
-    //    }
-    //    if (parentItems.contains("hoeheDP_Parent")){
-    //        scene()->removeItem(hoeheDP_Parent);
-    //        delete hoeheDP_Parent;
-    //        parentItems.remove("hoeheDP_Parent");
-    //    }
-    //    if (parentItems.contains("kmLine_Parent")){
-    //        scene()->removeItem(kmLine_Parent);
-    //        delete kmLine_Parent;
-    //        parentItems.remove("kmLine_Parent");
-    //    }
-    //    if (parentItems.contains("kmLineDP_Parent")){
-    //        scene()->removeItem(kmLineDP_Parent);
-    //        delete kmLineDP_Parent;
-    //        parentItems.remove("kmLineDP_Parent");
-    //    }
-    //    if (parentItems.contains("lage_Parent")){
-    //        scene()->removeItem(lage_Parent);
-    //        delete lage_Parent;
-    //        parentItems.remove("lage_Parent");
-    //    }
-    //    if (parentItems.contains("lageDP_Parent")){
-    //        scene()->removeItem(lageDP_Parent);
-    //        delete lageDP_Parent;
-    //        parentItems.remove("lageDP_Parent");
-    //    }
-    //    if (parentItems.contains("uberhohung_Parent")){
-    //        scene()->removeItem(uberhohung_Parent);
-    //        delete uberhohung_Parent;
-    //        parentItems.remove("uberhohung_Parent");
-    //    }
-    //    if (parentItems.contains("uberhohungDP_Parent")){
-    //        scene()->removeItem(uberhohungDP_Parent);
-    //        delete uberhohungDP_Parent;
-    //        parentItems.remove("uberhohungDP_Parent");
-    //    }
-    //    // TODO: implement for Gleisknoten
 }
 
 

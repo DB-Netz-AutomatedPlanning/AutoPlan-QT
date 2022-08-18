@@ -1,5 +1,6 @@
 #include "connect2csharp.h"
 
+
 // this class works only for planning (and not for exporting eulynx)
 Connect2CSharp::Connect2CSharp(QByteArray mdbFilePath, QByteArray kmLinePath, QByteArray gleiskantenPath,
                                QByteArray gleisknotenPath, QByteArray hoehePath, QByteArray UH_Path,
@@ -13,17 +14,22 @@ Connect2CSharp::Connect2CSharp(QByteArray mdbFilePath, QByteArray kmLinePath, QB
     this->UH_Path = UH_Path;
     this->LA_Path = LA_Path;
     this->outputPath = outputPath;
+    this->isFinishedRunning = false;
+
 }
 
 void Connect2CSharp::cSharp()
 {
-    QProcess csharp;
+    csharp = new QProcess(this);
     findOS();   //determine the operating system
+
+    connect(csharp, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &Connect2CSharp::planningFinished);
+//    connect(csharp, &QProcess::started, this, &Connect2CSharp::planningFinished);
 
     // replace this with corresponding filepath
     QString filePath = "APLAN-CORE.exe";
-    csharp.start(filePath);
-    if(!csharp.waitForStarted(3000)) {
+    csharp->start(filePath);
+    if(!csharp->waitForStarted(3000)) {
         this->isAvailable = false;
         qInfo()<< "Problem with opening of APlan_Core App \n "
                   "... some linking file(s) are missing. Please contact your administrator";
@@ -32,71 +38,60 @@ void Connect2CSharp::cSharp()
 
     // write data(each parameter) to the terminal, followed by Enter key
     if(!state.endsWith(endl.toLatin1())) state.append(endl.toUtf8());
-    csharp.write(state);
-    csharp.waitForBytesWritten(1000);
+    csharp->write(state);
+    csharp->waitForBytesWritten(1000);
 
     QByteArray Code = countryCode.toUtf8();
     QByteArray format = fileFormat.toUtf8();
     QByteArray name = projectName.toUtf8();
 
     if(!Code.endsWith(endl.toLatin1())) Code.append(endl.toUtf8());
-    csharp.write(Code);
-    csharp.waitForBytesWritten(1000);
+    csharp->write(Code);
+    csharp->waitForBytesWritten(1000);
 
     if(!format.endsWith(endl.toLatin1())) format.append(endl.toUtf8());
-    csharp.write(format);
-    csharp.waitForBytesWritten(1000);
+    csharp->write(format);
+    csharp->waitForBytesWritten(1000);
 
     if(!name.endsWith(endl.toLatin1())) name.append(endl.toUtf8());
-    csharp.write(name);
-    csharp.waitForBytesWritten(1000);
+    csharp->write(name);
+    csharp->waitForBytesWritten(1000);
 
     if (fileFormat == ".mdb"){
         qDebug()<< "Temporary disabled for mdb data";
-        csharp.closeWriteChannel();
+        csharp->closeWriteChannel();
         return;
 
     } else if(fileFormat == ".json"){
         if(!kmLinePath.endsWith(endl.toLatin1())) kmLinePath.append(endl.toUtf8());
-        csharp.write(kmLinePath);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(kmLinePath);
+        csharp->waitForBytesWritten(1000);
 
         if(!gleiskantenPath.endsWith(endl.toLatin1())) gleiskantenPath.append(endl.toUtf8());
-        csharp.write(gleiskantenPath);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(gleiskantenPath);
+        csharp->waitForBytesWritten(1000);
 
         if(!gleisknotenPath.endsWith(endl.toLatin1())) gleisknotenPath.append(endl.toUtf8());
-        csharp.write(gleisknotenPath);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(gleisknotenPath);
+        csharp->waitForBytesWritten(1000);
 
         if(!hoehePath.endsWith(endl.toLatin1())) hoehePath.append(endl.toUtf8());
-        csharp.write(hoehePath);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(hoehePath);
+        csharp->waitForBytesWritten(1000);
 
         if(!UH_Path.endsWith(endl.toLatin1())) UH_Path.append(endl.toUtf8());
-        csharp.write(UH_Path);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(UH_Path);
+        csharp->waitForBytesWritten(1000);
 
         if(!LA_Path.endsWith(endl.toLatin1())) LA_Path.append(endl.toUtf8());
-        csharp.write(LA_Path);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(LA_Path);
+        csharp->waitForBytesWritten(1000);
 
         if(!outputPath.endsWith(endl.toLatin1())) outputPath.append(endl.toUtf8());
-        csharp.write(outputPath);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(outputPath);
+        csharp->waitForBytesWritten(1000);
 
-        csharp.closeWriteChannel();
-
-        if(!csharp.waitForFinished(25000)) {
-            // Giving maximum of 15 seconds to execute the program
-            qInfo() << "The program is taking too long to close the Channel";
-            return;
-        }
-
-
-        QByteArray result = csharp.readAll();
-
-        this->setAntwort(result);
+        csharp->closeWriteChannel();
     }else {
         qDebug()<< "Please import valid file format (.json, .geojson)";
     }
@@ -114,6 +109,7 @@ void Connect2CSharp::setAntwort(const QString &newAntwort)
 
 QStringList Connect2CSharp::solutionsList()
 {
+    qDebug() << "Antwort: " << getAntwort();
     QStringList sol1;   // temporary container
     QStringList sol = this->getAntwort().split(QRegularExpression("\\n"), Qt::SkipEmptyParts);
 
@@ -191,6 +187,25 @@ int Connect2CSharp::getNumberofCols() const
 void Connect2CSharp::setNumberofCols(int newNumberofCols)
 {
     NumberofCols = newNumberofCols;
+}
+
+void Connect2CSharp::planningFinished(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    Q_UNUSED(exitStatus);
+    Q_UNUSED(exitCode);
+    QByteArray result = csharp->readAll();
+    this->setAntwort(result);
+    this->setIsFinishedRunning(true);
+}
+
+bool Connect2CSharp::getIsFinishedRunning() const
+{
+    return isFinishedRunning;
+}
+
+void Connect2CSharp::setIsFinishedRunning(bool newIsFinishedRunning)
+{
+    isFinishedRunning = newIsFinishedRunning;
 }
 
 void Connect2CSharp::findOS()

@@ -44,6 +44,13 @@ public:
     int getNumberofCols() const;
     void setNumberofCols(int newNumberofCols);
 
+    bool getIsFinishedRunning() const;
+    void setIsFinishedRunning(bool newIsFinishedRunning);
+
+private slots:
+    void planningFinished(int exitCode, QProcess::ExitStatus exitStatus);
+
+
 private:
     QString** mainAntwort;
     QString antwort;
@@ -59,5 +66,7 @@ private:
     QByteArray outputPath;
     int NumberOfRows;
     int NumberofCols;
+    QProcess *csharp;
+    bool isFinishedRunning; // to detect if the finished signal has been called
 };
 #endif // CONNECT2CSHARP_H

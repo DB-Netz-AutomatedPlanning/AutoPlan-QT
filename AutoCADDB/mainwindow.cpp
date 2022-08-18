@@ -465,28 +465,6 @@ void MainWindow::exit()
     QCoreApplication::quit();
 }
 
-//void MainWindow::exportToPicture()
-//{
-//    //QString defaultFileName = fileName;
-//    //int index = defaultFileName.lastIndexOf(".");
-//    //defaultFileName = defaultFileName.left(index);
-//    //defaultFileName += ".png";
-//    //QString s = QFileDialog::getSaveFileName(
-//    //  this, tr("Export to PNG"), defaultFileName,
-//    //tr("Portable Network Graphics (*.png)"));
-
-//    //if (!s.isEmpty())
-//    //{
-//    //QImage image(view->width(), view->height(), QImage::Format_RGB32);
-//    //image.fill(QColor(Qt::white));
-//    //QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-//    //QPainter painter(&image);
-//    //view->render(&painter);
-//    //image.save(s, "PNG");
-//    //QApplication::restoreOverrideCursor();
-//    //}
-//}
-
 void MainWindow::planningFnt()
 {
     if (fileFormat == ".mdb"){
@@ -971,12 +949,6 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
 
     QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
     QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
-
-    //    error->setWindowTitle("Info/Hint");
-    //    error->showMessage("EULYNX Validator here was based on the first release (OLD) of the EULYNX Data Preparation model as can be found at https://www.eulynx.eu/index.php/dataprep.\n  Expected Encoding:    UTF-8 \n\n"
-    //                       "Ensure you have correct input (including path to the xsd) \n\n   Also, wait for few seconds to process your input");
-    //    error->exec();
-    //    error->update();
 
     if (showMessageBox) {
         QCheckBox *cb = new QCheckBox("Do not show this message again");
