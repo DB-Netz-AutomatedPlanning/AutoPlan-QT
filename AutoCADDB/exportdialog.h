@@ -31,6 +31,7 @@ public:
 
     const QString &getEndl() const;
     void setEndl(const QString &newEndl);
+    void output();
 
 private slots:
     void on_btnOpenFolder_clicked();
@@ -55,6 +56,7 @@ private:
     int progressBarValue;
     bool isStart;
     bool isEnd;
+    QProcess *csharp;
 
 
     // QWidget interface

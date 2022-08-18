@@ -5,6 +5,7 @@
 #include "qgraphicssymbolcontainer.h"
 #include <QMainWindow>
 #include <QProgressDialog>
+#include <QProcess>
 #include <QWidget>
 #include <QSlider>
 #include <QList>
@@ -18,9 +19,6 @@
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-//class MyOpenglWidget;
-//class MyOpenglWidget;
-//class Calculator;
 class PlanningTable;
 class QString;
 class QGraphicsView;
@@ -32,9 +30,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    //treeview
-//    void setObjNameTW(QString);
-    // MyOpenglWidget *myopen;
+
      void createViewToolBar();
      void removeGabageData();
      void darkTheme();
@@ -58,17 +54,9 @@ private slots:
 
     void closeTab(int);
     void transformation(int);
-//    void penColor();
-//    void penWidth();
-//    void openCalculator();
     void print();
     void exit();
-//    void openSvgDialog();
-//    void openSvgOptions();
-
     void on_actionOpen_triggered();
-//    void fetchObjectProps();
-//    bool writeFooBar();
 
     //Validator
     void setXMLPath();
@@ -78,16 +66,12 @@ private slots:
 
     //MENU
     void save();
-//    void open();
-
-    //ppview
-//    void exportToPicture();
-   // void exportToPdf();
 
     void planningFnt();
     void addTab();
     void onNewProjectClicked();
     void setActionMenus(bool activate);
+
     void writeSettings();
     void readSettings();
 
@@ -107,15 +91,12 @@ private slots:
     void onClicked_xml_json();
 
     void on_actionDelete_Items_triggered();
-
     void on_actionSelection_Mode_toggled(bool arg1);
 
     // Right click (Context Menu)
     void showContextMenu(QPoint pos);
-
     void createDock();
     void createSignalObjects();
-
     void on_actionPlanning_Tab_toggled(bool arg1);
     void on_actionAbout_Qt_triggered();
 
@@ -124,19 +105,17 @@ private slots:
     void lightRulesSelected(bool isSelected);
 
     void onClickOSM_triggered();
+    void OSMFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void OSMStarted();
+    void OSMTimeOut();
 
 private:
     Ui::MainWindow *ui;
 
     QString readFile;
-//    MyOpenglWidget *scribbleArea;
-//    MyOpenglWidget *sc;
     QMenu *viewDockSubMenu;
     QString app;
     QString endl;
-
-//    bool saveFile(const QByteArray &fileFormat);
-//    bool maybeSave();
     bool isFirstTab = true;
 
     QGraphicsView* view;
@@ -155,10 +134,12 @@ private:
     QLineEdit *outputPath;
     QLineEdit *xsdPath;
     QProgressDialog *progress;
-//    QProgressBar *progressBar;
+    QProcess *python;
     bool cSharpIsDone = false;
     QTimer *timer;
+    QTimer *OSMtimer;
     int progressValue;
+    int OSMProgressValue;
     int lastRotation;
 
     QSpinBox *zoomSpinBox;

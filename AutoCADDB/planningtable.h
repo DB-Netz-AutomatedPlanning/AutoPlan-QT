@@ -26,6 +26,8 @@ public:
     explicit PlanningTable(QWidget *parent = nullptr);
     ~PlanningTable();
 
+    void displayResultTable();
+
     const QString &getGleiskantenPath() const;
     void setGleiskantenPath(const QString &newGleiskantenPath);
 
@@ -55,7 +57,7 @@ private slots:
 
 private:
     Ui::PlanningTable *ui;
-    QStandardItemModel *model;
+    Connect2CSharp *csharp;
     QString kmLinePath;
     QString gleiskantenPath;
     QString gleisknotenPath;
