@@ -307,8 +307,7 @@ void KmToCoordinate::calculateSegmentAllPoints()
 {
     std::vector<std::vector<float>> vec;
     int segmentSize = coord->getSegment().size();
-
-    for (int i=0; i<segmentSize; i++){  //segmentSize-1
+    for (int i=0; i<segmentSize-1; i++){
         vec.push_back(std::vector<float>());
         for (int j=coord->getSegment()[i]; j< coord->getSegment()[i+1]; j++){
             vec[i].push_back(coord->getCoordinateLists()[j]);

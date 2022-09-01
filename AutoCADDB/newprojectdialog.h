@@ -9,6 +9,7 @@
 #include <QProgressDialog>
 #include <QTimer>
 #include <QTime>
+#include <QProcess>
 
 
 namespace Ui {
@@ -66,6 +67,7 @@ private:
 
     QProgressDialog *progress;
     QTimer timer;
+    QProcess *csharp;
 };
 
 #endif // NEWPROJECTDIALOG_H

@@ -25,6 +25,8 @@ int rotation_angle = 0;
 
 QString glbObjectName = "sayli";
 QString defaultObjectName = "default name";
+QString selectedSymbolName = "";
+bool symbolIsSelected = false;
 bool createNewProject = false;
 
 Tracks *tracks = nullptr;

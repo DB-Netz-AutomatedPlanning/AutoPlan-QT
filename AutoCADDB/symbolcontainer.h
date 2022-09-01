@@ -24,6 +24,7 @@ private:
 };
 extern QString glbObjectName;
 extern QString defaultObjectName;
+extern QString selectedSymbolName;
 extern bool isActive;
 extern QString stationName;
 extern QString geoJsonFileName;
@@ -36,6 +37,7 @@ extern QString projectName;
 extern bool createNewProject;
 extern bool mouseDragMode;
 extern bool textModeIsActive;
+extern bool symbolIsSelected;
 extern QString countryCode;
 extern QString fileFormat;
 

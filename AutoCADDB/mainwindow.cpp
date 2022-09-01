@@ -523,9 +523,6 @@ void MainWindow::on_actionImport_triggered()
 
 void MainWindow::on_pushButton_77_clicked()
 {
-    //    ImportFolder uploadNewData;
-    //    uploadNewData.setModal(true);
-    //    uploadNewData.exec();
     UploadNewData uploadNewData;
     uploadNewData.setModal(true);
     uploadNewData.exec();
@@ -685,7 +682,6 @@ void MainWindow:: paintEvent(QPaintEvent *event) {
         createNewProject = false;
         addTab();
         createDock();
-
         // Enable Save, SaveAs, and Print button
         ui->actionSave->setEnabled(true);
         ui->actionSave_As->setEnabled(true);
@@ -805,7 +801,6 @@ void MainWindow::createDock()
     dock1->setObjectName("Signal Object Info");
     dock1->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
     dock1->setWidget(table);
-
     svgDialog = new QGraphicsSymbolContainer(this);
     dock2 = new QDockWidget(tr("Symbols"));
     dock2->setObjectName("Signal Symbols");
@@ -828,6 +823,7 @@ void MainWindow::createSignalObjects()
     QFile file (filePath);
     if(!file.exists()) {
         //        viewDockSubMenu->setEnabled(false);
+        qDebug()<< "File not exist";
         table = new QTableWidget(this);
         table->setColumnCount(8);
         table->setRowCount(2);
@@ -871,7 +867,6 @@ void MainWindow::createSignalObjects()
     table->setSelectionMode(QAbstractItemView::ExtendedSelection);
     table->setSelectionBehavior(QAbstractItemView::SelectRows);
     table->setTextElideMode(Qt::ElideRight);
-
     table->setShowGrid(true);
     table->setGridStyle(Qt::DotLine);
     table->setSortingEnabled(true);
@@ -1186,8 +1181,6 @@ void MainWindow::onClickOSM_triggered()
 
     python->closeWriteChannel();
     ui->actionOSM->setEnabled(false);
-//    QString outputHTMLFile = projectPath+"/"+projectName+"/temp/output.html";
-//    QDesktopServices::openUrl(QUrl(outputHTMLFile));
 }
 
 /* OSMFinished slot function will be evoked whenever the finished SIGNAL is emited from
@@ -1198,6 +1191,13 @@ void MainWindow::OSMFinished(int exitCode, QProcess::ExitStatus exitStatus)
     Q_UNUSED(exitCode);
     QMessageBox::information(this, "Good", "Done");
     ui->actionOSM->setEnabled(true);
+    QString outputHTMLFile = projectPath+"/"+projectName+"/temp/output.html";
+    try {
+        QDesktopServices::openUrl(QUrl(outputHTMLFile));
+    } catch (...) {
+        QMessageBox::information(this, "No Access!", "Unable to generate OSM");
+    }
+
 }
 
 void MainWindow::OSMStarted()

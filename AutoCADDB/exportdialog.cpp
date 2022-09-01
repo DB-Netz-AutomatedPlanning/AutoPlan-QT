@@ -67,8 +67,6 @@ void ExportDialog::on_btnOpenFolder_clicked()
     if (ui->leFolder->text().isNull() ||ui->leFolder->text().isEmpty()){
         ui->btnExport->setEnabled(false);
     }
-//    isStart = true;
-
 }
 
 void ExportDialog::on_btnExport_clicked()
@@ -80,8 +78,6 @@ void ExportDialog::on_btnExport_clicked()
     if (ui->checkBoxRemPath->isChecked()){
         exportPath = ui->leFolder->text();
     }
-//    QString outputPath_ = ui->leFolder->text();
-    //    QString station_ = ui->cmbStation->currentText();
     QString station_ = projectName;
     QString path_ = projectPath;
     QByteArray state = "export";
@@ -94,8 +90,6 @@ void ExportDialog::on_btnExport_clicked()
     ui->progressBar->setValue(progressBarValue);
 
     if (fileFormat== ".mdb"){
-//        ui->progressBar->setVisible(true);
-//        ui->progressBar->setValue(progressBarValue);
         QApplication::processEvents();
         QString dataPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp";
         QDir dir (dataPath);
@@ -151,17 +145,8 @@ void ExportDialog::on_btnExport_clicked()
         csharp->waitForBytesWritten(1000);
 
         csharp->closeWriteChannel();
-
-//        if(!csharp->waitForFinished()) {
-
-//            QMessageBox::warning(this, "Warning", "The program is taking too long to execute...\n The conversion"
-//                                                  "is still running");
-//            //            return;
-//        }
     }
     else if (fileFormat == ".json"){
-//        ui->progressBar->setVisible(true);
-//        ui->progressBar->setValue(progressBarValue);
         QApplication::processEvents();
         std::vector<QString> filePaths;
         QByteArray kMliniePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_KM.dbahn";
@@ -270,35 +255,8 @@ void ExportDialog::on_btnExport_clicked()
             csharp->waitForBytesWritten(1000);
 
             csharp->closeWriteChannel();
-//            if(!csharp->waitForFinished()) {
-//                qInfo() << "The program is taking too long to close the Channel";
-//                QMessageBox::warning(this, "Warning", "The program is taking too long to execute\n ... "
-//                                                      "the program is still running");
-//                //                return;
-//            }
-            // remove all the input files
-            gleiskantenPath =  path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleiskanten.geojson";
-            gleisknotenPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleisknoten.geojson";
-            hoehePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_HO.geojson";
-            kMliniePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_KM.geojson";
-            uberholenPath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_UH.geojson";
-            lagePath = path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Entwurfselement_LA.geojson";
-            std::vector<QString> paths;
-            paths.push_back(gleiskantenPath);
-            paths.push_back(gleisknotenPath);
-            paths.push_back(hoehePath);
-            paths.push_back(kMliniePath);
-            paths.push_back(uberholenPath);
-            paths.push_back(lagePath);
-
-            foreach(QString val, paths){
-                QFile file (val);
-                file.remove();
-            }
         }
         else if (countryCode == "fr"){
-//            ui->progressBar->setVisible(true);
-//            ui->progressBar->setValue(progressBarValue);
             QApplication::processEvents();
             if (!QFile::exists(gleiskantenPath)){
                 QMessageBox::information(this, "Missing File", "Required file Missing... \n Please import all appropriate files");
@@ -388,11 +346,6 @@ void ExportDialog::on_btnExport_clicked()
             csharp->waitForBytesWritten(1000);
 
             csharp->closeWriteChannel();
-
-            // remove all the input files
-            gleiskantenPath =  path_.toLatin1()+"/" +station_.toLatin1()+"/temp/Gleiskanten.geojson";
-            QFile file (gleiskantenPath);
-            file.remove();
         }
     }
     else {
@@ -418,7 +371,6 @@ void ExportDialog::output()
     QString outputPath_ = ui->leFolder->text();
     QString station_ = projectName;
     if (QFile::exists(outputPath_+"/eulynx"+station_+".euxml")){
-//        isEnd = true;
         QMessageBox::information(this, "Successful", "EulynxXML Successfully Generated...\n"
                                                      "check ->"+outputPath_);
         folderPath = outputPath_;
@@ -432,6 +384,39 @@ void ExportDialog::output()
         QMessageBox::warning(this, "euxml", "Eulynx Generation Process Failed\n ");
         close();
     }
+}
+
+void ExportDialog::removeFiles()
+{
+    if (fileFormat == ".json" && countryCode == "de"){
+        // remove all the input files
+        QByteArray gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
+        QByteArray gleisknotenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleisknoten.geojson";
+        QByteArray hoehePath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_HO.geojson";
+        QByteArray kMliniePath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_KM.geojson";
+        QByteArray uberholenPath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_UH.geojson";
+        QByteArray lagePath = projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Entwurfselement_LA.geojson";
+        std::vector<QString> paths;
+        paths.push_back(gleiskantenPath);
+        paths.push_back(gleisknotenPath);
+        paths.push_back(hoehePath);
+        paths.push_back(kMliniePath);
+        paths.push_back(uberholenPath);
+        paths.push_back(lagePath);
+
+        foreach(QString val, paths){
+            QFile file (val);
+            file.remove();
+        }
+
+    } else if (fileFormat == ".json" && countryCode == "fr") {
+        // remove all the input files
+        QByteArray gleiskantenPath =  projectPath.toLatin1()+"/" +projectName.toLatin1()+"/temp/Gleiskanten.geojson";
+        QFile file (gleiskantenPath);
+        file.remove();
+    }
+
+
 }
 
 const QString &ExportDialog::getApp() const
@@ -463,6 +448,7 @@ void ExportDialog::timeOut()
         timer->stop();
         ui->progressBar->setVisible(false);
         ui->btnExport->setEnabled(false);
+        removeFiles();
         output();
 
     } else if ((csharp->state() == QProcess::Running && ui->progressBar->value() < 90) ||
@@ -473,31 +459,6 @@ void ExportDialog::timeOut()
               (csharp->state() == QProcess::Starting && ui->progressBar->value() == 90)) {
        ui->progressBar->setValue(progressBarValue);
     }
-
-
-//    if (isStart || isEnd){
-//        if (isEnd){
-//            ui->progressBar->setValue(100);
-//            QApplication::processEvents();
-//            timer->stop();
-//            ui->progressBar->setVisible(false);
-//            isEnd =false;
-//            ui->btnExport->setEnabled(false);
-//            //            qDebug()<< "TORR1";
-
-//        } else if (isStart && (progressBarValue <90)){
-//            progressBarValue+=10;
-//            ui->progressBar->setValue(progressBarValue);
-//            QApplication::processEvents();
-//            //            qDebug()<< "TORR2";
-
-//        } else if(isStart && (progressBarValue == 90)) {
-//            ui->progressBar->setValue(90);
-//            QApplication::processEvents();
-//            //            qDebug()<< "TORR3";
-//        }
-//    }
-
 }
 
 void ExportDialog::closeEvent(QCloseEvent *event)
