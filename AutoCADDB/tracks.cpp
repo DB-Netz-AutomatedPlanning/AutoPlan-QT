@@ -24,7 +24,7 @@
 Tracks::Tracks(QWidget *parent) : QGraphicsView(parent), multiplierDone(false), drawGrids(true),
     drawGleiskanten(false),drawGleiskantenDP(false), drawHoehe(false), drawHoeheDP(false), drawKmLine(false),
     drawKmLineDP(false), drawLage(false), drawLageDP(false), drawUberhohung(false), drawUberhohungDP(false),
-    drawGleisknotenDP(false), dark_Mode(false), darkTheme(false), lightRules(true)
+    drawGleisknotenDP(false), dark_Mode(false), darkTheme(true), lightRules(false), symbolIsActive(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -681,14 +681,19 @@ void Tracks::addSignals2()
     if (!file.exists()) return;
     SignalsFromUnprocessedJson *signal = new SignalsFromUnprocessedJson(nullptr, projectPath+"/"+projectName+"/temp2/UnprocessedJson.json"); //D:/Users/BKU/OlatunjiAjala/Documents/pdf/scheiben/temp2/UnprocessedJson.json  ; D:/Users/BKU/OlatunjiAjala/Documents/pdf/ETCS/temp2/UnprocessedJson.json  ; D:/Users/BKU/OlatunjiAjala/Documents/pdf/new2/temp2/UnprocessedJson.json
     std::vector< std::vector<QString>> all = signal->signalInfos();
+    qDebug()<< "Signal1";
     if ((int)all.size() ==0) return;
+    qDebug()<< "Signal2";
 
     // Add Symbols/Signals -- only if KmLine data /or Gleiskanen is available (Json)
     QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
     QFile la_File(projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn"); // Gleiskanten.dbahn
     if (!km_file.exists() && !la_File.exists()) return;
+    qDebug()<< "Signal3";
     KmToCoordinate *kmToCoord = new KmToCoordinate(projectPath,projectName);
+    qDebug()<< "Signal4";
     kmToCoord->mapKmAndCoord();
+    qDebug()<< "Signal5";
     kmToCoord->calculateAngles();
 
     qDebug() << "\n\n" "S/No. " << "|  Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ ";
@@ -1321,6 +1326,10 @@ void Tracks::mousePressEvent(QMouseEvent *event)
         // ToDo : Function to allow users zoom individual contents to desired scale
         textItem->setScale(1.5);
     }
+    if (symbolIsSelected && (selectedSymbolName != "")){
+        const QPointF &pos = mapToScene(event->pos());
+        addSymbol(selectedSymbolName, pos);
+    }
     QGraphicsView::mousePressEvent(event);
 }
 
@@ -1503,8 +1512,8 @@ void Tracks::setMultiplierValue(int newMultiplierValue)
 }
 
 
-void Tracks::addSymbol(QString str)
-{
+void Tracks::addSymbol(QString str, const QPointF &pos)
+{   
     defaultObjectName = str;
     glbObjectName = str;
     QSvgRenderer *renderer = new QSvgRenderer(QString(":/icons/assets/qgraphics/"+str+".svg"));
@@ -1514,7 +1523,12 @@ void Tracks::addSymbol(QString str)
     //    QFlags tr = otherSignal->flags();
     otherSignal->setData(0, "OtherSignal");
     otherSignal->setData(1, str);
-    otherSignal->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
+    // set transformation
+    QTransform transform;
+    transform.scale(1,-1);
+    otherSignal->setTransform(transform);
+    otherSignal->setPos(pos);
+//    otherSignal->setPos(getUsedRect()[0] +(getUsedRect()[2]/2) , getUsedRect()[1]+(getUsedRect()[3]/2));
     scene()->addItem(otherSignal);
 }
 

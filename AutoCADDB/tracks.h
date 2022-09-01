@@ -34,7 +34,7 @@ public:
     void addSignals2();
     void setBoolParameters();
     void reload();
-    void addSymbol(QString str);
+    void addSymbol(QString str, const QPointF &pos);
     void addAutomateSignal(QString name, QPointF location, double angle,
                            QString type, QString position, QString latDist,
                            QString orientation, QString direction);
@@ -171,6 +171,7 @@ private:
     int mGridSize = 20;
     bool darkTheme;
     bool lightRules;
+    bool symbolIsActive;
     QStringList dataKeys;
     QStringList dataValues;
 

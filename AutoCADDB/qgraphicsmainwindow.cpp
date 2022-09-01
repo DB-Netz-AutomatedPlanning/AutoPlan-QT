@@ -17,7 +17,6 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
     tracks->setBoolParameters();
     tracks->getUpdateRect();
 
-
 //    QPalette pal = QPalette();
 
 //    // set black background
@@ -34,7 +33,6 @@ QGraphicsMainWindow::QGraphicsMainWindow(QWidget *parent) :
 
     tracks->setScene(scene);
     tracks->getMultiplierEffect();
-
     tracks->addGleiskanten();
     tracks->addHoehe();
     tracks->addKMline();

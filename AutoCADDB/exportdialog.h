@@ -32,6 +32,7 @@ public:
     const QString &getEndl() const;
     void setEndl(const QString &newEndl);
     void output();
+    void removeFiles();
 
 private slots:
     void on_btnOpenFolder_clicked();

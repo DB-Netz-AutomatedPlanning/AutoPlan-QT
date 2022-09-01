@@ -14,7 +14,6 @@
 #include "planproelements.h"
 #include <QPushButton>
 #include<QSysInfo>
-#include<QProcess>
 #include <QDir>
 #include <QDirIterator>
 #include <QtConcurrent>
@@ -269,7 +268,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         }
 
         // Start the A-Plan Core application through network process (QProcess)
-        QProcess csharp;
+        csharp = new QProcess(this);
         findOS();   //determine the operating system
 
         QByteArray state = "read";
@@ -278,28 +277,28 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
 
         // replace this with corresponding filepath when necessary
         QString filePath = "APLAN-CORE.exe";
-        csharp.start(filePath);
+        csharp->start(filePath);
 
-        if(!csharp.waitForStarted(3000)) {
+        if(!csharp->waitForStarted(3000)) {
             QMessageBox::warning(this, "Warning", "Problem opening APlan_Core App \n ... "
                                                   "some linking file(s) are missing. Please contact your administrator");
             return;
         }
         // write data(each parameter) to the terminal, followed by Enter key
         if(!state.endsWith(endl.toLatin1())) state.append(endl.toUtf8());
-        csharp.write(state);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(state);
+        csharp->waitForBytesWritten(1000);
 
         if(!euFilePath.endsWith(endl.toLatin1())) euFilePath.append(endl.toUtf8());
-        csharp.write(euFilePath);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(euFilePath);
+        csharp->waitForBytesWritten(1000);
 
         if(!outputFoler.endsWith(endl.toLatin1())) outputFoler.append(endl.toUtf8());
-        csharp.write(outputFoler);
-        csharp.waitForBytesWritten(1000);
+        csharp->write(outputFoler);
+        csharp->waitForBytesWritten(1000);
 
-        csharp.closeWriteChannel();
-        csharp.waitForFinished();
+        csharp->closeWriteChannel();
+        csharp->waitForFinished();
 //        if(!csharp.waitForFinished(10000)) {
 //            // Giving maximum of 10 seconds to execute the program
 //            qInfo() << "The program is taking too long to close the Channel";
@@ -488,6 +487,7 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         countryCode = ui->countryCodeComboBox->currentText();
         createNewProject = true;
         close();
+        return;
     }
     projectName = ui->leEnterProjectName->text();
 }
