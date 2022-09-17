@@ -110,7 +110,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->tabWidget_2,SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
 
-    //MENU actionOpen
+    //MENU actionOpen (Connecting the Signals and Slots)
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(save()));
     connect(ui->actionNew_2, SIGNAL(triggered()), this, SLOT(onNewProjectClicked()));
     connect(ui->actionPrint, SIGNAL(triggered()), this, SLOT(print()));
@@ -134,7 +134,7 @@ MainWindow::MainWindow(QWidget *parent)
     QTableWidgetItem *newItem1 = new QTableWidgetItem(tr("%1").arg(defaultObjectName));
     ui->tableWidget->setItem(0, 1, newItem1);
     QTableWidgetItem *newItem2 = new QTableWidgetItem(tr("%1").arg("Position"));
-    ui->tableWidget->setItem(1, 0, newItem2);    
+    ui->tableWidget->setItem(1, 0, newItem2);
 }
 
 
@@ -448,16 +448,6 @@ void MainWindow::print()
         QPainter painter(&printer);
     }
 #endif // QT_CONFIG(printdialog)
-
-    ////          QPainter painter(&printer);
-    ////            painter.begin(&printer);
-    ////          double xscale = printer.pageRect().width() / double(minWidth);
-    //////           double yscale = printer.pageRect().height() / double(minHeight);
-    //////           double scale = qMin(xscale, yscale);
-    //////           painter.translate(printer.paperRect().center());
-    //////           painter.scale(scale, scale);
-    ////         painter.translate(-minWidth/ 2, -minHeight/ 2);
-    ////           ui->widget_152->render(&painter);
 }
 
 void MainWindow::exit()
@@ -748,12 +738,6 @@ void MainWindow::onClicked_xml_json()
     //    qDebug() << mjson;
 }
 
-
-//void MainWindow::on_grabBtn_toggled(bool checked)
-//{
-//    Q_UNUSED(checked);
-//}
-
 void MainWindow::on_actionDelete_Items_triggered()
 {
     if (projectName.isNull() || projectPath.isNull() || ui->tabWidget_2->tabBar()->count() <1)QMessageBox::warning(this, "Project Not Found", "No active projet found !!");
@@ -785,17 +769,7 @@ void MainWindow::showContextMenu(QPoint pos)
 
 void MainWindow::createDock()
 {
-    //    if (dockWidgetCreated) {
-    //        createSignalObjects();
-    //        return;
-    //    }
-    //    QString filePath = projectPath + "/" + projectName + "/temp2/UnprocessedJson.json";
-    //    QFile file (filePath);
-    //    if(!file.exists()) {
-    //        qDebug()<< "UnprocessedJson not exist";
-    //        viewDockSubMenu->setEnabled(false);
-    //        return;
-    //    }
+
     createSignalObjects();
     dock1 = new QDockWidget(tr("Signal Object Info ("+projectName.toLocal8Bit()+")"), this);
     dock1->setObjectName("Signal Object Info");
@@ -871,7 +845,6 @@ void MainWindow::createSignalObjects()
     table->setGridStyle(Qt::DotLine);
     table->setSortingEnabled(true);
     table->setCornerButtonEnabled(true);
-    //    table->horizontalHeader()->setStretchLastSection(true);
 }
 
 // Function to show/hide entire tabWidget
@@ -984,17 +957,11 @@ void MainWindow::on_actionEULYNX_Validator_triggered()
         progressValue = 2;
         progress->setWindowModality(Qt::WindowModal);
         progress->setValue(progressValue);
-        //        progress->show();
 
-        //        progress->setWindowFlags(Qt::FramelessWindowHint);
-        //        progress->setAlignment(Qt::AlignCenter);
         progress->setWindowTitle("validating xml...");
-        //        progress->setTextVisible(true);
         progress->setVisible(true);
         QApplication::processEvents();
         timer = new QTimer(this);
-
-        //        timer->setInterval(2000);
         connect(timer, &QTimer::timeout, this, &MainWindow::timeOut);
 
         timer->start();

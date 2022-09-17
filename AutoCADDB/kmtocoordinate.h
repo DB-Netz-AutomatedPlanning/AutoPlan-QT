@@ -22,16 +22,10 @@ public:
 
     const std::vector<std::vector<QPointF> > &getSegmentAllPoints() const;
     void setSegmentAllPoints(const std::vector<std::vector<QPointF> > &newSegmentAllPoints);
-
-//    const std::vector<double> &getSegmentPointDistance() const;
-//    void setSegmentPointDistance(const std::vector<double> &newSegmentPointDistance);
     void calculateSegmentPointDistance();
 
     const std::vector<std::vector<double> > &getSegmentPointDistance() const;
     void setSegmentPointDistance(const std::vector<std::vector<double> > &newSegmentPointDistance);
-
-//    const std::vector<double> &getSegmentPointDist() const;
-//    void setSegmentPointDist(const std::vector<double> &newSegmentPointDist);
 
     const std::vector<double> &getSegmentLengths() const;
     void setSegmentLengths(const std::vector<double> &newSegmentLengths);
@@ -67,15 +61,12 @@ private:
     std::vector<QPointF> segmentExtremePoints;
     std::vector<std::vector<QPointF>> segmentAllPoints;
     std::vector<std::vector<double>> segmentPointDistance;
-//    std::vector<double> segmentPointDist;
     std::vector<double> segmentLengths;
     QList<double> angles;
     std::vector<double> segmentLengths_FromAddedValues;
     std::vector<std::vector<double>> realKmValues;
     QMap<double, QPointF> kmAndCoord;
     Coordinates *coord;
-
-
 };
 
 #endif // KMTOCOORDINATE_H

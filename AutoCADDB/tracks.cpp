@@ -637,14 +637,7 @@ void Tracks::addSignals()
     euSignal->readMainSignals();
     std::vector<QMap<QString, QString>> each = euSignal->getParameters();
 
-    qDebug()<< static_cast<int>(each.size());
-
     for (int i=0; i< static_cast<int>(each.size()); i++){
-        //        qInfo()<< "DB Signal " << each.at(i)["DB Signal Function"];
-        //        qInfo()<< "Dir " << each.at(i)["Direction"];
-        //        qInfo()<< "Lat. Dist " << each.at(i)["Lateral Distance"];
-        //        qInfo()<< "Lat Side " << each.at(i)["Lateral Side"];
-        //        qInfo()<< "Linear Coord " << each.at(i)["Linear Coordinate"];
 
         double val = (each.at(i)["Linear Coordinate"]).toDouble(); //    table[i][1].toDouble();
         double lateralDistance = (each.at(i)["Lateral Distance"]).toDouble();
@@ -681,19 +674,14 @@ void Tracks::addSignals2()
     if (!file.exists()) return;
     SignalsFromUnprocessedJson *signal = new SignalsFromUnprocessedJson(nullptr, projectPath+"/"+projectName+"/temp2/UnprocessedJson.json"); //D:/Users/BKU/OlatunjiAjala/Documents/pdf/scheiben/temp2/UnprocessedJson.json  ; D:/Users/BKU/OlatunjiAjala/Documents/pdf/ETCS/temp2/UnprocessedJson.json  ; D:/Users/BKU/OlatunjiAjala/Documents/pdf/new2/temp2/UnprocessedJson.json
     std::vector< std::vector<QString>> all = signal->signalInfos();
-    qDebug()<< "Signal1";
     if ((int)all.size() ==0) return;
-    qDebug()<< "Signal2";
 
     // Add Symbols/Signals -- only if KmLine data /or Gleiskanen is available (Json)
     QFile km_file (projectPath+"/"+projectName+"/temp/Entwurfselement_KM.dbahn");
     QFile la_File(projectPath+"/"+projectName+"/temp/Entwurfselement_LA.dbahn"); // Gleiskanten.dbahn
     if (!km_file.exists() && !la_File.exists()) return;
-    qDebug()<< "Signal3";
     KmToCoordinate *kmToCoord = new KmToCoordinate(projectPath,projectName);
-    qDebug()<< "Signal4";
     kmToCoord->mapKmAndCoord();
-    qDebug()<< "Signal5";
     kmToCoord->calculateAngles();
 
     qDebug() << "\n\n" "S/No. " << "|  Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ ";
@@ -716,22 +704,19 @@ void Tracks::addSignals2()
         else if ((all.at(i)[5] =="0") && (all.at(i)[4] == "0")) continue;
         double angle = kmToCoord->getAngleFromKmValue(linearKm);
 
-        qDebug()<< "Type: " << type;
-        qDebug()<< "Function: " << function;
-        qDebug()<< "LateralSide: " << lateralSide;
-        qDebug()<< "Direction: "<< direction;
-        qDebug()<< "Lateral Distance: " << lateralDistance;
-        qDebug()<< "Position: " <<position;
-        qDebug() << "Angle "<< angle;
+//        qDebug()<< "Type: " << type;
+//        qDebug()<< "Function: " << function;
+//        qDebug()<< "LateralSide: " << lateralSide;
+//        qDebug()<< "Direction: "<< direction;
+//        qDebug()<< "Lateral Distance: " << lateralDistance;
+//        qDebug()<< "Position: " <<position;
+//        qDebug() << "Angle "<< angle;
         // ToDo: re-implement based on the specific function name
         if (direction == "1") addAutomateSignal("Achszahlkontakt", position, angle, function, QString::number(linearKm), "3.1", lateralSide, direction);
         //Then add 180 to the angle (to make symbol rotate/turn to other direction
         else if (direction == "2") addAutomateSignal("Achszahlkontakt", position, angle+180, function, QString::number(linearKm), "3.1", lateralSide, direction);
         else qDebug()<< "None";
     }
-
-    //    qDebug() << "\n\n" "S/No. " << "|  Type " << "  Function" << "  Lateral Side " << "  Direction" << "  Linear Km" << " coordX" << "  CoordY " << "  CoordZ ";
-    //    qDebug() << "--------|------------------------------------------------------------------------------------------------------";
 }
 
 
@@ -1220,7 +1205,6 @@ void Tracks::drawForeground(QPainter *painter, const QRectF &rect)
 
         //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-//        painter->restore();
     } else {
         QGraphicsView::drawForeground(painter, rect);
     }
@@ -1243,7 +1227,6 @@ void Tracks::wheelEvent(QWheelEvent *event)
         factor = (angleX > 0 || angleY >0) ? 1.1 : 0.9;
         scale(factor, factor);
         setTransformationAnchor(anchor);
-        //        setTransformationAnchor( QGraphicsView::AnchorViewCenter);
     } else {
         QGraphicsView::wheelEvent(event);
     }
@@ -1260,7 +1243,6 @@ void Tracks::keyPressEvent(QKeyEvent *event)
             QString toolTip = item->toolTip();
 
             QStringList breakToolTip = toolTip.split(QLatin1Char('_'));  //QRegularExpression("_")
-            qInfo() << breakToolTip[0];
             if(breakToolTip[0].isEmpty()){
                 scene()->removeItem(item);
                 delete item;
@@ -1278,33 +1260,10 @@ void Tracks::mouseMoveEvent(QMouseEvent *event)
     QGraphicsView::mouseMoveEvent(event);
 }
 
-//void Tracks::mouseDoubleClickEvent(QMouseEvent *event)
-//{
-//    const QPointF &pos = mapToScene(event->pos());
-//    bool ok;
-//    QString enteredText = QInputDialog::getText(this, tr("APlan"),
-//                                                tr("Please enter your text"), QLineEdit::Normal, "Text Here", &ok);
-//    if (!ok || enteredText.isEmpty() || enteredText == "Text Here") return;
-
-//    textItem = scene()->addText(enteredText);
-//    QTransform transform;
-//    transform.scale(1,-1);
-
-//    textItem->setPos(pos);
-//    textItem->setTransform(transform);
-//    textItem->setDefaultTextColor("blue");
-//    //    textItem = scene()->addText("");
-//    //    textItem->setPos(pos);
-//    textItem->setTextInteractionFlags(Qt::TextEditorInteraction | Qt::TextEditable );
-//    textItem->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemIsFocusable | textItem->flags());
-//}
-
-
 
 void Tracks::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton){
-        //        qDebug() << "Mouse Clicked : "<< event->pos();
         QPointF sceneCoord = mapToScene(event->pos());
         setXCoord(sceneCoord.x()/getMultiplierValue());
         setYCoord(sceneCoord.y()/getMultiplierValue());
@@ -1396,7 +1355,6 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1412,7 +1370,6 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1428,7 +1385,6 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1444,7 +1400,6 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1460,7 +1415,6 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1476,7 +1430,6 @@ void Tracks::getUpdateRect()
 
         for (int i=0; i< static_cast<int>(vec.size()); i=i+2){
             polyPoints << QPointF(vec[i]*getMultiplierValue(), vec[i+1]*getMultiplierValue());
-            //            polyPoints << QPointF(vec[i], vec[i+1]);
         }
         path.addPolygon(polyPoints);
         QRectF brect = path.boundingRect();
@@ -1520,7 +1473,6 @@ void Tracks::addSymbol(QString str, const QPointF &pos)
     QGraphicsSvgItem *otherSignal = new QGraphicsSvgItem();
     otherSignal->setSharedRenderer(renderer);
     otherSignal->setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable);
-    //    QFlags tr = otherSignal->flags();
     otherSignal->setData(0, "OtherSignal");
     otherSignal->setData(1, str);
     // set transformation
@@ -1534,13 +1486,6 @@ void Tracks::addSymbol(QString str, const QPointF &pos)
 
 
 void Tracks :: sceneSelectedItems(int degree){
-
-    //QPointF offset = group->sceneBoundingRect().center();
-    //QTransform transform;
-    // transform.translate(offset.x(),offset.y());
-    //transform.rotate(degree);
-    //transform.translate(-offset.x(),-offset.y());
-    //group->setTransform(transform);
     foreach (QGraphicsItem *item, scene()->selectedItems()) {
         QString toolTip = item->toolTip();
 
@@ -1549,17 +1494,10 @@ void Tracks :: sceneSelectedItems(int degree){
             QPointF rotationPt = item->boundingRect().center();
             item->setTransformOriginPoint(rotationPt);
             item->setRotation(degree);
-        }//else{
-        //}
+        }
     }
-    // group = scene()->createItemGroup(scene()->selectedItems());
-    //QPointF offset = group->sceneBoundingRect().center();
-    //QTransform transform;
-    //transform.translate(offset.x(),offset.y());
-    //transform.rotate(degree);
-    //transform.translate(-offset.x(),-offset.y());
-    //group->setTransform(transform);
 }
+
 // Write Data (Only for signals/Symbols)
 bool Tracks::writeOperator(QString fileName)
 {
@@ -1580,7 +1518,6 @@ bool Tracks::writeOperator(QString fileName)
             QString toolTip = item->toolTip();
             qreal angle = item->rotation();
             QPointF position = item->pos();
-            //            QFlags flags = item->flags();
             out << type << name << toolTip << angle << position;
         }
     }
@@ -1588,7 +1525,6 @@ bool Tracks::writeOperator(QString fileName)
         file.close();
         return false;
     }
-    //    qDebug()<< "File Written";
     return true;
 }
 
@@ -1710,29 +1646,3 @@ void Tracks::deleteSelectedItems()
         }
     }
 }
-
-//void Tracks::darkMode()
-//{
-//    if (dark_Mode) {
-//        setStyleSheet("background-color:white");
-//        dark_Mode = !dark_Mode;
-//    }
-//    else {
-//        setStyleSheet("background-color:grey");
-//        dark_Mode = !dark_Mode;
-//    }
-//}
-
-
-//TODO.. Remove this function
-//void Tracks::currentPos(QHoverEvent *hoverEvent)
-//{
-////    QMouseEvent *event = nullptr;
-//    QPointF position = hoverEvent->position().toPoint();
-////    QPointF position = event->pos();
-
-//    qDebug()<< "HMmmmmm";
-//    setXCoord(position.x());
-//    setYCoord(position.y());
-//    qDebug()<< "x: "<<getXCoord() <<" y: "<<getYCoord();
-//}

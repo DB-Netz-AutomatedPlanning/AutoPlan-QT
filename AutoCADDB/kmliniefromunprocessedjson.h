@@ -11,7 +11,6 @@ class KmLinieFromUnprocessedJson : public QObject
 public:
     explicit KmLinieFromUnprocessedJson(QObject *parent = nullptr, QString filePath = "", const QString &newFilePath = "");
     void searchNameAndID();
-//    void searchElementLength();
     void searchStartRefAndStartKm();
     void createJson();  //const QString &path
     QJsonObject geometry(std::vector<double> coord);
@@ -27,9 +26,6 @@ public:
 
     const std::vector<QString> &getId() const;
     void setId(const std::vector<QString> &newId);
-
-//    const std::vector<QString> &getElementLength() const;
-//    void setElementLength(const std::vector<QString> &newElementLength);
 
     const std::vector<QString> &getStartRef() const;
     void setStartRef(const std::vector<QString> &newStartRef);

@@ -20,13 +20,9 @@ public:
 
 private slots:
     void on_btnLoad_6_clicked();
-
     void on_comboAllFolder_6_currentTextChanged();
-
     void on_checkBoxEntireStation_toggled(bool checked);
-
     void on_btnCancel_6_clicked();
-
     void on_btnDelete_6_clicked();
 
 private:

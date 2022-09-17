@@ -47,16 +47,13 @@ void PlanningTable::displayResultTable()
     ui->tableWidget->setHorizontalHeaderLabels(headers);
     ui->tableWidget->horizontalHeader()->frameStyle();
 
-    //    output();
     ui->tableWidget->setRowCount(this->rows);
     for (int i = 0; i< this->rows; i++){
         rows.append(QString::number(i+1));
     }
     ui->tableWidget->setVerticalHeaderLabels(rows);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); //   setSectionResizeMode(QHeaderView::AdjustToContents);
-    //    ui->tableWidget->setColumnWidth(2, 150);
-    //    ui->tableWidget->setColumnWidth(1, 150);
-    //    ui->tableWidget->setColumnWidth(0, 150);
+
     ui->tableWidget->setEnabled(true);
     ui->lblLocation->show();
     for (int i =0; i< this->rows; i++){
@@ -218,83 +215,7 @@ void PlanningTable::on_btnAutoPLAN_clicked()
             return;
         }
         isEnd = true;
-
-        //        csharp->mainSolution();
-        //        this->table = csharp->getMainAntwort();
-        //        this->rows = csharp->getNumberOfRows();
-        //        this->cols = csharp->getNumberofCols();
-
-        //        /*Check the first row (Lateral Distance, and Positioning ) to know if there are output error
-        //        from the C# appllication. Also, this is used to handle "fail fast Exception"*/
-
-        //        if (this->rows == 0) {
-        //            QMessageBox::information(this, "Planning Aborted !", "Process aborted mid-way, "
-        //                                                                 "Please ensure \n compliance with the input data specification.");
-        //            close();
-        //            return;
-        //        }
-
-        //        ui->lblLocation->hide();
-        //        ui->lblLocation->setText(location.toUpper());
-        //        ui->btnAutoPLAN->setEnabled(true);
-        //        QMessageBox::information(this, "Info", "Successful !");
     }
-
-    //    // Display output on TableWidget
-    //    QStringList headers;
-    //    QStringList rows;
-
-    //    headers <<"DB Signal Function" << "Linear Coordinate (Km)"<< "Lateral Distance(Km)" << "Lateral Side" << "Direction";
-    //    //    headers <<"Type" << "Position(Km)"<< "Lateral Distance(Km)" << "Orientation" << "Belogs To";
-    //    ui->tableWidget->setColumnCount(5);
-    //    ui->tableWidget->setHorizontalHeaderLabels(headers);
-    //    ui->tableWidget->horizontalHeader()->frameStyle();
-
-    //    //    output();
-    //    ui->tableWidget->setRowCount(this->rows);
-    //    for (int i = 0; i< this->rows; i++){
-    //        rows.append(QString::number(i+1));
-    //    }
-    //    ui->tableWidget->setVerticalHeaderLabels(rows);
-    //    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents); //   setSectionResizeMode(QHeaderView::AdjustToContents);
-    ////    ui->tableWidget->setColumnWidth(2, 150);
-    ////    ui->tableWidget->setColumnWidth(1, 150);
-    ////    ui->tableWidget->setColumnWidth(0, 150);
-    //    ui->tableWidget->setEnabled(true);
-    //    ui->lblLocation->show();
-    //    for (int i =0; i< this->rows; i++){
-    //        for (int j=0; j<5; j++){
-    //            QTableWidgetItem *item = new QTableWidgetItem(this->table[i][j]);
-    //            item->setTextAlignment(Qt::AlignCenter);
-    //            ui->tableWidget->setItem(i,j, item);
-    //        }
-    //    }
-    //    // Add Symbols/Signals -- only if KmLine data is available (Json)
-
-    //    KmToCoordinate *kmToCoord = new KmToCoordinate(projectPath,projectName);
-    //    kmToCoord->mapKmAndCoord();
-    //    kmToCoord->calculateAngles();
-
-    //    for (int i =0; i<this->rows; i++){
-    //        double val = table[i][1].toDouble();
-    //        QPointF position = kmToCoord->getFinalPosition(val,table[i][2].toDouble(),table[i][3]);  //getNearestCoordFromKmValue(val);
-    //        double angle = kmToCoord->getAngleFromKmValue(val);
-    //        if (table[i][0] == "entry" &&  table[i][4] == "1"){
-    //            tracks->addAutomateSignal("Ankundigungsbake", position, angle, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
-    //        }
-    //        else if (table[i][0] == "entry" && table[i][4] == "2"){
-    //            //Then add 180 to the angle (to make symbol rotate/turn to other direction
-    //            tracks->addAutomateSignal("Ankundigungsbake",position, angle+180, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
-    //        }
-    //        else if (table[i][0] == "exit" && table[i][4] == "1"){
-    //            tracks->addAutomateSignal("Abfahrsignal",position, angle, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
-    //        }
-    //        else if (table[i][0] == "exit" && table[i][4] == "2"){
-    //            //Then add 180 to the angle (to make symbol rotate/turn to other direction
-    //            tracks->addAutomateSignal("Abfahrsignal",position, angle+180, table[i][0],table[i][1],table[i][2],table[i][3],table[i][4]);
-    //        }
-    //        else qDebug()<< "None";
-    //    }
 }
 
 const QString &PlanningTable::getHoehePath() const

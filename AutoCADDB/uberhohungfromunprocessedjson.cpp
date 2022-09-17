@@ -28,7 +28,6 @@ UberhohungFromUnprocessedJson::UberhohungFromUnprocessedJson(QObject *parent, QS
 
 void UberhohungFromUnprocessedJson::searchNameAndID()
 {
-//    std::vector<QString> name;
     std::vector<QString> id;
     int i=0;
 
@@ -39,8 +38,6 @@ void UberhohungFromUnprocessedJson::searchNameAndID()
         }
         i+=1;
     }
-
-//    setName(name);
     setId(id);
 }
 
@@ -148,8 +145,6 @@ std::vector<QString> UberhohungFromUnprocessedJson::lookForCoord(QString current
 
         QString current = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                 ["usesPositioningSystemCoordinate"][j]["id"].toString();
-//        qDebug() << "CURRENT"<< current;
-
         if (current == currentRef){
             if(!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                     ["usesPositioningSystemCoordinate"][j]["measure"].isUndefined()){
@@ -208,13 +203,6 @@ std::vector<std::vector<double> > UberhohungFromUnprocessedJson::arrayOfCoordina
     qDebug()<< "Look up -- for Uberhohung . . . ";
     std::vector<std::vector<double> > allCoord;
 
-//    int segmentCount=0;
-//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesAlignmentCantSegment"][segmentCount].isUndefined()){
-//        segmentCount++;
-//    }
-//    totalValue+=segmentCount;
-//    qDebug()<< "TOTALFROM_UH" << totalValue;
-
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesAlignmentCantSegment"][i].isUndefined()){
         std::vector<double> segmentData;
@@ -229,9 +217,6 @@ std::vector<std::vector<double> > UberhohungFromUnprocessedJson::arrayOfCoordina
             segmentData.push_back(coordValue[2].toDouble());
             j++;
         }
-//        progressValue++;
-//        qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
-//        qDebug()<< "Processing Uberhohung . . . "<< i << " of "<<segmentCount;
         allCoord.push_back(segmentData);
         i++;
     }
@@ -239,16 +224,6 @@ std::vector<std::vector<double> > UberhohungFromUnprocessedJson::arrayOfCoordina
     return allCoord;
 }
 
-
-//const std::vector<QString> &UberhohungFromUnprocessedJson::getName() const
-//{
-//    return name;
-//}
-
-//void UberhohungFromUnprocessedJson::setName(const std::vector<QString> &newName)
-//{
-//    name = newName;
-//}
 
 const std::vector<QString> &UberhohungFromUnprocessedJson::getId() const
 {

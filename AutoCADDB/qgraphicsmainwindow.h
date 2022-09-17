@@ -18,7 +18,6 @@ class QGraphicsMainWindow : public QWidget
 public:
     explicit QGraphicsMainWindow(QWidget *parent = nullptr);
     ~QGraphicsMainWindow();
-//    void setMouseDragMode(bool drag);
 
 private slots:
     void on_checkBoxGridLine_toggled(bool checked);
@@ -44,10 +43,6 @@ private slots:
     void on_checkBoxUH_toggled(bool checked);
 
     void on_checkBoxUHDP_toggled(bool checked);
-
-//    void on_rortatebtn_clicked();
-
-//    void on_horizontalSlider_actionTriggered(int action);
 
     void on_horizontalSlider_valueChanged(int value);
 

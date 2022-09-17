@@ -13,7 +13,7 @@
 #include "xml2json.h"
 #include "planproelements.h"
 #include <QPushButton>
-#include<QSysInfo>
+#include <QSysInfo>
 #include <QDir>
 #include <QDirIterator>
 #include <QtConcurrent>
@@ -30,17 +30,9 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     ui->leEnterProjectPath->setPlaceholderText("Add a folder to save the project");
     ui->leImportProjectData->setPlaceholderText("Include your project data");
 
-//    timer.setInterval(3000);
-
-    //    connect (ui->btnBrowseProjectPath , & QPushButton::clicked, this, & NewProjectDialog::btnBrowseProjectPath_clicked);
-
     progress = new QProgressDialog("Operation in progress ...", "Cancel", 0, 8, this);
     progressValue =1;
     progress->move(-10000,-10000);
-
-//    connect(&timer, &QTimer::timeout, this, &NewProjectDialog::timeout, Qt::QueuedConnection);
-
-//    timer.start();
 }
 
 // Destructor
@@ -422,8 +414,6 @@ void NewProjectDialog::on_btnCreateNewProject_clicked()
         Xml2Json *json = new Xml2Json(nullptr, fileName, output);
         json->serializeXml2Json();
 
-//        projectPath = "D:/Users/BKU/OlatunjiAjala/Documents";
-//        projectName = "output";
         QString kantenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleiskanten.json";
         QString knotenPath = ui->leEnterProjectPath->text() + "/" + ui->leEnterProjectName->text() + "/temp2/Gleisknoten.json";
 
@@ -526,31 +516,6 @@ int NewProjectDialog::numberOfFileProduces()
     }
     return num;
 }
-
-//void NewProjectDialog::setProgressValue()
-//{
-//    if(progressValue <= 7){
-//        progress->setValue(progressValue);
-//    }
-//    else {
-//        qDebug()<< "PROGRESS Complete";
-//        return;
-//    }
-//    setProgressValue();
-//}
-
-//void NewProjectDialog::getProgressValue(bool is_EuXml, int progress_Value)
-//{
-//    QProgressDialog * progress1 = new QProgressDialog("Operation in progress ...", "Cancel", 0, 7);
-//    progress1->setWindowModality(Qt::WindowModal);
-
-//    while(is_EuXml && progressValue <= 7){
-//        progress1->setValue(progress_Value);
-//        if (progress1->wasCanceled()) break;
-//    }
-//    qDebug()<< "PROGRESS Complete";
-//    //progress.setValue(7);
-//}
 
 
 void NewProjectDialog::runKanten(QString unprocessed_File_Path, QString kanten_Path)

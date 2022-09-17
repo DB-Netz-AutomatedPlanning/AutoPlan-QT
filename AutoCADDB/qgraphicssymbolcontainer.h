@@ -20,15 +20,9 @@ private slots:
 
     void on_pb2_clicked();
 
-//    void on_pb3_clicked();
-
-
-
     void on_pb5_clicked();
 
     void on_pb6_clicked();
-
-//    void on_pb7_clicked();
 
     void on_pb8_clicked();
 
@@ -36,17 +30,7 @@ private slots:
 
     void on_pb10_clicked();
 
-//    void on_pb11_clicked();
-
-//    void on_pb12_clicked();
-
-//    void on_pb13_clicked();
-
-//    void on_pb14_clicked();
-
     void on_pb15_clicked();
-
-//    void on_pb16_clicked();
 
     void on_pb17_clicked();
 
@@ -54,25 +38,17 @@ private slots:
 
     void on_pb19_clicked();
 
-//    void on_pb20_clicked();
-
     void on_pb21_clicked();
 
     void on_pb22_clicked();
 
-//    void on_pb23_clicked();
-
     void on_pb24_clicked();
-
-//    void on_pb25_clicked();
 
     void on_pb26_clicked();
 
     void on_pb27_clicked();
 
     void on_pb28_clicked();
-
-//    void on_pb29_clicked();
 
     void on_pb30_clicked();
 
@@ -82,23 +58,9 @@ private slots:
 
     void on_pb33_clicked();
 
-//    void on_pb34_clicked();
-
-//    void on_pb35_clicked();
-
     void on_pb36_clicked();
 
     void on_pb37_clicked();
-
-//    void on_pb38_clicked();
-
-//    void on_stellwerksbedient_clicked();
-
-//    void on_pb_hauptSignalbegriffe_clicked();
-
-//    void on_pb_fdurchfarten_clicked();
-
-//    void on_pb_FDurchGuterzuge_clicked();
 
     void on_btn_zugbedient_clicked();
 
@@ -113,8 +75,6 @@ private slots:
     void on_pushButton_vorStellwerksbedient_clicked();
 
     void on_checkBox_vorStellwerksbedient_clicked();
-
-
 
     void on_checkBox_vorZugoderStellwerksbedient_clicked();
 

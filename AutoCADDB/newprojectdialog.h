@@ -42,16 +42,12 @@ public:
     static void runSignal(QString unprocessed_File_Path, QString sig_Path);
 
 public slots:
-//    void cancelProgressDialog();
     void timeout();
 
 private slots:
     void on_btnBrowseProjectPath_clicked();
-//    void btnBrowseProjectPath_clicked();
     void on_btnBrowseProjectData_clicked();
-
     void on_btnCreateNewProject_clicked();
-
     void on_btnCancel_clicked();
 
 private:

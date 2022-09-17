@@ -58,7 +58,6 @@ std::vector<QString> SignalsFromUnprocessedJson::searchID()
     std::vector<QString> id;
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][i].isUndefined()){
-//        qDebug()<< "RSM_ID: " << document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][i]["id"].toString();
         id.push_back(document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][i]["id"].toString());
         i+=1;
     }
@@ -75,7 +74,6 @@ std::vector<QString> SignalsFromUnprocessedJson::ownSignalTypes()
         while (!document["hasDataContainer"][0]["ownsSignallingEntities"]["ownsTrackAsset"][j].isUndefined()){
             if (!document["hasDataContainer"][0]["ownsSignallingEntities"]["ownsTrackAsset"][j]["refersToRsmSignal"].isUndefined() &&
                     (currentID == document["hasDataContainer"][0]["ownsSignallingEntities"]["ownsTrackAsset"][j]["refersToRsmSignal"]["ref"].toString())){
-//                qDebug()<< "JValue: "<< j;
                 QString id_eulynx = document["hasDataContainer"][0]["ownsSignallingEntities"]["ownsTrackAsset"][j]["id"].toString();
                 int k=0;
                 bool signalTypeFound = false;
@@ -85,7 +83,6 @@ std::vector<QString> SignalsFromUnprocessedJson::ownSignalTypes()
                         QString signalType = QString::number(document["hasDataContainer"][0]["ownsSignallingEntities"]["ownsSignalType"][k]["isOfSignalTypeType"].toInt());
                         allSignalTypes.push_back(getSignalType(signalType));
                         signalTypeFound = true;
-//                        qDebug() << "SignalType: " << getSignalType(signalType);
                         break;
                     } else k++;
                 }
@@ -139,7 +136,6 @@ void SignalsFromUnprocessedJson::searchLocation()
 
         // first get the ref of the location
         QString locationRef = document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][j]["locations"][0]["ref"].toString();
-//        qDebug()<< "Location ref: "<< locationRef;
         QString usesLocationRef_Km;
         QString usesLocationRef_Geo;
 
@@ -150,11 +146,9 @@ void SignalsFromUnprocessedJson::searchLocation()
 
             if(locationRef == locationID){
                 // check for the linear coordinate ref
-//                qDebug()<< "Same with ID: "<< locationID;
                 usesLocationRef_Km = document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["bounds"]
                         [0]["coordinates"][0]["ref"].isUndefined() ? "" : document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["bounds"]
                         [0]["coordinates"][0]["ref"].toString();
-//                qDebug()<< "usesLocationRef_Km: "<< usesLocationRef_Km;
 
                 // Check the non-associated coordinate (linear coordinate ref)
                 if (usesLocationRef_Km == "") {
@@ -176,14 +170,12 @@ void SignalsFromUnprocessedJson::searchLocation()
             l++;
         }
         std::vector<double> pointData;
-//        qDebug()<< "usesLocationRef_Km: "<< usesLocationRef_Km;
         if (usesLocationRef_Km != ""){
             std::vector <QString> coordValue = lookForCoord(usesLocationRef_Km);
             kmValues.push_back(coordValue[0]);
         } else kmValues.push_back(QString::number(0));
         if (usesLocationRef_Geo != ""){
             std::vector<QString> coordValue = lookForCoord(usesLocationRef_Geo);
-            //qDebug()<< "0 :"<< coordValue[0].toDouble() << "   1 :  "<< coordValue[1]<< "     2 :   " << coordValue[2];
             pointData.push_back(coordValue[0].toDouble());
             pointData.push_back(coordValue[1].toDouble());
             pointData.push_back(coordValue[2].toDouble());
@@ -198,8 +190,6 @@ void SignalsFromUnprocessedJson::searchLocation()
     }
     setLocation(kmValues);
     setAllNetGeoValues(geoValues);
-//    qDebug() << "Length of KmValues: " << (int)getLocation().size();
-//    qDebug() << "Length of geoValues: " << (int)getAllNetGeoValues().size();
 }
 
 
@@ -224,14 +214,12 @@ void SignalsFromUnprocessedJson::searchLateralSideAndDirection()
                 QString tempSide = "";
                 QString tempDir = "";
                 tempSide = QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["isLocatedToSide"].toDouble());
-//                qDebug()<< "TempSide: " << tempSide;
                 if (tempSide == "1"){
                     lateralSide = "left";
                 } else if (tempSide == "2") {
                     lateralSide = "right";
                 } else lateralSide = "null";
                 tempDir = QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["appliesInDirection"].toDouble());
-//                qDebug()<< "TempDir "<< tempDir;
                 side.push_back(lateralSide);
                 direction.push_back(tempDir);
                 break;
@@ -242,8 +230,6 @@ void SignalsFromUnprocessedJson::searchLateralSideAndDirection()
     }
     setLateralSide(side);
     setDirection(direction);
-//    qDebug() << "Length of LateralSides: " << (int)getLateralSide().size();
-//    qDebug() << "Length of KmValues: " << (int)getDirection().size();
 }
 
 QString SignalsFromUnprocessedJson::getSignalType(QString enumValue)
@@ -296,7 +282,6 @@ std::vector<QString> SignalsFromUnprocessedJson::lookForCoord(QString currentRef
            ["usesPositioningSystemCoordinate"][j].isUndefined()) {
         QString current = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                 ["usesPositioningSystemCoordinate"][j]["id"].toString();
-        //        qDebug() << "CURRENT"<< current;
         if (current == currentRef){
             if(!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]
                     ["usesPositioningSystemCoordinate"][j]["measure"].isUndefined()){

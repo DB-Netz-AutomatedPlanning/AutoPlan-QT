@@ -44,10 +44,6 @@ private slots:
 
     void on_btnOK_clicked();
 
-//    void on_radioAddNew_clicked();
-
-//    void on_radioModify_clicked();
-
 private:
 
     Ui::UploadNewData *ui;

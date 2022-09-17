@@ -203,12 +203,6 @@ std::vector<std::vector<double> > HOFromUnprocessedJson::arrayOfCoordinates()
     qDebug()<< "Entering -- Hoehe . ";
     qDebug()<< "Look up -- for Hoehe . . . ";
     std::vector<std::vector<double> > allCoord;
-//    int segmentCount=0;
-//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesVerticalAlignmentSegment"][segmentCount].isUndefined()){
-//        segmentCount++;
-//    }
-//    totalValue+=segmentCount;
-//    qDebug()<< "TOTALFROM_HO" << totalValue;
 
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesVerticalAlignmentSegment"][i].isUndefined()){
@@ -224,9 +218,6 @@ std::vector<std::vector<double> > HOFromUnprocessedJson::arrayOfCoordinates()
             segmentData.push_back(coordValue[2].toDouble());
             j++;
         }
-//        progressValue++;
-//        qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
-//        qDebug()<< "Processing Hoehe . . . "<< i << " of "<<segmentCount;
         allCoord.push_back(segmentData);
         i++;
     }
@@ -253,16 +244,6 @@ void HOFromUnprocessedJson::setId(const std::vector<QString> &newId)
 {
     id = newId;
 }
-
-//const std::vector<QString> &HOFromUnprocessedJson::getElementLength() const
-//{
-//    return elementLength;
-//}
-
-//void HOFromUnprocessedJson::setElementLength(const std::vector<QString> &newElementLength)
-//{
-//    elementLength = newElementLength;
-//}
 
 const std::vector<QString> &HOFromUnprocessedJson::getStartRef() const
 {

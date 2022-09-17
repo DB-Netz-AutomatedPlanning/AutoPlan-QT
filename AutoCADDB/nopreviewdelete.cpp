@@ -8,12 +8,6 @@ NoPreviewDelete::NoPreviewDelete(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Remove Existing Data");
-//    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-//    while(iter.hasNext() )
-//    {
-//        QString val = iter.next();
-//        ui->comboAllFolder_6->addItem(val.remove("Data/"));
-//    }
     ui->comboAllFolder_6->addItem(projectName);
 }
 

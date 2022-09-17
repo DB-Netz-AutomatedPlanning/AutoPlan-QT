@@ -249,13 +249,6 @@ std::vector<std::vector<double> > GleiskantenFromUnprocessedJson::arrayOfCoordin
     qDebug()<< "Look up -- for Gleiskanten . . . ";
     std::vector<std::vector<double> > allCoord;
 
-//    int segmentCount=0;
-//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][segmentCount].isUndefined()){
-//        segmentCount++;
-//    }
-//    totalValue+=segmentCount;
-//    qDebug()<< "TOTALFROMKANTEN" << totalValue;
-
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i].isUndefined()){
         QString name = document["hasDataContainer"][0]["ownsRsmEntities"]["usesTrackTopology"]["usesNetElement"][i]["name"].toString();
@@ -271,15 +264,11 @@ std::vector<std::vector<double> > GleiskantenFromUnprocessedJson::arrayOfCoordin
                         ["usesNetElement"][i]["associatedPositioning"][1]["intrinsicCoordinates"][j]
                         ["coordinates"][0]["ref"].toString();
                 std::vector<QString> coordValue = lookForCoord(ref);
-                //qDebug()<< "0 :"<< coordValue[0].toDouble() << "   1 :  "<< coordValue[1]<< "     2 :   " << coordValue[2];
                 segmentData.push_back(coordValue[0].toDouble());
                 segmentData.push_back(coordValue[1].toDouble());
 //                segmentData.push_back(coordValue[2].toDouble());
                 j++;
             }
-//            progressValue++;
-//            qDebug()<< " KANTEN Progress Bar "<< progressValue<< " of " <<totalValue;
-//            qDebug()<< "Processing Gleiskanten . . . "<< i << " of " <<segmentCount;
             allCoord.push_back(segmentData);
             i++;
         }

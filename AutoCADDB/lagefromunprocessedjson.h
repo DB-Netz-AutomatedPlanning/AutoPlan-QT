@@ -25,9 +25,6 @@ public:
     const std::vector<QString> &getId() const;
     void setId(const std::vector<QString> &newId);
 
-//    const std::vector<QString> &getElementLength() const;
-//    void setElementLength(const std::vector<QString> &newElementLength);
-
     const std::vector<QString> &getStartRef() const;
     void setStartRef(const std::vector<QString> &newStartRef);
 
@@ -53,7 +50,6 @@ private:
     std::vector<QString> endValues;
 
     QJsonDocument document;
-
 };
 
 #endif // LAGEFROMUNPROCESSEDJSON_H
