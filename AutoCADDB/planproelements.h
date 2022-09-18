@@ -59,8 +59,6 @@ public:
     void setGeo_art(const std::vector<QString> &newGeo_art);
 
 private:
-//    QString xml_Path;
-//    QString output_JsonPath;
     QJsonDocument document;
     int counter;
     QString werk;

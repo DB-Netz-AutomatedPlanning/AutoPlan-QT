@@ -253,20 +253,6 @@ std::vector<std::vector<double> > GleisknotenFromUnprocessedJson::arrayOfCoordin
     qDebug()<< "Look up -- for knoten . . . ";
     std::vector<std::vector<double> > allCoord;
 
-//    int segmentCount=0;
-//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsPoint"][segmentCount].isUndefined()){
-//        segmentCount++;
-//    }
-//    totalValue+=segmentCount;
-//    qDebug()<< "TOTALFROMKNO1" << totalValue;
-
-//    int segmentCount1=0;
-//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsVehicleStop"][segmentCount1].isUndefined()){
-//        segmentCount1++;
-//    }
-//    totalValue+=segmentCount1;
-//    qDebug()<< "TOTALFROMKNO2" << totalValue;
-
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsPoint"][i].isUndefined()){
         std::vector<double> segmentData;
@@ -294,9 +280,6 @@ std::vector<std::vector<double> > GleisknotenFromUnprocessedJson::arrayOfCoordin
         segmentData.push_back(coordValue[1].toDouble());
         segmentData.push_back(coordValue[2].toDouble());
         allCoord.push_back(segmentData);
-//        progressValue++;
-//        qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
-//        qDebug()<< "Processing Knoten . . . "<< i << " of "<< segmentCount + segmentCount1;
         i++;
     }
 
@@ -330,10 +313,6 @@ std::vector<std::vector<double> > GleisknotenFromUnprocessedJson::arrayOfCoordin
         segmentData.push_back(coordValue[1].toDouble());
         segmentData.push_back(coordValue[2].toDouble());
         allCoord.push_back(segmentData);
-//        progressValue++;
-//        qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
-//        qDebug()<< "Processing Knoten . . . "<< (i + j+1) << " of " << segmentCount+segmentCount1;
-
         j++;
     }
 
@@ -361,16 +340,6 @@ void GleisknotenFromUnprocessedJson::setId(const std::vector<QString> &newId)
 {
     id = newId;
 }
-
-//const std::vector<QString> &GleisknotenFromUnprocessedJson::getElementLength() const
-//{
-//    return elementLength;
-//}
-
-//void GleisknotenFromUnprocessedJson::setElementLength(const std::vector<QString> &newElementLength)
-//{
-//    elementLength = newElementLength;
-//}
 
 const std::vector<QString> &GleisknotenFromUnprocessedJson::getStartRef() const
 {
@@ -452,7 +421,6 @@ QJsonObject GleisknotenFromUnprocessedJson::Features(QJsonObject properties, QJs
 void GleisknotenFromUnprocessedJson::createJson()
 {
     searchNameAndID();
-    //    searchElementLength();
     searchStartRefAndStartKm();
     std::vector<std::vector<double> > allCoord = arrayOfCoordinates();
     std::vector<QString> name = getName();

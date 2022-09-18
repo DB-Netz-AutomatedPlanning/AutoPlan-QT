@@ -50,7 +50,6 @@ public:
 private slots:
 
     void on_btnAutoPLAN_clicked();
-//    void on_btnLoad_clicked();
 
     void on_btnSelectFolder_clicked();
     void timeout();

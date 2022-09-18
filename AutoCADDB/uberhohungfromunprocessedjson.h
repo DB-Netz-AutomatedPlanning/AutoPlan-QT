@@ -19,15 +19,8 @@ public:
     std::vector<QString> lookForCoord(QString currentRef);
     std::vector<std::vector<double> > arrayOfCoordinates();
 
-//    const std::vector<QString> &getName() const;
-//    void setName(const std::vector<QString> &newName);
-
     const std::vector<QString> &getId() const;
     void setId(const std::vector<QString> &newId);
-
-//    const std::vector<QString> &getElementLength() const;
-//    void setElementLength(const std::vector<QString> &newElementLength);
-
     const std::vector<QString> &getStartRef() const;
     void setStartRef(const std::vector<QString> &newStartRef);
 
@@ -45,7 +38,6 @@ signals:
 private:
     QString filePath ="";
     QString newFilePath = "";
-//    std::vector<QString> name;
     std::vector<QString> id;
     std::vector<QString> startRef;
     std::vector<QString> endRef;

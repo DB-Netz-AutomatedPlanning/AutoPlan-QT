@@ -37,9 +37,7 @@ private:
     std::vector<QString> name;
     std::vector<QString> lateralSide;
     std::vector<QString> direction;
-//    std::vector<QString> endRef;
     std::vector<QString> location;
-//    std::vector<QString> endValues;
 
     QJsonDocument document;
 };

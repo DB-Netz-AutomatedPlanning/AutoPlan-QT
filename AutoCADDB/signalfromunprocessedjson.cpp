@@ -28,7 +28,6 @@ SignalFromUnprocessedJson::SignalFromUnprocessedJson(QObject *parent, QString fi
 void SignalFromUnprocessedJson::searchName()
 {
     std::vector<QString> name;
-    //    std::vector<QString> id;
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][i].isUndefined()){
         qDebug()<< "NAME: " << document["hasDataContainer"][0]["ownsRsmEntities"]["ownsSignal"][i]["name"].toString();
@@ -66,11 +65,9 @@ void SignalFromUnprocessedJson::searchLocation()
         if (usesLocationRef != ""){
             std::vector <QString> coordValue = lookForCoord(usesLocationRef);
             kmValues.push_back(coordValue[0]);
-
         }
         j++;
     }
-    qDebug()<< "FEL";
     setLocation(kmValues);
 }
 
@@ -95,14 +92,12 @@ void SignalFromUnprocessedJson::searchLateralSideAndDirection()
                 QString tempSide = "";
                 QString tempDir = "";
                 tempSide = QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["isLocatedToSide"].toDouble());
-                qDebug()<< "TempSide: " << tempSide;
                 if (tempSide == "1"){
                     lateralSide = "left";
                 } else if (tempSide == "2") {
                     lateralSide = "right";
                 } else lateralSide = "null";
                 tempDir = QString::number(document["hasDataContainer"][0]["ownsRsmEntities"]["usesLocation"][l]["associatedNetElements"][0]["appliesInDirection"].toDouble());
-                qDebug()<< "TempDir "<< tempDir;
                 side.push_back(lateralSide);
                 direction.push_back(tempDir);
                 break;

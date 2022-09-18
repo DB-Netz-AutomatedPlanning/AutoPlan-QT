@@ -24,9 +24,6 @@ public:
     const std::vector<QString> &getId() const;
     void setId(const std::vector<QString> &newId);
 
-//    const std::vector<QString> &getElementLength() const;
-//    void setElementLength(const std::vector<QString> &newElementLength);
-
     const std::vector<QString> &getStartRef() const;
     void setStartRef(const std::vector<QString> &newStartRef);
 
@@ -46,7 +43,6 @@ private:
     QString newFilePath = "";
     std::vector<QString> name;
     std::vector<QString> id;
-//    std::vector<QString> elementLength;
     std::vector<QString> startRef;
     std::vector<QString> endRef;
     std::vector<QString> startValues;

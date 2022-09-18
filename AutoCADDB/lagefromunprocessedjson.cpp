@@ -210,13 +210,6 @@ std::vector<std::vector<double> > LageFromUnprocessedJson::arrayOfCoordinates()
     qDebug()<< "Look up -- for Lage . . . ";
     std::vector<std::vector<double> > allCoord;
 
-//    int segmentCount=0;
-//    while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesHorizontalAlignmentSegment"][segmentCount].isUndefined()){
-//        segmentCount++;
-//    }
-//    totalValue+=segmentCount;
-//    qDebug()<< "TOTALFROM_LA" << totalValue;
-
     int i=0;
     while (!document["hasDataContainer"][0]["ownsRsmEntities"]["usesTopography"]["usesHorizontalAlignmentSegment"][i].isUndefined()){
         std::vector<double> segmentData;
@@ -231,9 +224,6 @@ std::vector<std::vector<double> > LageFromUnprocessedJson::arrayOfCoordinates()
 //            segmentData.push_back(coordValue[2].toDouble());
             j++;
         }
-//        progressValue++;
-//        qDebug()<< "Progress Bar "<< progressValue<< " of " <<totalValue;
-//        qDebug()<< "Processing Lage . . . "<< i << " of "<< segmentCount;
         allCoord.push_back(segmentData);
         i++;
     }

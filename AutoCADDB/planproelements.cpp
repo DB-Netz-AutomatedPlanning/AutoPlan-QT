@@ -10,8 +10,6 @@ PlanProElements::PlanProElements(QObject *parent, const QString &newKanten_Path,
 {
     this->newKanten_Path = newKanten_Path;
     this->newKnoten_Path = newKnoten_Path;
-    //    this->xml_Path = xml_Path;
-    //    this->output_JsonPath = output_JsonPath;
 
     // Establish path to the converted planPro (json)
     QString filePath = projectPath +"/"+projectName+ "/planPro.json";
@@ -129,10 +127,8 @@ QMap<QString, std::vector<double>> PlanProElements::topKnotenGeo_punkt()
                 std::vector<double> locationPt;
                 QString x = document["PlanPro_Schnittstelle"]["LST_Planung"]["Fachdaten"]["Ausgabe_Fachdaten"][counter]
                         ["LST_Zustand_Ziel"]["Container"]["GEO_Punkt"][geoPunkt_Count]["GEO_Punkt_Allg"]["GK_X"]["Wert"].toString();
-                //                qDebug() << "x: " << x;
                 QString y = document["PlanPro_Schnittstelle"]["LST_Planung"]["Fachdaten"]["Ausgabe_Fachdaten"][counter]
                         ["LST_Zustand_Ziel"]["Container"]["GEO_Punkt"][geoPunkt_Count]["GEO_Punkt_Allg"]["GK_Y"]["Wert"].toString();
-                //                qDebug() << "y: " << y;
                 locationPt.push_back(x.toDouble());
                 locationPt.push_back(y.toDouble());
                 topKnotenGeoPunkt.insert(kanten_ID, locationPt);
@@ -180,7 +176,6 @@ std::vector<double> PlanProElements::lookForCoord(QString ID_GEO_Knoten)
         if (ID_GEO_Knoten == current_ID_GEO_knoten){
             QString x = document["PlanPro_Schnittstelle"]["LST_Planung"]["Fachdaten"]["Ausgabe_Fachdaten"][counter]
                     ["LST_Zustand_Ziel"]["Container"]["GEO_Punkt"][geoPunkt_Count]["GEO_Punkt_Allg"]["GK_X"]["Wert"].toString();
-
             QString y = document["PlanPro_Schnittstelle"]["LST_Planung"]["Fachdaten"]["Ausgabe_Fachdaten"][counter]
                     ["LST_Zustand_Ziel"]["Container"]["GEO_Punkt"][geoPunkt_Count]["GEO_Punkt_Allg"]["GK_Y"]["Wert"].toString();
             coord.push_back(x.toDouble());

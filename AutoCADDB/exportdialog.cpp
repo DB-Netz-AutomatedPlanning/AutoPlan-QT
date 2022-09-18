@@ -22,7 +22,7 @@ ExportDialog::ExportDialog(QWidget *parent) :
     }
 
     // set previous export path only if it exist
-    if (QDir(exportPath).exists()){
+    if (QDir(exportPath).exists() && !ui->cmbStation->currentText().isEmpty()){
         ui->leFolder->setText(exportPath);
         ui->btnExport->setEnabled(true);
 //        isStart = true;

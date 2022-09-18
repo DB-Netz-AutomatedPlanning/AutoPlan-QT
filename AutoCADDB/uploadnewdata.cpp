@@ -8,13 +8,6 @@ UploadNewData::UploadNewData(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowTitle("Update And Add Data");
-
-//    QDirIterator iter( "Data", QDir::Dirs | QDir::NoDotAndDotDot);
-//    while(iter.hasNext())
-//    {
-//        QString val = iter.next();
-//        ui->comboBox->addItem(val.remove("Data/"));
-//    }
     ui->comboBox->addItem(projectName);
     if (!ui->comboBox->currentText().isNull() || !ui->comboBox->currentText().isEmpty()){
         ui->btnClickHere->setEnabled(true);
@@ -442,8 +435,5 @@ void UploadNewData::on_btnOK_clicked()
         QMessageBox::information(this, "Saved", msg);
         close();
     }
-//    else {
-//        QMessageBox::information(this, "Saved", msg);
-//    }
 }
 

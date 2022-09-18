@@ -16,14 +16,7 @@ class Tracks : public QGraphicsView
     Q_OBJECT
 public:
     explicit Tracks(QWidget *parent = nullptr);
-//    enum Object {
-//        Gleiskanten,
-//        Gleisknoten,
-//        Hoehe,
-//        KMLine,
-//        Lage,
-//        Uberhohung
-//    };
+
     void addGleiskanten();
     void addHoehe();
     void addKMline();
@@ -41,8 +34,6 @@ public:
     void getSegementObjects();
     bool isTrack(QString name);
     void deleteSelectedItems();
-//    void darkMode();
-
 
     void deleteAll();
     void updateAll();
@@ -51,8 +42,6 @@ public:
     void getMultiplierEffect();   // most inportant function for setting the multiplier
     void getUpdateRect ();
     int getMultiplierValue() const;
-//    void showContextMenu(QPoint pos);
-
     void setMultiplierValue(int newMultiplierValue);
 
     const QVector<float> &getUsedRect() const;
@@ -113,21 +102,12 @@ public:
     bool writeOperator(QString fileName);
     bool ReadOperator(QString fileName);
 
-//    void currentPos();
-   // void mousePressEvent(QMouseEvent *event);
-//public slots:
-//    void darkMode();
-//    void showContextMenu(QPoint pos);
-
-    // void mousePressEvent(QMouseEvent *event);
-
 signals:
 
 private:
     QVector<QVector<float>> allVec(QString pPath, QString pName, QString fileName);
     std::vector<float> allVecKnoten(QString pPath, QString pName, QString fileName);
     std::vector<float> unsegmentedVec (QString pPath, QString pName, QString fileName);
-//    QGraphicsItem *getSelectedItem();
     QGraphicsPathItem *gleiskanten_Parent;
     QGraphicsPathItem *gleiskantenDP_Parent;
     QGraphicsPathItem *hoehe_Parent;
@@ -175,11 +155,8 @@ private:
     QStringList dataKeys;
     QStringList dataValues;
 
-    QColor lineColor = QColor(255,69,0); // orangered
+    QColor lineColor = QColor(255,69,0); // orangeRed
 
-
-//    Object currentObject;
-    // QGraphicsView interface
 public:
     void drawBackground(QPainter *painter, const QRectF &rect) override;
     void drawForeground(QPainter *painter, const QRectF &rect) override;
@@ -201,12 +178,10 @@ public:
 
 protected:
     void wheelEvent(QWheelEvent *event) override;
-//    void mouseDoubleClickEvent(QMouseEvent *event)override;
     void keyPressEvent(QKeyEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
 };
-
 
 #endif // TRACKS_H
 

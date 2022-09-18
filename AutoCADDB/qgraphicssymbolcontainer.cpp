@@ -134,12 +134,6 @@ void QGraphicsSymbolContainer::on_pb2_clicked()
 }
 
 
-//void QGraphicsSymbolContainer::on_pb3_clicked()
-//{
-//    tracks->addSymbol("AutomatikETSchild");
-//}
-
-
 void QGraphicsSymbolContainer::on_pb5_clicked()
 {
     if (symbolIsSelected && selectedSymbolName == "Andreaskreuz"){
@@ -171,11 +165,6 @@ void QGraphicsSymbolContainer::on_pb6_clicked()
     }
 }
 
-
-//void QGraphicsSymbolContainer::on_pb7_clicked()
-//{
-//    tracks->addSymbol("Anfangsschleife");
-//}
 
 
 void QGraphicsSymbolContainer::on_pb8_clicked()
@@ -245,30 +234,6 @@ void QGraphicsSymbolContainer::on_pb10_clicked()
 }
 
 
-//void QGraphicsSymbolContainer::on_pb11_clicked()
-//{
-//    tracks->addSymbol("AutomatikETSchild");
-//}
-
-
-//void QGraphicsSymbolContainer::on_pb12_clicked()
-//{
-//    tracks->addSymbol("AutomatikHETSchild");
-//}
-
-
-//void QGraphicsSymbolContainer::on_pb13_clicked()
-//{
-//    tracks->addSymbol("BalisengruppeGesteuert");
-//}
-
-
-//void QGraphicsSymbolContainer::on_pb14_clicked()
-//{
-//    tracks->addSymbol("BalisengruppeGesteuertTri");
-//}
-
-
 void QGraphicsSymbolContainer::on_pb15_clicked()
 {
     if (symbolIsSelected && (selectedSymbolName == "balisengruppeRechts" || selectedSymbolName == "balisengruppeLinks")){
@@ -289,12 +254,6 @@ void QGraphicsSymbolContainer::on_pb15_clicked()
         }
     }
 }
-
-
-//void QGraphicsSymbolContainer::on_pb16_clicked()
-//{
-//    tracks->addSymbol("balisengruppeRechts");
-//}
 
 
 void QGraphicsSymbolContainer::on_pb17_clicked()
@@ -363,12 +322,6 @@ void QGraphicsSymbolContainer::on_pb19_clicked()
 }
 
 
-//void QGraphicsSymbolContainer::on_pb20_clicked()
-//{
-//     tracks->addSymbol("Bereichskennungswechselortungsneutral");
-//}
-
-
 void QGraphicsSymbolContainer::on_pb21_clicked()
 {
     if (symbolIsSelected && selectedSymbolName == "Blockkennzeichen"){
@@ -400,13 +353,6 @@ void QGraphicsSymbolContainer::on_pb22_clicked()
     }
 }
 
-
-//void QGraphicsSymbolContainer::on_pb23_clicked()
-//{
-//     tracks->addSymbol("Bremsprellbock");
-//}
-
-
 void QGraphicsSymbolContainer::on_pb24_clicked()
 {
     if (symbolIsSelected && selectedSymbolName == "Bremsprobe"){
@@ -421,12 +367,6 @@ void QGraphicsSymbolContainer::on_pb24_clicked()
         tracks->setCursor(cursor_default);
     }
 }
-
-
-//void QGraphicsSymbolContainer::on_pb25_clicked()
-//{
-//     tracks->addSymbol("BuAnkundetafel");
-//}
 
 
 void QGraphicsSymbolContainer::on_pb26_clicked()
@@ -475,12 +415,6 @@ void QGraphicsSymbolContainer::on_pb28_clicked()
         tracks->setCursor(cursor_default);
     }
 }
-
-
-//void QGraphicsSymbolContainer::on_pb29_clicked()
-//{
-//     tracks->addSymbol("BuBuTafel");
-//}
 
 
 void QGraphicsSymbolContainer::on_pb30_clicked()
@@ -559,18 +493,6 @@ void QGraphicsSymbolContainer::on_pb33_clicked()
 }
 
 
-//void QGraphicsSymbolContainer::on_pb34_clicked()
-//{
-//     tracks->addSymbol("EinzelbaliseRechts");
-//}
-
-
-//void QGraphicsSymbolContainer::on_pb35_clicked()
-//{
-//     tracks->addSymbol("EinzelbaliseUngesteuert");
-//}
-
-
 void QGraphicsSymbolContainer::on_pb36_clicked()
 {
     if (symbolIsSelected && selectedSymbolName == "ErsatzsignalHauptsignalschirm"){
@@ -607,37 +529,6 @@ void QGraphicsSymbolContainer::on_pb37_clicked()
         }
     }
 }
-
-
-//void QGraphicsSymbolContainer::on_pb38_clicked()
-//{
-//     tracks->addSymbol("ETCSstopTafelTwo");
-//}
-
-
-//void QGraphicsSymbolContainer::on_stellwerksbedient_clicked()
-//{
-//     tracks->addSymbol("stellwerksbedient");
-//}
-
-
-//void QGraphicsSymbolContainer::on_pb_hauptSignalbegriffe_clicked()
-//{
-//         tracks->addSymbol("stellwerksbedient");
-//}
-
-
-//void QGraphicsSymbolContainer::on_pb_fdurchfarten_clicked()
-//{
-//   tracks->addSymbol("FahrstrassensymboleDurchfahrten");
-//}
-
-
-//void QGraphicsSymbolContainer::on_pb_FDurchGuterzuge_clicked()
-//{
-//   tracks->addSymbol("FahrstrassensymboleDurchGuterzuge");
-
-//}
 
 
 void QGraphicsSymbolContainer::on_btn_zugbedient_clicked()
@@ -1772,18 +1663,6 @@ void QGraphicsSymbolContainer::on_pb_FahrstrassensymboleReise_clicked()
             tracks->setCursor(cursor_default);
         }
     }
-
-//    if(ui->checkBox_FahrstrassensymboleDurchfahrten->isChecked()){
-//        tracks->addSymbol("FahrstrassensymboleDurchfahrten");
-//    } else if(ui->checkBox_FahrstrassensymboleGuterzuge->isChecked()){
-//        tracks->addSymbol("FahrstrassensymboleGuterzuge");
-//    }else if(ui->checkBox_FahrstrassensymboleRangierfahrten->isChecked()){
-//        tracks->addSymbol("FahrstrassensymboleRangierfahrten");
-//    }else if(ui->checkBox_FahrstrassensymboleDurchGuterzuge->isChecked()){
-//        tracks->addSymbol("FahrstrassensymboleDurchGuterzuge");
-//    }else{
-//        tracks->addSymbol("FahrstrassensymboleReise");
-//    }
 }
 
 

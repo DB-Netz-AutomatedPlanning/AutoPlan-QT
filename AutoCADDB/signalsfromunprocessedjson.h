@@ -10,16 +10,6 @@ class SignalsFromUnprocessedJson : public QObject
     Q_OBJECT
 public:
     explicit SignalsFromUnprocessedJson(QObject *parent = nullptr, QString filePath="");
-//    enum SignalTypes {
-//        Main,
-//        MainShunting,
-//        MultiSection,
-//        MultiSectionShunting,
-//        Shunting,
-//        Distant,
-//        Repeater,
-//        Train_Protection
-//    };
 
     std::vector<QString> lookForCoord(QString currentRef);
 
@@ -34,8 +24,6 @@ public:
     QJsonObject properties(std::vector<QString> name, std::vector<QString> direction, std::vector<QString> side, std::vector<QString> location, int index);
 
     std::vector<std::vector<QString>> signalInfos();
-//    const std::vector<QString> &getName() const;
-//    void setName(const std::vector<QString> &newName);
 
     const std::vector<QString> &getLocation() const;
     void setLocation(const std::vector<QString> &newLocation);
